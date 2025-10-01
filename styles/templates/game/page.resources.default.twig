@@ -27,13 +27,13 @@
 				</tr>
 				{% for productionID, productionRow in productionList %}
 				<tr style="height:22px">
-					<td>{$LNG.tech.$productionID } ({% if productionID  > 200 %}{{ LNG.rs_amount }}{% else %}{{ LNG.rs_lvl }}{% endif %} {{ productionRow.elementLevel }})</td>
+					<td>{LNG.tech[productionID] } ({% if productionID  > 200 %}{{ LNG.rs_amount }}{% else %}{{ LNG.rs_lvl }}{% endif %} {{ productionRow.elementLevel }})</td>
 					<td><span style="color:{% if productionRow.production.901 > 0 %}lime{% elseif productionRow.production.901 < 0 %}red{% else %}white{% endif %}">{{ productionRow.production.901|number_format }}</span></td>
 					<td><span style="color:{% if productionRow.production.902 > 0 %}lime{% elseif productionRow.production.902 < 0 %}red{% else %}white{% endif %}">{{ productionRow.production.902|number_format }}</span></td>
 					<td><span style="color:{% if productionRow.production.903 > 0 %}lime{% elseif productionRow.production.903 < 0 %}red{% else %}white{% endif %}">{{ productionRow.production.903|number_format }}</span></td>
 					<td><span style="color:{% if productionRow.production.911 > 0 %}lime{% elseif productionRow.production.911 < 0 %}red{% else %}white{% endif %}">{{ productionRow.production.911|number_format }}</span></td>
 					<td style="width:10%">
-						{html_options name="prod[{{ productionID }}]" options=$prodSelector selected=$productionRow.prodLevel}
+						<!-- TODO: Complex html_options - needs manual review -->}]" options= prodSelector selected= productionRow.prodLevel}
 					</td>
 				</tr>
 				{% endfor %}

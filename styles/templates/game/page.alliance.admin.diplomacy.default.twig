@@ -14,7 +14,7 @@
 			</tr>
 			{% for diploMode, diploAlliances in diploList.0 %}	
 			<tr>
-				<th colspan="2">{$LNG.al_diplo_level.$diploMode}</th>
+				<th colspan="2">{{ LNG.al_diplo_level[diploMode] }}</th>
 			</tr>
 				{% for diploID, diploName in diploAlliances %}
 				<tr>
@@ -43,9 +43,9 @@
 			</tr>
 			{% if array_filter(diploList.1) %}
 				{% for diploMode, diploAlliances in diploList.1 %}	
-				{% if diploAlliances is not empty %}
+				{% if diploAlliances %}
 				<tr>
-					<th colspan="2">{$LNG.al_diplo_level.$diploMode}</th>
+					<th colspan="2">{{ LNG.al_diplo_level[diploMode] }}</th>
 				</tr>
 				{% for diploID, diploName in diploAlliances %}
 				<tr>
@@ -72,9 +72,9 @@
 			</tr>
 			{% if array_filter(diploList.2) %}
 				{% for diploMode, diploAlliances in diploList.2 %}	
-				{% if diploAlliances is not empty %}
+				{% if diploAlliances %}
 				<tr>
-					<th colspan="2">{$LNG.al_diplo_level.$diploMode}</th>
+					<th colspan="2">{{ LNG.al_diplo_level[diploMode] }}</th>
 				</tr>
 				{% for diploID, diploName in diploAlliances %}
 				<tr>

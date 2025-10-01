@@ -29,7 +29,7 @@
 			<td>{{ LNG.al_rank }}</td>
 			<td>{{ rankName }}{% if rights.ADMIN %} (<a href="?page=alliance&amp;mode=admin">{{ LNG.al_manage_alliance }}</a>){% endif %}</td>
 		</tr>
-	    {% if isModuleAvailable(smarty.const.MODULE_CHAT) %}
+	    {% if isModuleAvailable(constant('MODULE_CHAT')) %}
 		<tr>
 			<td colspan="2"><a href="#" onclick="return Dialog.AllianceChat();">{{ LNG.al_goto_chat }}</a></td>
 		</tr>
@@ -87,11 +87,11 @@
 		<tr>
 			<td colspan="2">
 			{% if DiploInfo %}
-				{% if DiploInfo.0 is not empty %}<b><u>{{ LNG.al_diplo_level.0 }}</u></b><br><br>{% for PaktInfo in DiploInfo.0 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-			{% if DiploInfo.1 is not empty %}<b><u>{{ LNG.al_diplo_level.1 }}</u></b><br><br>{% for PaktInfo in DiploInfo.1 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-			{% if DiploInfo.2 is not empty %}<b><u>{{ LNG.al_diplo_level.2 }}</u></b><br><br>{% for PaktInfo in DiploInfo.2 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-			{% if DiploInfo.3 is not empty %}<b><u>{{ LNG.al_diplo_level.3 }}</u></b><br><br>{% for PaktInfo in DiploInfo.3 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-				{% if DiploInfo.4 is not empty %}<b><u>{{ LNG.al_diplo_level.4 }}</u></b><br><br>{% for PaktInfo in DiploInfo.4 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+				{% if DiploInfo.0 %}<b><u>{{ LNG.al_diplo_level.0 }}</u></b><br><br>{% for PaktInfo in DiploInfo.0 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% if DiploInfo.1 %}<b><u>{{ LNG.al_diplo_level.1 }}</u></b><br><br>{% for PaktInfo in DiploInfo.1 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% if DiploInfo.2 %}<b><u>{{ LNG.al_diplo_level.2 }}</u></b><br><br>{% for PaktInfo in DiploInfo.2 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% if DiploInfo.3 %}<b><u>{{ LNG.al_diplo_level.3 }}</u></b><br><br>{% for PaktInfo in DiploInfo.3 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+				{% if DiploInfo.4 %}<b><u>{{ LNG.al_diplo_level.4 }}</u></b><br><br>{% for PaktInfo in DiploInfo.4 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
 			{% else %}
 				{{ LNG.al_no_diplo }}
 			{% endif %}
@@ -104,13 +104,13 @@
 			<td>{{ LNG.pl_totalfight }}</td><td>{{ totalfight|number_format }}</td>
 		</tr>
 		<tr>
-			<td>{{ LNG.pl_fightwon }}</td><td>{{ fightwon|number_format }} {% if totalfight %}({{ round($fightwon / $totalfight * 100, 2) }}%){% endif %}</td>
+			<td>{{ LNG.pl_fightwon }}</td><td>{{ fightwon|number_format }} {% if totalfight %}({{ round(fightwon / $totalfight * 100, 2) }}%){% endif %}</td>
 		</tr>
 		<tr>	
-			<td>{{ LNG.pl_fightlose }}</td><td>{{ fightlose|number_format }} {% if totalfight %}({{ round($fightlose / $totalfight * 100, 2) }}%){% endif %}</td>
+			<td>{{ LNG.pl_fightlose }}</td><td>{{ fightlose|number_format }} {% if totalfight %}({{ round(fightlose / $totalfight * 100, 2) }}%){% endif %}</td>
 		</tr>
 		<tr>	
-			<td>{{ LNG.pl_fightdraw }}</td><td>{{ fightdraw|number_format }} {% if totalfight %}({{ round($fightdraw / $totalfight * 100, 2) }}%){% endif %}</td>
+			<td>{{ LNG.pl_fightdraw }}</td><td>{{ fightdraw|number_format }} {% if totalfight %}({{ round(fightdraw / $totalfight * 100, 2) }}%){% endif %}</td>
 		</tr>
 		<tr>
 			<td>{{ LNG.pl_unitsshot }}</td><td>{{ unitsshot }}</td>

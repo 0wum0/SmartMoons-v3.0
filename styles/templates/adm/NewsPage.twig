@@ -1,7 +1,7 @@
 {% include "overall_header.twig" %}
-{% if isset(mode %}
+{% if mode is defined %}
 <form method="POST" action="?page=news&amp;action=send&amp;mode={{ mode }}">
-{% if isset(news_id %}<input name="id" type="hidden" value="{{ news_id }}">{% endif %}
+{% if news_id is defined %}<input name="id" type="hidden" value="{{ news_id }}">{% endif %}
 <table>
 <tr>
 	<th colspan="2">{{ nws_head }}</th>

@@ -33,7 +33,7 @@
 				</a></td>
 				<td style="width:40px;">{{ notesRow.size|number_format }}</td>
 			</tr>
-			{% if notesRow@last %}
+			{% if loop.last %}
 			<tr>
 				<td colspan="4" class="right"><input value="{{ LNG.nt_dlte_note }}" type="submit"></td>
 			</tr>

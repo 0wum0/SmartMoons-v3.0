@@ -10,29 +10,29 @@
 	        <div class="bar-text">
 		        {% if shortlyNumber %}
 					{% if !isset(resourceData.current) %}
-					{$resourceData.current = $resourceData.max + $resourceData.used}
-						<span class="res_current tooltip" data-tooltip-content="{$LNG.tech.$resourceID} <br> {{ resourceData.current|number_format }}&nbsp;/&nbsp;{{ resourceData.max|number_format }}"><span{% if resourceData.current < 0 %} style="color:red"{% endif %}>{{ shortly_number($resourceData.current) }}&nbsp;/&nbsp;{{ shortly_number($resourceData.max) }}</span></span>
+					{{ resourceData.current = resourceData.max + $resourceData.used }}
+						<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }} <br> {{ resourceData.current|number_format }}&nbsp;/&nbsp;{{ resourceData.max|number_format }}"><span{% if resourceData.current < 0 %} style="color:red"{% endif %}>{{ shortly_number(resourceData.current) }}&nbsp;/&nbsp;{{ shortly_number(resourceData.max) }}</span></span>
 					{% else %}
-						<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" data-tooltip-content="{$LNG.tech.$resourceID} <br> {{ resourceData.current|number_format }} <br> {% if !isset(resourceData.current) || !isset(resourceData.max) %}
+						<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" data-tooltip-content="{{ LNG.tech[resourceID] }} <br> {{ resourceData.current|number_format }} <br> {% if !isset(resourceData.current) || !isset(resourceData.max) %}
 						{% else %}
-						<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number($resourceData.max) }}</span>
-						{% endif %}">{{ shortly_number($resourceData.current) }}</span>
+						<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number(resourceData.max) }}</span>
+						{% endif %}">{{ shortly_number(resourceData.current) }}</span>
 					{% endif %}
 		        {% else %}
 					{% if !isset(resourceData.current) %}
-					{$resourceData.current = $resourceData.max + $resourceData.used}
-						<span class="res_current tooltip" data-tooltip-content="{$LNG.tech.$resourceID} <br> {{ resourceData.current|number_format }}&nbsp;/&nbsp;{{ resourceData.max|number_format }}"><span{% if resourceData.current < 0 %} style="color:red"{% endif %}>{{ resourceData.current|number_format }}&nbsp;/&nbsp;{{ resourceData.max|number_format }}</span></span>
+					{{ resourceData.current = resourceData.max + $resourceData.used }}
+						<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }} <br> {{ resourceData.current|number_format }}&nbsp;/&nbsp;{{ resourceData.max|number_format }}"><span{% if resourceData.current < 0 %} style="color:red"{% endif %}>{{ resourceData.current|number_format }}&nbsp;/&nbsp;{{ resourceData.max|number_format }}</span></span>
 					{% else %}
-						<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-tooltip-content="{$LNG.tech.$resourceID} <br> {{ resourceData.current|number_format }} <br> {% if !isset(resourceData.current) || !isset(resourceData.max) %}
+						<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-tooltip-content="{{ LNG.tech[resourceID] }} <br> {{ resourceData.current|number_format }} <br> {% if !isset(resourceData.current) || !isset(resourceData.max) %}
 						{% else %}
-						<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number($resourceData.max) }}</span>
+						<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number(resourceData.max) }}</span>
 						{% endif %}" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}">{{ resourceData.current|number_format }} (X%)</span>
 					{% endif %}
 		        {% endif %}
 	        </div>
 	      </div>
 	      {% if resourceID != 911 && resourceID != 921 %}
-	      {% if isModuleAvailable(smarty.const.MODULE_TRADER) %}
+	      {% if isModuleAvailable(constant('MODULE_TRADER')) %}
 	      <div class="bar-change">
 	      	<a href="game.php?page=trader&mode=trade&resource={{ resourceID }}"><i class="fas fa-arrows-alt-h"></i></a>
 	      </div>
@@ -43,10 +43,10 @@
 	{% else %}
 	<div class="heder_res_921 res_921_text">
 		<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="">
-		<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" data-tooltip-content="{$LNG.tech.$resourceID} <br> {{ resourceData.current|number_format }} <br> {% if !isset(resourceData.current) || !isset(resourceData.max) %}
+		<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" data-tooltip-content="{{ LNG.tech[resourceID] }} <br> {{ resourceData.current|number_format }} <br> {% if !isset(resourceData.current) || !isset(resourceData.max) %}
 		{% else %}
-		<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number($resourceData.max) }}</span>
-		{% endif %}">{{ shortly_number($resourceData.current) }}</span>
+		<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number(resourceData.max) }}</span>
+		{% endif %}">{{ shortly_number(resourceData.current) }}</span>
 	</div>
 	{% endif %}
 	{% endfor %}
@@ -58,7 +58,7 @@
 		var vacation			= {{ vmode }};
         $(function() {
 		{% for resourceID, resourceData in resourceTable %}
-		{% if isset(resourceData.production) %}
+		{% if resourceData is defined.production) %}
             resourceTicker({
                 available: {{ resourceData.current|json_encode }},
                 limit: [0, {{ resourceData.max|json_encode }}],

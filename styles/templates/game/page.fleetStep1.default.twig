@@ -27,7 +27,7 @@
 				<td>{{ LNG.fl_fleet_speed }}</td>
 				<td>
 					<select id="speed" name="speed" onChange="updateVars()">
-						{html_options options=$speedSelect}
+						{% for key, value in speedSelect %}<option value="{{ key }}">{{ value }}</option>{% endfor %}
 					</select> %
 				</td>
 			</tr>
@@ -60,14 +60,14 @@
 				<td id="storage">-</td>
 			</tr>
 		</table>
-		{% if isModuleAvailable(smarty.const.MODULE_SHORTCUTS) %}
+		{% if isModuleAvailable(constant('MODULE_SHORTCUTS')) %}
 		<table class="shortcut" style="table-layout: fixed; width: 100%;">
 			<tr style="height:20px;">
 				<th colspan="{{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}">{{ LNG.fl_shortcut }} (<a href="#" onclick="EditShortcuts();return false" class="shortcut-link-edit shortcut-link">{{ LNG.fl_shortcut_edition }}</a><a href="#" onclick="SaveShortcuts();return false" class="shortcut-edit">{{ LNG.fl_shortcut_save }}</a>)</th>
 			</tr>
 			{% for shortcutID, shortcutRow in shortcutList %}
-				{% if (shortcutRow@iteration % themeSettings.SHORTCUT_ROWS_ON_FLEET1) === 1 %}<tr style="height:20px;" class="shortcut-row">{% endif %}			
-				<td style="width:{100 / $themeSettings.SHORTCUT_ROWS_ON_FLEET1}%" class="shortcut-colum shortcut-isset">
+				{% if (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) == 1 %}<tr style="height:20px;" class="shortcut-row">{% endif %}			
+				<td style="width:{{ 100 / themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}%" class="shortcut-colum shortcut-isset">
 					<div class="shortcut-link">
 						<a href="javascript:setTarget({{ shortcutRow.galaxy }},{{ shortcutRow.system }},{{ shortcutRow.planet }},{{ shortcutRow.type }});updateVars();">{{ shortcutRow.name }}{% if shortcutRow.type == 1 %}{{ LNG.fl_planet_shortcut }}{% elseif shortcutRow.type == 2 %}{{ LNG.fl_debris_shortcut }}{% elseif shortcutRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ shortcutRow.galaxy }}:{{ shortcutRow.system }}:{{ shortcutRow.planet }}]</a>
 					</div>
@@ -78,17 +78,17 @@
 					<div class="shortcut-edit">
 						<input type="text" class="shortcut-input" name="shortcut[{{ shortcutID }}][galaxy]" value="{{ shortcutRow.galaxy }}" size="3" maxlength="2">:<input type="text" class="shortcut-input" name="shortcut[{{ shortcutID }}][system]" value="{{ shortcutRow.system }}" size="3" maxlength="3">:<input type="text" class="shortcut-input" name="shortcut[{{ shortcutID }}][planet]" value="{{ shortcutRow.planet }}" size="3" maxlength="2">
 						<select class="shortcut-input" name="shortcut[{{ shortcutID }}][type]">
-							{html_options selected=$shortcutRow.type options=$typeSelect}
+							{% for key, value in typeSelect %}<option value="{{ key }}"{% if key == shortcutRow.type %} selected{% endif %}>{{ value }}</option>{% endfor %}
 						</select>
 					</div>
 				</td>
-				{% if shortcutRow@last && (shortcutRow@iteration % themeSettings.SHORTCUT_ROWS_ON_FLEET1) !== 0 %}
-				{$to = $themeSettings.SHORTCUT_ROWS_ON_FLEET1 - ($shortcutRow@iteration % $themeSettings.SHORTCUT_ROWS_ON_FLEET1)}
-				{% for foo in range(1, to + 1, |default(1)) %}
-				<td class="shortcut-colum" style="width:{100 / $themeSettings.SHORTCUT_ROWS_ON_FLEET1}%">&nbsp;</td>
+				{% if loop.last && (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) != 0 %}
+				{% set to = themeSettings.SHORTCUT_ROWS_ON_FLEET1 - (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) %}
+				{% for foo in range(1, to + 1) %}
+				<td class="shortcut-colum" style="width:{{ 100 / themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}%">&nbsp;</td>
 				{% endfor %}
 				{% endif %}
-				{% if (shortcutRow@iteration % themeSettings.SHORTCUT_ROWS_ON_FLEET1) === 0 %}</tr>{% endif %}
+				{% if (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) == 0 %}</tr>{% endif %}
 			{% else %}
 			<tr style="height:20px;" class="shortcut-none">
 				<td colspan="{{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}">{{ LNG.fl_no_shortcuts }}</td>
@@ -106,7 +106,7 @@
 					<div class="shortcut-edit">
 						<input type="text" class="shortcut-input" name="shortcut[][galaxy]" value="" size="3" maxlength="2" placeholder="G" pattern="[0-9]*">:<input type="text" class="shortcut-input" name="shortcut[][system]" value="" size="3" maxlength="3" placeholder="S" pattern="[0-9]*">:<input type="text" class="shortcut-input" name="shortcut[][planet]" value="" size="3" maxlength="2" placeholder="P" pattern="[0-9]*">
 						<select class="shortcut-input" name="shortcut[][type]">
-							{html_options options=$typeSelect}
+							{% for key, value in typeSelect %}<option value="{{ key }}">{{ value }}</option>{% endfor %}
 						</select>
 					</div>
 				</td>
@@ -123,15 +123,15 @@
 				<th colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}">{{ LNG.fl_my_planets }}</th>
 			</tr>
 			{% for ColonyRow in colonyList %}
-			{% if (ColonyRow@iteration % themeSettings.COLONY_ROWS_ON_FLEET1) === 1 %}<tr style="height:20px;">{% endif %}
+			{% if (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) == 1 %}<tr style="height:20px;">{% endif %}
 			<td>
 				<a href="javascript:setTarget({{ ColonyRow.galaxy }},{{ ColonyRow.system }},{{ ColonyRow.planet }},{{ ColonyRow.type }});updateVars();">{{ ColonyRow.name }}{% if ColonyRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ ColonyRow.galaxy }}:{{ ColonyRow.system }}:{{ ColonyRow.planet }}]</a>
 			</td>
-			{% if ColonyRow@last && (ColonyRow@iteration % themeSettings.COLONY_ROWS_ON_FLEET1) !== 0 %}
-			{$to = $themeSettings.COLONY_ROWS_ON_FLEET1 - ($ColonyRow@iteration % $themeSettings.COLONY_ROWS_ON_FLEET1)}
-			{% for foo in range(1, to + 1, |default(1)) %}<td>&nbsp;</td>{% endfor %}
+			{% if loop.last && (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) != 0 %}
+			{% set to = themeSettings.COLONY_ROWS_ON_FLEET1 - (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) %}
+			{% for foo in range(1, to + 1) %}<td>&nbsp;</td>{% endfor %}
 			{% endif %}
-			{% if (ColonyRow@iteration % themeSettings.COLONY_ROWS_ON_FLEET1) === 0 %}</tr>{% endif %}
+			{% if (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) == 0 %}</tr>{% endif %}
 			{% else %}
 			<tr style="height:20px;">
 				<td colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}">{{ LNG.fl_no_colony }}</td>
@@ -144,15 +144,15 @@
 				<th colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}">{{ LNG.fl_acs_title }}</th>
 			</tr>
 			{% for ACSRow in ACSList %}
-			{% if (ACSRow@iteration % themeSettings.ACS_ROWS_ON_FLEET1) === 1 %}<tr style="height:20px;">{% endif %}
+			{% if (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) == 1 %}<tr style="height:20px;">{% endif %}
 			<tr style="height:20px;">
 				<td><a href="javascript:setACSTarget({{ ACSRow.galaxy }},{{ ACSRow.system }},{{ ACSRow.planet }},{{ ACSRow.planet_type }},{{ ACSRow.id }});">{{ ACSRow.name }} - [{{ ACSRow.galaxy }}:{{ ACSRow.system }}:{{ ACSRow.planet }}]</a></td>
 			</tr>
-			{% if ACSRow@last && (ACSRow@iteration % themeSettings.ACS_ROWS_ON_FLEET1) !== 0 %}
-			{$to = $themeSettings.ACS_ROWS_ON_FLEET1 - ($ACSRow@iteration % $themeSettings.ACS_ROWS_ON_FLEET1)}
-			{% for foo in range(1, to + 1, |default(1)) %}<td>&nbsp;</td>{% endfor %}
+			{% if loop.last && (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) != 0 %}
+			{% set to = themeSettings.ACS_ROWS_ON_FLEET1 - (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) %}
+			{% for foo in range(1, to + 1) %}<td>&nbsp;</td>{% endfor %}
 			{% endif %}
-			{% if (ACSRow@iteration % themeSettings.ACS_ROWS_ON_FLEET1) === 0 %}</tr>{% endif %}
+			{% if (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) == 0 %}</tr>{% endif %}
 			{% endfor %}
 		</table>
 		{% endif %}

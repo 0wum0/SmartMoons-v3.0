@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="content_page" style="width: 95%;">
-	{% if darkmatterList is not empty %}
+	{% if darkmatterList %}
 	<div class="title">
 		{{ of_dm_trade }}
 	</div>
@@ -12,7 +12,7 @@
 			
 			<div class="block_construct">
 				<div class="title" style="margin: 5px 0 0 -5px; text-align: left;">
-					<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{$LNG.tech.{{ ID }}}" width="20" height="20"> {$LNG.tech.{{ ID }}}</a>
+					<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech.{{ ID  }}}}" width="20" height="20"> {{ LNG.tech.{{ ID  }}}}</a>
 				</div>
 
 				<div class="block_construct_desc">
@@ -24,7 +24,7 @@
 						{% endfor %}
 
 						<div style="margin-bottom: 10px;">
-							{% for BonusName, Bonus in Element.elementBonus %}{% if Bonus@iteration % 3 === 1 %}<p>{% endif %}{% if Bonus[0] < 0 %}-{% else %}+{% endif %}{% if Bonus[1] == 0 %}{{ abs($Bonus[0] * 100) }}%{% else %}{$Bonus[0]}{% endif %} {$LNG.bonus.$BonusName}{% if Bonus@iteration % 3 === 0 || Bonus@last %}</p>{% else %}&nbsp;{% endif %}{% endfor %}
+							{% for BonusName, Bonus in Element.elementBonus %}{% if loop.index % 3 == 1 %}<p>{% endif %}{% if Bonus[0] < 0 %}-{% else %}+{% endif %}{% if Bonus[1] == 0 %}{{ abs(Bonus[0] * 100) }}%{% else %}{{ Bonus[0] }}{% endif %} {{ LNG.bonus[BonusName] }}{% if loop.index % 3 == 0 || loop.last %}</p>{% else %}&nbsp;{% endif %}{% endfor %}
 						</div>
 
 						{% if Element.timeLeft > 0 %}
@@ -64,7 +64,7 @@
 	{% endif %}
 
 	{% if officierList %}
-	<div class="title" {% if darkmatterList is not empty %}style="margin: 5px 0 -5px 0;"{% endif %}>
+	<div class="title" {% if darkmatterList %}style="margin: 5px 0 -5px 0;"{% endif %}>
 		{{ LNG.of_offi }}
 	</div>
 
@@ -73,7 +73,7 @@
 			
 			<div class="block_construct">
 				<div class="title" style="margin: 5px 0 0 -5px; text-align: left;">
-					<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.jpg" alt="{$LNG.tech.{{ ID }}}" width="20" height="20"> {$LNG.tech.{{ ID }}} - {{ LNG.of_lvl }} {{ Element.level }}/{{ Element.maxLevel }}</a>
+					<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.jpg" alt="{{ LNG.tech.{{ ID  }}}}" width="20" height="20"> {{ LNG.tech.{{ ID  }}}} - {{ LNG.of_lvl }} {{ Element.level }}/{{ Element.maxLevel }}</a>
 				</div>
 
 				<div class="block_construct_desc">
@@ -85,7 +85,7 @@
 						{% endfor %}
 
 						<div style="margin-bottom: 10px;">
-							{% for BonusName, Bonus in Element.elementBonus %}{% if Bonus@iteration % 3 === 1 %}<p>{% endif %}{% if Bonus[0] < 0 %}-{% else %}+{% endif %}{% if Bonus[1] == 0 %}{{ abs($Bonus[0] * 100) }}%{% else %}{$Bonus[0]}{% endif %} {$LNG.bonus.$BonusName}{% if Bonus@iteration % 3 === 0 || Bonus@last %}</p>{% else %}&nbsp;{% endif %}{% endfor %}
+							{% for BonusName, Bonus in Element.elementBonus %}{% if loop.index % 3 == 1 %}<p>{% endif %}{% if Bonus[0] < 0 %}-{% else %}+{% endif %}{% if Bonus[1] == 0 %}{{ abs(Bonus[0] * 100) }}%{% else %}{{ Bonus[0] }}{% endif %} {{ LNG.bonus[BonusName] }}{% if loop.index % 3 == 0 || loop.last %}</p>{% else %}&nbsp;{% endif %}{% endfor %}
 						</div>
 
 					</div>

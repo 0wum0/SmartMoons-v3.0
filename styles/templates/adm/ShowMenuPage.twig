@@ -23,7 +23,7 @@
 		{% if allowedTo('ShowGiveawayPage' %}<li><a href="?page=giveaway" target="Hauptframe">{{ LNG.mu_giveaway }}</a></li>{% endif %}
 		<li><a href="javascript:void(0);"><span style="color:lime">{{ LNG.mu_observation }}</span></a></li>
 		{% if allowedTo('ShowSearchPage' %}<li><a href="?page=search&amp;search=online&amp;minimize=on" target="Hauptframe">{{ LNG.mu_connected }}</a></li>{% endif %}
-		{% if allowedTo('ShowSupportPage' %}<li><a href="?page=support" target="Hauptframe">{{ LNG.mu_support }}{% if supportticks = 0 is not empty %} ({{ supportticks }}){% endif %}</a></li>{% endif %}
+		{% if allowedTo('ShowSupportPage' %}<li><a href="?page=support" target="Hauptframe">{{ LNG.mu_support }}{% if supportticks == 0 %} ({{ supportticks }}){% endif %}</a></li>{% endif %}
 		{% if allowedTo('ShowActivePage' %}<li><a href="?page=active" target="Hauptframe">{{ LNG.mu_vaild_users }}</a></li>{% endif %}
 		{% if allowedTo('ShowSearchPage' %}<li><a href="?page=search&amp;search=p_connect&amp;minimize=on" target="Hauptframe">{{ LNG.mu_active_planets }}</a></li>{% endif %}
 		{% if allowedTo('ShowFlyingFleetPage' %}<li><a href="?page=fleets" target="Hauptframe">{{ LNG.mu_flying_fleets }}</a></li>{% endif %}

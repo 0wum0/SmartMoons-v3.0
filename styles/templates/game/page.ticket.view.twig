@@ -5,7 +5,7 @@
 <input type="hidden" name="id" value="{{ ticketID }}">
 	<div class="content_page">
 		{% for answerID, answerRow in answerList %}	
-		{% if answerRow@first %}
+		{% if loop.first %}
 		<div class="title">
 			{{ LNG.ti_read }} : {{ answerRow.subject }}
 		</div>
@@ -18,8 +18,8 @@
 			<tr>
 				<td class="left" colspan="2">
 					{{ LNG.ti_msgtime }} <b>{{ answerRow.time }}</b> {{ LNG.ti_from }} <b>{{ answerRow.ownerName }}</b>
-					{% if answerRow@first %}
-						<br>{{ LNG.ti_category }}: {$categoryList[$answerRow.categoryID]}
+					{% if loop.first %}
+						<br>{{ LNG.ti_category }}: {{ categoryList[$answerRow.categoryID] }}
 					{% endif %}
 					<hr>
 					<p>

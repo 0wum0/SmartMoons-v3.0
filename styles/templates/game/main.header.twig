@@ -29,7 +29,7 @@
 	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
 	<script type="text/javascript">
 	var ServerTimezoneOffset = {{ Offset }};
-	var serverTime 	= new Date({{ date.0 }}, {$date.1 - 1}, {{ date.2 }}, {{ date.3 }}, {{ date.4 }}, {{ date.5 }});
+	var serverTime 	= new Date({{ date.0 }}, {{ date.1 - 1 }}, {{ date.2 }}, {{ date.3 }}, {{ date.4 }}, {{ date.5 }});
 	var startTime	= serverTime.getTime();
 	var localTime 	= serverTime;
 	var localTS 	= startTime;
@@ -38,12 +38,12 @@
 	var Skin		= "{{ dpath }}";
 	var Lang		= "{{ lang }}";
 	var head_info	= "{{ LNG.fcm_info }}";
-	var auth		= {$authlevel|default("0")};
-	var days 		= {$LNG.week_day|json|default("[]")} 
-	var months 		= {$LNG.months|json|default("[]")} ;
+	var auth		= {{ authlevel|default("0")};
+	var days 		= {{ LNG.week_day|json|default("[]")} 
+	var months 		= {{ LNG.months|json|default("[]")} ;
 	var tdformat	= "{{ LNG.js_tdformat }}";
-	var queryString	= "{$queryString|escape:'javascript'}";
-	var isPlayerCardActive	= "{$isPlayerCardActive|json}";
+	var queryString	= "{{ queryString|escape:'javascript'}";
+	var isPlayerCardActive	= "{{ isPlayerCardActive|json}";
 
 	setInterval(function() {
 		serverTime.setSeconds(serverTime.getSeconds()+1);
@@ -68,5 +68,5 @@
 	</script>
 </head>
 
-<body id="{$smarty.get.page|default("overview")|escape}" class="{{ bodyclass }}">
+<body id="{{ GET.page|default("overview")|escape}" class="{{ bodyclass }}">
 	<div id="tooltip" class="tip"></div>

@@ -9,12 +9,12 @@
 	<div>
 		<table style="width:100%;table-layout:fixed;">
 				{% for CategoryID, CategoryRow in CategoryList %}
-				{% if (CategoryRow@iteration % 6) === 1 %}<tr>{% endif %}
-				{% if CategoryRow@last && (CategoryRow@iteration % 6) !== 0 %}<td>&nbsp;</td>{% endif %}
-				<td style="word-wrap: break-word;color:{{ CategoryRow.color }};"><a href="#" onclick="Message.getMessages({{ CategoryID }});return false;" style="color:{{ CategoryRow.color }};">{$LNG.mg_type.{{ CategoryID }}}</a>
+				{% if (loop.index % 6) == 1 %}<tr>{% endif %}
+				{% if loop.last && (loop.index % 6) != 0 %}<td>&nbsp;</td>{% endif %}
+				<td style="word-wrap: break-word;color:{{ CategoryRow.color }};"><a href="#" onclick="Message.getMessages({{ CategoryID }});return false;" style="color:{{ CategoryRow.color }};">{{ LNG.mg_type.{{ CategoryID  }}}}</a>
 				<br><span id="unread_{{ CategoryID }}">{{ CategoryRow.unread }}</span>/<span id="total_{{ CategoryID }}">{{ CategoryRow.total }}</span>
 				</td>
-				{% if CategoryRow@last || (CategoryRow@iteration % 6) === 0 %}</tr>{% endif %}
+				{% if loop.last || (loop.index % 6) == 0 %}</tr>{% endif %}
 				{% endfor %}
 		</table>
 	</div>
@@ -26,7 +26,7 @@
 	<table style="width:100%;table-layout:fixed;">
 		{% for OperatorName, OperatorEmail in OperatorList %}
 		<tr>
-			<td>{{ OperatorName }}<a href="mailto:{{ OperatorEmail }}" title="{{ LNG.mg_write_mail_to_ops }} {{{ OperatorName }}}"> <i class="far fa-envelope" title="Message privé" style="font-size: 10px;"></i></a></td>
+			<td>{{ OperatorName }}<a href="mailto:{{ OperatorEmail }}" title="{{ LNG.mg_write_mail_to_ops }} {{ OperatorName }}}"> <i class="far fa-envelope" title="Message privé" style="font-size: 10px;"></i></a></td>
 		</tr>
 		{% endfor %}
 	</table>
@@ -34,7 +34,7 @@
 
 {% endblock %}
 {% block script %}
-{% if category is not empty %}
+{% if category %}
 <script>$(function() {
 	Message.getMessages({{ category }}, {{ side }});
 })</script>

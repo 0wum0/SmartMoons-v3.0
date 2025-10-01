@@ -16,7 +16,7 @@
 						<div class="transparent" style="text-align:right;float:right;padding:5px">
 							<select name="shipID" id="shipID" onchange="updateVars()">
 								{% for shipID in shipIDs %}
-								<option value="{{ shipID }}">{$LNG.tech.$shipID}</option>
+								<option value="{{ shipID }}">{{ LNG.tech[shipID] }}</option>
 								{% endfor %}
 							</select>
 						</div>

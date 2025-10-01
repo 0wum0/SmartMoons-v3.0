@@ -44,7 +44,7 @@
 	});
 	</script>
 </head>
-<body id="step{% if isset(smarty.get.step %}{$smarty.get.step|escape|default("intro")}{% else %}intro{% endif %}">
+<body id="step{% if smarty is defined.get.step %}{{ GET.step|escape|default("intro")}{% else %}intro{% endif %}">
 <div id="tooltip" class="tip"></div>
 <div><p>&nbsp;</p></div>
 <table width="960">

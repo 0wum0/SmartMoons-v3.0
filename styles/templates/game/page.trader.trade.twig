@@ -5,7 +5,7 @@
 	<input type="hidden" name="resource" value="{{ tradeResourceID }}">
 	<table class="table569">
 	<tr>
-		<th colspan="4">{{ LNG.tr_sell }} {$LNG.tech.$tradeResourceID}</th>
+		<th colspan="4">{{ LNG.tr_sell }} {{ LNG.tech[tradeResourceID] }}</th>
 	</tr>
 	<tr>
 		<td>{{ LNG.tr_resource }}</td>
@@ -13,16 +13,16 @@
 		<td>{{ LNG.tr_quota_exchange }}</td>
 	</tr>
 	<tr>
-		<td>{$LNG.tech.$tradeResourceID}</td>
+		<td>{{ LNG.tech[tradeResourceID] }}</td>
 		<td colspan="2"><span id="ress">0</span></td>
 		<td>1</td>
 	</tr>
 	{% for tradeResource in tradeResources %}
 	<tr>
-		<td><label for="resource{{ tradeResource }}">{$LNG.tech[$tradeResource]}</label></td>
+		<td><label for="resource{{ tradeResource }}">{{ LNG.tech[tradeResource] }}</label></td>
 		<td><input name="trade[{{ tradeResource }}]" id="resource{{ tradeResource }}" class="trade_input" type="text" value="0" size="30" data-resource="{{ tradeResource }}"></td>
 		<td><span id="resource{{ tradeResource }}Shortly"></span></td>
-		<td>{$charge[$tradeResource]}</td>
+		<td>{{ charge[tradeResource] }}</td>
 	</tr>
 	{% endfor %}
 	<tr>

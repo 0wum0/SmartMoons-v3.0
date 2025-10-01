@@ -13,7 +13,7 @@
             </tr>
             <tr style="height:20px">
                 <td>{{ LNG.fl_mission }}</td>
-                <td>{$LNG["type_mission_{{ targetMission }}"]}</td>
+                <td>{{ LNG["\1_" ~ targetMission] }}</td>
             </tr>
             <tr style="height:20px">
                 <td>{{ LNG.fl_distance }}</td>
@@ -48,7 +48,7 @@
             </tr>
             {% for ShipID, ShipCount in FleetList %}
             <tr>
-                <td>{$LNG.tech.{{ ShipID }}}</td>
+                <td>{{ LNG.tech.{{ ShipID  }}}}</td>
                 <td>{{ ShipCount|number_format }}</td>
             </tr>
             {% endfor %}
