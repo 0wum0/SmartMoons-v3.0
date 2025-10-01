@@ -19,7 +19,7 @@
 			{% set ID = List.element %}
 			<tr>
 				<td style="width:70%;vertical-align:top;" class="left">
-					{% if ResearchList is defined[List.element]) %}
+					{% if ResearchList[List.element] is defined %}
 					{% set CQueue = ResearchList[$List.element] %}
 					{% endif %}
 					{{ loop.index }}.: 
