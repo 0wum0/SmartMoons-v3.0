@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.1.1-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.1.2-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,12 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.1.2** _(2025-10-01)_
+🎨 **Twig Template Engine Installation**
+- ✅ **Installed Twig via Composer** - Twig v3.21.1 installed
+- 🔧 **Preparation for Smarty to Twig migration** - Template system modernization begins
+- 👤 **Changed by: 0wum0**
 
 ### **v3.1.1** _(2025-10-01)_
 🔧 **Final Refinement: Complete Modernization Quality Check**
