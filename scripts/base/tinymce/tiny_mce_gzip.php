@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * tiny_mce_gzip.php
  *

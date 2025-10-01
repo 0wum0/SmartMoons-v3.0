@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *                              cyts.class.php								<br />
  *                            ------------------							<br />

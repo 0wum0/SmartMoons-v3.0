@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 	/**
 	 * tinyCronEntry is part of tdCron. Its a class to parse Cron-Expressions like "1-45 1,2,3 1-30/5 January,February Mon,Tue"
 	 * and convert it to an easily useable format.
@@ -110,7 +112,7 @@
 							IDX_MONTH	=> array(
 										'/(january|januar|jan)/i'			=> 1,
 										'/(february|februar|feb)/i'			=> 2,
-										'/(march|maerz|märz|mar|mae|mär)/i'		=> 3,
+										'/(march|maerz|mï¿½rz|mar|mae|mï¿½r)/i'		=> 3,
 										'/(april|apr)/i'				=> 4,
 										'/(may|mai)/i'					=> 5,
 										'/(june|juni|jun)/i'				=> 6,

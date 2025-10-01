@@ -1,4 +1,7 @@
 <?PHP
+
+declare(strict_types=1);
+
 /**
  *                         ts3admin.class.php
  *                         ------------------

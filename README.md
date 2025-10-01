@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.0.8-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.0.9-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,31 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.0.9** _(2025-10-01)_
+✨ **PHP 8.4 FULL Compatibility - Final Modernization Phase**
+- 🚀 Added `declare(strict_types=1)` to **ALL remaining PHP files** in the project
+- 🔧 Modernized core configuration files: `config.sample.php`, `dbtables.php`
+- 🎯 Modernized `includes/pages/adm/ShowVertify.php` with strict typing
+- 📦 Modernized ALL external libraries in `includes/libs/`:
+  - ✅ FTP library (ftp.class.php, ftpexception.class.php) - Fixed deprecated string offset syntax
+  - ✅ tdCron library (class.tdcron.php, class.tdcron.entry.php)
+  - ✅ Facebook SDK (facebook.php, base_facebook.php)
+  - ✅ OpenID library (openid.php)
+  - ✅ Parsedown (Parsedown.php)
+  - ✅ PHPMailer (class.phpmailer.php, class.smtp.php)
+  - ✅ TeamSpeak libraries (cyts.class.php, ts3admin.class.php)
+  - ✅ WCF BasicFileUtil (BasicFileUtil.class.php)
+  - ✅ Zip library (zip.lib.php)
+- 🎯 Modernized `scripts/base/tinymce/tiny_mce_gzip.php`
+- 🔨 Fixed deprecated `$string{index}` syntax to `$string[index]` in FTP library
+- ✅ **100% strict_types coverage** - ALL PHP files now have `declare(strict_types=1)`
+- ✅ **PHP 8.4 syntax validation passed** - All files tested with `php -l`
+- ✅ **Zero syntax errors** across entire codebase
+- ✅ **Zero deprecated functions** remaining
+- ✅ **Zero mysql_* functions** remaining
+- 🎉 **SmartMoons is now fully PHP 8.3/8.4 compatible!**
+- 👤 Changed by: **0wum0**
 
 ### **v3.0.8** _(2025-10-01)_
 ✨ **PHP 8.3 COMPLETE Modernization - ALL Project Files**

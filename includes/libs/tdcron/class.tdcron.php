@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 	define('IDX_MINUTE',			0);
 	define('IDX_HOUR',			1);
 	define('IDX_DAY',			2);
