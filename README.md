@@ -66,24 +66,16 @@ mod_rewrite aktiviert
 1️⃣ **Repository klonen**
 ```bash
 git clone https://github.com/0wum0/SmartMoons-v3.0.git
-cd SmartMoons-v3.0
+composer install ausführen
 ```
 
-2️⃣ **Datenbank erstellen**
-```sql
-CREATE DATABASE smartmoons CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'smartmoons'@'localhost' IDENTIFIED BY 'dein_passwort';
-GRANT ALL PRIVILEGES ON smartmoons.* TO 'smartmoons'@'localhost';
-FLUSH PRIVILEGES;
-```
-
-3️⃣ **Installation starten**
+2️⃣ **Installation starten**
 ```bash
 # Browser öffnen: http://localhost/install/
 # Installer folgen und DB-Daten eingeben
 ```
 
-4️⃣ **Admin-Login**
+3️⃣ **Admin-Login**
 ```
 URL: http://localhost/
 Standard-Admin:
@@ -91,7 +83,7 @@ Standard-Admin:
   Password: [wird beim Setup erstellt]
 ```
 
-5️⃣ **Fertig! 🎉**
+4️⃣ **Fertig! 🎉**
 ```
 Spiel starten und Universum erobern!
 ```
