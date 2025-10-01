@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.2.5-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.2.6-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,23 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.2.6** _(2025-10-01)_
+🔧 **Twig Filter Fix: Replaced Invalid 'contains' Filter**
+- ✅ **Fixed invalid Twig filter usage** - Replaced non-existent `contains` filter with proper Twig syntax
+- ✅ **Converted all `|contains('yes')` to `'yes' in variable`** - 12 occurrences fixed in install templates
+- ✅ **Install system now fully functional** - Step 2 (System Requirements) loads without errors
+- ✅ **Zero "Unknown filter contains" errors** - All templates validated for Twig compatibility
+- 🎯 **File modified**: `styles/templates/install/ins_req.twig`
+  - Fixed PHP version check display
+  - Fixed global variables check display
+  - Fixed PDO extension check display
+  - Fixed GD Library check display
+  - Fixed JSON extension check display
+  - Fixed ini_set() check display
+- 🛡️ **Proper Twig syntax used**: `{% if 'yes' in variable|raw %}` instead of `{{ variable|contains('yes') }}`
+- ✅ **All requirement icons (✓/✗) now render correctly** in `/install/index.php` Step 2
+- 👤 **Changed by: 0wum0**
 
 ### **v3.2.4** _(2025-10-01)_
 🔧 **Database Config Rescue: Full Unification & Verification**
