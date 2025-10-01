@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.1.3-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.1.4-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,13 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.1.4** _(2025-10-01)_
+🎯 **Install Templates Migration to Twig**
+- ✅ **Converted all 16 install templates from Smarty to Twig** - Complete install/ directory migrated
+- ✅ **Created Python conversion script** - Automated Smarty→Twig syntax conversion
+- 🎨 **Maintained all functionality** - Forms, validation, and installation flow preserved
+- 👤 **Changed by: 0wum0**
 
 ### **v3.1.3** _(2025-10-01)_
 🔧 **Template Class Migration to Twig**
