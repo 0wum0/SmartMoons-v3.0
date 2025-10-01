@@ -20,9 +20,9 @@
 					<form class="build_form" action="game.php?page=buildings" method="post">
 						<input type="hidden" name="cmd" value="insert">
 						<input type="hidden" name="building" value="{{ ID }}">
-						<button type="submit" class="build_submit onlist">{{ LNG.tech.{{ ID  }}}} {{ List.level }}{% if List.destroy %} {{ LNG.bd_dismantle }}{% endif %}</button>
+						<button type="submit" class="build_submit onlist">{{ LNG.tech[ID] }} {{ List.level }}{% if List.destroy %} {{ LNG.bd_dismantle }}{% endif %}</button>
 					</form>
-					{% else %}{{ LNG.tech.{{ ID  }}}} {{ List.level }} {% if List.destroy %}{{ LNG.bd_dismantle }}{% endif %}{% endif %}
+					{% else %}{{ LNG.tech[ID] }} {{ List.level }} {% if List.destroy %}{{ LNG.bd_dismantle }}{% endif %}{% endif %}
 					{% if loop.first %}
 					<br><br><div id="progressbar" data-time="{{ List.resttime }}"></div>
 				</td>
@@ -54,7 +54,7 @@
 		
 		<div class="block_construct">
 			<div class="title" style="margin: 5px 0 0 -5px; text-align: left;">
-				<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech.{{ ID  }}}}" width="20" height="20"> {{ LNG.tech.{{ ID  }}}} {% if Element.level > 0 %} - {{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}{% endif %}</a>
+				<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}" width="20" height="20"> {{ LNG.tech[ID] }} {% if Element.level > 0 %} - {{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}{% endif %}</a>
 				<span style="float: right;">
 					{% if Element.level > 0 %}
 							{% if ID == 43 %}<a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.bd_jump_gate_action }}</a>{% endif %}
@@ -62,11 +62,11 @@
 								{#  Start Destruction Popup  #}
 								<table style='width:300px'>
 									<tr>
-										<th colspan='2'>{{ LNG.bd_price_for_destroy }} {{ LNG.tech.{{ ID  }}}} {{ Element.level }}</th>
+										<th colspan='2'>{{ LNG.bd_price_for_destroy }} {{ LNG.tech[ID] }} {{ Element.level }}</th>
 									</tr>
 									{% for ResType, ResCount in Element.destroyResources %}
 									<tr>
-										<td>{{ LNG.tech.{{ ResType  }}}}</td>
+										<td>{{ LNG.tech[ResType] }}</td>
 										<td><span style='color:lime'>{{ ResCount|number_format }}</span></td>
 									</tr>
 									{% endfor %}

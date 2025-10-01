@@ -96,7 +96,7 @@
 				{% for RefID, RefLink in RefLinks %}
 				<tr>
 					<td colspan="2"><a href="#" onclick="return Dialog.Playercard({{ RefID }}, '{{ RefLink.username }}');">{{ RefLink.username }}</a></td>
-					<td>{{ RefLink.points|number_format }}} / {{ ref_minpoints|number_format }}</td>
+					<td>{{ RefLink.points|number_format }} / {{ ref_minpoints|number_format }}</td>
 				</tr>
 				{% else %}
 				<tr>
