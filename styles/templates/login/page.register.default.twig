@@ -47,7 +47,7 @@
 								{% if error.emailReplay %}<span class="error errorEmailReplay"></span>{% endif %}
 								<span class="inputDesc"><small>{{ LNG.registerEmailReplayDesc }}</small></span>
 							</div>
-							{% if count(languages > 1 %}
+							{% if languages|length > 1 %}
 								<div class="form-group">
 									<label for="language">{{ LNG.registerLanguage }}</label>
 									<select name="lang" id="language" class="form-control">{% for key, value in languages %}<option value="{{ key }}"{% if key == lang %} selected{% endif %}>{{ value }}</option>{% endfor %}</select>

@@ -262,7 +262,7 @@ border:0px;background:url(./styles/resource/images/admin/blank.gif);text-align:r
 		</td>
 	</tr><tr>
 		<td class="unico transparent">
-			{% if DestruyeD = 0 is not empty %}<a href="#" onclick="$('#destr').slideToggle();return false" class="link">
+			{% if DestruyeD == 0 %}<a href="#" onclick="$('#destr').slideToggle();return false" class="link">
 			<img src="./styles/resource/images/admin/arrowright.png" width="16" height="10"> {{ ac_recent_destroyed_planets }}</a>
 			{% else %}<span class="no_moon"><img src="./styles/resource/images/admin/arrowright.png" width="16" height="10"> 
 			{{ ac_recent_destroyed_planets }}&nbsp;{{ ac_isnodestruyed }}</span>{% endif %}

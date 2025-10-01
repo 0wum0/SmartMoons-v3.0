@@ -25,15 +25,15 @@
 			</tr>
 			{% for FlyingFleetRow in FlyingFleetList %}
 			<tr>
-			<td>{$smarty.foreach.FlyingFleets.iteration}</td>
-			<td>{$LNG["type_mission_{{ FlyingFleetRow.mission }}"]}
+			<td>{{ loop.index }}</td>
+			<td>{{ LNG["type_mission_{{ FlyingFleetRow.mission }}"] }}
 			{% if FlyingFleetRow.state == 1 %}
 				<br><a title="{{ LNG.fl_returning }}">{{ LNG.fl_r }}</a>
 			{% else %}
 				<br><a title="{{ LNG.fl_onway }}">{{ LNG.fl_a }}</a>
 			{% endif %}
 			</td>
-			<td><a class="tooltip_sticky" data-tooltip-content="<table width='100%'><tr><th colspan='2' style='text-align:center;'>{{ LNG.fl_info_detail }}</th></tr>{% for shipID, shipCount in FlyingFleetRow.FleetList %}<tr><td class='transparent'>{$LNG.tech.{{ shipID }}}:</td><td class='transparent'>{{ shipCount }}</td></tr>{% endfor %}</table>">{{ FlyingFleetRow.amount }}</a></td>
+			<td><a class="tooltip_sticky" data-tooltip-content="<table width='100%'><tr><th colspan='2' style='text-align:center;'>{{ LNG.fl_info_detail }}</th></tr>{% for shipID, shipCount in FlyingFleetRow.FleetList %}<tr><td class='transparent'>{{ LNG.tech.{{ shipID  }}}}:</td><td class='transparent'>{{ shipCount }}</td></tr>{% endfor %}</table>">{{ FlyingFleetRow.amount }}</a></td>
 			<td><a href="game.php?page=galaxy&amp;galaxy={{ FlyingFleetRow.startGalaxy }}&amp;system={{ FlyingFleetRow.startSystem }}">[{{ FlyingFleetRow.startGalaxy }}:{{ FlyingFleetRow.startSystem }}:{{ FlyingFleetRow.startPlanet }}]</a></td>
 			<td{% if FlyingFleetRow.state == 0 %} style="color:lime"{% endif %}>{{ FlyingFleetRow.startTime }}</td>
 			<td><a href="game.php?page=galaxy&amp;galaxy={{ FlyingFleetRow.endGalaxy }}&amp;system={{ FlyingFleetRow.endSystem }}">[{{ FlyingFleetRow.endGalaxy }}:{{ FlyingFleetRow.endSystem }}:{{ FlyingFleetRow.endPlanet }}]</a></td>
@@ -42,7 +42,7 @@
 			{% else %}
 			<td{% if FlyingFleetRow.state != 0 %} style="color:lime"{% endif %}>{{ FlyingFleetRow.endTime }}</td>
 			{% endif %}
-			<td id="fleettime_{$smarty.foreach.FlyingFleets.iteration}" class="fleets" data-fleet-end-time="{{ FlyingFleetRow.returntime }}" data-fleet-time="{{ FlyingFleetRow.resttime }}">{pretty_fly_time({{ FlyingFleetRow.resttime }})}</td>
+			<td id="fleettime_{{ loop.index }}" class="fleets" data-fleet-end-time="{{ FlyingFleetRow.returntime }}" data-fleet-time="{{ FlyingFleetRow.resttime }}">{pretty_fly_time({{ FlyingFleetRow.resttime }})}</td>
 			<td>
 			{% if !isVacation && FlyingFleetRow.state != 1 %}
 				<form action="game.php?page=fleetTable&amp;action=sendfleetback" method="post">
@@ -78,7 +78,7 @@
 			{% endif %}
 		</table>
 
-		{% if acsData is not empty %}
+		{% if acsData %}
 			{% include "shared.fleetTable.acsTable.twig" %}
 		{% endif %}
 
@@ -100,7 +100,7 @@
 				</tr>
 				{% for FleetRow in FleetsOnPlanet %}
 				<tr style="height:20px;">
-					<td>{% if FleetRow.speed != 0 %} <a title="{{ LNG.fl_speed_title }} {{ FleetRow.speed }}">{$LNG.tech.{{ FleetRow.id }}}</a>{% else %}{$LNG.tech.{{ FleetRow.id }}}{% endif %}</td>
+					<td>{% if FleetRow.speed != 0 %} <a title="{{ LNG.fl_speed_title }} {{ FleetRow.speed }}">{{ LNG.tech.{{ FleetRow.id  }}}}</a>{% else %}{{ LNG.tech.{{ FleetRow.id  }}}}{% endif %}</td>
 					<td id="ship{{ FleetRow.id }}_value">{{ FleetRow.count|number_format }}</td>
 					{% if FleetRow.speed != 0 %}
 					<td><a href="javascript:maxShip('ship{{ FleetRow.id }}');">{{ LNG.fl_max }}</a></td>

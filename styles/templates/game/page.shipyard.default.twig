@@ -10,7 +10,7 @@
 		<div width="99%" id="infobox" style="border: 2px solid red; text-align:center;background:transparent">{{ LNG.bd_building_shipyard }}</div>
 	{% endif %}
 
-	{% if BuildList is not empty %}
+	{% if BuildList %}
 		<table style="width: 100%;">
 			<tr>
 				<td class="transparent">
@@ -40,7 +40,7 @@
 		
 		<div class="block_construct">
 			<div class="title" style="margin: 5px 0 0 -5px; text-align: left;">
-				<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{$LNG.tech.{{ ID }}}" width="20" height="20"> {$LNG.tech.{{ ID }}} <span id="val_{{ ID }}">{% if Element.available != 0 %} ({{ LNG.bd_available }} {{ Element.available|number_format }}){% endif %}</a>
+				<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech.{{ ID  }}}}" width="20" height="20"> {{ LNG.tech.{{ ID  }}}} <span id="val_{{ ID }}">{% if Element.available != 0 %} ({{ LNG.bd_available }} {{ Element.available|number_format }}){% endif %}</a>
 			</div>
 
 			<div class="block_construct_desc">
@@ -60,7 +60,7 @@
 				</div>
 
 				<div>
-					{% if Element.AlreadyBuild %}<span style="color:red">{{ LNG.bd_protection_shield_only_one }}</span>{% elseif NotBuilding && Element.buyable %}<input style="width: 90%;" type="text" name="fmenge[{{ ID }}]" id="input_{{ ID }}" value="0" tabindex="{$smarty.foreach.FleetList.iteration}">
+					{% if Element.AlreadyBuild %}<span style="color:red">{{ LNG.bd_protection_shield_only_one }}</span>{% elseif NotBuilding && Element.buyable %}<input style="width: 90%;" type="text" name="fmenge[{{ ID }}]" id="input_{{ ID }}" value="0" tabindex="{{ loop.index }}">
 					<input style="padding: 8px; margin-left: -10px; border-left: none;" type="button" value="{{ LNG.bd_max_ships }}" onclick="$('#input_{{ ID }}').val('{{ Element.maxBuildable }}')"></p>
 					{% endif %}
 				</div>
@@ -81,7 +81,7 @@ data			= {{ BuildList|json_encode }};
 bd_operating	= '{{ LNG.bd_operating }}';
 bd_available	= '{{ LNG.bd_available }}';
 </script>
-{% if BuildList is not empty %}
+{% if BuildList %}
 <script src="scripts/base/bcmath.js"></script>
 <script src="scripts/game/shipyard.js"></script>
 <script type="text/javascript">

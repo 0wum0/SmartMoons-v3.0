@@ -11,7 +11,7 @@
 		<table style="width: 100%;">
 			<tr>
 				<td>{{ LNG.op_end_vacation_mode }}</td>
-				<td><input name="vacation" type="checkbox" value="1" {% if canVacationDisbaled is not empty %}disabled{% endif %}></td>
+				<td><input name="vacation" type="checkbox" value="1" {% if canVacationDisbaled %}disabled{% endif %}></td>
 			</tr><tr>
 				<td><a title="{{ LNG.op_dlte_account_descrip }}">{{ LNG.op_dlte_account }}</a></td>
 				<td><input name="delete" type="checkbox" value="1" {% if delete > 0 %}checked="checked"{% endif %}></td>

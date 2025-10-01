@@ -1,4 +1,4 @@
-{$count = count($productionTable.usedResource)}
+{% set count = productionTable|length.usedResource) %}
 
 <table style="width:100%;">
 	<tbody>
@@ -8,7 +8,7 @@
 				<tr>
 					<th>{{ LNG.in_level }}</th>
 					{% for resourceID in productionTable.usedResource %}
-					<th colspan="2">{$LNG.tech.$resourceID}</th>
+					<th colspan="2">{{ LNG.tech[resourceID] }}</th>
 					{% endfor %}
 				</tr>
 				<tr>
@@ -22,7 +22,7 @@
 				<tr>
 					<td><span{% if CurrentLevel == elementLevel %} style="color:#ff0000"{% endif %}>{{ elementLevel }}</span></td>
 					{% for resourceID, production in productionData %}
-					{$productionDiff = $production - $productionTable.production.$CurrentLevel.$resourceID}
+					{% set productionDiff = production - $productionTable.production[CurrentLevel][resourceID] %}
 					<td><span style="color:{% if production > 0 %}lime{% elseif production < 0 %}red{% else %}white{% endif %}">{{ production|number_format }}</span></td>
 					<td><span style="color:{% if productionDiff > 0 %}lime{% elseif productionDiff < 0 %}red{% else %}white{% endif %}">{{ productionDiff|number_format }}</span></td>
 					{% endfor %}

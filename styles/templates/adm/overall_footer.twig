@@ -1,13 +1,13 @@
-{% if isset(smarty.get.reload %}
-{% if smarty.get.reload == 't' %}
+{% if smarty is defined.get.reload %}
+{% if GET.reload == 't' %}
 <script type="text/javascript">
 parent.topFrame.document.location.reload();
 </script>
-{% elseif smarty.get.reload == 'l' %}
+{% elseif GET.reload == 'l' %}
 <script type="text/javascript">
 parent.rightFrame.document.location.reload();
 </script>
-{% elseif smarty.get.reload == 'r' %}
+{% elseif GET.reload == 'r' %}
 <script type="text/javascript">
 top.document.location.reload();
 </script>

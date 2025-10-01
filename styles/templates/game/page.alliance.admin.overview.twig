@@ -67,16 +67,16 @@
 			</tr>
 			<tr>
 				<td>{{ LNG.al_view_stats }}</td>
-				<td>{html_options name=stats options=$YesNoSelector selected=$ally_stats_data}</td>
+				<td><!-- TODO: Complex html_options - needs manual review --></td>
 			</tr>
 			<tr>
 				<td>{{ LNG.al_view_diplo }}</td>
-				<td>{html_options name=diplo options=$YesNoSelector selected=$ally_diplo_data}</td>
+				<td><!-- TODO: Complex html_options - needs manual review --></td>
 			</tr>
 			<tr>
 				<td>{{ LNG.al_view_events }}</td>
 				<td>
-					<select name="events[]" size="{$available_events|@count}" multiple>
+					<select name="events[]" size="{{ available_events|@count}" multiple>
 						{% for id, mission in available_events %}
 							{% for selected_events in ally_events %}
 								{% if selected_events == id %}
@@ -96,7 +96,7 @@
 			</tr>
 			<tr>
 				<td>{{ LNG.al_manage_requests }}</td>
-				<td>{html_options name=request_notallow options=$RequestSelector selected=$ally_request_notallow}</td>
+				<td><!-- TODO: Complex html_options - needs manual review --></td>
 			</tr>
 			<tr>
 				<td>{{ LNG.al_set_max_members }}</td>

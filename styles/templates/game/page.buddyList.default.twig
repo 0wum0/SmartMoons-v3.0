@@ -8,7 +8,7 @@
 
 	<div id="result_search" style="text-align: center;">
 		<table style="width: 100%;">
-			{% if otherRequestList is not empty %}
+			{% if otherRequestList %}
 			<tr><th colspan="5" style="text-align:center">{{ LNG.bu_requests }}</th></tr>
 			<tr class="title">
 				<th>{{ LNG.bu_player }}</th>
@@ -29,7 +29,7 @@
 			<tr><td colspan="5">{{ LNG.bu_no_request }}</td></tr>
 			{% endfor %}
 			{% endif %}
-			{% if myRequestList is not empty %}
+			{% if myRequestList %}
 			<tr><th colspan="5" style="text-align:center">{{ LNG.bu_my_requests }}</th></tr>
 			<tr class="title">
 				<th>{{ LNG.bu_player }}</th>

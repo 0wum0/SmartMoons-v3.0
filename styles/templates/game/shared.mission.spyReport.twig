@@ -4,18 +4,18 @@
 	</div>
 	{% for Class, elementIDs in spyData %}
 	<div class="spyRaportContainer">
-	<div class="spyRaportContainerHead spyRaportContainerHeadClass{{ Class }}">{$LNG.tech.$Class}</div>
+	<div class="spyRaportContainerHead spyRaportContainerHeadClass{{ Class }}">{{ LNG.tech[Class] }}</div>
 	{% for elementID, amount in elementIDs %}
-	{% if (amount@iteration % 2) === 1 %}<div class="spyRaportContainerRow clearfix">{% endif %}
-		<div class="spyRaportContainerCell">{$LNG.tech.$elementID}</div>
+	{% if (loop.index % 2) == 1 %}<div class="spyRaportContainerRow clearfix">{% endif %}
+		<div class="spyRaportContainerCell">{{ LNG.tech[elementID] }}</div>
 		<div class="spyRaportContainerCell">{{ amount|number_format }}</div>
-	{% if (amount@iteration % 2) === 0 %}</div>{% endif %}
+	{% if (loop.index % 2) == 0 %}</div>{% endif %}
 	{% endfor %}
 	</div>
 	{% endfor %}
 	<div class="spyRaportFooter">
 		<a href="game.php?page=fleetTable&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission=1">{{ LNG.type_mission_1 }}</a>
-		<br>{% if targetChance >= spyChance %}{{ LNG.sys_mess_spy_destroyed }}{% else %}{{ sprintf($LNG.sys_mess_spy_lostproba, $targetChance) }}{% endif %}
+		<br>{% if targetChance >= spyChance %}{{ LNG.sys_mess_spy_destroyed }}{% else %}{{ sprintf(LNG.sys_mess_spy_lostproba, targetChance) }}{% endif %}
 		{% if isBattleSim %}<br><a href="game.php?page=battleSimulator{% for Class, elementIDs in spyData %}{% for elementID, amount in elementIDs %}&amp;im[{{ elementID }}]={{ amount }}{% endfor %}{% endfor %}">{{ LNG.fl_simulate }}</a>{% endif %}
 	</div>
 </div>

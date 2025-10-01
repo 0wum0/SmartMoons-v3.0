@@ -1,6 +1,6 @@
 {% block title %}{{ LNG.lm_alliance }}{% endblock %}
 {% block content %}
-{$countRank = count($availableRanks)}
+{% set countRank = availableRanks|length) %}
 
 <div class="content_page">
 	<div class="title" style="text-align: left;">
@@ -40,7 +40,7 @@
 				{% for rankName in availableRanks %}
 			<tr>
 					<td><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="" width="16" height="16"></td>
-					<td colspan="{{ countRank + 1 }}">{$LNG.al_rank_desc[$rankName]}</td>
+					<td colspan="{{ countRank + 1 }}">{{ LNG.al_rank_desc[rankName] }}</td>
 			</tr>
 				{% endfor %}
 			<tr>
@@ -63,8 +63,8 @@
 			</tr>
 	{% for rankId, rankName in availableRanks %}
 	<tr>
-		<td><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="{{ rankName }}" width="16" height="16">&nbsp;<label for="rank_{{ rankId }}">{$LNG.al_rank_desc[$rankName]}</label></td>
-		<td><input type="checkbox" name="newrank[{{ rankId }}]" value="1" id="rank_{{ rankId }}" title="{$LNG.al_rank_desc[$rankName]}"></td>
+		<td><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="{{ rankName }}" width="16" height="16">&nbsp;<label for="rank_{{ rankId }}">{{ LNG.al_rank_desc[rankName] }}</label></td>
+		<td><input type="checkbox" name="newrank[{{ rankId }}]" value="1" id="rank_{{ rankId }}" title="{{ LNG.al_rank_desc[rankName] }}"></td>
 	</tr>
 	{% endfor %}
 	<tr>

@@ -646,7 +646,7 @@ copy of the Program in return for a fee.</p>
 			<label>{{ LNG.licence_accept }}</label>
 		</td>
 	</tr>
-	{% if isset(accept %}
+	{% if accept is defined %}
 	<tr>
 		<td class="transparent" colspan="2">
 			<span class="no">{{ LNG.licence_need_accept }}</span>

@@ -3,7 +3,7 @@
 
 <div class="content_page_popup">
 	<div class="title_popup">
-		{$LNG.tech.$elementID}
+		{{ LNG.tech[elementID] }}
 	</div>
 
 	<div class="content_popup">
@@ -14,20 +14,20 @@
 					<table>
 						<tr>
 							<td class="transparent" style="width:120px"><img width="120" height="120" src="{{ dpath }}gebaeude/{{ elementID }}.{% if elementID >=600 && elementID <= 699 %}jpg{% else %}gif{% endif %}" alt=""></td>
-							<td class="transparent left"><p>{$LNG.longDescription.$elementID}</p>
-							{% if Bonus is not empty %}<p>
+							<td class="transparent left"><p>{{ LNG.longDescription[elementID] }}</p>
+							{% if Bonus %}<p>
 							<b>{{ LNG.in_bonus }}</b><br>
-							{% for BonusName, elementBouns in Bonus %}{% if elementBouns[0] < 0 %}-{% else %}+{% endif %}{% if elementBouns[1] == 0 %}{{ abs($elementBouns[0] * 100) }}%{% else %}{{ floatval($elementBouns[0]) }}{% endif %} {$LNG.bonus.$BonusName}<br>{% endfor %}
+							{% for BonusName, elementBouns in Bonus %}{% if elementBouns[0] < 0 %}-{% else %}+{% endif %}{% if elementBouns[1] == 0 %}{{ abs(elementBouns[0] * 100) }}%{% else %}{{ floatval(elementBouns[0]) }}{% endif %} {{ LNG.bonus[BonusName] }}<br>{% endfor %}
 							</p>{% endif %}	
-							{% if FleetInfo is not empty %}
-							{% if FleetInfo.rapidfire.to is not empty %}<p>
+							{% if FleetInfo %}
+							{% if FleetInfo.rapidfire.to %}<p>
 							{% for rapidfireID, shoots in FleetInfo.rapidfire.to %}
-							{{ LNG.in_rf_again }} {$LNG.tech.$rapidfireID}: <span style="color:#00ff00">{{ shoots|number_format }}</span><br>
+							{{ LNG.in_rf_again }} {{ LNG.tech[rapidfireID] }}: <span style="color:#00ff00">{{ shoots|number_format }}</span><br>
 							{% endfor %}
 							</p>{% endif %}
-							{% if FleetInfo.rapidfire.from is not empty %}<p>
+							{% if FleetInfo.rapidfire.from %}<p>
 							{% for rapidfireID, shoots in FleetInfo.rapidfire.from %}
-							{{ LNG.in_rf_from }} {$LNG.tech.$rapidfireID}: <span style="color:#ff0000">{{ shoots|number_format }}</span><br>
+							{{ LNG.in_rf_from }} {{ LNG.tech[rapidfireID] }}: <span style="color:#ff0000">{{ shoots|number_format }}</span><br>
 							{% endfor %}
 							</p>{% endif %}
 							{% endif %}				
@@ -39,19 +39,19 @@
 			</tbody>
 		</table>
 
-		{% if productionTable.production is not empty %}
+		{% if productionTable.production %}
 		{% include "shared.information.production.twig" %}
 		{% endif %}
-		{% if productionTable.storage is not empty %}
+		{% if productionTable.storage %}
 		{% include "shared.information.storage.twig" %}
 		{% endif %}
-		{% if FleetInfo is not empty %}
+		{% if FleetInfo %}
 		{% include "shared.information.shipInfo.twig" %}
 		{% endif %}
-		{% if gateData is not empty %}
+		{% if gateData %}
 		{% include "shared.information.gate.twig" %}
 		{% endif %}
-		{% if MissileList is not empty %}
+		{% if MissileList %}
 		{% include "shared.information.missiles.twig" %}
 		{% endif %}
 

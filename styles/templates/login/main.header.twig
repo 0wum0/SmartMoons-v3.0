@@ -31,7 +31,7 @@
 	<script src="scripts/base/jquery.cookie.js"></script>
 	<script src="scripts/base/jquery.fancybox.js?v={{ REV }}"></script>
 	<script src="scripts/login/main.js"></script>
-	<script>{% if isset(code %}var loginError = {$code|json};{% endif %}</script>
+	<script>{% if code is defined %}var loginError = {{ code|json};{% endif %}</script>
 	{% block script %}{% endblock %}	
 </head>
-<body id="{$smarty.get.page|default("overview")|escape}" class="{{ bodyclass }}">
+<body id="{{ GET.page|default("overview")|escape}" class="{{ bodyclass }}">

@@ -23,7 +23,7 @@
 			<tbody>
 			{% for userID, memberListRow in memberList %}
 			<tr>
-				<td>{$memberListRow@iteration}</td>
+				<td>{{ loop.index }}</td>
 				<td><a href="#" onclick="return Dialog.Playercard({{ userID }}, '{{ memberListRow.username }}');">{{ memberListRow.username }}</a></td>
 				<td>
 					<a href="#" onclick="return Dialog.PM({{ userID }});">

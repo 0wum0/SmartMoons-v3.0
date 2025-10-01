@@ -6,22 +6,22 @@
 		{{ LNG.lm_buildings }}
 	</div>
 
-	{% if Queue is not empty %}
+	{% if Queue %}
 	<div id="buildlist" class="buildlist">
 		<table style="width:100%;">
 			{% for List in Queue %}
-			{$ID = $List.element}
+			{% set ID = List.element %}
 			<tr>
 				<td style="width:70%;vertical-align:top;" class="left">
-					{$List@iteration}.: 
+					{{ loop.index }}.: 
 					{% if !(isBusy.research && (ID == 6 || ID == 31)) && !(isBusy.shipyard && (ID == 15 || ID == 21)) && RoomIsOk && CanBuildElement && BuildInfoList[ID].buyable %}
 					<form class="build_form" action="game.php?page=buildings" method="post">
 						<input type="hidden" name="cmd" value="insert">
 						<input type="hidden" name="building" value="{{ ID }}">
-						<button type="submit" class="build_submit onlist">{$LNG.tech.{{ ID }}} {{ List.level }}{% if List.destroy %} {{ LNG.bd_dismantle }}{% endif %}</button>
+						<button type="submit" class="build_submit onlist">{{ LNG.tech.{{ ID  }}}} {{ List.level }}{% if List.destroy %} {{ LNG.bd_dismantle }}{% endif %}</button>
 					</form>
-					{% else %}{$LNG.tech.{{ ID }}} {{ List.level }} {% if List.destroy %}{{ LNG.bd_dismantle }}{% endif %}{% endif %}
-					{% if List@first %}
+					{% else %}{{ LNG.tech.{{ ID  }}}} {{ List.level }} {% if List.destroy %}{{ LNG.bd_dismantle }}{% endif %}{% endif %}
+					{% if loop.first %}
 					<br><br><div id="progressbar" data-time="{{ List.resttime }}"></div>
 				</td>
 				<td>
@@ -35,7 +35,7 @@
 				<td>
 					<form action="game.php?page=buildings" method="post" class="build_form">
 						<input type="hidden" name="cmd" value="remove">
-						<input type="hidden" name="listid" value="{$List@iteration}">
+						<input type="hidden" name="listid" value="{{ loop.index }}">
 						<button type="submit" class="build_submit onlist">{{ LNG.bd_cancel }}</button>
 					</form>
 					{% endif %}
@@ -52,7 +52,7 @@
 		
 		<div class="block_construct">
 			<div class="title" style="margin: 5px 0 0 -5px; text-align: left;">
-				<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{$LNG.tech.{{ ID }}}" width="20" height="20"> {$LNG.tech.{{ ID }}} {% if Element.level > 0 %} - {{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}{% endif %}</a>
+				<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech.{{ ID  }}}}" width="20" height="20"> {{ LNG.tech.{{ ID  }}}} {% if Element.level > 0 %} - {{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}{% endif %}</a>
 				<span style="float: right;">
 					{% if Element.level > 0 %}
 							{% if ID == 43 %}<a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.bd_jump_gate_action }}</a>{% endif %}
@@ -60,11 +60,11 @@
 								{#  Start Destruction Popup  #}
 								<table style='width:300px'>
 									<tr>
-										<th colspan='2'>{{ LNG.bd_price_for_destroy }} {$LNG.tech.{{ ID }}} {{ Element.level }}</th>
+										<th colspan='2'>{{ LNG.bd_price_for_destroy }} {{ LNG.tech.{{ ID  }}}} {{ Element.level }}</th>
 									</tr>
 									{% for ResType, ResCount in Element.destroyResources %}
 									<tr>
-										<td>{$LNG.tech.{{ ResType }}}</td>
+										<td>{{ LNG.tech.{{ ResType  }}}}</td>
 										<td><span style='color:lime'>{{ ResCount|number_format }}</span></td>
 									</tr>
 									{% endfor %}
@@ -96,7 +96,7 @@
 						</div>
 					{% endfor %}
 
-					{% if Element.infoEnergy is not empty %}
+					{% if Element.infoEnergy %}
 						{{ LNG.bd_next_level }}<br>
 						{{ Element.infoEnergy }}<br>
 						<br>

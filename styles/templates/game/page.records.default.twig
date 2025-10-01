@@ -16,9 +16,9 @@
 				</tr>
 				{% for elementID, elementRow in buildList %}
 				<tr>
-					<td>{$LNG.tech.{{ elementID }}}</td>
-					{% if elementRow is not empty %}
-					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if !user@last %}<br>{% endif %}{% endfor %}</td>
+					<td>{{ LNG.tech.{{ elementID  }}}}</td>
+					{% if elementRow %}
+					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
 					<td>{{ elementRow[0].level|number_format }}</td>
 					{% else %}
 					<td>-</td>
@@ -33,9 +33,9 @@
 				</tr>
 				{% for elementID, elementRow in researchList %}
 				<tr>
-					<td>{$LNG.tech.{{ elementID }}}</td>
-					{% if elementRow is not empty %}
-					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if !user@last %}<br>{% endif %}{% endfor %}</td>
+					<td>{{ LNG.tech.{{ elementID  }}}}</td>
+					{% if elementRow %}
+					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
 					<td>{{ elementRow[0].level|number_format }}</td>
 					{% else %}
 					<td>-</td>
@@ -50,9 +50,9 @@
 				</tr>
 				{% for elementID, elementRow in fleetList %}
 				<tr>
-					<td>{$LNG.tech.{{ elementID }}}</td>
-					{% if elementRow is not empty %}
-					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if !user@last %}<br>{% endif %}{% endfor %}</td>
+					<td>{{ LNG.tech.{{ elementID  }}}}</td>
+					{% if elementRow %}
+					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
 					<td>{{ elementRow[0].level|number_format }}</td>
 					{% else %}
 					<td>-</td>
@@ -67,9 +67,9 @@
 				</tr>
 				{% for elementID, elementRow in defenseList %}
 				<tr>
-					<td>{$LNG.tech.{{ elementID }}}</td>
-					{% if elementRow is not empty %}
-					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if !user@last %}<br>{% endif %}{% endfor %}</td>
+					<td>{{ LNG.tech.{{ elementID  }}}}</td>
+					{% if elementRow %}
+					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
 					<td>{{ elementRow[0].level|number_format }}</td>
 					{% else %}
 					<td>-</td>
