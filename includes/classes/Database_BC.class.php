@@ -35,7 +35,7 @@ class Database_BC extends mysqli
 	 */
 	public function __construct()
 	{
-		require 'includes/config.php';
+		require_once 'includes/config.php';
 
         if (!isset($database['port'])) {
             $database['port'] = 3306;

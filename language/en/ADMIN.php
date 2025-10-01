@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  *  2Moons
  *   by Jan-Otto Kröpke 2009-2016

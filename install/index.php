@@ -21,7 +21,7 @@ define('ROOT_PATH', str_replace('\\', '/', dirname(dirname(__FILE__))) . '/');
 set_include_path(ROOT_PATH);
 chdir(ROOT_PATH);
 
-require 'includes/common.php';
+require_once 'includes/common.php';
 $THEME->setUserTheme('gow');
 $LNG = new Language;
 $LNG->getUserAgentLanguage();
@@ -75,8 +75,8 @@ if (!empty($language) && in_array($language, $LNG->getAllowedLangs())) {
 
 switch ($mode) {
 	case 'ajax':
-		require 'includes/libs/ftp/ftp.class.php';
-		require 'includes/libs/ftp/ftpexception.class.php';
+		require_once 'includes/libs/ftp/ftp.class.php';
+		require_once 'includes/libs/ftp/ftpexception.class.php';
 		$LNG->includeData(array('ADMIN'));
 		$connectionConfig = array(
 			"host"     => $_GET['host'],
@@ -143,7 +143,7 @@ switch ($mode) {
 		break;
 	case 'doupgrade':
 		// TODO:Need a rewrite!
-		require 'includes/config.php';
+		require_once 'includes/config.php';
 
 		// Create a Backup
         $sqlTableRaw  = Database::get()->nativeQuery("SHOW TABLE STATUS FROM `" . DB_NAME . "`;");
@@ -165,7 +165,7 @@ switch ($mode) {
 
 		$fileName = '2MoonsBackup_' . date('Y_m_d_H_i_s', TIMESTAMP) . '.sql';
 		$filePath = 'includes/backups/' . $fileName;
-		require 'includes/classes/SQLDumper.class.php';
+		require_once 'includes/classes/SQLDumper.class.php';
 		$dump = new SQLDumper;
 		$dump->dumpTablesToFile($dbTables, $filePath);
 
@@ -525,10 +525,10 @@ switch ($mode) {
 
 					$config->save();
 
-					HTTP::redirectTo('index.php?mode=install&step=7');
-				}
-				catch (Exception $e) {
-					require 'includes/config.php';
+				HTTP::redirectTo('index.php?mode=install&step=7');
+			}
+			catch (Exception $e) {
+				require_once 'includes/config.php';
 					@unlink('includes/config.php');
 					$error = $e->getMessage();
 					$template->assign(array(
@@ -554,11 +554,11 @@ switch ($mode) {
 				break;
 			case 8:
 				$username	= HTTP::_GP('username', '', UTF8_SUPPORT);
-				$password	= HTTP::_GP('password', '', true);
-				$mail		= HTTP::_GP('email', '');
-				// Get Salt.
-				require 'includes/config.php';
-				require 'includes/vars.php';
+			$password	= HTTP::_GP('password', '', true);
+			$mail		= HTTP::_GP('email', '');
+			// Get Salt.
+			require_once 'includes/config.php';
+			require_once 'includes/vars.php';
 
 				$hashPassword = PlayerUtil::cryptPassword($password);
 

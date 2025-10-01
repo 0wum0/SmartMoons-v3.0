@@ -36,7 +36,7 @@ class LanguageBuildCache implements BuildCache
 			// Fixed BOM problems.
 			ob_start();
 			$path	 = $languagePath.$Lang.'/LANG.cfg';
-			require $path;
+			require_once $path;
 			ob_end_clean();
 			if(isset($Language['name']))
 			{

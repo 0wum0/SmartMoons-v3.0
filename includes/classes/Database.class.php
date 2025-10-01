@@ -48,7 +48,7 @@ class Database
 	protected function __construct()
 	{
 		$database = array();
-		require 'includes/config.php';
+		require_once 'includes/config.php';
 		//Connect
 		$db = new PDO("mysql:host=".$database['host'].";port=".$database['port'].";dbname=".$database['databasename'], $database['user'], $database['userpw'], array(
 		    PDO::MYSQL_ATTR_INIT_COMMAND => "SET CHARACTER SET utf8, NAMES utf8, sql_mode = 'STRICT_ALL_TABLES'"

@@ -43,7 +43,7 @@ class SQLDumper
 	private function nativeDumpToFile($dbTables, $filePath)
 	{
 		$database	= array();
-		require 'includes/config.php';
+		require_once 'includes/config.php';
 
         $dbVersion	= Database::get()->selectSingle('SELECT @@version', array(), '@@version');
         if(version_compare($dbVersion, '5.5') >= 0) {
@@ -68,7 +68,7 @@ class SQLDumper
 
 		$db	= Database::get();
 		$database	= array();
-		require 'includes/config.php';
+		require_once 'includes/config.php';
 		$integerTypes	= array('tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'decimal', 'float', 'double', 'real');
 		$gameVersion	= Config::get()->VERSION;
 		$fp	= fopen($filePath, 'w');
@@ -218,7 +218,7 @@ UNLOCK TABLES;
 		if($this->canNative('mysql'))
 		{
 			$database	= array();
-			require 'includes/config.php';
+			require_once 'includes/config.php';
 			$sqlDump	= shell_exec("mysql --host='".escapeshellarg($database['host'])."' --port=".((int) $database['port'])." --user='".escapeshellarg($database['user'])."' --password='".escapeshellarg($database['userpw'])."' '".escapeshellarg($database['databasename'])."' < ".escapeshellarg($filePath)." 2>&1 1> /dev/null");
 			if(strlen($sqlDump) !== 0) #mysql error
 			{

@@ -307,7 +307,7 @@ class ShowRegisterPage extends AbstractLoginPage
 		}
 		else
 		{
-			require 'includes/classes/Mail.class.php';
+			require_once 'includes/classes/Mail.class.php';
 			$MailRAW		= $LNG->getTemplate('email_vaild_reg');
 			$MailContent	= str_replace(array(
 				'{USERNAME}',

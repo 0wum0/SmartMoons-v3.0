@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Traduction Française by BigTwoProduction (KickXAss4Ever & Apocalypto2202) - All rights reserved (C) 2016
 // Web : http://www.big-two.tk
 // Version 1.0 - Initial release

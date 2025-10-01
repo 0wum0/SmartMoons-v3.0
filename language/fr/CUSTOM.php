@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons
  *  Copyright (C) 2011  Slaver

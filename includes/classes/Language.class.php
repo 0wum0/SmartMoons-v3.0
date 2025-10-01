@@ -142,12 +142,12 @@ class Language implements ArrayAccess {
 			$filePath	= $path.$file.'.php';
 			if(file_exists($filePath))
 			{
-				require $filePath;
+				require_once $filePath;
 			}
 		}
 
 		$filePath	= $path.'CUSTOM.php';
-		require $filePath;
+		require_once $filePath;
 		ob_end_clean();
 
 		$this->addData($LNG);

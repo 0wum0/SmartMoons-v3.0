@@ -37,8 +37,8 @@ class ShowExternalAuthPage extends AbstractLoginPage
 
 		$session	= Session::create();
 
-		require 'includes/classes/extauth/externalAuth.interface.php';
-		require $path;
+		require_once 'includes/classes/extauth/externalAuth.interface.php';
+		require_once $path;
 		
 		$methodClass	= ucwords($method).'Auth';
 

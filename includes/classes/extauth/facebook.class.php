@@ -16,7 +16,7 @@ declare(strict_types=1);
  * @link https://github.com/jkroepke/2Moons
  */
 
-require 'includes/libs/facebook/facebook.php';
+require_once 'includes/libs/facebook/facebook.php';
 
 class FacebookAuth implements externalAuth
 {

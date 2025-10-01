@@ -16,7 +16,7 @@ declare(strict_types=1);
  * @link https://github.com/jkroepke/2Moons
  */
 
-require 'includes/libs/OpenID/openid.php';
+require_once 'includes/libs/OpenID/openid.php';
 
 class OpenIDAuth implements externalAuth
 {
