@@ -398,7 +398,7 @@ switch ($mode) {
 				$host   = HTTP::_GP('host', '');
 				$port   = HTTP::_GP('port', 3306);
 				$user   = HTTP::_GP('user', '', true);
-				$userpw = HTTP::_GP('passwort', '', true);
+				$password = HTTP::_GP('passwort', '', true);
 				$dbname = HTTP::_GP('dbname', '', true);
 				$prefix = HTTP::_GP('prefix', 'uni1_');
 				$template->assign_vars(array(
@@ -450,15 +450,8 @@ switch ($mode) {
 					$template->show('ins_step4.tpl');
 					exit;
 				}
-				$database                 = array();
-				$database['host']         = $host;
-				$database['port']         = $port;
-				$database['user']         = $user;
-				$database['userpw']       = $userpw;
-				$database['databasename'] = $dbname;
-				$database['tableprefix']  = $prefix;
 				$blowfish = substr(str_shuffle('./0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 22);
-				file_put_contents(ROOT_PATH . 'includes/config.php', sprintf(file_get_contents('includes/config.sample.php'), $host, $port, $user, $userpw, $dbname, $prefix, $blowfish));
+				file_put_contents(ROOT_PATH . 'includes/config.php', sprintf(file_get_contents('includes/config.sample.php'), $host, $port, $user, $password, $dbname, $prefix, $blowfish));
 				try {
 					Database::get();
 				}
@@ -528,15 +521,16 @@ switch ($mode) {
 				HTTP::redirectTo('index.php?mode=install&step=7');
 			}
 			catch (Exception $e) {
+				$databaseConfig = array();
 				require_once 'includes/config.php';
 					@unlink('includes/config.php');
 					$error = $e->getMessage();
 					$template->assign_vars(array(
-						'host'    => $database['host'],
-						'port'    => $database['port'],
-						'user'    => $database['user'],
-						'dbname'  => $database['databasename'],
-						'prefix'  => $database['tableprefix'],
+						'host'    => $databaseConfig['host'],
+						'port'    => $databaseConfig['port'],
+						'user'    => $databaseConfig['user'],
+						'dbname'  => $databaseConfig['dbname'],
+						'prefix'  => $databaseConfig['prefix'],
 						'class'   => 'fatalerror',
 						'message' => $LNG['step3_db_error'] . '</p><p>' . $error,
 					));

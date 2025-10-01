@@ -47,18 +47,22 @@ class Database
 
 	protected function __construct()
 	{
-		$database = array();
+		$databaseConfig = array();
 		require_once 'includes/config.php';
+		
+		// Ensure port is set
+		if (!isset($databaseConfig['port'])) {
+			$databaseConfig['port'] = 3306;
+		}
+		
 		//Connect
-		$db = new PDO("mysql:host=".$database['host'].";port=".$database['port'].";dbname=".$database['databasename'], $database['user'], $database['userpw'], array(
-		    PDO::MYSQL_ATTR_INIT_COMMAND => "SET CHARACTER SET utf8, NAMES utf8, sql_mode = 'STRICT_ALL_TABLES'"
+		$dsn = "mysql:host={$databaseConfig['host']};port={$databaseConfig['port']};dbname={$databaseConfig['dbname']};charset=utf8mb4";
+		$db = new PDO($dsn, $databaseConfig['user'], $databaseConfig['password'], array(
+		    PDO::MYSQL_ATTR_INIT_COMMAND => "SET CHARACTER SET utf8mb4, NAMES utf8mb4, sql_mode = 'STRICT_ALL_TABLES'",
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
 		));
-		//error behaviour
-		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-		// $db->query("set character set utf8");
-		// $db->query("set names utf8");
-		// $db->query("SET sql_mode = 'STRICT_ALL_TABLES'");
+		
 		$this->dbHandle = $db;
 
 		$dbTableNames = array();

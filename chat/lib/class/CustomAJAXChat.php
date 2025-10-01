@@ -75,15 +75,15 @@ class CustomAJAXChat extends AJAXChat
 		set_include_path(ROOT_PATH);
 		chdir(ROOT_PATH);
 
-		$database		= array();
+		$databaseConfig		= array();
 		require_once 'includes/config.php';
 		require_once 'includes/common.php';
 
 		$this->setConfig('dbConnection', 'type', 'mysqli');
-		$this->setConfig('dbConnection', 'host', $database['host']);
-		$this->setConfig('dbConnection', 'user', $database['user']);
-		$this->setConfig('dbConnection', 'pass', $database['userpw']);
-		$this->setConfig('dbConnection', 'name', $database['databasename']);
+		$this->setConfig('dbConnection', 'host', $databaseConfig['host']);
+		$this->setConfig('dbConnection', 'user', $databaseConfig['user']);
+		$this->setConfig('dbConnection', 'pass', $databaseConfig['password']);
+		$this->setConfig('dbConnection', 'name', $databaseConfig['dbname']);
 
 		$dbTableNames	= Database::get()->getDbTableNames();
 		$dbTableNames	= array_combine($dbTableNames['keys'], $dbTableNames['names']);
