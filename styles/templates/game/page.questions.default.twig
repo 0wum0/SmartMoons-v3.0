@@ -14,7 +14,7 @@
 				<td class="left">{% for categoryID, categoryRow in LNG.questions %}<h2>{{ categoryRow.category }}</h2>
 				<ul>
 				{% for questionID, questionRow in categoryRow %}
-				{% if is_numeric(questionID) %}
+				{% if questionID matches '/^\\d+$/' %}
 					<li><a href="game.php?page=questions&amp;mode=single&amp;categoryID={{ categoryID }}&amp;questionID={{ questionID }}">{{ questionRow.title }}</a></li>
 				{% endif %}
 				{% endfor %}

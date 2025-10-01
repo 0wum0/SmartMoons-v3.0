@@ -11,7 +11,7 @@
 	<div id="result_search" style="text-align: center;">
 		<table style="min-width:100%;width:100%;">
 			{% for elementID, requireList in TechTreeList %}
-			{% if !is_array(requireList) %}
+			{% if requireList is not iterable %}
 			<tr class="title">
 				<th colspan="2">{{ LNG.tech[requireList] }}</th>
 				<th>{{ LNG.tt_requirements }}</th>
