@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -21,7 +22,7 @@ class PlayerUtil
 	{
 		$salt = NULL;
 		// @see: http://www.phpgangsta.de/schoener-hashen-mit-bcrypt
-		require 'includes/config.php';
+		require_once 'includes/config.php';
 		
 		if(!CRYPT_BLOWFISH || is_null($salt)) {
 			return md5($password);
@@ -235,7 +236,7 @@ class PlayerUtil
 		}
 
 		$planetData	= array();
-		require 'includes/PlanetData.php';
+		require_once 'includes/PlanetData.php';
 
 		$config		= Config::get($universe);
 

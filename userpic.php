@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -19,7 +21,7 @@ define('MODE', 'BANNER');
 define('ROOT_PATH', str_replace('\\', '/',dirname(__FILE__)).'/');
 set_include_path(ROOT_PATH);
 
-require 'includes/common.php';
+require_once 'includes/common.php';
 
 if(!extension_loaded('gd')) {
 	clearGIF();
@@ -36,7 +38,7 @@ $LNG = new Language;
 $LNG->getUserAgentLanguage();
 $LNG->includeData(array('L18N', 'BANNER', 'CUSTOM'));
 
-require 'includes/classes/class.StatBanner.php';
+require_once 'includes/classes/class.StatBanner.php';
 
 $banner = new StatBanner();
 $Data	= $banner->GetData($id);

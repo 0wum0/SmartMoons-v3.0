@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -17,7 +19,7 @@
 
 class HTTP {
 	
-	static public function redirectTo($URL, $external = false)
+	static public function redirectTo(string $URL, bool $external = false): never
 	{
 		if($external)
 		{
@@ -30,22 +32,22 @@ class HTTP {
 		exit;
 	}
 
-	static public function sendHeader($name, $value = NULL)
+	static public function sendHeader(string $name, ?string $value = NULL): void
 	{
 		header($name.(!is_null($value) ? ': '.$value : ''));
 	}
 
-	static public function redirectToUniverse($universe)
+	static public function redirectToUniverse(int $universe): never
 	{
 		HTTP::redirectTo(PROTOCOL.HTTP_HOST.HTTP_BASE."uni".$universe."/".HTTP_FILE, true);
 	}
 
-	static public function sendCookie($name, $value = "", $toTime = NULL)
+	static public function sendCookie(string $name, string $value = "", ?int $toTime = NULL): void
 	{
 		setcookie($name, $value, $toTime);
 	}
 	
-	static public function _GP($name, $default, $multibyte = false, $highnum = false)
+	static public function _GP(string $name, mixed $default, bool $multibyte = false, bool $highnum = false): mixed
 	{
 		if(!isset($_REQUEST[$name]))
 		{
@@ -75,7 +77,7 @@ class HTTP {
 		return $default;
 	}
 
-	private static function _quoteArray($var, $multibyte, $onlyNumbers = false)
+	private static function _quoteArray(array $var, bool $multibyte, bool $onlyNumbers = false): array
 	{
 		$data	= array();
 		foreach($var as $key => $value)
@@ -97,7 +99,7 @@ class HTTP {
 		return $data;
 	}
 
-	private static function _quote($var, $multibyte)
+	private static function _quote(mixed $var, bool $multibyte): string
 	{
 		$var	= str_replace(array("\r\n", "\r", "\0"), array("\n", "\n", ''), $var);
 		$var	= htmlspecialchars($var, ENT_QUOTES, 'UTF-8');

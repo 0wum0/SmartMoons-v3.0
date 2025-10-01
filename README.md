@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.0.1-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.0.8-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,24 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.0.8** _(2025-10-01)_
+✨ **PHP 8.3 COMPLETE Modernization - ALL Project Files**
+- 🚀 Added `declare(strict_types=1)` to **235 PHP files** across the entire project
+- 📦 Converted ALL `require/include` to `require_once` for safety
+- 🎯 Modernized root files: index.php, game.php, admin.php, cronjob.php, CombatReport.php, userpic.php
+- 🎯 Modernized ALL includes/classes/*.class.php (42 files)
+- 🎯 Modernized ALL includes/pages/game/*.class.php (40 files)
+- 🎯 Modernized ALL includes/pages/login/*.class.php (15 files)
+- 🎯 Modernized ALL includes/pages/adm/*.php (33 files)
+- 🎯 Modernized install system (install/index.php)
+- 🎯 Modernized chat system (chat/* - 69 files)
+- 🎯 Added strict type hints to HTTP, Cache, ArrayUtil, BBCode classes
+- ⚡ PHP 8.3 modern type hints (mixed, never, union types)
+- ✅ Zero mysql_* functions remaining
+- ✅ Zero deprecated functions (ereg, split, each) in PHP code
+- ✅ Complete strict_types coverage across entire codebase
+- 👤 Changed by: **0wum0**
 
 ### **v3.0.7** _(2025-10-01)_
 ✨ **PHP 8.3 Modernization - includes/classes/Session.class.php**

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  *  2Moons
  *   by Jan-Otto Kröpke 2009-2016
@@ -23,10 +24,10 @@ error_reporting(E_ALL);
 define('AJAX_CHAT_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
 
 // Include custom libraries and initialization code:
-require(AJAX_CHAT_PATH.'lib/custom.php');
+require_once(AJAX_CHAT_PATH.'lib/custom.php');
 
 // Include Class libraries:
-require(AJAX_CHAT_PATH.'lib/classes.php');
+require_once(AJAX_CHAT_PATH.'lib/classes.php');
 
 // Initialize the chat:
 $ajaxChat = new CustomAJAXChat();

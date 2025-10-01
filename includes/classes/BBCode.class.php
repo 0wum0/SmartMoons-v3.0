@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -17,7 +19,7 @@
 
 class BBCode
 {
-	static public function parse($sText)
+	static public function parse(string $sText): string
 	{
 		$sText = !empty($sText)?$sText:'';
 		// Convert Windows (\r\n) to Unix (\n)
