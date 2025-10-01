@@ -34,4 +34,4 @@
 	<script>{% if code is defined %}var loginError = {{ code|json};{% endif %}</script>
 	{% block script %}{% endblock %}	
 </head>
-<body id="{{ GET.page|default("overview")|escape}" class="{{ bodyclass }}">
+<body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }}">
