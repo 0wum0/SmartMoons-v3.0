@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.2.0-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.2.2-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,22 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.2.2** _(2025-10-01)_
+🔧 **Fix: Corrected escaped HTML output in Twig templates with |raw**
+- ✅ **Fixed HTML escaping in install templates** - System requirements now display formatted (green/red)
+- ✅ **Added `|raw` filter to all controlled system variables** - PHP version, PDO, GD, JSON, ini_set checks
+- ✅ **Fixed installer status displays** - Directory permissions, config file checks now properly formatted
+- ✅ **Fixed execscript variable** - JavaScript execution in install header
+- ✅ **Fixed error message displays** - Database connection errors now properly formatted
+- 🔧 **Issue**: HTML tags in variables were escaped as text instead of rendered as HTML
+- 🎯 **Solution**: Applied `|raw` filter to: PHP, global, pdo, gdlib, json, iniset, dir, config, done, execscript, message
+- 📝 **Files modified**: 
+  - styles/templates/install/ins_req.twig (9 variables fixed)
+  - styles/templates/install/ins_header.twig (1 variable fixed)
+  - styles/templates/install/ins_step4.twig (1 variable fixed)
+  - styles/templates/install/ins_step8error.twig (1 variable fixed)
+- 👤 **Changed by: 0wum0**
 
 ### **v3.2.0** _(2025-10-01)_
 🎉 **COMPLETE TWIG MIGRATION - ZERO SMARTY SYNTAX REMAINING**
