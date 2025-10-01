@@ -134,7 +134,7 @@
 			<td style="white-space: nowrap;">
 				{% if currentPlanet.action %}
 					{% if currentPlanet.action.esp %}
-					<a href="javascript:doit(6,{{ currentPlanet.planet.id }},{{ spyShips|json|e('html') }})">
+					<a href="javascript:doit(6,{{ currentPlanet.planet.id }},{{ spyShips|json_encode|raw|e('html') }})">
 						<i class="far fa-eye-slash" title="{{ LNG.gl_spy }}" style="font-size: 15px;"></i>
 					</a>{% endif %}
 					{% if currentPlanet.action.message %}

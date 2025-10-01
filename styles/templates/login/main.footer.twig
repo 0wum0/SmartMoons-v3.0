@@ -7,10 +7,10 @@
 <div id="dialog" style="display:none;"></div>
 <script>
 var LoginConfig = {
-    'isMultiUniverse': {{ isMultiUniverse|json},
-	'unisWildcast': {{ unisWildcast|json},
-	'referralEnable' : {{ referralEnable|json},
-	'basePath' : {{ basepath|json}
+    'isMultiUniverse': {{ isMultiUniverse|json_encode|raw }},
+	'unisWildcast': {{ unisWildcast|json_encode|raw }},
+	'referralEnable' : {{ referralEnable|json_encode|raw }},
+	'basePath' : {{ basepath|json_encode|raw }}
 };
 </script>
 {% if analyticsEnable %}
