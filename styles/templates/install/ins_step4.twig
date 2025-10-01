@@ -3,7 +3,7 @@
 	<td colspan="2">
 		<div class="installcontent">
 			<div id="main" class="left">
-				<div class="{{ class }}"><p>{{ message }}</p></div>
+				<div class="{{ class }}"><p>{{ message|raw }}</p></div>
 				{% if class == 'noerror' %}
 				<div style="text-align:center;"><p>
 					<a href="index.php?mode=install&step=5"><button>{{ LNG.continue }}</button></a>

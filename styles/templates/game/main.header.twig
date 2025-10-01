@@ -63,7 +63,7 @@
 	{% block script %}{% endblock %}
 	<script type="text/javascript">
 	$(function() {
-		{{ execscript }}
+		{{ execscript|raw }}
 	});
 	</script>
 </head>
