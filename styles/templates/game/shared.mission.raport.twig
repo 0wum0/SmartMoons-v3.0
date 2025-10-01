@@ -28,7 +28,7 @@
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_type }}</td>
 								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ LNG.shortNames.{{ ShipID  }}}}</td>
+								<td class="transparent">{{ LNG.shortNames[ShipID] }}</td>
 								{% endfor %}
 							</tr>
 							<tr>
@@ -86,7 +86,7 @@
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_type }}</td>
 								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ LNG.shortNames.{{ ShipID  }}}}</td>
+								<td class="transparent">{{ LNG.shortNames[ShipID] }}</td>
 								{% endfor %}
 							</tr>
 							<tr>

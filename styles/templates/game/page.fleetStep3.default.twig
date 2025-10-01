@@ -50,7 +50,7 @@
             </tr>
             {% for ShipID, ShipCount in FleetList %}
             <tr>
-                <td>{{ LNG.tech.{{ ShipID  }}}}</td>
+                <td>{{ LNG.tech[ShipID] }}</td>
                 <td>{{ ShipCount|number_format }}</td>
             </tr>
             {% endfor %}

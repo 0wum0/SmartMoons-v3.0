@@ -42,7 +42,7 @@
 		
 		<div class="block_construct">
 			<div class="title" style="margin: 5px 0 0 -5px; text-align: left;">
-				<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech.{{ ID  }}}}" width="20" height="20"> {{ LNG.tech.{{ ID  }}}} <span id="val_{{ ID }}">{% if Element.available != 0 %} ({{ LNG.bd_available }} {{ Element.available|number_format }}){% endif %}</a>
+				<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}" width="20" height="20"> {{ LNG.tech[ID] }} <span id="val_{{ ID }}">{% if Element.available != 0 %} ({{ LNG.bd_available }} {{ Element.available|number_format }}){% endif %}</a>
 			</div>
 
 			<div class="block_construct_desc">

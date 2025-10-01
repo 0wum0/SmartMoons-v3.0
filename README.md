@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.2.7-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.2.9-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -123,6 +123,40 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.2.9** _(2025-10-01)_
+🔧 **Twig Bracket Syntax Fix: Removed Invalid Brackets in Templates**
+- ✅ **Fixed invalid triple curly braces `}}}`** - Replaced with proper `}}` in all templates
+- ✅ **Fixed nested variable syntax `{{ var.{{ id }} }}`** - Converted to array syntax `{{ var[id] }}`
+- ✅ **Fixed space-bracket syntax `} %}`** - Replaced with proper `%}` 
+- ✅ **Fixed missing closing brackets in JavaScript variables** - Added proper `}}` in script blocks
+- 🎯 **Main templates fixed**:
+  - `styles/templates/game/main.header.twig` - Fixed JavaScript variable declarations (auth, days, months)
+  - `styles/templates/login/main.header.twig` - Fixed loginError variable declaration
+- 🎯 **Game templates fixed** (38 occurrences):
+  - `page.shipyard.default.twig` - Fixed tech name display
+  - `shared.mission.raport.twig` - Fixed ship name display (2 occurrences)
+  - `page.fleetTable.default.twig` - Fixed fleet info tooltips (2 occurrences)
+  - `page.research.default.twig` - Fixed research name display (3 occurrences)
+  - `page.messages.default.twig` - Fixed message category and operator names (2 occurrences)
+  - `page.records.default.twig` - Fixed element name display (4 occurrences)
+  - `page.overview.default.twig` - Fixed reflink points display
+  - `page.buildings.default.twig` - Fixed building names and resource display (4 occurrences)
+  - `page.fleetStep3.default.twig` - Fixed ship name display
+  - `page.officier.default.twig` - Fixed officer name display (2 occurrences)
+- 🎯 **Admin templates fixed** (12 occurrences):
+  - `adm/giveaway.twig` - Fixed tech name display (7 occurrences)
+  - `adm/AccountEditorPageResearch.twig` - Fixed research display
+  - `adm/AccountEditorPageOfficiers.twig` - Fixed officer display
+  - `adm/AccountEditorPageShips.twig` - Fixed ships display
+  - `adm/AccountEditorPageBuilds.twig` - Fixed buildings display
+  - `adm/AccountEditorPageDefenses.twig` - Fixed defense display
+- 🎯 **Login templates fixed**:
+  - `login/info.redirectPost.twig` - Fixed redirect message display
+- ⚡ **Total: 38 syntax errors fixed across 18 template files**
+- 🛡️ **All templates now use valid Twig syntax** - `{{ var }}`, `{% tag %}`, `{{ array[key] }}`
+- ✅ **Twig compilation validated** - No syntax errors remaining
+- 👤 **Changed by: 0wum0**
 
 ### **v3.2.7** _(2025-10-01)_
 🔧 **Database Config Unification: Final Verification & Documentation**
