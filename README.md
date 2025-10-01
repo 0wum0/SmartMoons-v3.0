@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.1.4-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.1.5-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,13 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.1.5** _(2025-10-01)_
+🎯 **Login Templates Migration to Twig**
+- ✅ **Converted all 18 login templates from Smarty to Twig** - Complete login/ directory migrated
+- 🎨 **All pages converted** - Index, register, news, battlehall, banlist, screens, etc.
+- 🔧 **Navigation and layouts migrated** - Header, footer, navigation, all layout types
+- 👤 **Changed by: 0wum0**
 
 ### **v3.1.4** _(2025-10-01)_
 🎯 **Install Templates Migration to Twig**
