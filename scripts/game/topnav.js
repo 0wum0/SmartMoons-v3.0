@@ -1,7 +1,8 @@
 //topnav.js
-//RealTimeRessisanzeige for 2Moons
+//RealTimeRessisanzeige for SmartMoons
 // @version 1.0
 // @copyright 2010 by ShadoX
+// @modernized 2025 by 0wum0
 
 function resourceTicker(config, init) {
 	if(typeof init !== "undefined" && init === true)

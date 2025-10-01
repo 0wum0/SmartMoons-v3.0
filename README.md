@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.2.2-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.2.5-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -432,6 +432,14 @@ See [LICENSE](LICENSE) file for details.
 - ✅ 55 `{html_options}` converted
 - ✅ 47+ loop properties fixed
 - ✅ Full functionality preserved
+
+### **v3.2.5** – Complete Rebranding ✅ COMPLETED
+- ✅ Rebranded project: 2Moons → SmartMoons (credits preserved)
+- ✅ Modernized installer (Dark Sci-Fi, Bootstrap 5, Warp-Ring Loader, GSAP)
+- ✅ Twig templates validated, no Smarty remnants
+- ✅ Updated all language files and templates
+- ✅ Modern installer with starfield background and glassmorphism
+- ✅ Changed by: 0wum0
 
 ### **v3.3.0** – New Features (Planned)
 - 🔮 RESTful API
