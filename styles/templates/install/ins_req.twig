@@ -6,8 +6,8 @@
 
 <div class="requirements-grid">
 	<div class="requirement-item">
-		<div class="requirement-icon {{ PHP|raw|contains('yes') ? 'success' : 'error' }}">
-			{{ PHP|raw|contains('yes') ? '✓' : '✗' }}
+		<div class="requirement-icon {{ 'yes' in PHP|raw ? 'success' : 'error' }}">
+			{{ 'yes' in PHP|raw ? '✓' : '✗' }}
 		</div>
 		<div class="requirement-text">
 			<div class="requirement-title">{{ LNG.req_php_need }}</div>
@@ -17,8 +17,8 @@
 	</div>
 
 	<div class="requirement-item">
-		<div class="requirement-icon {{ global|raw|contains('yes') ? 'success' : 'error' }}">
-			{{ global|raw|contains('yes') ? '✓' : '✗' }}
+		<div class="requirement-icon {{ 'yes' in global|raw ? 'success' : 'error' }}">
+			{{ 'yes' in global|raw ? '✓' : '✗' }}
 		</div>
 		<div class="requirement-text">
 			<div class="requirement-title">{{ LNG.reg_global_need }}</div>
@@ -28,8 +28,8 @@
 	</div>
 
 	<div class="requirement-item">
-		<div class="requirement-icon {{ pdo|raw|contains('yes') ? 'success' : 'error' }}">
-			{{ pdo|raw|contains('yes') ? '✓' : '✗' }}
+		<div class="requirement-icon {{ 'yes' in pdo|raw ? 'success' : 'error' }}">
+			{{ 'yes' in pdo|raw ? '✓' : '✗' }}
 		</div>
 		<div class="requirement-text">
 			<div class="requirement-title">{{ LNG.reg_pdo_active }}</div>
@@ -39,8 +39,8 @@
 	</div>
 
 	<div class="requirement-item">
-		<div class="requirement-icon {{ gdlib|raw|contains('yes') ? 'success' : 'error' }}">
-			{{ gdlib|raw|contains('yes') ? '✓' : '✗' }}
+		<div class="requirement-icon {{ 'yes' in gdlib|raw ? 'success' : 'error' }}">
+			{{ 'yes' in gdlib|raw ? '✓' : '✗' }}
 		</div>
 		<div class="requirement-text">
 			<div class="requirement-title">{{ LNG.reg_gd_need }}</div>
@@ -50,8 +50,8 @@
 	</div>
 
 	<div class="requirement-item">
-		<div class="requirement-icon {{ json|raw|contains('yes') ? 'success' : 'error' }}">
-			{{ json|raw|contains('yes') ? '✓' : '✗' }}
+		<div class="requirement-icon {{ 'yes' in json|raw ? 'success' : 'error' }}">
+			{{ 'yes' in json|raw ? '✓' : '✗' }}
 		</div>
 		<div class="requirement-text">
 			<div class="requirement-title">{{ LNG.reg_json_need }}</div>
@@ -60,8 +60,8 @@
 	</div>
 
 	<div class="requirement-item">
-		<div class="requirement-icon {{ iniset|raw|contains('yes') ? 'success' : 'error' }}">
-			{{ iniset|raw|contains('yes') ? '✓' : '✗' }}
+		<div class="requirement-icon {{ 'yes' in iniset|raw ? 'success' : 'error' }}">
+			{{ 'yes' in iniset|raw ? '✓' : '✗' }}
 		</div>
 		<div class="requirement-text">
 			<div class="requirement-title">{{ LNG.reg_iniset_need }}</div>
