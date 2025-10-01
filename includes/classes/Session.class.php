@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -17,9 +19,9 @@
 
 class Session
 {
-	static private $obj = NULL;
-	static private $iniSet	= false;
-	private $data = NULL;
+	static private ?Session $obj = null;
+	static private bool $iniSet	= false;
+	private ?array $data = null;
 
 	/**
 	 * Set PHP session settings
@@ -27,7 +29,7 @@ class Session
 	 * @return bool
 	 */
 
-	static public function init()
+	static public function init(): bool
 	{
 		if(self::$iniSet === true)
 		{
@@ -37,28 +39,28 @@ class Session
 
 		ini_set('session.use_cookies', '1');
 		ini_set('session.use_only_cookies', '1');
-		ini_set('session.use_trans_sid', 0);
+		ini_set('session.use_trans_sid', '0');
 		ini_set('session.auto_start', '0');
 		ini_set('session.serialize_handler', 'php');  
-		ini_set('session.gc_maxlifetime', SESSION_LIFETIME);
+		ini_set('session.gc_maxlifetime', (string)SESSION_LIFETIME);
 		ini_set('session.gc_probability', '1');
 		ini_set('session.gc_divisor', '1000');
 		ini_set('session.bug_compat_warn', '0');
 		ini_set('session.bug_compat_42', '0');
-		ini_set('session.cookie_httponly', true);
+		ini_set('session.cookie_httponly', '1');
 		ini_set('session.save_path', CACHE_PATH.'sessions');
 		ini_set('upload_tmp_dir', CACHE_PATH.'sessions');
 		
 		$HTTP_ROOT = MODE === 'INSTALL' ? dirname(HTTP_ROOT) : HTTP_ROOT;
 		
-		session_set_cookie_params(SESSION_LIFETIME, $HTTP_ROOT, NULL, HTTPS, true);
+		session_set_cookie_params(SESSION_LIFETIME, $HTTP_ROOT, null, HTTPS, true);
 		session_cache_limiter('nocache');
 		session_name('2Moons');
 
 		return true;
 	}
 
-	static private function getTempPath()
+	static private function getTempPath(): string
 	{
 		require_once 'includes/libs/wcf/BasicFileUtil.class.php';
 		return BasicFileUtil::getTempFolder();
@@ -66,12 +68,12 @@ class Session
 
 
 	/**
-	 * Create an empty session
+	 * Get client IP address
 	 *
-	 * @return String
+	 * @return string
 	 */
 
-	static public function getClientIp()
+	static public function getClientIp(): string
     {
 		if(!empty($_SERVER['HTTP_CLIENT_IP']))
         {
@@ -110,7 +112,7 @@ class Session
 	 * @return Session
 	 */
 
-	static public function create()
+	static public function create(): self
 	{
 		if(!self::existsActiveSession())
 		{

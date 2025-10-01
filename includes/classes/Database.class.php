@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -16,15 +19,15 @@
 
 class Database
 {
-	protected $dbHandle = NULL;
-	protected $dbTableNames = array();
-	protected $lastInsertId = false;
-	protected $rowCount = false;
-	protected $queryCounter = 0;
-	protected static $instance = NULL;
+	protected ?PDO $dbHandle = null;
+	protected array $dbTableNames = array();
+	protected string|false $lastInsertId = false;
+	protected int|false $rowCount = false;
+	protected int $queryCounter = 0;
+	protected static ?Database $instance = null;
 
 
-	public static function get()
+	public static function get(): self
 	{
 		if (!isset(self::$instance))
 			self::$instance = new self();
@@ -32,7 +35,7 @@ class Database
 		return self::$instance;
 	}
 
-	public function getDbTableNames()
+	public function getDbTableNames(): array
 	{
 		return $this->dbTableNames;
 	}
@@ -69,27 +72,27 @@ class Database
 		}
 	}
 
-	public function disconnect()
+	public function disconnect(): void
 	{
-		$this->dbHandle = NULL;
+		$this->dbHandle = null;
 	}
 
-	public function getHandle()
+	public function getHandle(): ?PDO
 	{
 		return $this->dbHandle;
 	}
 
-	public function lastInsertId()
+	public function lastInsertId(): string|false
 	{
 		return $this->lastInsertId;
 	}
 
-	public function rowCount()
+	public function rowCount(): int|false
 	{
 		return $this->rowCount;
 	}
 	
-	protected function _query($qry, array $params, $type)
+	protected function _query(string $qry, array $params, string $type): PDOStatement|bool
 	{
 		if (in_array($type, array("insert", "select", "update", "delete", "replace")) === false)
 		{
@@ -138,7 +141,7 @@ class Database
 		return ($type === "select") ? $stmt : true;
 	}
 
-	protected function getQueryType($qry)
+	protected function getQueryType(string $qry): string
 	{
 		if(!preg_match('!^(\S+)!', $qry, $match))
         {
@@ -153,7 +156,7 @@ class Database
 		return strtolower($match[1]);
 	}
 
-	public function delete($qry, array $params = array())
+	public function delete(string $qry, array $params = array()): bool
 	{
 		if (($type = $this->getQueryType($qry)) !== "delete")
 			throw new Exception("Incorrect Delete Query");
@@ -161,7 +164,7 @@ class Database
 		return $this->_query($qry, $params, $type);
 	}
 
-	public function replace($qry, array $params = array())
+	public function replace(string $qry, array $params = array()): bool
 	{
 		if (($type = $this->getQueryType($qry)) !== "replace")
 			throw new Exception("Incorrect Replace Query");
@@ -169,7 +172,7 @@ class Database
 		return $this->_query($qry, $params, $type);
 	}
 
-	public function update($qry, array $params = array())
+	public function update(string $qry, array $params = array()): bool
 	{
 		if (($type = $this->getQueryType($qry)) !== "update")
 			throw new Exception("Incorrect Update Query");
@@ -177,7 +180,7 @@ class Database
 		return $this->_query($qry, $params, $type);
 	}
 
-	public function insert($qry, array $params = array())
+	public function insert(string $qry, array $params = array()): bool
 	{
 		if (($type = $this->getQueryType($qry)) !== "insert")
 			throw new Exception("Incorrect Insert Query");
@@ -185,7 +188,7 @@ class Database
 		return $this->_query($qry, $params, $type);
 	}
 
-	public function select($qry, array $params = array())
+	public function select(string $qry, array $params = array()): array
 	{
 		if (($type = $this->getQueryType($qry)) !== "select")
 			throw new Exception("Incorrect Select Query");
@@ -194,7 +197,7 @@ class Database
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	public function selectSingle($qry, array $params = array(), $field = false)
+	public function selectSingle(string $qry, array $params = array(), string|false $field = false): mixed
 	{
 		if (($type = $this->getQueryType($qry)) !== "select")
 			throw new Exception("Incorrect Select Query");
@@ -214,7 +217,7 @@ class Database
 	 * @param  string|null 	$key
 	 * @return array
 	 */
-	public function lists($table, $column, $key = null)
+	public function lists(string $table, string $column, ?string $key = null): array
 	{
 		$selects = implode(', ', is_null($key) ? array($column) : array($column, $key));
 		
@@ -240,7 +243,7 @@ class Database
 		return $results;
 	}
 
-	public function query($qry)
+	public function query(string $qry): void
 	{
 		$this->lastInsertId = false;
 		$this->rowCount = false;

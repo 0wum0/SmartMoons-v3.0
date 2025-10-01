@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -15,7 +17,7 @@
  * @link https://github.com/jkroepke/2Moons
  */
 
-function getFactors($USER, $Type = 'basic', $TIME = NULL) {
+function getFactors(array $USER, string $Type = 'basic', ?int $TIME = null): array {
 	global $PLANET, $resource, $pricelist, $reslist;
 	if(empty($TIME))
 		$TIME	= TIMESTAMP;
@@ -54,7 +56,7 @@ function getFactors($USER, $Type = 'basic', $TIME = NULL) {
 	return $factor;
 }
 
-function getPlanets($USER)
+function getPlanets(array $USER): array
 {
 	if(isset($USER['PLANETS']))
 		return $USER['PLANETS'];
@@ -91,7 +93,7 @@ function getPlanets($USER)
 	return $planetsList;
 }
 
-function get_timezone_selector() {
+function get_timezone_selector(): array {
 	// New Timezone Selector, better support for changes in tzdata (new russian timezones, e.g.)
 	// http://www.php.net/manual/en/datetimezone.listidentifiers.php
 	
@@ -110,7 +112,7 @@ function get_timezone_selector() {
 	return $timezones; 
 }
 
-function locale_date_format($format, $time, $LNG = NULL)
+function locale_date_format(string $format, int $time, $LNG = null): string
 {
 	// Workaround for locale Names.
 
@@ -118,8 +120,8 @@ function locale_date_format($format, $time, $LNG = NULL)
 		global $LNG;
 	}
 	
-	$weekDay	= date('w', $time);
-	$months		= date('n', $time) - 1;
+	$weekDay	= (int)date('w', $time);
+	$months		= (int)date('n', $time) - 1;
 	
 	$format     = str_replace(array('D', 'M'), array('$D$', '$M$'), $format);
 	$format		= str_replace('$D$', addcslashes($LNG['week_day'][$weekDay], 'A..z'), $format);
@@ -128,27 +130,20 @@ function locale_date_format($format, $time, $LNG = NULL)
 	return $format;
 }
 
-function _date($format, $time = null, $toTimeZone = null, $LNG = NULL)
+function _date(string $format, ?int $time = null, ?string $toTimeZone = null, $LNG = null): string
 {
 	if(!isset($time))
 	{
 		$time	= TIMESTAMP;
 	}else{
-		$time 	= floor($time); 
+		$time 	= (int)floor($time); 
 	}
 
 	if(isset($toTimeZone))
 	{
 		$date = new DateTime();
-		if(method_exists($date, 'setTimestamp'))
-		{	// PHP > 5.3			
-			$date->setTimestamp($time);
-		} else {
-			// PHP < 5.3
-			$tempDate = getdate((int) $time);
-			$date->setDate($tempDate['year'], $tempDate['mon'], $tempDate['mday']);
-			$date->setTime($tempDate['hours'], $tempDate['minutes'], $tempDate['seconds']);
-		}
+		// PHP 8.3 always has setTimestamp
+		$date->setTimestamp($time);
 		
 		$time	-= $date->getOffset();
 		try {
@@ -163,20 +158,12 @@ function _date($format, $time = null, $toTimeZone = null, $LNG = NULL)
 	return date($format, $time);
 }
 
-function ValidateAddress($address) {
-	
-	if(function_exists('filter_var')) {
-		return filter_var($address, FILTER_VALIDATE_EMAIL) !== FALSE;
-	} else {
-		/*
-			Regex expression from swift mailer (http://swiftmailer.org)
-			RFC 2822
-		*/
-		return preg_match('/^(?:(?:(?:(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?(?:[a-zA-Z0-9!#\$%&\'\*\+\-\/=\?\^_\{\}\|~]+(\.[a-zA-Z0-9!#\$%&\'\*\+\-\/=\?\^_\{\}\|~]+)*)+(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?)|(?:(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?"((?:(?:[ \t]*(?:\r\n))?[ \t])?(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21\x23-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])))*(?:(?:[ \t]*(?:\r\n))?[ \t])?"(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?))@(?:(?:(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?(?:[a-zA-Z0-9!#\$%&\'\*\+\-\/=\?\^_\{\}\|~]+(\.[a-zA-Z0-9!#\$%&\'\*\+\-\/=\?\^_\{\}\|~]+)*)+(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?)|(?:(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?\[((?:(?:[ \t]*(?:\r\n))?[ \t])?(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x5A\x5E-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])))*?(?:(?:[ \t]*(?:\r\n))?[ \t])?\](?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?)))$/D', $address);
-	}
+function ValidateAddress(string $address): bool {
+	// filter_var always exists in PHP 8.3
+	return filter_var($address, FILTER_VALIDATE_EMAIL) !== false;
 }
 
-function message($mes, $dest = "", $time = "3", $topnav = false)
+function message(string $mes, string $dest = "", string $time = "3", bool $topnav = false): void
 {
 	require_once('includes/classes/class.template.php');
 	$template = new template();
@@ -184,13 +171,13 @@ function message($mes, $dest = "", $time = "3", $topnav = false)
 	exit;
 }
 
-function CalculateMaxPlanetFields($planet)
+function CalculateMaxPlanetFields(array $planet): int
 {
 	global $resource;
-	return $planet['field_max'] + ($planet[$resource[33]] * FIELDS_BY_TERRAFORMER) + ($planet[$resource[41]] * FIELDS_BY_MOONBASIS_LEVEL);
+	return (int)($planet['field_max'] + ($planet[$resource[33]] * FIELDS_BY_TERRAFORMER) + ($planet[$resource[41]] * FIELDS_BY_MOONBASIS_LEVEL));
 }
 
-function pretty_time($seconds)
+function pretty_time(int|float $seconds): string
 {
 	global $LNG;
 	
@@ -216,36 +203,36 @@ function pretty_time($seconds)
 	);
 }
 
-function pretty_fly_time($seconds)
+function pretty_fly_time(int|float $seconds): string
 {
-	$hour	= floor($seconds / 3600);
-	$minute	= floor(floor($seconds / 60) % 60);
-	$second	= floor($seconds % 60);
+	$hour	= (int)floor($seconds / 3600);
+	$minute	= (int)floor(floor($seconds / 60) % 60);
+	$second	= (int)floor($seconds % 60);
 
 	return sprintf('%02d:%02d:%02d', $hour, $minute, $second);
 }
 
-function GetStartAddressLink($FleetRow, $FleetType = '')
+function GetStartAddressLink(array $FleetRow, string $FleetType = ''): string
 {
 	return '<a href="game.php?page=galaxy&amp;galaxy='.$FleetRow['fleet_start_galaxy'].'&amp;system='.$FleetRow['fleet_start_system'].'" class="'. $FleetType .'">['.$FleetRow['fleet_start_galaxy'].':'.$FleetRow['fleet_start_system'].':'.$FleetRow['fleet_start_planet'].']</a>';
 }
 
-function GetTargetAddressLink($FleetRow, $FleetType = '')
+function GetTargetAddressLink(array $FleetRow, string $FleetType = ''): string
 {
 	return '<a href="game.php?page=galaxy&amp;galaxy='.$FleetRow['fleet_end_galaxy'].'&amp;system='.$FleetRow['fleet_end_system'].'" class="'. $FleetType .'">['.$FleetRow['fleet_end_galaxy'].':'.$FleetRow['fleet_end_system'].':'.$FleetRow['fleet_end_planet'].']</a>';
 }
 
-function BuildPlanetAddressLink($CurrentPlanet)
+function BuildPlanetAddressLink(array $CurrentPlanet): string
 {
 	return '<a href="game.php?page=galaxy&amp;galaxy='.$CurrentPlanet['galaxy'].'&amp;system='.$CurrentPlanet['system'].'">['.$CurrentPlanet['galaxy'].':'.$CurrentPlanet['system'].':'.$CurrentPlanet['planet'].']</a>';
 }
 
-function pretty_number($n, $dec = 0)
+function pretty_number(int|float $n, int $dec = 0): string
 {
-	return number_format(floatToString($n, $dec), $dec, ',', '.');
+	return number_format((float)floatToString($n, $dec), $dec, ',', '.');
 }
 
-function GetUserByID($userId, $GetInfo = "*")
+function GetUserByID(int $userId, string|array $GetInfo = "*"): array|false
 {
 	if(is_array($GetInfo))
 	{
@@ -265,16 +252,13 @@ function GetUserByID($userId, $GetInfo = "*")
 	return $User;
 }
 
-function makebr($text)
+function makebr(string $text): string
 {
-    // XHTML FIX for PHP 5.3.0
-	// Danke an Meikel
-	
-    $BR = "<br>\n";
-    return (version_compare(PHP_VERSION, "5.3.0", ">=")) ? nl2br($text, false) : strtr($text, array("\r\n" => $BR, "\r" => $BR, "\n" => $BR)); 
+    // XHTML FIX - now always use nl2br in PHP 8.3
+    return nl2br($text, false); 
 }
 
-function CheckNoobProtec($OwnerPlayer, $TargetPlayer, $Player)
+function CheckNoobProtec(array $OwnerPlayer, array $TargetPlayer, array $Player): array
 {
 	$config	= Config::get();
 	if(
@@ -309,7 +293,7 @@ function CheckNoobProtec($OwnerPlayer, $TargetPlayer, $Player)
 	);
 }
 
-function shortly_number($number, $decial = NULL)
+function shortly_number(int|float $number, ?int $decial = null): string
 {
 	$negate	= $number < 0 ? -1 : 1;
 	$number	= abs($number);
@@ -332,11 +316,11 @@ function shortly_number($number, $decial = NULL)
 	return pretty_number($negate * $number, $decial).'&nbsp;'.$unit[$key];
 }
 
-function floatToString($number, $Pro = 0, $output = false){
+function floatToString(int|float $number, int $Pro = 0, bool $output = false): string {
 	return $output ? str_replace(",",".", sprintf("%.".$Pro."f", $number)) : sprintf("%.".$Pro."f", $number);
 }
 
-function isModuleAvailable($ID)
+function isModuleAvailable(int $ID): bool
 {
 	global $USER;
 	$modules	= explode(';', Config::get()->moduls);
@@ -349,7 +333,7 @@ function isModuleAvailable($ID)
 	return $modules[$ID] == 1 || (isset($USER['authlevel']) && $USER['authlevel'] > AUTH_USR);
 }
 
-function ClearCache()
+function ClearCache(): void
 {
 	$DIRS	= array('cache/', 'cache/templates/');
 	foreach($DIRS as $DIR) {
@@ -406,30 +390,30 @@ function ClearCache()
 	
 }
 
-function allowedTo($side)
+function allowedTo(string $side): bool
 {
 	global $USER;
 	return ($USER['authlevel'] == AUTH_ADM || (isset($USER['rights']) && $USER['rights'][$side] == 1));
 }
 
-function isactiveDMExtra($Extra, $Time) {
+function isactiveDMExtra(int $Extra, int $Time): bool {
 	return $Time - $Extra <= 0;
 }
 
-function DMExtra($Extra, $Time, $true, $false) {
+function DMExtra(int $Extra, int $Time, mixed $true, mixed $false): mixed {
 	return isactiveDMExtra($Extra, $Time) ? $true : $false;
 }
 
-function getRandomString() {
+function getRandomString(): string {
 	return md5(uniqid());
 }
 
-function isVacationMode($USER)
+function isVacationMode(array $USER): bool
 {
-	return ($USER['urlaubs_modus'] == 1) ? true : false;
+	return ($USER['urlaubs_modus'] == 1);
 }
 
-function clearGIF() {
+function clearGIF(): void {
 	header('Cache-Control: no-cache');
 	header('Content-type: image/gif');
 	header('Content-length: 43');
@@ -439,7 +423,7 @@ function clearGIF() {
 }
 
 
-function friendly_severity($severity) {
+function friendly_severity(int $severity): string {
     $names = [];
 
     $consts = array_flip(array_slice(get_defined_constants(true)['Core'], 0, 15, true));
@@ -459,7 +443,7 @@ function friendly_severity($severity) {
  * @param object
  * @return Exception
  */
-function exceptionHandler($exception)
+function exceptionHandler(\Throwable $exception): void
 {
 	/** @var $exception ErrorException|Exception */
 
@@ -609,7 +593,7 @@ function exceptionHandler($exception)
  * @return bool If its an hidden error.
  *
  */
-function errorHandler($errno, $errstr, $errfile, $errline)
+function errorHandler(int $errno, string $errstr, string $errfile, int $errline): bool
 {
     if (!($errno & error_reporting())) {
         return false;
@@ -618,48 +602,4 @@ function errorHandler($errno, $errstr, $errfile, $errline)
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
 
-// "workaround" for PHP version pre 5.3.0
-if (!function_exists('array_replace_recursive'))
-{
-    function array_replace_recursive()
-    {
-        if (!function_exists('recurse')) {
-            function recurse($array, $array1)
-            {
-                foreach ($array1 as $key => $value)
-                {
-                    // create new key in $array, if it is empty or not an array
-                    if (!isset($array[$key]) || (isset($array[$key]) && !is_array($array[$key])))
-                    {
-                        $array[$key] = array();
-                    }
-
-                    // overwrite the value in the base array
-                    if (is_array($value))
-                    {
-                        $value = recurse($array[$key], $value);
-                    }
-                    $array[$key] = $value;
-                }
-                return $array;
-            }
-        }
-
-        // handle the arguments, merge one by one
-        $args = func_get_args();
-        $array = $args[0];
-        if (!is_array($array))
-        {
-            return $array;
-        }
-        $count = count($args);
-        for ($i = 1; $i < $count; ++$i)
-        {
-            if (is_array($args[$i]))
-            {
-                $array = recurse($array, $args[$i]);
-            }
-        }
-        return $array;
-    }
-}
+// array_replace_recursive exists natively in PHP 8.3 - no workaround needed
