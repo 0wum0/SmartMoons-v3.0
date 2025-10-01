@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -16,9 +18,9 @@
  */
 class Config
 {
-	protected $configData = array();
-	protected $updateRecords = array();
-	protected static $instances = array();
+	protected array $configData = array();
+	protected array $updateRecords = array();
+	protected static array $instances = array();
 
 
 	// Global configkeys
@@ -36,7 +38,7 @@ class Config
 										   'del_user_automatic', 'del_oldstuff', 'del_user_manually', 'ref_max_referals',
 										   'disclamerAddress','disclamerPhone','disclamerMail','disclamerNotice');
 
-	public static function getGlobalConfigKeys()
+	public static function getGlobalConfigKeys(): array
 	{
 		return self::$globalConfigKeys;
 	}
@@ -49,7 +51,7 @@ class Config
 	 * @return Config
 	 */
 
-	static public function get($universe = 0)
+	static public function get(int $universe = 0): self
 	{
 		if (empty(self::$instances)) {
 			self::generateInstances();
@@ -68,12 +70,12 @@ class Config
 		return self::$instances[$universe];
 	}
 
-	static public function reload()
+	static public function reload(): void
 	{
 		self::generateInstances();
 	}
 
-	static private function generateInstances()
+	static private function generateInstances(): void
 	{
 		$db     = Database::get();
 		$configResult = $db->nativeQuery("SELECT * FROM %%CONFIG%%;");
@@ -84,12 +86,12 @@ class Config
 		}
 	}
 
-	public function __construct($configData)
+	public function __construct(array $configData)
 	{
 		$this->configData = $configData;
 	}
 
-	public function __get($key)
+	public function __get(string $key): mixed
 	{
 		if (!isset($this->configData[$key])) {
 			throw new UnexpectedValueException(sprintf("Unknown configuration key %s!", $key));
@@ -98,7 +100,7 @@ class Config
 		return $this->configData[$key];
 	}
 
-	public function __set($key, $value)
+	public function __set(string $key, mixed $value): void
 	{
 		if (!isset($this->configData[$key])) {
 			throw new UnexpectedValueException(sprintf("Unknown configuration key %s!", $key));
@@ -107,12 +109,12 @@ class Config
 		$this->configData[$key] = $value;
 	}
 
-	public function __isset($key)
+	public function __isset(string $key): bool
 	{
 		return isset($this->configData[$key]);
 	}
 
-	public function save($options = NULL)
+	public function save(?array $options = null): bool
 	{
 		if (empty($this->updateRecords)) {
 			// Do nothing here.

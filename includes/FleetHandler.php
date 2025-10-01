@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -24,7 +26,7 @@ $fleetResult	= $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = :token WHERE `l
 ));
 
 if($db->rowCount() !== 0) {
-	require 'includes/classes/class.FlyingFleetHandler.php';
+	require_once 'includes/classes/class.FlyingFleetHandler.php';
 	
 	$fleetObj	= new FlyingFleetHandler();
 	$fleetObj->setToken($token);

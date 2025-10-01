@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -35,34 +37,34 @@ error_reporting(E_ALL & ~E_STRICT);
 // If date.timezone is invalid
 date_default_timezone_set(@date_default_timezone_get());
 
-ini_set('display_errors', 1);
+ini_set('display_errors', '1');
 header('Content-Type: text/html; charset=UTF-8');
 define('TIMESTAMP',	time());
 	
-require 'includes/constants.php';
+require_once 'includes/constants.php';
 
-ini_set('log_errors', 'On');
+ini_set('log_errors', '1');
 ini_set('error_log', 'includes/error.log');
 
-require 'includes/GeneralFunctions.php';
+require_once 'includes/GeneralFunctions.php';
 set_exception_handler('exceptionHandler');
 set_error_handler('errorHandler');
 
-require 'includes/classes/ArrayUtil.class.php';
-require 'includes/classes/Cache.class.php';
-require 'includes/classes/Database.class.php';
-require 'includes/classes/Config.class.php';
-require 'includes/classes/class.FleetFunctions.php';
-require 'includes/classes/HTTP.class.php';
+require_once 'includes/classes/ArrayUtil.class.php';
+require_once 'includes/classes/Cache.class.php';
+require_once 'includes/classes/Database.class.php';
+require_once 'includes/classes/Config.class.php';
+require_once 'includes/classes/class.FleetFunctions.php';
+require_once 'includes/classes/HTTP.class.php';
 
-require 'includes/classes/Language.class.php';
+require_once 'includes/classes/Language.class.php';
 
-require 'includes/classes/PlayerUtil.class.php';
-require 'includes/classes/Session.class.php';
-require 'includes/classes/Universe.class.php';
+require_once 'includes/classes/PlayerUtil.class.php';
+require_once 'includes/classes/Session.class.php';
+require_once 'includes/classes/Universe.class.php';
 
-require 'includes/classes/class.theme.php';
-require 'includes/classes/class.template.php';
+require_once 'includes/classes/class.theme.php';
+require_once 'includes/classes/class.template.php';
 
 // Say Browsers to Allow ThirdParty Cookies (Thanks to morktadela)
 HTTP::sendHeader('P3P', 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
@@ -96,7 +98,7 @@ if ($dbNeedsUpgrade) {
 if(defined('DATABASE_VERSION') && DATABASE_VERSION === 'OLD')
 {
 	/* For our old Admin panel */
-	require 'includes/classes/Database_BC.class.php';
+	require_once 'includes/classes/Database_BC.class.php';
 	$DATABASE	= new Database_BC();
 	
 	$dbTableNames	= Database::get()->getDbTableNames();
@@ -121,9 +123,9 @@ if (MODE === 'INGAME' || MODE === 'ADMIN' || MODE === 'CRON')
 		HTTP::redirectTo('index.php?code=3');
 	}
 
-	require 'includes/vars.php';
-	require 'includes/classes/class.BuildFunctions.php';
-	require 'includes/classes/class.PlanetRessUpdate.php';
+	require_once 'includes/vars.php';
+	require_once 'includes/classes/class.BuildFunctions.php';
+	require_once 'includes/classes/class.PlanetRessUpdate.php';
 	
 	if(!AJAX_REQUEST && MODE === 'INGAME' && isModuleAvailable(MODULE_FLEET_EVENTS)) {
 		require('includes/FleetHandler.php');
