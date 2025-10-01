@@ -3,286 +3,258 @@
 declare(strict_types=1);
 
 /**
- *  2Moons 
+ *  SmartMoons (ehemals 2Moons)
  *   by Jan-Otto Kröpke 2009-2016
  *
- * For the full copyright and license information, please view the LICENSE
+ * Modernized for PHP 8.3 compatibility
  *
- * @package 2Moons
+ * @package SmartMoons
  * @author Jan-Otto Kröpke <slaver7@gmail.com>
+ * @author Updated by 0wum0
  * @copyright 2009 Lucky
  * @copyright 2016 Jan-Otto Kröpke <slaver7@gmail.com>
  * @licence MIT
- * @version 1.8.0
- * @link https://github.com/jkroepke/2Moons
+ * @version 3.2.7
+ * @link https://github.com/0wum0/SmartMoons
  */
 
 class Database
 {
-	protected ?PDO $dbHandle = null;
-	protected array $dbTableNames = array();
-	protected string|false $lastInsertId = false;
-	protected int|false $rowCount = false;
-	protected int $queryCounter = 0;
-	protected static ?Database $instance = null;
+    protected ?PDO $dbHandle = null;
+    protected array $dbTableNames = [];
+    protected string|false $lastInsertId = false;
+    protected int|false $rowCount = false;
+    protected int $queryCounter = 0;
+    protected static ?Database $instance = null;
 
+    public static function get(): self
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
 
-	public static function get(): self
-	{
-		if (!isset(self::$instance))
-			self::$instance = new self();
+    public function getDbTableNames(): array
+    {
+        return $this->dbTableNames;
+    }
 
-		return self::$instance;
-	}
+    private function __clone() {}
 
-	public function getDbTableNames(): array
-	{
-		return $this->dbTableNames;
-	}
+    protected function __construct()
+    {
+        // Config laden
+        require 'includes/config.php';
 
-	private function __clone()
-	{
+        // Standardwerte setzen, falls Keys fehlen
+        $defaults = [
+            'host'     => 'localhost',
+            'port'     => 3306,
+            'user'     => 'root',
+            'password' => '',
+            'dbname'   => '',
+            'prefix'   => '',
+        ];
 
-	}
+        $databaseConfig = array_merge($defaults, $databaseConfig ?? []);
 
-	protected function __construct()
-	{
-		$databaseConfig = array();
-		require_once 'includes/config.php';
-		
-		// Ensure port is set
-		if (!isset($databaseConfig['port'])) {
-			$databaseConfig['port'] = 3306;
-		}
-		
-		//Connect
-		$dsn = "mysql:host={$databaseConfig['host']};port={$databaseConfig['port']};dbname={$databaseConfig['dbname']};charset=utf8mb4";
-		$db = new PDO($dsn, $databaseConfig['user'], $databaseConfig['password'], array(
-		    PDO::MYSQL_ATTR_INIT_COMMAND => "SET CHARACTER SET utf8mb4, NAMES utf8mb4, sql_mode = 'STRICT_ALL_TABLES'",
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-			PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
-		));
-		
-		$this->dbHandle = $db;
+        // DSN erstellen
+        $dsn = sprintf(
+            "mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4",
+            $databaseConfig['host'],
+            $databaseConfig['port'],
+            $databaseConfig['dbname']
+        );
 
-		$dbTableNames = array();
-
-		include_once 'includes/dbtables.php';
-
-		foreach($dbTableNames as $key => $name)
-		{
-			$this->dbTableNames['keys'][]	= '%%'.$key.'%%';
-			$this->dbTableNames['names'][]	= $name;
-		}
-	}
-
-	public function disconnect(): void
-	{
-		$this->dbHandle = null;
-	}
-
-	public function getHandle(): ?PDO
-	{
-		return $this->dbHandle;
-	}
-
-	public function lastInsertId(): string|false
-	{
-		return $this->lastInsertId;
-	}
-
-	public function rowCount(): int|false
-	{
-		return $this->rowCount;
-	}
-	
-	protected function _query(string $qry, array $params, string $type): PDOStatement|bool
-	{
-		if (in_array($type, array("insert", "select", "update", "delete", "replace")) === false)
-		{
-			throw new Exception("Unsupported Query Type");
-		}
-
-		$this->lastInsertId = false;
-		$this->rowCount = false;
-		
-		$qry	= str_replace($this->dbTableNames['keys'], $this->dbTableNames['names'], $qry);
-
-		/** @var $stmt PDOStatement */
-		$stmt	= $this->dbHandle->prepare($qry);
-
-		if (isset($params[':limit']) || isset($params[':offset']))
-		{
-			foreach($params as $param => $value)
-			{
-				if($param == ':limit' || $param == ':offset')
-				{
-					$stmt->bindValue($param, (int) $value, PDO::PARAM_INT);
-				}
-				else
-				{
-					$stmt->bindValue($param, (int) $value, PDO::PARAM_STR);
-				}
-			}
-		}
-
-		try {
-			$success = (count($params) !== 0 && !isset($params[':limit']) && !isset($params[':offset'])) ? $stmt->execute($params) : $stmt->execute();
-		}
-		catch (PDOException $e) {
-			throw new Exception($e->getMessage()."<br>\r\n<br>\r\nQuery-Code:".str_replace(array_keys($params), array_values($params), $qry));
-		}
-
-		$this->queryCounter++;
-
-		if (!$success)
-			return false;
-
-		if ($type === "insert")
-			$this->lastInsertId = $this->dbHandle->lastInsertId();
-		$this->rowCount = $stmt->rowCount();
-
-		return ($type === "select") ? $stmt : true;
-	}
-
-	protected function getQueryType(string $qry): string
-	{
-		if(!preg_match('!^(\S+)!', $qry, $match))
-        {
-            throw new Exception("Invalid query $qry!");
+        try {
+            $db = new PDO(
+                $dsn,
+                $databaseConfig['user'],
+                $databaseConfig['password'],
+                [
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4",
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                    PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+                ]
+            );
+        } catch (PDOException $e) {
+            die("Database connection failed: " . $e->getMessage());
         }
 
-		if(!isset($match[1]))
-        {
-            throw new Exception("Invalid query $qry!");
+        $this->dbHandle = $db;
+
+        // Tabellen laden
+        $dbTableNames = [];
+        include_once 'includes/dbtables.php';
+
+        foreach ($dbTableNames as $key => $name) {
+            $this->dbTableNames['keys'][]  = '%%' . $key . '%%';
+            $this->dbTableNames['names'][] = $name;
+        }
+    }
+
+    public function disconnect(): void
+    {
+        $this->dbHandle = null;
+    }
+
+    public function getHandle(): ?PDO
+    {
+        return $this->dbHandle;
+    }
+
+    public function lastInsertId(): string|false
+    {
+        return $this->lastInsertId;
+    }
+
+    public function rowCount(): int|false
+    {
+        return $this->rowCount;
+    }
+
+    protected function _query(string $qry, array $params, string $type): PDOStatement|bool
+    {
+        if (!in_array($type, ["insert", "select", "update", "delete", "replace"])) {
+            throw new Exception("Unsupported Query Type");
         }
 
-		return strtolower($match[1]);
-	}
+        $this->lastInsertId = false;
+        $this->rowCount     = false;
 
-	public function delete(string $qry, array $params = array()): bool
-	{
-		if (($type = $this->getQueryType($qry)) !== "delete")
-			throw new Exception("Incorrect Delete Query");
+        $qry = str_replace($this->dbTableNames['keys'], $this->dbTableNames['names'], $qry);
 
-		return $this->_query($qry, $params, $type);
-	}
+        $stmt = $this->dbHandle->prepare($qry);
 
-	public function replace(string $qry, array $params = array()): bool
-	{
-		if (($type = $this->getQueryType($qry)) !== "replace")
-			throw new Exception("Incorrect Replace Query");
+        if (isset($params[':limit']) || isset($params[':offset'])) {
+            foreach ($params as $param => $value) {
+                $stmt->bindValue($param, (int)$value, PDO::PARAM_INT);
+            }
+        }
 
-		return $this->_query($qry, $params, $type);
-	}
+        try {
+            $success = (count($params) !== 0 && !isset($params[':limit']) && !isset($params[':offset']))
+                ? $stmt->execute($params)
+                : $stmt->execute();
+        } catch (PDOException $e) {
+            throw new Exception(
+                $e->getMessage() . "<br>\r\n<br>\r\nQuery-Code:" .
+                str_replace(array_keys($params), array_values($params), $qry)
+            );
+        }
 
-	public function update(string $qry, array $params = array()): bool
-	{
-		if (($type = $this->getQueryType($qry)) !== "update")
-			throw new Exception("Incorrect Update Query");
+        $this->queryCounter++;
 
-		return $this->_query($qry, $params, $type);
-	}
+        if (!$success) {
+            return false;
+        }
 
-	public function insert(string $qry, array $params = array()): bool
-	{
-		if (($type = $this->getQueryType($qry)) !== "insert")
-			throw new Exception("Incorrect Insert Query");
+        if ($type === "insert") {
+            $this->lastInsertId = $this->dbHandle->lastInsertId();
+        }
+        $this->rowCount = $stmt->rowCount();
 
-		return $this->_query($qry, $params, $type);
-	}
+        return ($type === "select") ? $stmt : true;
+    }
 
-	public function select(string $qry, array $params = array()): array
-	{
-		if (($type = $this->getQueryType($qry)) !== "select")
-			throw new Exception("Incorrect Select Query");
+    protected function getQueryType(string $qry): string
+    {
+        if (!preg_match('!^(\S+)!', $qry, $match)) {
+            throw new Exception("Invalid query $qry!");
+        }
+        return strtolower($match[1]);
+    }
 
-		$stmt = $this->_query($qry, $params, $type);
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
-	}
+    public function delete(string $qry, array $params = []): bool
+    {
+        return $this->_query($qry, $params, "delete");
+    }
 
-	public function selectSingle(string $qry, array $params = array(), string|false $field = false): mixed
-	{
-		if (($type = $this->getQueryType($qry)) !== "select")
-			throw new Exception("Incorrect Select Query");
+    public function replace(string $qry, array $params = []): bool
+    {
+        return $this->_query($qry, $params, "replace");
+    }
 
-		$stmt = $this->_query($qry, $params, $type);
-		$res = $stmt->fetch(PDO::FETCH_ASSOC);
-		return ($field === false || is_null($res)) ? $res : $res[$field];
-	}
-	
-	/**
-	 * Lists column values of a table
-	 * with desired key from the
-	 * database as an array.
-	 *
-	 * @param  string 		$table
-	 * @param  string 		$column
-	 * @param  string|null 	$key
-	 * @return array
-	 */
-	public function lists(string $table, string $column, ?string $key = null): array
-	{
-		$selects = implode(', ', is_null($key) ? array($column) : array($column, $key));
-		
-		$qry = "SELECT {$selects} FROM %%{$table}%%;";
-		$stmt = $this->_query($qry, array(), 'select');
+    public function update(string $qry, array $params = []): bool
+    {
+        return $this->_query($qry, $params, "update");
+    }
 
-		$results = array();
-		if (is_null($key))
-		{
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-			{
-				$results[] = $row[$column];
-			}
-		}
-		else
-		{
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-			{
-				$results[$row[$key]] = $row[$column];
-			}
-		}
+    public function insert(string $qry, array $params = []): bool
+    {
+        return $this->_query($qry, $params, "insert");
+    }
 
-		return $results;
-	}
+    public function select(string $qry, array $params = []): array
+    {
+        $stmt = $this->_query($qry, $params, "select");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-	public function query(string $qry): void
-	{
-		$this->lastInsertId = false;
-		$this->rowCount = false;
-		$this->rowCount = $this->dbHandle->exec($qry);
-		$this->queryCounter++;
-	}
+    public function selectSingle(string $qry, array $params = [], string|false $field = false): mixed
+    {
+        $stmt = $this->_query($qry, $params, "select");
+        $res  = $stmt->fetch(PDO::FETCH_ASSOC);
+        return ($field === false || is_null($res)) ? $res : $res[$field];
+    }
 
-	public function nativeQuery($qry)
-	{
-		$this->lastInsertId = false;
-		$this->rowCount = false;
+    public function lists(string $table, string $column, ?string $key = null): array
+    {
+        $selects = implode(', ', is_null($key) ? [$column] : [$column, $key]);
 
-		$qry	= str_replace($this->dbTableNames['keys'], $this->dbTableNames['names'], $qry);
+        $qry  = "SELECT {$selects} FROM %%{$table}%%;";
+        $stmt = $this->_query($qry, [], 'select');
 
-		/** @var $stmt PDOStatement */
-		$stmt	= $this->dbHandle->query($qry);
+        $results = [];
+        if (is_null($key)) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $results[] = $row[$column];
+            }
+        } else {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $results[$row[$key]] = $row[$column];
+            }
+        }
+        return $results;
+    }
 
-		$this->rowCount = $stmt->rowCount();
+    public function query(string $qry): void
+    {
+        $this->lastInsertId = false;
+        $this->rowCount     = false;
+        $this->rowCount     = $this->dbHandle->exec($qry);
+        $this->queryCounter++;
+    }
 
-		$this->queryCounter++;
-		return in_array($this->getQueryType($qry), array('select', 'show')) ? $stmt->fetchAll(PDO::FETCH_ASSOC) : true;
-	}
+    public function nativeQuery($qry)
+    {
+        $this->lastInsertId = false;
+        $this->rowCount     = false;
 
-	public function getQueryCounter()
-	{
-		return $this->queryCounter;
-	}
+        $qry = str_replace($this->dbTableNames['keys'], $this->dbTableNames['names'], $qry);
+        $stmt = $this->dbHandle->query($qry);
 
-	static public function formatDate($time)
-	{
-		return date('Y-m-d H:i:s', $time);
-	}
+        $this->rowCount = $stmt->rowCount();
+        $this->queryCounter++;
 
-	public function quote($str)
-	{
-		return $this->dbHandle->quote($str);
-	}
+        return in_array($this->getQueryType($qry), ['select', 'show'])
+            ? $stmt->fetchAll(PDO::FETCH_ASSOC)
+            : true;
+    }
+
+    public function getQueryCounter(): int
+    {
+        return $this->queryCounter;
+    }
+
+    public static function formatDate($time): string
+    {
+        return date('Y-m-d H:i:s', $time);
+    }
+
+    public function quote($str): string
+    {
+        return $this->dbHandle->quote($str);
+    }
 }
