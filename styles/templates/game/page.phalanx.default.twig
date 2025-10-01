@@ -10,7 +10,7 @@
 	{% for index, fleet in fleetTable %}
 	<tr>
 		<td id="fleettime_{{ index }}" class="fleets" data-fleet-end-time="{{ fleet.returntime }}" data-fleet-time="{{ fleet.resttime }}">00:00:00</td>
-		<td>{{ fleet.text }}</td>
+		<td>{{ fleet.text|raw }}</td>
 	</tr>
 	{% else %}
 		<tr><td colspan="2">{{ LNG.px_no_fleet }}</td></tr>

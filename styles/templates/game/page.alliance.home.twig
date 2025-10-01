@@ -53,12 +53,12 @@
 					<tr>
 						<td colspan="2">{{ member }}</td>
 					</tr>
-					{% for index, fleet in events %}
-					<tr>
-						<td id="fleettime_{{ index }}" class="fleets" data-fleet-end-time="{{ fleet.returntime }}" data-fleet-time="{{ fleet.resttime }}">-</td>
-						<td colspan="2">{{ fleet.text }}</td>
-					</tr>
-					{% endfor %}
+				{% for index, fleet in events %}
+				<tr>
+					<td id="fleettime_{{ index }}" class="fleets" data-fleet-end-time="{{ fleet.returntime }}" data-fleet-time="{{ fleet.resttime }}">-</td>
+					<td colspan="2">{{ fleet.text|raw }}</td>
+				</tr>
+				{% endfor %}
 				{% endfor %}
 			{% else %}
 				<tr>

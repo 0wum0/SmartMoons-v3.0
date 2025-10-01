@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.2.0-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.2.2-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,28 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.2.2** _(2025-10-01)_
+🔧 **Twig Template Fix: HTML Output Escaping**
+- ✅ **Fixed escaped HTML output in Twig templates** - Added `|raw` filter to system-controlled HTML variables
+- ✅ **Install templates fixed** - System requirements now display formatted (green/red) status indicators
+  - Fixed variables: `PHP`, `global`, `pdo`, `gdlib`, `json`, `iniset`, `dir`, `config`, `done`, `execscript`, `message`
+- ✅ **Game templates fixed** - Fleet events, news, and rank info now render HTML correctly
+  - Fixed variables: `fleet.text`, `rankInfo`, `news`, `execscript`
+- ✅ **Admin templates fixed** - JavaScript execution in admin panel headers
+  - Fixed variables: `execscript`
+- 🎯 **Installer fully functional** - All system check icons (✓/✗) now display correctly in `/install/index.php`
+- 🛡️ **Security maintained** - Only controlled system variables marked as raw, user input remains escaped
+- 📝 **Files modified**: 
+  - `styles/templates/install/ins_req.twig`
+  - `styles/templates/install/ins_header.twig`
+  - `styles/templates/install/ins_step4.twig`
+  - `styles/templates/game/page.overview.default.twig`
+  - `styles/templates/game/page.phalanx.default.twig`
+  - `styles/templates/game/page.alliance.home.twig`
+  - `styles/templates/game/main.header.twig`
+  - `styles/templates/adm/overall_header.twig`
+- 👤 **Changed by: 0wum0**
 
 ### **v3.2.0** _(2025-10-01)_
 🎉 **COMPLETE TWIG MIGRATION - ZERO SMARTY SYNTAX REMAINING**
