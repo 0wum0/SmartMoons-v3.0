@@ -42,19 +42,19 @@ class SQLDumper
 	
 	private function nativeDumpToFile($dbTables, $filePath)
 	{
-		$database	= array();
+		$databaseConfig	= array();
 		require_once 'includes/config.php';
 
         $dbVersion	= Database::get()->selectSingle('SELECT @@version', array(), '@@version');
         if(version_compare($dbVersion, '5.5') >= 0) {
-            putenv('MYSQL_PWD='.$database['userpw']);
+            putenv('MYSQL_PWD='.$databaseConfig['password']);
             $passwordArgument = '';
         } else {
-            $passwordArgument = "--password='".escapeshellarg($database['userpw'])."'";
+            $passwordArgument = "--password='".escapeshellarg($databaseConfig['password'])."'";
         }
 
 		$dbTables	= array_map('escapeshellarg', $dbTables);
-		$sqlDump	= shell_exec("mysqldump --host=".escapeshellarg($database['host'])." --port=".((int) $database['port'])." --user=".escapeshellarg($database['user'])." ".$passwordArgument." --no-create-db --order-by-primary --add-drop-table --comments --complete-insert --hex-blob ".escapeshellarg($database['databasename'])." ".implode(' ', $dbTables)." 2>&1 1> ".$filePath);
+		$sqlDump	= shell_exec("mysqldump --host=".escapeshellarg($databaseConfig['host'])." --port=".((int) $databaseConfig['port'])." --user=".escapeshellarg($databaseConfig['user'])." ".$passwordArgument." --no-create-db --order-by-primary --add-drop-table --comments --complete-insert --hex-blob ".escapeshellarg($databaseConfig['dbname'])." ".implode(' ', $dbTables)." 2>&1 1> ".$filePath);
 		if(strlen($sqlDump) !== 0) #mysqldump error
 		{
 			throw new Exception($sqlDump);
@@ -67,14 +67,14 @@ class SQLDumper
 		$this->setTimelimit();
 
 		$db	= Database::get();
-		$database	= array();
+		$databaseConfig	= array();
 		require_once 'includes/config.php';
 		$integerTypes	= array('tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'decimal', 'float', 'double', 'real');
 		$gameVersion	= Config::get()->VERSION;
 		$fp	= fopen($filePath, 'w');
 		fwrite($fp, "-- MySQL dump | 2Moons dumper v{$gameVersion}
 --
--- Host: {$database['host']}    Database: {$database['databasename']}
+-- Host: {$databaseConfig['host']}    Database: {$databaseConfig['dbname']}
 -- ------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -217,9 +217,9 @@ UNLOCK TABLES;
 		
 		if($this->canNative('mysql'))
 		{
-			$database	= array();
+			$databaseConfig	= array();
 			require_once 'includes/config.php';
-			$sqlDump	= shell_exec("mysql --host='".escapeshellarg($database['host'])."' --port=".((int) $database['port'])." --user='".escapeshellarg($database['user'])."' --password='".escapeshellarg($database['userpw'])."' '".escapeshellarg($database['databasename'])."' < ".escapeshellarg($filePath)." 2>&1 1> /dev/null");
+			$sqlDump	= shell_exec("mysql --host='".escapeshellarg($databaseConfig['host'])."' --port=".((int) $databaseConfig['port'])." --user='".escapeshellarg($databaseConfig['user'])."' --password='".escapeshellarg($databaseConfig['password'])."' '".escapeshellarg($databaseConfig['dbname'])."' < ".escapeshellarg($filePath)." 2>&1 1> /dev/null");
 			if(strlen($sqlDump) !== 0) #mysql error
 			{
 				throw new Exception($sqlDump);

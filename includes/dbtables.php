@@ -18,8 +18,8 @@ declare(strict_types=1);
  */
 
 define('DB_VERSION_REQUIRED', 4);
-define('DB_NAME'			, $database['databasename']);
-define('DB_PREFIX'			, $database['tableprefix']);
+define('DB_NAME'			, $databaseConfig['dbname']);
+define('DB_PREFIX'			, $databaseConfig['prefix']);
 
 // Data Tabells
 $dbTableNames	= array(

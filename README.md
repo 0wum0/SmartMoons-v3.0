@@ -132,6 +132,32 @@ SmartMoons-v3.0/
 
 ## 📖 Changelog
 
+### **v3.2.4** _(2025-10-01)_
+🔧 **Database Config Rescue: Full Unification & Verification**
+- ✅ **Unified database configuration keys across entire codebase**
+  - Old keys: `dbhost`, `dbuser`, `dbpass`, `userpw`, `databasename`, `tableprefix`
+  - New keys: `host`, `user`, `password`, `dbname`, `port`
+- ✅ **Fixed "Undefined array key 'host'" errors** - All components now use consistent keys
+- ✅ **Updated config.sample.php** - Now generates `$databaseConfig` array with unified keys
+- ✅ **Updated Database.class.php** - PDO connection uses unified config with proper DSN
+- ✅ **Updated Database_BC.class.php** - MySQLi backward compatibility layer updated
+- ✅ **Updated SQLDumper.class.php** - Backup/restore functions use unified keys
+- ✅ **Updated CustomAJAXChat.php** - Chat system database connection updated
+- ✅ **Updated install/index.php** - Installer writes correct config keys
+- ✅ **Updated includes/dbtables.php** - DB_NAME and DB_PREFIX constants use new keys
+- 🎯 **Files modified**: 
+  - `includes/config.sample.php`
+  - `includes/classes/Database.class.php`
+  - `includes/classes/Database_BC.class.php`
+  - `includes/classes/SQLDumper.class.php`
+  - `chat/lib/class/CustomAJAXChat.php`
+  - `install/index.php`
+  - `includes/dbtables.php`
+- ⚡ **PDO connection improved** - Modern DSN with utf8mb4 charset
+- 🛡️ **All legacy keys removed** - No more `userpw`, `databasename`, `tableprefix`
+- ✅ **Full consistency verified** - Installer, Config, Database, Chat all aligned
+- 👤 **Changed by: 0wum0**
+
 ### **v3.2.2** _(2025-10-01)_
 🔧 **Twig Template Fix: HTML Output Escaping**
 - ✅ **Fixed escaped HTML output in Twig templates** - Added `|raw` filter to system-controlled HTML variables
