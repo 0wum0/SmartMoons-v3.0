@@ -450,9 +450,10 @@ switch ($mode) {
 					$template->show('ins_step4.tpl');
 					exit;
 				}
-				$blowfish = substr(str_shuffle('./0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 22);
-				file_put_contents(ROOT_PATH . 'includes/config.php', sprintf(file_get_contents('includes/config.sample.php'), $host, $port, $user, $password, $dbname, $prefix, $blowfish));
-				try {
+			$blowfish = substr(str_shuffle('./0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 22);
+			// Write config with unified database keys (host, port, user, password, dbname, prefix)
+			file_put_contents(ROOT_PATH . 'includes/config.php', sprintf(file_get_contents('includes/config.sample.php'), $host, $port, $user, $password, $dbname, $prefix, $blowfish));
+			try {
 					Database::get();
 				}
 				catch (Exception $e) {
