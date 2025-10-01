@@ -31,7 +31,7 @@
 	<script src="scripts/base/jquery.cookie.js"></script>
 	<script src="scripts/base/jquery.fancybox.js?v={{ REV }}"></script>
 	<script src="scripts/login/main.js"></script>
-	<script>{% if code is defined %}var loginError = {{ code|json }};{% endif %}</script>
+	<script>{% if code is defined %}var loginError = {{ code|json_encode|raw }};{% endif %}</script>
 	{% block script %}{% endblock %}	
 </head>
 <body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }}">

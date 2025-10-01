@@ -124,6 +124,22 @@ SmartMoons-v3.0/
 
 ## 📖 Changelog
 
+### **v3.3.1** _(2025-10-01)_
+🔧 **Twig Filter Fix: Replaced Invalid '|json' Filter with '|json_encode|raw'**
+- ✅ **Fixed invalid Twig filter usage** - Replaced non-existent `|json` filter with proper `|json_encode|raw`
+- ✅ **Converted all occurrences across 5 template files** - 12 filter instances fixed
+- ✅ **Zero "Unknown json filter" errors** - All templates validated for Twig compatibility
+- ✅ **JavaScript variables now receive valid JSON data** - Proper JSON encoding for all JS configs
+- 🎯 **Files modified**:
+  - `styles/templates/login/main.header.twig` - Fixed loginError variable (line 34)
+  - `styles/templates/login/main.footer.twig` - Fixed LoginConfig object (4 properties)
+  - `styles/templates/game/page.galaxy.default.twig` - Fixed spyShips parameter (line 137)
+  - `styles/templates/game/main.header.twig` - Fixed days, months, queryString, isPlayerCardActive (lines 42-46)
+  - `styles/templates/adm/overall_header.twig` - Fixed days, months arrays (lines 42-43)
+- 🛡️ **Proper Twig syntax used**: `{{ variable|json_encode|raw }}` instead of `{{ variable|json }}`
+- ✅ **All JSON data properly encoded** - JavaScript receives valid JSON objects and arrays
+- 👤 **Changed by: 0wum0**
+
 ### **v3.2.9** _(2025-10-01)_
 🔧 **Twig Bracket Syntax Fix: Removed Invalid Brackets in Templates**
 - ✅ **Fixed invalid triple curly braces `}}}`** - Replaced with proper `}}` in all templates
