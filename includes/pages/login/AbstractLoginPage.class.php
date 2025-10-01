@@ -167,7 +167,15 @@ abstract class AbstractLoginPage
 			'LNG'			=> $LNG,
 		), false);
 		
-		$this->tplObj->display('extends:layout.'.$this->getWindow().'.tpl|'.$file);
+		// Convert .tpl extension to .twig
+		$twigFile = str_replace('.tpl', '.twig', $file);
+		
+		// For Twig, we need to create a wrapper template that extends the layout
+		// and includes the content template
+		$layoutFile = 'layout.'.$this->getWindow().'.twig';
+		
+		// Render the page template directly - Twig will handle the extends directive
+		$this->tplObj->display($twigFile);
 		exit;
 	}
 	

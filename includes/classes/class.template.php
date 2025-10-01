@@ -40,8 +40,14 @@ class template
 
 	private function twigSettings(): void
 	{
-		// Setup Twig Loader
+		// Setup Twig Loader with multiple namespaces for templates
 		$loader = new FilesystemLoader($this->templateDir);
+		
+		// Add subdirectories as additional paths for better template resolution
+		$loader->addPath($this->templateDir . 'login', 'login');
+		$loader->addPath($this->templateDir . 'game', 'game');
+		$loader->addPath($this->templateDir . 'adm', 'adm');
+		$loader->addPath($this->templateDir . 'install', 'install');
 		
 		// Create Twig Environment
 		$this->twig = new Environment($loader, [

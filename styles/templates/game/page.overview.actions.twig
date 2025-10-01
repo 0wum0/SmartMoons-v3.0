@@ -1,3 +1,5 @@
+{% extends "layout.popup.twig" %}
+
 {% block title %}{{ LNG.lm_overview }}{% endblock %}
 {% block content %}
 <div id="tabs">
@@ -15,6 +17,6 @@
 	</div>
 </div>
 {% endblock %}
-{block name="script" append}
+{% block script %}
     <script src="scripts/game/overview.actions.js"></script>
 {% endblock %}

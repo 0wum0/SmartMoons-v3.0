@@ -1,3 +1,5 @@
+{% extends "layout.full.twig" %}
+
 {% block title %}{{ LNG.ti_create_head }} - {{ LNG.lm_support }}{% endblock %}
 {% block content %}
 
@@ -34,7 +36,7 @@
 </div>
 
 {% endblock %}
-{block name="script" append}
+{% block script %}
 <script>
 $(document).ready(function() {
 $("#form").validationEngine('attach');

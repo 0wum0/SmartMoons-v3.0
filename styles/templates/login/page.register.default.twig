@@ -1,3 +1,5 @@
+{% extends "layout.light.twig" %}
+
 {% block title %}{{ LNG.siteTitleRegister }}{% endblock %}
 {% block content %}
 
@@ -81,9 +83,9 @@
                 </div>
             </div>
         </div>
-    </div>
+	</div>
 {% endblock %}
-{block name="script" append}
+{% block script %}
 {% if recaptchaEnable %}
 <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl={{ lang }}"></script>
 {% endif %}
