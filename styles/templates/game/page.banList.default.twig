@@ -1,0 +1,45 @@
+{% block title %}{{ LNG.lm_banned }}{% endblock %}
+{% block content %}
+
+<div class="content_page">
+	<div class="title">
+		{{ LNG.bn_players_banned_list }}
+	</div>
+
+	<div id="result_search" style="text-align: center;">
+		<table style="width:100%;">
+			<tr class="title">
+				<td>{{ LNG.bn_from }}</td>
+				<td>{{ LNG.bn_until }}</td>
+				<td>{{ LNG.bn_player }}</td>
+				<td>{{ LNG.bn_by }}</td>
+				<td>{{ LNG.bn_reason }}</td>
+			</tr>
+			{% if banCount %}
+			<tr>
+				<td class="right" colspan="5">{{ LNG.mg_page }}: {% if page != 1 %}<a href="game.php?page=banList&amp;side={{ page - 1 }}">&laquo;</a>&nbsp;{% endif %}{% for site in range(1, maxPage + 1, |default(1)) %}<a href="game.php?page=banList&amp;side={{ site }}">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %}&nbsp;{% endif %}{% endfor %}{% if page != maxPage %}&nbsp;<a href="game.php?page=banList&amp;side={{ page + 1 }}">&raquo;</a>{% endif %}</td>
+			</tr>
+			{% for banRow in banList %}
+			<tr>
+				<td>{{ banRow.from }}</td>
+				<td>{{ banRow.to }}</td>
+				<td>{{ banRow.player }}</td>
+				<td><a href="mailto:{{ banRow.mail }}" title="{{ banRow.info }}">{{ banRow.admin }}</a></td>
+				<td>{{ banRow.theme }}</td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<td class="right" colspan="5">{{ LNG.mg_page }}: {% if page != 1 %}<a href="game.php?page=banList&amp;side={{ page - 1 }}">&laquo;</a>&nbsp;{% endif %}{% for site in range(1, maxPage + 1, |default(1)) %}<a href="game.php?page=banList&amp;side={{ site }}">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %}&nbsp;{% endif %}{% endfor %}{% if page != maxPage %}&nbsp;<a href="game.php?page=banList&amp;side={{ page + 1 }}">&raquo;</a>{% endif %}</td>
+			</tr>
+			<tr>
+				<td colspan="5">{{ LNG.bn_exists }}{{ banCount|number_format }}{{ LNG.bn_players_banned }}</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td colspan="5">{{ LNG.bn_no_players_banned }}</td>
+			</tr>	
+			{% endif %}
+		</table>
+	</div>
+</div>
+{% endblock %}

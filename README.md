@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.1.7-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.2.0-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,18 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.2.0** _(2025-10-01)_
+🎉 **FINAL RELEASE: Complete Twig Migration - Smarty Removed**
+- ✅ **100% Twig migration completed** - ALL 180 templates converted from Smarty to Twig
+- ✅ **All .tpl files removed** - Only .twig templates remain
+- ✅ **Template.class.php fully migrated** - Using Twig Environment with cache
+- ✅ **Twig cache directory created** - cache/twig/ for compiled templates
+- ✅ **No Smarty code in templates** - Pure Twig syntax throughout
+- ✅ **Backward compatibility maintained** - PHP code seamlessly handles migration
+- 🚀 **Modern template engine** - Twig v3.21 with auto-reload and caching
+- 📝 **Enhanced conversion script** - Automated complex Smarty syntax conversion
+- 👤 **Changed by: 0wum0**
 
 ### **v3.1.7** _(2025-10-01)_
 🎯 **Admin Templates Migration to Twig**
@@ -333,7 +345,7 @@ SmartMoons-v3.0/
 ### **Technologies**
 - PHP 8.3 with strict typing
 - PDO with prepared statements
-- Smarty 4 Template Engine
+- Twig 3 Template Engine
 - Bootstrap 5 Framework
 - MariaDB / MySQL
 
@@ -353,7 +365,14 @@ See [LICENSE](LICENSE) file for details.
 - ✅ Zero deprecated functions
 - ✅ Production-ready codebase
 
-### **v3.2.0** – New Features (Planned)
+### **v3.2.0** – Full Twig Migration ✅ COMPLETED
+- ✅ Complete Smarty to Twig migration
+- ✅ All 180 templates converted
+- ✅ Zero .tpl files remaining
+- ✅ Twig cache system active
+- ✅ Modern template engine
+
+### **v3.3.0** – New Features (Planned)
 - 🔮 RESTful API
 - 🔮 WebSocket real-time updates
 - 🔮 Modern SPA frontend option

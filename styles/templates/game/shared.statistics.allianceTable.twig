@@ -5,7 +5,7 @@
 	<th>{{ LNG.st_points }}</th>
 	<th>{{ LNG.st_per_member }}</th>
 </tr>
-{foreach name=RangeList item=RangeInfo from=$RangeList}
+{% for RangeInfo in RangeList %}
 <tr>
 	<td><a class="tooltip" data-tooltip-content="{% if RangeInfo.ranking == 0 %}<span style='color:#87CEEB'>*</span>{% elseif RangeInfo.ranking < 0 %}<span style='color:red'>{{ RangeInfo.ranking }}</span>{% elseif RangeInfo.ranking > 0 %}<span style='color:green'>+{{ RangeInfo.ranking }}</span>{% endif %}">{{ RangeInfo.rank }}</a></td>
 	<td><a href="game.php?page=alliance&amp;mode=info&amp;id={{ RangeInfo.id }}" target="ally"{% if RangeInfo.id == CUser_ally %} style="color:lime"{% endif %}>{{ RangeInfo.name }}</a></td>

@@ -39,7 +39,7 @@ function check(){
 <tr>
         <td></td><td>{{ LNG.qe_level }}</td><td>{{ LNG.qe_input }}</td>
 </tr>
-{foreach item=Element from=$build}
+{% for Element in build %}
 <tr><td width="30%">{{ Element.name }}:</td><td width="30%">{{ Element.count }}</td><td width="40%"><input name="{{ Element.type }}" type="text" value="{{ Element.input }}"></td>
 {% endfor %}
 </table>
@@ -50,7 +50,7 @@ function check(){
 <tr>
         <td></td><td>{{ LNG.qe_count }}</td><td>{{ LNG.qe_input }}</td>
 </tr>
-{foreach item=Element from=$fleet}
+{% for Element in fleet %}
 <tr><td width="30%">{{ Element.name }}:</td><td width="30%">{{ Element.count }}</td><td width="40%"><input name="{{ Element.type }}" type="text" value="{{ Element.input }}"></td>
 {% endfor %}
 </table>
@@ -61,7 +61,7 @@ function check(){
 <tr>
         <td></td><td>{{ LNG.qe_count }}</td><td>{{ LNG.qe_input }}</td>
 </tr>
-{foreach item=Element from=$defense}
+{% for Element in defense %}
 <tr><td width="30%">{{ Element.name }}:</td><td width="30%">{{ Element.count }}</td><td width="40%"><input name="{{ Element.type }}" type="text" value="{{ Element.input }}"></td>
 {% endfor %}
 <tr>

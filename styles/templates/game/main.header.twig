@@ -57,7 +57,7 @@
 	<script type="text/javascript" src="./scripts/l18n/validationEngine/jquery.validationEngine-{{ lang }}.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/base/tooltip.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/game/base.js?v={{ REV }}"></script>
-	{foreach item=scriptname from=$scripts}
+	{% for scriptname in scripts %}
 	<script type="text/javascript" src="./scripts/game/{{ scriptname }}.js?v={{ REV }}"></script>
 	{% endfor %}
 	{% block script %}{% endblock %}

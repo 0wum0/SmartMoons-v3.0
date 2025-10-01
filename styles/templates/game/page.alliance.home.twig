@@ -1,0 +1,141 @@
+{% block title %}{{ LNG.lm_alliance }}{% endblock %}
+{% block content %}
+
+<div class="content_page">
+	<div class="title">
+		{{ LNG.al_your_ally }}
+	</div>
+
+	<div>
+		<table style="width: 100%;">
+		{% if ally_image %}
+		<tr>
+			<td colspan="2"><img style="max-width: 1024px;" src="{{ ally_image }}"></td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td style="width:50%">{{ LNG.al_ally_info_tag }}</td>
+			<td style="width:50%">{{ ally_tag }}</td>
+		</tr>
+		<tr>
+			<td>{{ LNG.al_ally_info_name }}</td>
+			<td>{{ ally_name }}</td>
+		</tr>
+		<tr>
+			<td>{{ LNG.al_ally_info_members }}</td>
+			<td>{{ ally_max_members }} / {{ ally_members }}{% if rights.MEMBERLIST %} (<a href="?page=alliance&amp;mode=memberList">{{ LNG.al_user_list }}</a>){% endif %}</td>
+		</tr>
+		<tr>
+			<td>{{ LNG.al_rank }}</td>
+			<td>{{ rankName }}{% if rights.ADMIN %} (<a href="?page=alliance&amp;mode=admin">{{ LNG.al_manage_alliance }}</a>){% endif %}</td>
+		</tr>
+	    {% if isModuleAvailable(smarty.const.MODULE_CHAT) %}
+		<tr>
+			<td colspan="2"><a href="#" onclick="return Dialog.AllianceChat();">{{ LNG.al_goto_chat }}</a></td>
+		</tr>
+	    {% endif %}
+		{% if rights.SEEAPPLY && applyCount > 0 %}		
+		<tr>
+			<td>{{ LNG.al_requests }}</td><td><a href="?page=alliance&amp;mode=admin&amp;action=mangeApply">{{ requests }}</a></td>
+		</tr>
+		{% endif %}
+		{% if rights.ROUNDMAIL %}
+		<tr>
+			<td>{{ LNG.al_circular_message }}</td><td><a href="game.php?page=alliance&mode=circular" onclick="return Dialog.open(this.href, 650, 300);">{{ LNG.al_send_circular_message }}</a></td>
+		</tr>
+		{% endif %}
+		{% if rights.EVENTS %}
+		<tr>
+				<th colspan="2">{{ LNG.al_events }}</th>
+			</tr>
+			{% if ally_events %}
+				{% for member, events in ally_events %}
+					<tr>
+						<td colspan="2">{{ member }}</td>
+					</tr>
+					{% for index, fleet in events %}
+					<tr>
+						<td id="fleettime_{{ index }}" class="fleets" data-fleet-end-time="{{ fleet.returntime }}" data-fleet-time="{{ fleet.resttime }}">-</td>
+						<td colspan="2">{{ fleet.text }}</td>
+					</tr>
+					{% endfor %}
+				{% endfor %}
+			{% else %}
+				<tr>
+					<td colspan="2">{{ LNG.al_no_events }}</td>
+				</tr>
+			{% endif %}
+		{% endif %}
+		<tr>
+			<td colspan="2" style="height:100px" class="bbcode">{% if ally_description %}{{ ally_description }}{% else %}{{ LNG.al_description_message }}{% endif %}</td>
+		</tr>
+		{% if ally_web %}
+		<tr>
+			<td>{{ LNG.al_web_text }}</td>
+			<td><a href="{{ ally_web }}">{{ ally_web }}</a></td>
+		</tr>
+		{% endif %}
+		<tr>
+			<th colspan="2">{{ LNG.al_inside_section }}</th>
+		</tr>
+		<tr>
+			<td colspan="2" height="100" class="bbcode">{{ ally_text }}</td>
+		</tr>
+		<tr>
+			<th colspan="2">{{ LNG.al_diplo }}</th>
+		</tr>
+		<tr>
+			<td colspan="2">
+			{% if DiploInfo %}
+				{% if DiploInfo.0 is not empty %}<b><u>{{ LNG.al_diplo_level.0 }}</u></b><br><br>{% for PaktInfo in DiploInfo.0 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% if DiploInfo.1 is not empty %}<b><u>{{ LNG.al_diplo_level.1 }}</u></b><br><br>{% for PaktInfo in DiploInfo.1 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% if DiploInfo.2 is not empty %}<b><u>{{ LNG.al_diplo_level.2 }}</u></b><br><br>{% for PaktInfo in DiploInfo.2 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% if DiploInfo.3 is not empty %}<b><u>{{ LNG.al_diplo_level.3 }}</u></b><br><br>{% for PaktInfo in DiploInfo.3 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+				{% if DiploInfo.4 is not empty %}<b><u>{{ LNG.al_diplo_level.4 }}</u></b><br><br>{% for PaktInfo in DiploInfo.4 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% else %}
+				{{ LNG.al_no_diplo }}
+			{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<th colspan="2">{{ LNG.pl_fightstats }}</th>
+		</tr>
+		<tr>
+			<td>{{ LNG.pl_totalfight }}</td><td>{{ totalfight|number_format }}</td>
+		</tr>
+		<tr>
+			<td>{{ LNG.pl_fightwon }}</td><td>{{ fightwon|number_format }} {% if totalfight %}({{ round($fightwon / $totalfight * 100, 2) }}%){% endif %}</td>
+		</tr>
+		<tr>	
+			<td>{{ LNG.pl_fightlose }}</td><td>{{ fightlose|number_format }} {% if totalfight %}({{ round($fightlose / $totalfight * 100, 2) }}%){% endif %}</td>
+		</tr>
+		<tr>	
+			<td>{{ LNG.pl_fightdraw }}</td><td>{{ fightdraw|number_format }} {% if totalfight %}({{ round($fightdraw / $totalfight * 100, 2) }}%){% endif %}</td>
+		</tr>
+		<tr>
+			<td>{{ LNG.pl_unitsshot }}</td><td>{{ unitsshot }}</td>
+		</tr>
+		<tr>
+			<td>{{ LNG.pl_unitslose }}</td><td>{{ unitslose }}</td>
+		</tr>
+		<tr>
+			<td>{{ LNG.pl_dermetal }}</td><td>{{ dermetal }}</td>
+		</tr>
+		<tr>
+			<td>{{ LNG.pl_dercrystal }}</td><td>{{ dercrystal }}</td>
+		</tr>
+	</table>
+	{% if !isOwner %}
+	<table style="width: 100%;">
+		<tr>
+			<th>{{ LNG.al_leave_alliance }}</th>
+		</tr>
+		<tr>
+			<td><a href="game.php?page=alliance&amp;mode=close" onclick="return confirm('{{ LNG.al_leave_ally }}');"><button>{{ LNG.al_continue }}</button></a></td>
+		</tr>
+	</table>
+	{% endif %}
+	</div>
+</div>
+
+{% endblock %}

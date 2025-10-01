@@ -12,10 +12,10 @@
 <div style="width:100%;text-align:center">
 {% if Raport.mode == 1 %}{{ LNG.sys_destruc_title }}{% else %}{{ LNG.sys_attack_title }}{% endif %} 
 {{ Raport.time }}:<br><br>
-{foreach $Raport.rounds as $Round => $RoundInfo}
+{% for Round, RoundInfo in Raport.rounds %}
 <table>
 	<tr>
-		{foreach $RoundInfo.attacker as $Player}
+		{% for Player in RoundInfo.attacker %}
 		{$PlayerInfo = $Raport.players[$Player.userID]}
 		<td class="transparent">
 			<table>
@@ -27,31 +27,31 @@
 						{% if Player.ships %}
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_type }}</td>
-								{foreach $Player.ships as $ShipID => $ShipData}
+								{% for ShipID, ShipData in Player.ships %}
 								<td class="transparent">{$LNG.shortNames.{{ ShipID }}}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_count }}</td>
-								{foreach $Player.ships as $ShipID => $ShipData}
+								{% for ShipID, ShipData in Player.ships %}
 								<td class="transparent">{$ShipData[0]|number}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_weapon }}</td>
-								{foreach $Player.ships as $ShipID => $ShipData}
+								{% for ShipID, ShipData in Player.ships %}
 								<td class="transparent">{$ShipData[1]|number}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_shield }}</td>
-								{foreach $Player.ships as $ShipID => $ShipData}
+								{% for ShipID, ShipData in Player.ships %}
 								<td class="transparent">{$ShipData[2]|number}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_armour }}</td>
-								{foreach $Player.ships as $ShipID => $ShipData}
+								{% for ShipID, ShipData in Player.ships %}
 								<td class="transparent">{$ShipData[3]|number}</td>
 								{% endfor %}
 							</tr>
@@ -73,7 +73,7 @@
 <br><br>
 <table>
 	<tr>
-		{foreach $RoundInfo.defender as $Player}
+		{% for Player in RoundInfo.defender %}
 		{$PlayerInfo = $Raport.players[$Player.userID]}
 		<td class="transparent">
 			<table>
@@ -85,31 +85,31 @@
 						{% if Player.ships %}
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_type }}</td>
-								{foreach $Player.ships as $ShipID => $ShipData}
+								{% for ShipID, ShipData in Player.ships %}
 								<td class="transparent">{$LNG.shortNames.{{ ShipID }}}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_count }}</td>
-								{foreach $Player.ships as $ShipID => $ShipData}
+								{% for ShipID, ShipData in Player.ships %}
 								<td class="transparent">{$ShipData[0]|number}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_weapon }}</td>
-								{foreach $Player.ships as $ShipID => $ShipData}
+								{% for ShipID, ShipData in Player.ships %}
 								<td class="transparent">{$ShipData[1]|number}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_shield }}</td>
-								{foreach $Player.ships as $ShipID => $ShipData}
+								{% for ShipID, ShipData in Player.ships %}
 								<td class="transparent">{$ShipData[2]|number}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_armour }}</td>
-								{foreach $Player.ships as $ShipID => $ShipData}
+								{% for ShipID, ShipData in Player.ships %}
 								<td class="transparent">{$ShipData[3]|number}</td>
 								{% endfor %}
 							</tr>
@@ -136,7 +136,7 @@
 <br><br>
 {% if Raport.result == "a" %}
 {{ LNG.sys_attacker_won }}<br>
-{{ LNG.sys_stealed_ressources }} {foreach $Raport.steal as $elementID => $amount}{$amount|number} {$LNG.tech.$elementID}{% if (amount@index + 2 == count(Raport.steal %} {{ LNG.sys_and }} {% elseif amount@last is not empty %}, {% endif %}{% endfor %}
+{{ LNG.sys_stealed_ressources }} {% for elementID, amount in Raport.steal %}{$amount|number} {$LNG.tech.$elementID}{% if (amount@index + 2 == count(Raport.steal %} {{ LNG.sys_and }} {% elseif amount@last is not empty %}, {% endif %}{% endfor %}
 {% elseif Raport.result == "r" %}
 {{ LNG.sys_defender_won }}
 {% else %}
@@ -145,7 +145,7 @@
 <br><br>
 {{ LNG.sys_attacker_lostunits }} {$Raport['units'][0]|number} {{ LNG.sys_units }}<br>
 {{ LNG.sys_defender_lostunits }} {$Raport['units'][1]|number} {{ LNG.sys_units }}<br>
-{{ LNG.debree_field_1 }} {foreach $Raport.debris as $elementID => $amount}{$amount|number} {$LNG.tech.$elementID}{% if (amount@index + 2 == count(Raport.debris %} {{ LNG.sys_and }} {% elseif amount@last is not empty %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
+{{ LNG.debree_field_1 }} {% for elementID, amount in Raport.debris %}{$amount|number} {$LNG.tech.$elementID}{% if (amount@index + 2 == count(Raport.debris %} {{ LNG.sys_and }} {% elseif amount@last is not empty %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
 {% if Raport.mode == 1 %}
 	{#  Destruction  #}
 	{% if Raport.moon.moonDestroySuccess == -1 %}

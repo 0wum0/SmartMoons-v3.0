@@ -1,7 +1,7 @@
 {% include "overall_header.twig" %}
 <table width=512>
 {% if error_msg %}
-{foreach from=$error_msg item=error}<tr><td colspan=2>{{ error }}</td></tr>{% endfor %}
+{% for error in error_msg %}<tr><td colspan=2>{{ error }}</td></tr>{% endfor %}
 {% endif %}
 <tr>
 	<th colspan=3>{% if id == 0 %}{{ LNG.cronjob_new }}{% else %}{{ LNG.cronjob_headline }}{{ id }}{% endif %}</th>

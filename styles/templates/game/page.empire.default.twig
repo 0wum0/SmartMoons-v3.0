@@ -1,0 +1,104 @@
+{% block title %}{{ LNG.lm_empire }}{% endblock %}
+{% block content %}
+
+<div class="content_page">
+	<div class="title">
+		{{ LNG.lv_imperium_title }}
+	</div>
+
+	<div>
+		<table>
+			<tbody>
+				<tr>
+					<td style="width:100px">{{ LNG.lv_planet }}</td>
+					<td style="width:100px;font-size: 50px;">&Sigma;</td>
+					{% for planetID, image in planetList.image %}
+					<td style="width:100px"><a href="game.php?page=overview&amp;cp={{ planetID }}"><img width="80" height="80" border="0" src="{{ dpath }}planeten/small/s_{{ image }}.jpg"></a></td>
+					{% endfor %}
+				</tr>
+				<tr>
+					<td>{{ LNG.lv_name }}</td>
+					<td>{{ LNG.lv_total }}</td>
+					{% for name in planetList.name %}
+						<td>{{ name }}</td>
+					{% endfor %}
+				</tr>
+				<tr>
+					<td>{{ LNG.lv_coords }}</td>
+					<td>-</td>
+					{% for coords in planetList.coords %}
+						<td><a href="game.php?page=galaxy&amp;galaxy={{ coords.galaxy }}&amp;system={{ coords.system }}">[{{ coords.galaxy }}:{{ coords.system }}:{{ coords.planet }}]</a></td>
+					{% endfor %}
+				</tr>
+				<tr>
+					<td>{{ LNG.lv_fields }}</td>
+					<td>-</td>
+					{% for field in planetList.field %}
+						<td>{{ field.current }} / {{ field.max }}</td>
+					{% endfor %}
+				</tr>
+				<tr>
+					<th class="title" colspan="{{ colspan }}">{{ LNG.lv_resources }}</th>
+				</tr>
+				{% for elementID, resourceArray in planetList.resource %}
+				<tr>
+					<td>{$LNG.tech.$elementID}</td>
+					<td class="res_{{ elementID }}_text">{array_sum($resourceArray)|number}</td>
+					{% for planetID, resource in resourceArray %}
+						<td class="res_{{ elementID }}_text">{{ resource|number_format }}</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+				<tr>
+					<th class="title" colspan="{{ colspan }}">{{ LNG.lv_buildings }}</th>
+				</tr>
+				{% for elementID, buildArray in planetList.build %}
+				<tr>
+					<td>{$LNG.tech.$elementID}</td>
+					<td>{array_sum($buildArray)|number}</td>
+					{% for planetID, build in buildArray %}
+						<td>{{ build|number_format }}</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+				<tr>
+					<th class="title" colspan="{{ colspan }}">{{ LNG.lv_technology }}</th>
+				</tr>
+				{% for elementID, tech in planetList.tech %}
+				<tr>
+					<td>{$LNG.tech.$elementID}</td>
+					<td>{{ tech|number_format }}</td>
+					{% for name in planetList.name %}
+						<td>{{ tech|number_format }}</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+				<tr>
+					<th class="title" colspan="{{ colspan }}">{{ LNG.lv_ships }}</th>
+				</tr>
+				{% for elementID, fleetArray in planetList.fleet %}
+				<tr>
+					<td>{$LNG.tech.$elementID}</td>
+					<td>{array_sum($fleetArray)|number}</td>
+					{% for planetID, fleet in fleetArray %}
+						<td>{{ fleet|number_format }}</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+				<tr>
+					<th class="title" colspan="{{ colspan }}">{{ LNG.lv_defenses }}</th>
+				</tr>
+				{% for elementID, fleetArray in planetList.defense %}
+				<tr>
+					<td>{$LNG.tech.$elementID}</td>
+					<td>{array_sum($fleetArray)|number}</td>
+					{% for planetID, fleet in fleetArray %}
+						<td>{{ fleet|number_format }}</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@
 	<th>{{ log_time }}</th>
 	<th>{{ log_log }}</th>
 </tr>
-{foreach item=LogInfo from=$LogArray}
+{% for LogInfo in LogArray %}
 <tr>
 	<td>{{ LogInfo.id }}</td>
 	<td>{{ LogInfo.admin }}</td>

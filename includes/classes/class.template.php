@@ -183,7 +183,7 @@ class template
 		));
 		
 		$this->gotoside($dest !== false ? $dest : '', $time);
-		$this->show('error_message_body.tpl');
+		$this->show('error_message_body.twig');
 	}
 	
 	public static function printMessage(string $Message, bool $fullSide = true, ?array $redirect = NULL): void

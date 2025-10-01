@@ -14,7 +14,7 @@
 	<th>{{ LNG.ad_ships }}</th>
 	<th>{{ LNG.ad_count }}</th>
 </tr>
-{foreach key=id item=input from=$inputlist}
+{% for id, input in inputlist %}
 <tr><td>{{ id }}</td><td>{$LNG.tech.{{ id }}}</td><td><input name="{{ input.type }}" type="text" value="0"></td></tr>
 {% endfor %}
 <tr>

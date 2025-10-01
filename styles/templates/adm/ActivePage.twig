@@ -21,7 +21,7 @@
 	<td>{{ LNG.ap_status }}</td>
 	<td>{{ LNG.ap_del }}</td>
 </tr>
-{foreach name=User item=User from=$Users}
+{% for User in Users %}
 <tr>
 	<td>{{ User.id }}</td>
 	<td>{{ User.name }}</td>

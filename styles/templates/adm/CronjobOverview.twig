@@ -15,15 +15,15 @@
 	<th>{{ LNG.cronjob_edit }}</th>
 	<th>{{ LNG.cronjob_delete }}</th>
 </tr>
-{foreach item=CronjobInfo from=$CronjobArray}
+{% for CronjobInfo in CronjobArray %}
 <tr>
 	<td>{{ CronjobInfo.id }}</td>
 	<td>{$LNG["cronName_{{ CronjobInfo.name }}"]}</td>
 	<td>{{ CronjobInfo.min }}</td>
 	<td>{{ CronjobInfo.hours }}</td>
 	<td>{{ CronjobInfo.dom }}</td>
-	<td>{% if CronjobInfo.month == '*' %}{{ CronjobInfo.month }}{% else %}{foreach item=month from=$CronjobInfo.month}{$LNG.months.{$month-1}}{% endfor %}{% endif %}</td>
-	<td>{% if CronjobInfo.dow == '*' %}{{ CronjobInfo.dow }}{% else %}{foreach item=d from=$CronjobInfo.dow}{$LNG.week_day.{{ d }}} {% endfor %}{% endif %}</td>
+	<td>{% if CronjobInfo.month == '*' %}{{ CronjobInfo.month }}{% else %}{% for month in CronjobInfo.month %}{$LNG.months.{$month-1}}{% endfor %}{% endif %}</td>
+	<td>{% if CronjobInfo.dow == '*' %}{{ CronjobInfo.dow }}{% else %}{% for d in CronjobInfo.dow %}{$LNG.week_day.{{ d }}} {% endfor %}{% endif %}</td>
 	<td>{{ CronjobInfo.class }}</td>
 	<td>{% if CronjobInfo.isActive %}{date($LNG.php_tdformat, $CronjobInfo.nextTime)}{% else %}-{% endif %}</td>
 	<td><a href="admin.php?page=cronjob&amp;action=enable&amp;id={{ CronjobInfo.id }}&amp;enable={% if CronjobInfo.isActive %}0" style="color:lime">{{ LNG.cronjob_inactive }}{% else %}1" style="color:red">{{ LNG.cronjob_active }}{% endif %}</a></td>
