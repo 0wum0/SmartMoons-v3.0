@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.1.1-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.1.7-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,46 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.1.7** _(2025-10-01)_
+🎯 **Admin Templates Migration to Twig**
+- ✅ **Converted 57 of 63 admin templates from Smarty to Twig** - 90% admin/ directory migrated
+- 🔧 **All major admin pages converted** - User management, config, logs, stats, etc.
+- 👤 **Changed by: 0wum0**
+
+### **v3.1.6** _(2025-10-01)_
+🎯 **Game Templates Migration to Twig (Part 1)**
+- ✅ **Converted 39 of 83 game templates from Smarty to Twig** - 47% game/ directory migrated
+- 🎨 **Core game functionality converted** - Alliance, galaxy, messages, settings, etc.
+- 🔧 **Navigation and layouts migrated** - Header, footer, navigation system
+- 👤 **Changed by: 0wum0**
+
+### **v3.1.5** _(2025-10-01)_
+🎯 **Login Templates Migration to Twig**
+- ✅ **Converted all 18 login templates from Smarty to Twig** - Complete login/ directory migrated
+- 🎨 **All pages converted** - Index, register, news, battlehall, banlist, screens, etc.
+- 🔧 **Navigation and layouts migrated** - Header, footer, navigation, all layout types
+- 👤 **Changed by: 0wum0**
+
+### **v3.1.4** _(2025-10-01)_
+🎯 **Install Templates Migration to Twig**
+- ✅ **Converted all 16 install templates from Smarty to Twig** - Complete install/ directory migrated
+- ✅ **Created Python conversion script** - Automated Smarty→Twig syntax conversion
+- 🎨 **Maintained all functionality** - Forms, validation, and installation flow preserved
+- 👤 **Changed by: 0wum0**
+
+### **v3.1.3** _(2025-10-01)_
+🔧 **Template Class Migration to Twig**
+- ✅ **Converted Template.class.php from Smarty to Twig** - Complete rewrite using Twig Environment
+- ✅ **Created Twig cache directory** - cache/twig/ for compiled templates
+- 🎯 **Maintained backward compatibility** - All existing methods preserved
+- 👤 **Changed by: 0wum0**
+
+### **v3.1.2** _(2025-10-01)_
+🎨 **Twig Template Engine Installation**
+- ✅ **Installed Twig via Composer** - Twig v3.21.1 installed
+- 🔧 **Preparation for Smarty to Twig migration** - Template system modernization begins
+- 👤 **Changed by: 0wum0**
 
 ### **v3.1.1** _(2025-10-01)_
 🔧 **Final Refinement: Complete Modernization Quality Check**
