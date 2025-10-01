@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -15,18 +17,18 @@
  * @link https://github.com/jkroepke/2Moons
  */
 
-require 'includes/classes/cache/builder/BuildCache.interface.php';
-require 'includes/classes/cache/resource/CacheFile.class.php';
+require_once 'includes/classes/cache/builder/BuildCache.interface.php';
+require_once 'includes/classes/cache/resource/CacheFile.class.php';
 
 class Cache
 {
-	private $cacheResource = NULL;
-	private $cacheBuilder = array();
-	private $cacheObj = array();
+	private ?CacheFile $cacheResource = NULL;
+	private array $cacheBuilder = array();
+	private array $cacheObj = array();
 
-	static private $obj = NULL;
+	static private ?Cache $obj = NULL;
 
-	static public function get()
+	static public function get(): Cache
 	{
 		if(is_null(self::$obj))
 		{
@@ -40,11 +42,11 @@ class Cache
 		$this->cacheResource = new CacheFile();
 	}
 	
-	public function add($Key, $ClassName) {
+	public function add(string $Key, string $ClassName): void {
 		$this->cacheBuilder[$Key]	= $ClassName;
 	}
 
-	public function getData($Key, $rebuild = true) {
+	public function getData(string $Key, bool $rebuild = true): array {
 		if(!isset($this->cacheObj[$Key]) && !$this->load($Key))
 		{
 			if($rebuild)
@@ -59,7 +61,7 @@ class Cache
 		return $this->cacheObj[$Key];
 	}
 
-	public function flush($Key) {
+	public function flush(string $Key): bool {
 		if(!isset($this->cacheObj[$Key]) && !$this->load($Key))
 			$this->buildCache($Key);
 		
@@ -67,7 +69,7 @@ class Cache
 		return $this->buildCache($Key);
 	}
 
-	public function load($Key) {
+	public function load(string $Key): bool {
 		$cacheData	= $this->cacheResource->open($Key);
 		
 		if($cacheData === false)
@@ -81,7 +83,7 @@ class Cache
 		return true;
 	}
 
-	public function buildCache($Key) {
+	public function buildCache(string $Key): bool {
 		$className		= $this->cacheBuilder[$Key];
 
 		$path			= 'includes/classes/cache/builder/'.$className.'.class.php';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -17,7 +19,7 @@
 
 class ArrayUtil
 {
-	static public function combineArrayWithSingleElement($keys, $var)
+	static public function combineArrayWithSingleElement(array $keys, mixed $var): array
 	{
 		if(empty($keys))
 		{
@@ -26,7 +28,7 @@ class ArrayUtil
 		return array_combine($keys, array_fill(0, count($keys), $var));
 	}
 
-	static public function combineArrayWithKeyElements($keys, $var)
+	static public function combineArrayWithKeyElements(array $keys, array $var): array
 	{
 		$temp	= array();
 		foreach($keys as $key)
@@ -45,7 +47,7 @@ class ArrayUtil
 	}
 	
 	// http://www.php.net/manual/en/function.array-key-exists.php#81659
-	static public function arrayKeyExistsRecursive($needle, $haystack)
+	static public function arrayKeyExistsRecursive(string|int $needle, array $haystack): bool
 	{
 		$result = array_key_exists($needle, $haystack);
 		

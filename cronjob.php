@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -19,7 +21,7 @@ define('MODE', 'CRON');
 define('ROOT_PATH', str_replace('\\', '/',dirname(__FILE__)).'/');
 set_include_path(ROOT_PATH);
 
-require 'includes/common.php';
+require_once 'includes/common.php';
 
 $session	= Session::load();
 
@@ -43,7 +45,7 @@ if(empty($cronjobID))
 	exit;
 }
 
-require 'includes/classes/Cronjob.class.php';
+require_once 'includes/classes/Cronjob.class.php';
 
 $cronjobsTodo	= Cronjob::getNeedTodoExecutedJobs();
 if(!in_array($cronjobID, $cronjobsTodo))

@@ -1,6 +1,6 @@
 <?php
 
-
+declare(strict_types=1);
 /**
  *  2Moons
  *   by Jan-Otto Kröpke 2009-2016
@@ -76,8 +76,8 @@ class CustomAJAXChat extends AJAXChat
 		chdir(ROOT_PATH);
 
 		$database		= array();
-		require 'includes/config.php';
-		require 'includes/common.php';
+		require_once 'includes/config.php';
+		require_once 'includes/common.php';
 
 		$this->setConfig('dbConnection', 'type', 'mysqli');
 		$this->setConfig('dbConnection', 'host', $database['host']);

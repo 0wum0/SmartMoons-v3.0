@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *  2Moons 
  *   by Jan-Otto Kröpke 2009-2016
@@ -19,9 +21,9 @@ define('MODE', 'INGAME');
 define('ROOT_PATH', str_replace('\\', '/',dirname(__FILE__)).'/');
 set_include_path(ROOT_PATH);
 
-require 'includes/pages/game/AbstractGamePage.class.php';
-require 'includes/pages/game/ShowErrorPage.class.php';
-require 'includes/common.php';
+require_once 'includes/pages/game/AbstractGamePage.class.php';
+require_once 'includes/pages/game/ShowErrorPage.class.php';
+require_once 'includes/common.php';
 /** @var $LNG Language */
 
 $page 		= HTTP::_GP('page', 'overview');
@@ -36,7 +38,7 @@ if(!file_exists($path)) {
 }
 
 // Added Autoload in feature Versions
-require $path;
+require_once $path;
 
 $pageObj	= new $pageClass;
 // PHP 5.2 FIX

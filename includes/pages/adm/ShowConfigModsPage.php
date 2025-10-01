@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * 2moons-2.0
  * The project is reserved for its owner for any bug or question you can contact him
