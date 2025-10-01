@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.2.6-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.2.7-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,29 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.2.7** _(2025-10-01)_
+🔧 **Database Config Unification: Final Verification & Documentation**
+- ✅ **Verified unified database configuration across entire codebase**
+  - All components use consistent keys: `host`, `user`, `password`, `dbname`, `port`
+- ✅ **Installer verified** - Correctly writes `$databaseConfig` array with unified keys
+- ✅ **Database.class.php verified** - PDO connection uses unified config
+- ✅ **Database_BC.class.php verified** - MySQLi backward compatibility uses unified keys
+- ✅ **SQLDumper.class.php verified** - Backup/restore operations use unified keys
+- ✅ **Chat system verified** - CustomAJAXChat.php uses unified keys
+- ✅ **No legacy keys remaining** - Zero usage of `dbhost`, `dbuser`, `dbpass`
+- ✅ **"Undefined array key 'host'" error confirmed fixed**
+- 🎯 **Files verified**: 
+  - `includes/config.sample.php` - Correct template with unified keys
+  - `install/index.php` - Installer writes correct config format
+  - `includes/classes/Database.class.php` - PDO connection verified
+  - `includes/classes/Database_BC.class.php` - MySQLi connection verified
+  - `includes/classes/SQLDumper.class.php` - Backup operations verified
+  - `chat/lib/class/CustomAJAXChat.php` - Chat DB connection verified
+  - `includes/dbtables.php` - Constants use unified keys
+- ⚡ **100% consistency across all database operations**
+- 🛡️ **Modern DSN format**: `mysql:host={host};port={port};dbname={dbname};charset=utf8mb4`
+- 👤 **Changed by: 0wum0**
 
 ### **v3.2.6** _(2025-10-01)_
 🔧 **Twig Filter Fix: Replaced Invalid 'contains' Filter**
