@@ -132,6 +132,15 @@ SmartMoons-v3.0/
 
 ## 📖 Changelog
 
+### **v3.1.X** _(2025-10-01)_
+🔧 **Install System: Twig Migration Fix**
+- ✅ **Removed legacy Smarty `setCaching()` call** from install/index.php
+- ✅ **Converted all `assign()` to `assign_vars()`** - 16 method calls updated
+- ✅ **Full Twig compatibility** - Installer now uses modern Twig template engine
+- 🔧 **Fix**: Fatal error "Call to undefined method template::setCaching()" resolved
+- 📝 **Installation system fully operational** with Twig
+- 👤 **Changed by: 0wum0**
+
 ### **v3.2.0** _(2025-10-01)_
 🎉 **FINAL RELEASE: Complete Twig Migration - Smarty Removed**
 - ✅ **100% Twig migration completed** - ALL 180 templates converted from Smarty to Twig

@@ -30,8 +30,8 @@ $LNG->includeData(array('L18N', 'INGAME', 'INSTALL', 'CUSTOM'));
 $mode = HTTP::_GP('mode', '');
 
 $template = new template();
-$template->setCaching(false);
-$template->assign(array(
+// Twig caching is handled automatically in class.template.php
+$template->assign_vars(array(
 	'lang'       => $LNG->getLanguage(),
 	'Selector'   => $LNG->getAllowedLangs(false),
 	'title'      => $LNG['title_install'] . ' &bull; 2Moons',
@@ -269,7 +269,7 @@ switch ($mode) {
 						HTTP::redirectTo('index.php?mode=install&step=2');
 					}
 					else {
-						$template->assign(array(
+						$template->assign_vars(array(
 							'accept' => false
                         ));
 					}
@@ -372,7 +372,7 @@ switch ($mode) {
 				else {
 					$done = '';
 				}
-				$template->assign(array(
+				$template->assign_vars(array(
 					'dir'    => $dirs,
 					'json'   => $json,
 					'done'   => $done,
@@ -386,7 +386,7 @@ switch ($mode) {
 				$template->show('ins_req.tpl');
 				break;
 			case 3:
-                $template->assign(array(
+                $template->assign_vars(array(
                     'host'     => getenv('DB_HOST'),
                     'user'     => getenv('DB_USER'),
                     'password' => getenv('DB_PASSWORD'),
@@ -401,42 +401,42 @@ switch ($mode) {
 				$userpw = HTTP::_GP('passwort', '', true);
 				$dbname = HTTP::_GP('dbname', '', true);
 				$prefix = HTTP::_GP('prefix', 'uni1_');
-				$template->assign(array(
+				$template->assign_vars(array(
 					'host'   => $host,
 					'port'   => $port,
 					'user'   => $user,
 					'dbname' => $dbname,
 					'prefix' => $prefix,));
 				if (empty($dbname)) {
-					$template->assign(array(
+					$template->assign_vars(array(
 						'class'   => 'fatalerror',
 						'message' => $LNG['step2_db_no_dbname'],));
 					$template->show('ins_step4.tpl');
 					exit;
 				}
 				if (strlen($prefix) > 36) {
-					$template->assign(array(
+					$template->assign_vars(array(
 						'class'   => 'fatalerror',
 						'message' => $LNG['step2_db_too_long'],));
 					$template->show('ins_step4.tpl');
 					exit;
 				}
 				if (strspn($prefix, '-./\\') !== 0) {
-					$template->assign(array(
+					$template->assign_vars(array(
 						'class'   => 'fatalerror',
 						'message' => $LNG['step2_prefix_invalid'],));
 					$template->show('ins_step4.tpl');
 					exit;
 				}
 				if (preg_match('!^[0-9]!', $prefix) !== 0) {
-					$template->assign(array(
+					$template->assign_vars(array(
 						'class'   => 'fatalerror',
 						'message' => $LNG['step2_prefix_invalid'],));
 					$template->show('ins_step4.tpl');
 					exit;
 				}
 				if (is_file(ROOT_PATH . "includes/config.php") && filesize(ROOT_PATH . "includes/config.php") != 0) {
-					$template->assign(array(
+					$template->assign_vars(array(
 						'class'   => 'fatalerror',
 						'message' => $LNG['step2_config_exists'],));
 					$template->show('ins_step4.tpl');
@@ -444,7 +444,7 @@ switch ($mode) {
 				}
 				@touch(ROOT_PATH . "includes/config.php");
 				if (!is_writable(ROOT_PATH . "includes/config.php")) {
-					$template->assign(array(
+					$template->assign_vars(array(
 						'class'   => 'fatalerror',
 						'message' => $LNG['step2_conf_op_fail'],));
 					$template->show('ins_step4.tpl');
@@ -463,7 +463,7 @@ switch ($mode) {
 					Database::get();
 				}
 				catch (Exception $e) {
-					$template->assign(array(
+					$template->assign_vars(array(
 						'class'   => 'fatalerror',
 						'message' => $LNG['step2_db_con_fail'] . '</p><p>' . $e->getMessage(),));
 					$template->show('ins_step4.tpl');
@@ -472,7 +472,7 @@ switch ($mode) {
 					exit;
 				}
 				@touch(ROOT_PATH . "includes/error.log");
-				$template->assign(array(
+				$template->assign_vars(array(
 					'class'   => 'noerror',
 					'message' => $LNG['step2_db_done'],));
 				$template->show('ins_step4.tpl');
@@ -531,7 +531,7 @@ switch ($mode) {
 				require_once 'includes/config.php';
 					@unlink('includes/config.php');
 					$error = $e->getMessage();
-					$template->assign(array(
+					$template->assign_vars(array(
 						'host'    => $database['host'],
 						'port'    => $database['port'],
 						'user'    => $database['user'],
@@ -545,7 +545,7 @@ switch ($mode) {
 				}
 				break;
 			case 7:
-                $template->assign(array(
+                $template->assign_vars(array(
                     'name'     => getenv('ADMIN_NAME'),
                     'password' => getenv('ADMIN_PASSWORD'),
                     'mail'     => getenv('ADMIN_MAIL'),
@@ -563,7 +563,7 @@ switch ($mode) {
 				$hashPassword = PlayerUtil::cryptPassword($password);
 
 				if (empty($username) || empty($password) || empty($mail)) {
-					$template->assign(array(
+					$template->assign_vars(array(
 						'message' 	=> $LNG['step8_need_fields'],
 						'username'	=> $username,
 						'mail'		=> $mail,
@@ -584,7 +584,7 @@ switch ($mode) {
 		}
 		break;
 	default:
-		$template->assign(array(
+		$template->assign_vars(array(
 			'intro_text'    => $LNG['intro_text'],
 			'intro_welcome' => $LNG['intro_welcome'],
 			'intro_install' => $LNG['intro_install'],));
