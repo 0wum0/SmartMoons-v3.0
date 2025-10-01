@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.2.9-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.3.2-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -123,6 +123,17 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.3.2** _(2025-10-01)_
+🔧 **Twig Block Definition Fix: Removed Duplicate Block Definitions**
+- ✅ **Fixed duplicate {% block script %} definitions** - Removed empty duplicate blocks in templates
+- ✅ **Analyzed all 180+ Twig templates** - Only one file had duplicate blocks
+- ✅ **Zero Twig compilation errors** - Templates now follow strict "one block per name" rule
+- 🎯 **File fixed**:
+  - `styles/templates/game/page.overview.default.twig` - Removed empty `{% block script %}` on line 4, kept functional block with overview.js script
+- 🛡️ **Twig-compliant**: Each block name can only be defined once per template
+- ✅ **Game overview page loads correctly** - All JavaScript properly injected via single script block
+- 👤 **Changed by: 0wum0**
 
 ### **v3.3.1** _(2025-10-01)_
 🔧 **Twig Filter Fix: Replaced Invalid '|json' Filter with '|json_encode|raw'**
