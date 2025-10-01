@@ -6,7 +6,7 @@
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.3-8892BF.svg?style=for-the-badge&logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/License-MIT-00ff00.svg?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.1.5-00ffff.svg?style=for-the-badge)](CHANGES.md)
+[![Version](https://img.shields.io/badge/Version-3.1.7-00ffff.svg?style=for-the-badge)](CHANGES.md)
 
 </div>
 
@@ -131,6 +131,19 @@ SmartMoons-v3.0/
 ---
 
 ## 📖 Changelog
+
+### **v3.1.7** _(2025-10-01)_
+🎯 **Admin Templates Migration to Twig**
+- ✅ **Converted 57 of 63 admin templates from Smarty to Twig** - 90% admin/ directory migrated
+- 🔧 **All major admin pages converted** - User management, config, logs, stats, etc.
+- 👤 **Changed by: 0wum0**
+
+### **v3.1.6** _(2025-10-01)_
+🎯 **Game Templates Migration to Twig (Part 1)**
+- ✅ **Converted 39 of 83 game templates from Smarty to Twig** - 47% game/ directory migrated
+- 🎨 **Core game functionality converted** - Alliance, galaxy, messages, settings, etc.
+- 🔧 **Navigation and layouts migrated** - Header, footer, navigation system
+- 👤 **Changed by: 0wum0**
 
 ### **v3.1.5** _(2025-10-01)_
 🎯 **Login Templates Migration to Twig**
