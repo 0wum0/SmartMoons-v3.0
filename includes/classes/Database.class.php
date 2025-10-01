@@ -63,7 +63,7 @@ class Database
 
 		$dbTableNames = array();
 
-		include 'includes/dbtables.php';
+		include_once 'includes/dbtables.php';
 
 		foreach($dbTableNames as $key => $name)
 		{
