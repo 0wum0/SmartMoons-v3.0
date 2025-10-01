@@ -7,7 +7,7 @@
 <tr>
     <td colspan="3"><strong>{{ mod_info }}</strong></td>
 </tr>
-{foreach key=ID item=Info from=$Modules}
+{% for ID, Info in Modules %}
 <tr>
 	<td>{{ Info.name }}</td>
 	{% if Info.state == 1 %}

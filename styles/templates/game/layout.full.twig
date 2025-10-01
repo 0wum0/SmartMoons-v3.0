@@ -1,0 +1,16 @@
+{% include file="main.header.twig" bodyclass="full"}
+{% include "main.navigation_header.twig" %}
+{% include "main.topnav.twig" %}
+{% if hasAdminAccess %}
+<div class="globalWarning">
+	{{ LNG.admin_access_1 }} <a id="drop-admin">{{ LNG.admin_access_link }}</a>{{ LNG.admin_access_2 }}
+</div>
+{% endif %}
+{% include "main.navigation.twig" %}
+<div id="page">
+	<div id="content">
+		{% block content %}{% endblock %}
+	</div>
+</div>
+{% for cronjob in cronjobs %}<img src="cronjob.php?cronjobID={{ cronjob }}" alt="">{% endfor %}
+{% include file="main.footer.twig" nocache}

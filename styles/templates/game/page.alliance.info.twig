@@ -53,11 +53,11 @@
 		<tr>
 			<td colspan="2">
 			{% if diplomaticData %}
-			{% if diplomaticData.0 %}<b><u>{{ LNG.al_diplo_level.0 }}</u></b><br><br>{foreach item=PaktInfo from=$diplomaticData.0}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-			{% if diplomaticData.1 %}<b><u>{{ LNG.al_diplo_level.1 }}</u></b><br><br>{foreach item=PaktInfo from=$diplomaticData.1}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-			{% if diplomaticData.2 %}<b><u>{{ LNG.al_diplo_level.2 }}</u></b><br><br>{foreach item=PaktInfo from=$diplomaticData.2}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-			{% if diplomaticData.3 %}<b><u>{{ LNG.al_diplo_level.3 }}</u></b><br><br>{foreach item=PaktInfo from=$diplomaticData.3}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-				{% if diplomaticData.4 %}<b><u>{{ LNG.al_diplo_level.4 }}</u></b><br><br>{foreach item=PaktInfo from=$diplomaticData.4}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% if diplomaticData.0 %}<b><u>{{ LNG.al_diplo_level.0 }}</u></b><br><br>{% for PaktInfo in diplomaticData.0 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% if diplomaticData.1 %}<b><u>{{ LNG.al_diplo_level.1 }}</u></b><br><br>{% for PaktInfo in diplomaticData.1 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% if diplomaticData.2 %}<b><u>{{ LNG.al_diplo_level.2 }}</u></b><br><br>{% for PaktInfo in diplomaticData.2 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+			{% if diplomaticData.3 %}<b><u>{{ LNG.al_diplo_level.3 }}</u></b><br><br>{% for PaktInfo in diplomaticData.3 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
+				{% if diplomaticData.4 %}<b><u>{{ LNG.al_diplo_level.4 }}</u></b><br><br>{% for PaktInfo in diplomaticData.4 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
 			{% else %}
 				{{ LNG.al_no_diplo }}
 			{% endif %}

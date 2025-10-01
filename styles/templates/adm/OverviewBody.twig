@@ -3,7 +3,7 @@
 	<h1>{{ LNG.ow_title }}</h1>
 	<table width="90%" style="border:2px {% if empty(Messages %}lime{% else %}red{% endif %} solid;text-align:center;font-weight:bold;">
 		<tr>
-			<td class="transparent">{foreach item=Message from=$Messages}
+			<td class="transparent">{% for Message in Messages %}
 					<span style="color:red">{{ Message }}</span><br>
 					{% else %}{{ LNG.ow_none }}{% endfor %}
 			</td>

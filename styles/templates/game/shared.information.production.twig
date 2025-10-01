@@ -1,0 +1,35 @@
+{$count = count($productionTable.usedResource)}
+
+<table style="width:100%;">
+	<tbody>
+		<tr>
+			<td colspan="2">
+				<table>
+				<tr>
+					<th>{{ LNG.in_level }}</th>
+					{% for resourceID in productionTable.usedResource %}
+					<th colspan="2">{$LNG.tech.$resourceID}</th>
+					{% endfor %}
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					{% for resourceID in productionTable.usedResource %}
+					<th>{{ LNG.in_prod_p_hour }}</th>
+					<th>{{ LNG.in_difference }}</th>
+					{% endfor %}
+				</tr>
+				{% for elementLevel, productionData in productionTable.production %}
+				<tr>
+					<td><span{% if CurrentLevel == elementLevel %} style="color:#ff0000"{% endif %}>{{ elementLevel }}</span></td>
+					{% for resourceID, production in productionData %}
+					{$productionDiff = $production - $productionTable.production.$CurrentLevel.$resourceID}
+					<td><span style="color:{% if production > 0 %}lime{% elseif production < 0 %}red{% else %}white{% endif %}">{{ production|number_format }}</span></td>
+					<td><span style="color:{% if productionDiff > 0 %}lime{% elseif productionDiff < 0 %}red{% else %}white{% endif %}">{{ productionDiff|number_format }}</span></td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>

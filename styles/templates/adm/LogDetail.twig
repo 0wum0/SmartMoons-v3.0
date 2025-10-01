@@ -22,7 +22,7 @@
 	<th>{{ log_old }}</th>
 	<th>{{ log_new }}</th>
 </tr>
-{foreach item=LogInfo from=$LogArray}
+{% for LogInfo in LogArray %}
 {% if (LogInfo.old <> LogInfo.new %}
 <tr>
 	<td>{{ LogInfo.Element }}</td>

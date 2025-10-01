@@ -30,10 +30,10 @@
 <tr>
         <th colspan="2">{{ LNG.tech.900 }}</th>
 </tr>
-{foreach item=Element from=$reslist.resstype.1}
+{% for Element in reslist.resstype.1 %}
 <tr><td width="50%">{$LNG.tech.{{ Element }}}:</td><td width="50%"><input type="text" name="element_{{ Element }}" value="0" pattern="[0-9]*"></td></tr>
 {% endfor %}
-{foreach item=Element from=$reslist.resstype.3}
+{% for Element in reslist.resstype.3 %}
 <tr><td width="50%">{$LNG.tech.{{ Element }}}:</td><td width="50%"><input type="text" name="element_{{ Element }}" value="0" pattern="[0-9]*"></td></tr>
 {% endfor %}
 </table>
@@ -43,7 +43,7 @@
 <tr>
         <th colspan="2">{{ LNG.tech.0 }}</th>
 </tr>
-{foreach item=Element from=$reslist.build}
+{% for Element in reslist.build %}
 <tr><td width="50%">{$LNG.tech.{{ Element }}}:</td><td width="50%"><input type="text" name="element_{{ Element }}" value="0" pattern="[0-9]*"></td></tr>
 {% endfor %}
 </table>
@@ -53,7 +53,7 @@
 <tr>
         <th colspan="2">{{ LNG.tech.100 }}</th>
 </tr>
-{foreach item=Element from=$reslist.tech}
+{% for Element in reslist.tech %}
 <tr><td width="50%">{$LNG.tech.{{ Element }}}:</td><td width="50%"><input type="text" name="element_{{ Element }}" value="0" pattern="[0-9]*"></td></tr>
 {% endfor %}
 </table>
@@ -63,7 +63,7 @@
 <tr>
         <th colspan="2">{{ LNG.tech.200 }}</th>
 </tr>
-{foreach item=Element from=$reslist.fleet}
+{% for Element in reslist.fleet %}
 <tr><td width="50%">{$LNG.tech.{{ Element }}}:</td><td width="50%"><input type="text" name="element_{{ Element }}" value="0" pattern="[0-9]*"></td></tr>
 {% endfor %}
 </table>
@@ -73,7 +73,7 @@
 <tr>
         <th colspan="2">{{ LNG.tech.400 }}</th>
 </tr>
-{foreach item=Element from=$reslist.defense}
+{% for Element in reslist.defense %}
 <tr><td width="50%">{$LNG.tech.{{ Element }}}:</td><td width="50%"><input type="text" name="element_{{ Element }}" value="0" pattern="[0-9]*"></td></tr>
 {% endfor %}
 </table>
@@ -83,7 +83,7 @@
 <tr>
         <th colspan="2">{{ LNG.tech.600 }}</th>
 </tr>
-{foreach item=Element from=$reslist.officier}
+{% for Element in reslist.officier %}
 <tr><td width="50%">{$LNG.tech.{{ Element }}}:</td><td width="50%"><input type="text" name="element_{{ Element }}" value="0" pattern="[0-9]*"></td></tr>
 {% endfor %}
 </table>

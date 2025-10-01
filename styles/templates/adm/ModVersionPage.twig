@@ -1,5 +1,5 @@
 {% include "overall_header.twig" %}
-{foreach item=Mod from=$MVC}
+{% for Mod in MVC %}
 <table width="60%">
     <tr>
 		<th colspan="2">{{ Mod.title }}</th>

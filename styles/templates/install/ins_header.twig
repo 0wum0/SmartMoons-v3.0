@@ -34,7 +34,7 @@
 	<script type="text/javascript" src="../scripts/l18n/validationEngine/jquery.validationEngine-{{ lang }}.js"></script>
 	<script type="text/javascript" src="../scripts/base/tooltip.js"></script>
 	<script type="text/javascript" src="../scripts/game/base.js"></script>
-	{foreach item=scriptname from=$scripts}
+	{% for scriptname in scripts %}
 	<script type="text/javascript" src="../scripts/game/{{ scriptname }}.js"></script>
 	{% endfor %}
 	{% block script %}{% endblock %}

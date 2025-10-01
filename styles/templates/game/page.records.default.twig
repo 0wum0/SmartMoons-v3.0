@@ -1,0 +1,85 @@
+{% block title %}{{ LNG.lm_records }}{% endblock %}
+{% block content %}
+
+<div class="content_page">
+	<div class="title">
+		{{ LNG.rec_last_update_on }}: {{ update }}
+	</div>
+
+	<div>
+		<table style="width: 100%;">
+			<tbody>
+				<tr class="title">
+					<th width="33%">{{ LNG.tech.0 }}</th>
+					<th width="33%">{{ LNG.rec_players }}</th>
+					<th width="33%">{{ LNG.rec_level }}</th>
+				</tr>
+				{% for elementID, elementRow in buildList %}
+				<tr>
+					<td>{$LNG.tech.{{ elementID }}}</td>
+					{% if elementRow is not empty %}
+					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if !user@last %}<br>{% endif %}{% endfor %}</td>
+					<td>{{ elementRow[0].level|number_format }}</td>
+					{% else %}
+					<td>-</td>
+					<td>-</td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+				<tr class="title">
+					<th>{{ LNG.tech.100 }}</th>
+					<th>{{ LNG.rec_players }}</th>
+					<th>{{ LNG.rec_level }}</th>
+				</tr>
+				{% for elementID, elementRow in researchList %}
+				<tr>
+					<td>{$LNG.tech.{{ elementID }}}</td>
+					{% if elementRow is not empty %}
+					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if !user@last %}<br>{% endif %}{% endfor %}</td>
+					<td>{{ elementRow[0].level|number_format }}</td>
+					{% else %}
+					<td>-</td>
+					<td>-</td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+				<tr class="title">
+					<th>{{ LNG.tech.200 }}</th>
+					<th>{{ LNG.rec_players }}</th>
+					<th>{{ LNG.rec_count }}</th>
+				</tr>
+				{% for elementID, elementRow in fleetList %}
+				<tr>
+					<td>{$LNG.tech.{{ elementID }}}</td>
+					{% if elementRow is not empty %}
+					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if !user@last %}<br>{% endif %}{% endfor %}</td>
+					<td>{{ elementRow[0].level|number_format }}</td>
+					{% else %}
+					<td>-</td>
+					<td>-</td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+				<tr class="title">
+					<th>{{ LNG.tech.400 }}</th>
+					<th>{{ LNG.rec_players }}</th>
+					<th>{{ LNG.rec_count }}</th>
+				</tr>
+				{% for elementID, elementRow in defenseList %}
+				<tr>
+					<td>{$LNG.tech.{{ elementID }}}</td>
+					{% if elementRow is not empty %}
+					<td>{% for user in elementRow %}<a href='#' onclick='return Dialog.Playercard({{ user.userID }});'>{{ user.username }}</a>{% if !user@last %}<br>{% endif %}{% endfor %}</td>
+					<td>{{ elementRow[0].level|number_format }}</td>
+					{% else %}
+					<td>-</td>
+					<td>-</td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% endblock %}

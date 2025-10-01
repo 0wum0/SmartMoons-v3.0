@@ -1,0 +1,55 @@
+{% block title %}{{ LNG.ti_read }} - {{ LNG.lm_support }}{% endblock %}
+{% block content %}
+
+<form action="game.php?page=ticket&mode=send" method="post" id="form">
+<input type="hidden" name="id" value="{{ ticketID }}">
+	<div class="content_page">
+		{% for answerID, answerRow in answerList %}	
+		{% if answerRow@first %}
+		<div class="title">
+			{{ LNG.ti_read }} : {{ answerRow.subject }}
+		</div>
+		{% endif %}
+		{% endfor %}
+
+		<div>
+			<table style="width: 100%;">
+			{% for answerID, answerRow in answerList %}	
+			<tr>
+				<td class="left" colspan="2">
+					{{ LNG.ti_msgtime }} <b>{{ answerRow.time }}</b> {{ LNG.ti_from }} <b>{{ answerRow.ownerName }}</b>
+					{% if answerRow@first %}
+						<br>{{ LNG.ti_category }}: {$categoryList[$answerRow.categoryID]}
+					{% endif %}
+					<hr>
+					<p>
+						{{ answerRow.message }}
+					</p>
+				</td>
+			</tr>
+			{% endfor %}
+			{% if status < 2 %}
+			<tr>
+				<th colspan="2">{{ LNG.ti_answer }}</th>
+			</tr>
+			<tr>
+				<td style="width:30%"><label for="message">{{ LNG.ti_message }}</label></td>
+				<td style="width:70%"><textarea class="validate[required]" id="message" name="message" rows="60" cols="8" style="height:100px;"></textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="{{ LNG.ti_submit }}"></td>
+			</tr>
+			{% endif %}
+		</table>
+		</div>
+	</div>
+</form>
+
+{% endblock %}
+{% block script %}
+<script>
+$(document).ready(function() {
+	$("#form").validationEngine('attach');
+});
+</script>
+{% endblock %}

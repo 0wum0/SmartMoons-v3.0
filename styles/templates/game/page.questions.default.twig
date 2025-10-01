@@ -1,0 +1,25 @@
+{% block title %}{{ LNG.lm_faq }}{% endblock %}
+{% block content %}
+
+<div class="content_page">
+	<div class="title">
+		{{ LNG.faq_overview }}
+	</div>
+
+	<div>
+		<table style="width: 100%;">
+			<tr>
+				<td class="left">{% for categoryID, categoryRow in LNG.questions %}<h2>{{ categoryRow.category }}</h2>
+				<ul>
+				{% for questionID, questionRow in categoryRow %}
+				{% if is_numeric(questionID) %}
+					<li><a href="game.php?page=questions&amp;mode=single&amp;categoryID={{ categoryID }}&amp;questionID={{ questionID }}">{{ questionRow.title }}</a></li>
+				{% endif %}
+				{% endfor %}
+				</ul>
+				{% endfor %}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+{% endblock %}

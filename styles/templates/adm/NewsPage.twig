@@ -30,7 +30,7 @@
 	<td>{{ nws_from }}</td>
 	<td>{{ nws_del }}</td>
 </tr>
-{foreach name=NewsList item=NewsRow from=$NewsList}<tr>
+{% for NewsRow in NewsList %}<tr>
 <td><a href="?page=news&amp;action=edit&amp;id={{ NewsRow.id }}">{{ NewsRow.id }}</a></td>
 <td><a href="?page=news&amp;action=edit&amp;id={{ NewsRow.id }}">{{ NewsRow.title }}</a></td>
 <td><a href="?page=news&amp;action=edit&amp;id={{ NewsRow.id }}">{{ NewsRow.date }}</a></td>
