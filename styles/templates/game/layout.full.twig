@@ -1,4 +1,4 @@
-{% include file="main.header.twig" bodyclass="full"}
+{% include "main.header.twig" with {'bodyclass': 'full'} %}
 {% include "main.navigation_header.twig" %}
 {% include "main.topnav.twig" %}
 {% if hasAdminAccess %}
@@ -13,4 +13,4 @@
 	</div>
 </div>
 {% for cronjob in cronjobs %}<img src="cronjob.php?cronjobID={{ cronjob }}" alt="">{% endfor %}
-{% include file="main.footer.twig" nocache}
+{% include "main.footer.twig" %}
