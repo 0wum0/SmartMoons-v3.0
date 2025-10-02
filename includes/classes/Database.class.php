@@ -44,8 +44,21 @@ class Database
 
     protected function __construct()
     {
-        // Config laden
-        require 'includes/config.php';
+        // Initialize $databaseConfig to prevent undefined variable errors
+        $databaseConfig = [];
+        
+        // Config laden - check if file exists first
+        $configPath = 'includes/config.php';
+        if (!file_exists($configPath)) {
+            throw new Exception("Database configuration file not found: $configPath. Please copy includes/config.sample.php to includes/config.php and configure your database settings.");
+        }
+        
+        require $configPath;
+
+        // Ensure $databaseConfig is an array
+        if (!is_array($databaseConfig) || empty($databaseConfig)) {
+            throw new Exception("Database configuration error: \$databaseConfig is not properly defined in includes/config.php. It must be an array with host, user, password, and dbname keys.");
+        }
 
         // Validate required database credentials
         if (empty($databaseConfig['host'])) {

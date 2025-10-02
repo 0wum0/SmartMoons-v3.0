@@ -35,14 +35,25 @@ class Database_BC extends mysqli
 	 */
 	public function __construct()
 	{
-		$databaseConfig = array();
+		// Initialize $databaseConfig to prevent undefined variable errors
+		$databaseConfig = [];
+		
+		// Determine config path
+		$configPath = defined('ROOT_PATH') 
+			? ROOT_PATH . 'includes/config.php'
+			: __DIR__ . '/../../includes/config.php';
+		
+		// Check if config file exists
+		if (!file_exists($configPath)) {
+			throw new Exception("Database configuration file not found: $configPath. Please copy includes/config.sample.php to includes/config.php and configure your database settings.");
+		}
 		
 		// Load database configuration from config.php
-		// Use ROOT_PATH if defined, otherwise construct path relative to this file
-		if (defined('ROOT_PATH')) {
-			require_once ROOT_PATH . 'includes/config.php';
-		} else {
-			require_once __DIR__ . '/../../includes/config.php';
+		require_once $configPath;
+
+		// Ensure $databaseConfig is an array
+		if (!is_array($databaseConfig) || empty($databaseConfig)) {
+			throw new Exception("Database configuration error: \$databaseConfig is not properly defined in includes/config.php. It must be an array with host, user, password, and dbname keys.");
 		}
 
 		// Validate required database credentials
