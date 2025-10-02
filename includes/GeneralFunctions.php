@@ -146,10 +146,24 @@ function _date(string $format, mixed $time = null, ?string $toTimeZone = null, $
 		$date->setTimestamp($time);
 		
 		$time	-= $date->getOffset();
+		
+		// Normalize timezone string for PHP 8.3+
+		$timezoneString = $toTimeZone;
+		if (!is_string($timezoneString) || $timezoneString === '' || is_numeric($timezoneString)) {
+			$timezoneString = 'UTC';
+		} else {
+			$timezoneString = trim($timezoneString);
+		}
+		
 		try {
-			$date->setTimezone(new DateTimeZone($toTimeZone));
-		} catch (Exception $e) {
-			
+			$date->setTimezone(new DateTimeZone($timezoneString));
+		} catch (Throwable $e) {
+			// Fallback to UTC if timezone is invalid
+			try {
+				$date->setTimezone(new DateTimeZone('UTC'));
+			} catch (Throwable $e2) {
+				// This should never happen, but just in case
+			}
 		}
 		$time	+= $date->getOffset();
 	}
