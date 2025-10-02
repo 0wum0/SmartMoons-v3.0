@@ -4,110 +4,357 @@
 {% block content %}
 
 <div class="content_page">
-	<div class="title">
-		<div class="onligne">
-			<i class="fas fa-user"></i> {{ LNG.ov_online_user }} : <span style="font-weight: bold; color: lime;">{{ onlineUser|number_format }}</span>
-		</div>
-		<span><i class="fas fa-users"></i> {{ LNG.ov_admins_online }} : {% for ID, Name in AdminsOnline %}{% if not loop.first %} &bull; {% endif %}<a href="#" onclick="return Dialog.PM({{ ID }})">{{ Name }}</a>{% else %}{{ LNG.ov_no_admins_online }}{% endfor %}</span>
-		<div class="ticket">
-			<a href="game.php?page=ticket"><i class="fas fa-ticket-alt"></i> {{ LNG.ov_ticket }}</a>
+	<!-- Header Stats Bar -->
+	<div class="sci-card sci-card--elevated sci-mb-lg">
+		<div class="sci-flex-between" style="gap: var(--spacing-md); flex-wrap: wrap;">
+			<div class="sci-flex sci-gap-md" style="align-items: center;">
+				<div class="sci-badge sci-badge--cyan">
+					<i class="fas fa-user"></i>
+					{{ LNG.ov_online_user }}: <strong>{{ onlineUser|number_format }}</strong>
+				</div>
+			</div>
+			
+			<div class="sci-flex sci-gap-md" style="align-items: center;">
+				<span class="sci-text-secondary">
+					<i class="fas fa-users"></i> {{ LNG.ov_admins_online }}:
+					{% for ID, Name in AdminsOnline %}
+						{% if not loop.first %} &bull; {% endif %}
+						<a href="#" onclick="return Dialog.PM({{ ID }})" class="sci-text-cyan">{{ Name }}</a>
+					{% else %}
+						<span class="sci-text-muted">{{ LNG.ov_no_admins_online }}</span>
+					{% endfor %}
+				</span>
+			</div>
+			
+			<a href="game.php?page=ticket" class="sci-btn sci-btn--primary">
+				<i class="fas fa-ticket-alt"></i> {{ LNG.ov_ticket }}
+			</a>
 		</div>
 	</div>
 
-	<div>
-		<table style="width: 100%;">
-			{% for index, fleet in fleets %}
-			<tr>
-				<td id="fleettime_{{ index }}" class="fleets" data-fleet-end-time="{{ fleet.returntime }}" data-fleet-time="{{ fleet.resttime }}">{pretty_fly_time({{ fleet.resttime }})}</td>
-				<td colspan="2">{{ fleet.text|raw }}</td>
-			</tr>
-			{% endfor %}
-		</table>
-	</div>
-
-	<div>
-		<div id="contentPlanet" style="background: url({{ dpath }}planeten/{{ planetimage }}.jpg) no-repeat; background-size: cover; margin-top: 10px;">
-
-			<div id="namePlanet">
-				<a href="#" onclick="return Dialog.PlanetAction();" title="{{ LNG.ov_planetmenu }}">{{ LNG["\1_" ~ planet_type] }} "<span class="planetname">{{ planetname }}</span>"</a>
-			</div>
-
-			{% if planet_type == 1 %}
-			<div id="lunePlanet">
-				{% if Moon %}<a href="game.php?page=overview&amp;cp={{ Moon.id }}&amp;re=0" title="{{ Moon.name }}"><i class="fas fa-moon"></i> {{ Moon.name }} ({{ LNG.fcm_moon }})</a>{% else %}<i class="far fa-moon"></i> {{ LNG.ov_create_moon }}{% endif %}
-			</div>
-			{% endif %}
-
-			<div id="listDetailPlanet">
-				<table>
-					<tbody>
-						<tr>
-							<td class="desc">{{ LNG.ov_diameter }}</td>
-							<td class="data">{{ planet_diameter }} {{ LNG.ov_distance_unit }} (<a title="{{ LNG.ov_developed_fields }}">{{ planet_field_current }}</a> / <a title="{{ LNG.ov_max_developed_fields }}">{{ planet_field_max }}</a> {{ LNG.ov_fields }})</td>
-						</tr>
-						<tr>
-							<td class="desc">{{ LNG.ov_temperature }}</td>
-							<td class="data">{{ LNG.ov_aprox }} {{ planet_temp_min }}{{ LNG.ov_temp_unit }} {{ LNG.ov_to }} {{ planet_temp_max }}{{ LNG.ov_temp_unit }}</td>
-						</tr>
-						<tr>
-							<td class="desc">{{ LNG.ov_position }}</td>
-							<td class="data"><a href="game.php?page=galaxy&amp;galaxy={{ galaxy }}&amp;system={{ system }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a></td>
-						</tr>
-					<tr>
-						<td class="desc">{{ LNG.ov_points }}</td>
-						<td class="data">{{ rankInfo|raw }}</td>
-					</tr>
-					</tbody>
-				</table>
-			</div>
-
+	<!-- Fleet Movement Notifications -->
+	{% if fleets %}
+	<div class="sci-card sci-card--elevated sci-mb-lg">
+		<div class="sci-card__header">
+			<h3 class="sci-card__title">
+				<i class="fas fa-space-shuttle"></i> {{ LNG.ov_fleet_movements }}
+			</h3>
 		</div>
-
-		<div>
-			<div class="listBat">
-				<div class="title">{{ LNG.ov_list_title_build }}</div>
-				<i class="fas fa-hashtag"></i> {% if buildInfo.buildings %}{{ LNG.tech[buildInfo.buildings["id"]] }} <span class="level">({{ buildInfo.buildings["level"] }})</span><br><div class="timer" data-time="{{ buildInfo.buildings['timeleft'] }}">{{ buildInfo.buildings["starttime"] }}</div>{% else %}{{ LNG.ov_free }}{% endif %}
+		<div class="sci-card__body">
+			<div class="sci-grid sci-grid--1" style="gap: var(--spacing-sm);">
+				{% for index, fleet in fleets %}
+				<div class="sci-card" style="padding: var(--spacing-md); margin-bottom: 0;">
+					<div class="sci-flex-between" style="gap: var(--spacing-md);">
+						<div class="sci-flex sci-gap-md" style="flex: 1;">
+							<span class="sci-badge sci-badge--cyan timer" id="fleettime_{{ index }}" 
+								  data-fleet-end-time="{{ fleet.returntime }}" 
+								  data-time="{{ fleet.resttime }}">
+								{pretty_fly_time({{ fleet.resttime }})}
+							</span>
+							<div style="flex: 1;">{{ fleet.text|raw }}</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
 			</div>
-			<div class="listRech">
-				<div class="title">{{ LNG.ov_list_title_tech }}</div>
-				<i class="fas fa-hashtag"></i> {% if buildInfo.tech %}{{ LNG.tech[buildInfo.tech["id"]] }} <span class="level">({{ buildInfo.tech["level"] }})</span><br><div class="timer" data-time="{{ buildInfo.tech['timeleft'] }}">{{ buildInfo.tech["starttime"] }}</div>{% else %}{{ LNG.ov_free }}{% endif %}
-			</div>
-			<div class="listFleet">
-				<div class="title">{{ LNG.ov_list_title_fleet }}</div>
-				<i class="fas fa-hashtag"></i> {% if buildInfo.fleet %}{{ LNG.tech[buildInfo.fleet["id"]] }} <span class="level">({{ buildInfo.fleet["level"] }})</span><br><div class="timer" data-time="{{ buildInfo.fleet['timeleft'] }}">{{ buildInfo.fleet["starttime"] }}</div>{% else %}{{ LNG.ov_free }}{% endif %}
-			</div>
-			<div class="clear"></div>
 		</div>
-
-	{% if is_news %}
-	<div>
-		<div class="title">{{ LNG.ov_news }}</div>
-		<div>{{ news|raw }}</div>
 	</div>
 	{% endif %}
 
-		{% if ref_active %}
-		<div style="margin-top: 10px; text-align: center;">
-			<div class="title">{{ LNG.ov_reflink }}</div>
-			<div><input id="referral" type="text" value="{{ path }}index.php?ref={{ userid }}" readonly="readonly" style="width:450px;" /></div>
+	<!-- Planet Overview -->
+	<div class="sci-grid sci-grid--2" style="gap: var(--spacing-lg);">
+		<!-- Planet Visual & Info -->
+		<div class="sci-card sci-card--elevated">
+			<div id="contentPlanet" style="
+				background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), 
+							url({{ dpath }}planeten/{{ planetimage }}.jpg) center/cover;
+				border-radius: var(--radius-lg);
+				padding: var(--spacing-xl);
+				min-height: 300px;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				position: relative;
+				overflow: hidden;
+			">
+				<!-- Planet Glow Effect -->
+				<div style="
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					width: 200px;
+					height: 200px;
+					background: radial-gradient(circle, rgba(0, 243, 255, 0.2), transparent 70%);
+					border-radius: 50%;
+					pointer-events: none;
+					animation: pulse-glow 3s infinite;
+				"></div>
+				
+				<div id="namePlanet" style="position: relative; z-index: 1;">
+					<a href="#" onclick="return Dialog.PlanetAction();" 
+					   title="{{ LNG.ov_planetmenu }}"
+					   style="
+						   font-size: 1.75rem;
+						   font-weight: 700;
+						   color: var(--color-accent-cyan);
+						   text-shadow: 0 0 20px rgba(0, 243, 255, 0.8);
+						   text-decoration: none;
+						   display: block;
+						   margin-bottom: var(--spacing-sm);
+					   ">
+						{{ LNG["\1_" ~ planet_type] }} "<span class="planetname">{{ planetname }}</span>"
+					</a>
+					
+					{% if planet_type == 1 %}
+					<div id="lunePlanet" style="margin-top: var(--spacing-sm);">
+						{% if Moon %}
+							<a href="game.php?page=overview&amp;cp={{ Moon.id }}&amp;re=0" 
+							   title="{{ Moon.name }}"
+							   class="sci-btn sci-btn--ghost">
+								<i class="fas fa-moon"></i> {{ Moon.name }} ({{ LNG.fcm_moon }})
+							</a>
+						{% else %}
+							<div class="sci-badge sci-badge--cyan">
+								<i class="far fa-moon"></i> {{ LNG.ov_create_moon }}
+							</div>
+						{% endif %}
+					</div>
+					{% endif %}
+				</div>
 
-			<table style="width: 100%;">
-				{% for RefID, RefLink in RefLinks %}
-				<tr>
-					<td colspan="2"><a href="#" onclick="return Dialog.Playercard({{ RefID }}, '{{ RefLink.username }}');">{{ RefLink.username }}</a></td>
-					<td>{{ RefLink.points|number_format }} / {{ ref_minpoints|number_format }}</td>
-				</tr>
-				{% else %}
-				<tr>
-					<td colspan="3">{{ LNG.ov_noreflink }}</td>
-				</tr>
-				{% endfor %}
+				<div id="listDetailPlanet" style="position: relative; z-index: 1;">
+					<div class="sci-grid sci-grid--1" style="gap: var(--spacing-sm);">
+						<div class="sci-flex-between" style="
+							padding: var(--spacing-sm) var(--spacing-md);
+							background: rgba(19, 24, 36, 0.8);
+							border-radius: var(--radius-md);
+							border: 1px solid var(--color-border-primary);
+						">
+							<span class="sci-text-secondary">{{ LNG.ov_diameter }}</span>
+							<span class="sci-text-primary" style="font-weight: 600;">
+								{{ planet_diameter }} {{ LNG.ov_distance_unit }} 
+								(<a title="{{ LNG.ov_developed_fields }}" class="sci-text-cyan">{{ planet_field_current }}</a> / 
+								<a title="{{ LNG.ov_max_developed_fields }}" class="sci-text-cyan">{{ planet_field_max }}</a> 
+								{{ LNG.ov_fields }})
+							</span>
+						</div>
+						
+						<div class="sci-flex-between" style="
+							padding: var(--spacing-sm) var(--spacing-md);
+							background: rgba(19, 24, 36, 0.8);
+							border-radius: var(--radius-md);
+							border: 1px solid var(--color-border-primary);
+						">
+							<span class="sci-text-secondary">{{ LNG.ov_temperature }}</span>
+							<span class="sci-text-primary" style="font-weight: 600;">
+								{{ LNG.ov_aprox }} {{ planet_temp_min }}{{ LNG.ov_temp_unit }} 
+								{{ LNG.ov_to }} {{ planet_temp_max }}{{ LNG.ov_temp_unit }}
+							</span>
+						</div>
+						
+						<div class="sci-flex-between" style="
+							padding: var(--spacing-sm) var(--spacing-md);
+							background: rgba(19, 24, 36, 0.8);
+							border-radius: var(--radius-md);
+							border: 1px solid var(--color-border-primary);
+						">
+							<span class="sci-text-secondary">{{ LNG.ov_position }}</span>
+							<a href="game.php?page=galaxy&amp;galaxy={{ galaxy }}&amp;system={{ system }}"
+							   class="sci-text-cyan" style="font-weight: 600; text-decoration: none;">
+								[{{ galaxy }}:{{ system }}:{{ planet }}]
+							</a>
+						</div>
+						
+						<div class="sci-flex-between" style="
+							padding: var(--spacing-sm) var(--spacing-md);
+							background: rgba(19, 24, 36, 0.8);
+							border-radius: var(--radius-md);
+							border: 1px solid var(--color-border-primary);
+						">
+							<span class="sci-text-secondary">{{ LNG.ov_points }}</span>
+							<span class="sci-text-primary" style="font-weight: 600;">{{ rankInfo|raw }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Build Queue Section -->
+		<div class="sci-card sci-card--elevated">
+			<div class="sci-card__header">
+				<h3 class="sci-card__title">
+					<i class="fas fa-tasks"></i> {{ LNG.ov_production_status }}
+				</h3>
+			</div>
+			<div class="sci-card__body">
+				<div class="sci-grid sci-grid--1" style="gap: var(--spacing-md);">
+					<!-- Buildings -->
+					<div class="sci-card" style="
+						background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(0, 243, 255, 0.05));
+						border: 1px solid var(--color-accent-cyan);
+						padding: var(--spacing-md);
+						margin-bottom: 0;
+					">
+						<div class="sci-flex-between" style="margin-bottom: var(--spacing-sm);">
+							<h4 style="margin: 0; color: var(--color-accent-cyan); font-size: 0.875rem;">
+								<i class="fas fa-building"></i> {{ LNG.ov_list_title_build }}
+							</h4>
+							{% if buildInfo.buildings %}
+							<span class="sci-badge sci-badge--cyan">{{ LNG.bd_lvl }} {{ buildInfo.buildings["level"] }}</span>
+							{% endif %}
+						</div>
+						
+						{% if buildInfo.buildings %}
+							<div style="margin-bottom: var(--spacing-sm);">
+								<strong class="sci-text-primary">{{ LNG.tech[buildInfo.buildings["id"]] }}</strong>
+							</div>
+							<div class="sci-progress">
+								<div class="sci-progress__bar timer" data-time="{{ buildInfo.buildings['timeleft'] }}"></div>
+								<div class="sci-progress__text timer" data-time="{{ buildInfo.buildings['timeleft'] }}">
+									{{ buildInfo.buildings["starttime"] }}
+								</div>
+							</div>
+						{% else %}
+							<div class="sci-text-center sci-text-green" style="padding: var(--spacing-md);">
+								<i class="fas fa-check-circle"></i> {{ LNG.ov_free }}
+							</div>
+						{% endif %}
+					</div>
+
+					<!-- Research -->
+					<div class="sci-card" style="
+						background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(139, 92, 246, 0.05));
+						border: 1px solid var(--color-accent-purple);
+						padding: var(--spacing-md);
+						margin-bottom: 0;
+					">
+						<div class="sci-flex-between" style="margin-bottom: var(--spacing-sm);">
+							<h4 style="margin: 0; color: var(--color-accent-purple); font-size: 0.875rem;">
+								<i class="fas fa-flask"></i> {{ LNG.ov_list_title_tech }}
+							</h4>
+							{% if buildInfo.tech %}
+							<span class="sci-badge sci-badge--cyan">{{ LNG.bd_lvl }} {{ buildInfo.tech["level"] }}</span>
+							{% endif %}
+						</div>
+						
+						{% if buildInfo.tech %}
+							<div style="margin-bottom: var(--spacing-sm);">
+								<strong class="sci-text-primary">{{ LNG.tech[buildInfo.tech["id"]] }}</strong>
+							</div>
+							<div class="sci-progress">
+								<div class="sci-progress__bar timer" data-time="{{ buildInfo.tech['timeleft'] }}" 
+									 style="background: linear-gradient(90deg, var(--color-accent-purple), var(--color-accent-violet));"></div>
+								<div class="sci-progress__text timer" data-time="{{ buildInfo.tech['timeleft'] }}">
+									{{ buildInfo.tech["starttime"] }}
+								</div>
+							</div>
+						{% else %}
+							<div class="sci-text-center sci-text-green" style="padding: var(--spacing-md);">
+								<i class="fas fa-check-circle"></i> {{ LNG.ov_free }}
+							</div>
+						{% endif %}
+					</div>
+
+					<!-- Shipyard -->
+					<div class="sci-card" style="
+						background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
+						border: 1px solid var(--color-accent-green);
+						padding: var(--spacing-md);
+						margin-bottom: 0;
+					">
+						<div class="sci-flex-between" style="margin-bottom: var(--spacing-sm);">
+							<h4 style="margin: 0; color: var(--color-accent-green); font-size: 0.875rem;">
+								<i class="fas fa-rocket"></i> {{ LNG.ov_list_title_fleet }}
+							</h4>
+							{% if buildInfo.fleet %}
+							<span class="sci-badge sci-badge--green">{{ buildInfo.fleet["level"] }}x</span>
+							{% endif %}
+						</div>
+						
+						{% if buildInfo.fleet %}
+							<div style="margin-bottom: var(--spacing-sm);">
+								<strong class="sci-text-primary">{{ LNG.tech[buildInfo.fleet["id"]] }}</strong>
+							</div>
+							<div class="sci-progress">
+								<div class="sci-progress__bar timer" data-time="{{ buildInfo.fleet['timeleft'] }}"
+									 style="background: linear-gradient(90deg, var(--color-accent-green), #059669);"></div>
+								<div class="sci-progress__text timer" data-time="{{ buildInfo.fleet['timeleft'] }}">
+									{{ buildInfo.fleet["starttime"] }}
+								</div>
+							</div>
+						{% else %}
+							<div class="sci-text-center sci-text-green" style="padding: var(--spacing-md);">
+								<i class="fas fa-check-circle"></i> {{ LNG.ov_free }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- News Section -->
+	{% if is_news %}
+	<div class="sci-card sci-card--elevated sci-mt-lg">
+		<div class="sci-card__header">
+			<h3 class="sci-card__title">
+				<i class="fas fa-newspaper"></i> {{ LNG.ov_news }}
+			</h3>
+		</div>
+		<div class="sci-card__body">
+			{{ news|raw }}
+		</div>
+	</div>
+	{% endif %}
+
+	<!-- Referral System -->
+	{% if ref_active %}
+	<div class="sci-card sci-card--elevated sci-mt-lg">
+		<div class="sci-card__header">
+			<h3 class="sci-card__title">
+				<i class="fas fa-link"></i> {{ LNG.ov_reflink }}
+			</h3>
+		</div>
+		<div class="sci-card__body">
+			<div style="margin-bottom: var(--spacing-md);">
+				<input id="referral" type="text" value="{{ path }}index.php?ref={{ userid }}" 
+					   readonly="readonly" 
+					   style="width: 100%; padding: var(--spacing-md); font-family: 'Courier New', monospace;"
+					   onclick="this.select();" />
+			</div>
+
+			<table class="sci-table">
+				<thead>
+					<tr>
+						<th>{{ LNG.ov_referred_player }}</th>
+						<th>{{ LNG.ov_points }}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for RefID, RefLink in RefLinks %}
+					<tr>
+						<td>
+							<a href="#" onclick="return Dialog.Playercard({{ RefID }}, '{{ RefLink.username }}');" 
+							   class="sci-text-cyan">
+								{{ RefLink.username }}
+							</a>
+						</td>
+						<td>{{ RefLink.points|number_format }} / {{ ref_minpoints|number_format }}</td>
+					</tr>
+					{% else %}
+					<tr>
+						<td colspan="2" class="sci-text-center sci-text-muted">{{ LNG.ov_noreflink }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
 			</table>
 		</div>
-		{% endif %}
 	</div>
+	{% endif %}
 </div>
+
 {% endblock %}
 {% block script %}
-    <script src="scripts/game/overview.js"></script>
+<script src="scripts/game/overview.js"></script>
 {% endblock %}

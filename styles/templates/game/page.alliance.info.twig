@@ -4,99 +4,275 @@
 {% block content %}
 
 <div class="content_page">
-	<div class="title">
-		{{ LNG.al_ally_information }}
+	<!-- Alliance Header -->
+	<div class="alliance-header">
+		{% if ally_image %}
+		<img src="{{ ally_image }}" alt="{{ ally_tag }}" 
+			 style="max-width: 100%; height: auto; border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);">
+		{% endif %}
+		
+		<div class="alliance-tag">[{{ ally_tag }}]</div>
+		<div class="alliance-name">{{ ally_name }}</div>
+		
+		<div class="alliance-stats">
+			<div class="alliance-stat-item">
+				<span class="alliance-stat-value">{{ ally_member_scount }}</span>
+				<span class="alliance-stat-label">{{ LNG.al_members }}</span>
+			</div>
+			<div class="alliance-stat-item">
+				<span class="alliance-stat-value">{{ ally_max_members }}</span>
+				<span class="alliance-stat-label">{{ LNG.al_max_members }}</span>
+			</div>
+		</div>
 	</div>
 
-	<div>
-		<table style="width: 100%;">
-		{% if ally_image %}
-		<tr>
-			<td colspan="2">
-				<img style="max-width: 1024px;" src="{{ ally_image }}" alt="{{ ally_tag }}">
-			</td>
-		</tr>
-		{% endif %}
-		<tr>
-			<td style="width:50%">{{ LNG.al_ally_info_tag }}</td>
-			<td style="width:50%">{{ ally_tag }}</td>
-		</tr>
-		<tr>
-			<td>{{ LNG.al_ally_info_name }}</td>
-			<td>{{ ally_name }}</td>
-		</tr>
-		<tr>
-			<td>{{ LNG.al_ally_info_members }}</td>
-			<td>{{ ally_member_scount }} / {{ ally_max_members }}</td>
-		</tr>
-		{% if ally_request %}
-		<tr>
-			<td>{{ LNG.al_request }}</td>
-			{% if ally_request_min_points %}
-			<td><a href="game.php?page=alliance&amp;mode=apply&amp;id={{ ally_id }}">{{ LNG.al_click_to_send_request }}</a></td>
-			{% else %}
-				<td>{{ ally_request_min_points_info }}
+	<!-- Alliance Information -->
+	<div class="sci-card sci-card--elevated sci-mb-lg">
+		<div class="sci-card__header">
+			<h3 class="sci-card__title">
+				<i class="fas fa-info-circle"></i> {{ LNG.al_ally_information }}
+			</h3>
+		</div>
+		<div class="sci-card__body">
+			<div class="sci-grid sci-grid--2" style="gap: var(--spacing-md);">
+				<div class="sci-flex-between" style="padding: var(--spacing-md); background: rgba(0, 243, 255, 0.05); border-radius: var(--radius-md); border: 1px solid var(--color-border-primary);">
+					<span class="sci-text-secondary">{{ LNG.al_ally_info_tag }}</span>
+					<span class="sci-text-cyan" style="font-weight: 700; font-size: 1.25rem;">{{ ally_tag }}</span>
+				</div>
+				
+				<div class="sci-flex-between" style="padding: var(--spacing-md); background: rgba(0, 243, 255, 0.05); border-radius: var(--radius-md); border: 1px solid var(--color-border-primary);">
+					<span class="sci-text-secondary">{{ LNG.al_ally_info_name }}</span>
+					<span class="sci-text-primary" style="font-weight: 600;">{{ ally_name }}</span>
+				</div>
+			</div>
+			
+			{% if ally_request %}
+			<div class="sci-card sci-mt-md" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05)); border: 1px solid var(--color-accent-green);">
+				<div class="sci-flex-between">
+					<span class="sci-text-green" style="font-weight: 600;">
+						<i class="fas fa-user-plus"></i> {{ LNG.al_request }}
+					</span>
+					{% if ally_request_min_points %}
+					<a href="game.php?page=alliance&amp;mode=apply&amp;id={{ ally_id }}" class="sci-btn sci-btn--success">
+						<i class="fas fa-paper-plane"></i> {{ LNG.al_click_to_send_request }}
+					</a>
+					{% else %}
+					<span class="sci-text-red">{{ ally_request_min_points_info }}</span>
+					{% endif %}
+				</div>
+			</div>
 			{% endif %}
-		</tr>
-		{% endif %}
-		<tr>
-			<td colspan="2" style="height:100px">{% if ally_description %}{{ ally_description }}{% else %}{{ LNG.al_description_message }}{% endif %}</td>
-		</tr>
-		{% if ally_web %}
-		<tr>
-			<td>{{ LNG.al_web_text }}</td>
-			<td><a href="{{ ally_web }}">{{ ally_web }}</a></td>
-		</tr>
-		{% endif %}
-		{% if diplomaticData %}
-		<tr>
-			<th colspan="2">{{ LNG.al_diplo }}</th>
-		</tr>
-		<tr>
-			<td colspan="2">
-			{% if diplomaticData %}
-			{% if diplomaticData.0 %}<b><u>{{ LNG.al_diplo_level.0 }}</u></b><br><br>{% for PaktInfo in diplomaticData.0 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-			{% if diplomaticData.1 %}<b><u>{{ LNG.al_diplo_level.1 }}</u></b><br><br>{% for PaktInfo in diplomaticData.1 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-			{% if diplomaticData.2 %}<b><u>{{ LNG.al_diplo_level.2 }}</u></b><br><br>{% for PaktInfo in diplomaticData.2 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-			{% if diplomaticData.3 %}<b><u>{{ LNG.al_diplo_level.3 }}</u></b><br><br>{% for PaktInfo in diplomaticData.3 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-				{% if diplomaticData.4 %}<b><u>{{ LNG.al_diplo_level.4 }}</u></b><br><br>{% for PaktInfo in diplomaticData.4 %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}">{{ PaktInfo.0 }}</a><br>{% endfor %}<br>{% endif %}
-			{% else %}
-				{{ LNG.al_no_diplo }}
+			
+			<div class="sci-card sci-mt-md" style="padding: var(--spacing-lg); min-height: 150px; background: var(--color-bg-elevated); border: 1px solid var(--color-border-primary);">
+				<h4 class="sci-text-cyan sci-mb-md">
+					<i class="fas fa-file-alt"></i> {{ LNG.al_description }}
+				</h4>
+				<div class="sci-text-secondary" style="line-height: 1.8;">
+					{% if ally_description %}
+						{{ ally_description|nl2br }}
+					{% else %}
+						<span class="sci-text-muted">{{ LNG.al_description_message }}</span>
+					{% endif %}
+				</div>
+			</div>
+			
+			{% if ally_web %}
+			<div class="sci-flex-between sci-mt-md" style="padding: var(--spacing-md); background: rgba(0, 243, 255, 0.05); border-radius: var(--radius-md); border: 1px solid var(--color-border-primary);">
+				<span class="sci-text-secondary">
+					<i class="fas fa-globe"></i> {{ LNG.al_web_text }}
+				</span>
+				<a href="{{ ally_web }}" target="_blank" class="sci-text-cyan" style="text-decoration: none;">
+					{{ ally_web }} <i class="fas fa-external-link-alt" style="font-size: 0.75rem;"></i>
+				</a>
+			</div>
 			{% endif %}
-			</td>
-		</tr>
-		{% endif %}
-		{% if statisticData %}
-		<tr>
-			<th colspan="2">{{ LNG.pl_fightstats }}</th>
-		</tr>
-		<tr>
-			<td>{{ LNG.pl_totalfight }}</td><td>{{ statisticData.totalfight|number_format(0, '.', ',') }}</td>
-		</tr>
-		<tr>
-			<td>{{ LNG.pl_fightwon }}</td><td>{{ statisticData.fightwon|number_format(0, '.', ',') }}{% if statisticData.totalfight %} ({{ ((statisticData.fightwon / statisticData.totalfight * 100)|round(2)) }}%){% endif %}</td>
-		</tr>
-		<tr>	
-			<td>{{ LNG.pl_fightlose }}</td><td>{{ statisticData.fightlose|number_format(0, '.', ',') }}{% if statisticData.totalfight %} ({{ ((statisticData.fightlose / statisticData.totalfight * 100)|round(2)) }}%){% endif %}</td>
-		</tr>
-		<tr>	
-			<td>{{ LNG.pl_fightdraw }}</td><td>{{ statisticData.fightdraw|number_format(0, '.', ',') }}{% if statisticData.totalfight %} ({{ ((statisticData.fightdraw / statisticData.totalfight * 100)|round(2)) }}%){% endif %}</td>
-		</tr>
-		<tr>
-			<td>{{ LNG.pl_unitsshot }}</td><td>{{ statisticData.unitsshot }}</td>
-		</tr>
-		<tr>
-			<td>{{ LNG.pl_unitslose }}</td><td>{{ statisticData.unitslose }}</td>
-		</tr>
-		<tr>
-			<td>{{ LNG.pl_dermetal }}</td><td>{{ statisticData.dermetal }}</td>
-		</tr>
-		<tr>
-			<td>{{ LNG.pl_dercrystal }}</td><td>{{ statisticData.dercrystal }}</td>
-		</tr>
-		{% endif %}
-		</table>
+		</div>
 	</div>
+
+	<!-- Diplomacy -->
+	{% if diplomaticData %}
+	<div class="sci-card sci-card--elevated sci-mb-lg">
+		<div class="sci-card__header">
+			<h3 class="sci-card__title">
+				<i class="fas fa-handshake"></i> {{ LNG.al_diplo }}
+			</h3>
+		</div>
+		<div class="sci-card__body">
+			{% if diplomaticData.0 or diplomaticData.1 or diplomaticData.2 or diplomaticData.3 or diplomaticData.4 %}
+			<div class="sci-grid sci-grid--2" style="gap: var(--spacing-lg);">
+				{% if diplomaticData.0 %}
+				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05)); border: 1px solid var(--color-accent-green); margin-bottom: 0;">
+					<h4 class="sci-text-green sci-mb-md">
+						<i class="fas fa-shield-alt"></i> {{ LNG.al_diplo_level.0 }}
+					</h4>
+					{% for PaktInfo in diplomaticData.0 %}
+					<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}" 
+					   class="sci-btn sci-btn--ghost sci-mb-sm" 
+					   style="width: 100%; justify-content: flex-start;">
+						<i class="fas fa-users"></i> {{ PaktInfo.0 }}
+					</a>
+					{% endfor %}
+				</div>
+				{% endif %}
+				
+				{% if diplomaticData.1 %}
+				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(0, 102, 255, 0.05)); border: 1px solid var(--color-accent-cyan); margin-bottom: 0;">
+					<h4 class="sci-text-cyan sci-mb-md">
+						<i class="fas fa-hands-helping"></i> {{ LNG.al_diplo_level.1 }}
+					</h4>
+					{% for PaktInfo in diplomaticData.1 %}
+					<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}" 
+					   class="sci-btn sci-btn--ghost sci-mb-sm" 
+					   style="width: 100%; justify-content: flex-start;">
+						<i class="fas fa-users"></i> {{ PaktInfo.0 }}
+					</a>
+					{% endfor %}
+				</div>
+				{% endif %}
+				
+				{% if diplomaticData.2 %}
+				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05)); border: 1px solid var(--color-accent-yellow); margin-bottom: 0;">
+					<h4 class="sci-text-yellow sci-mb-md">
+						<i class="fas fa-balance-scale"></i> {{ LNG.al_diplo_level.2 }}
+					</h4>
+					{% for PaktInfo in diplomaticData.2 %}
+					<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}" 
+					   class="sci-btn sci-btn--ghost sci-mb-sm" 
+					   style="width: 100%; justify-content: flex-start;">
+						<i class="fas fa-users"></i> {{ PaktInfo.0 }}
+					</a>
+					{% endfor %}
+				</div>
+				{% endif %}
+				
+				{% if diplomaticData.3 %}
+				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(247, 115, 22, 0.1), rgba(194, 65, 12, 0.05)); border: 1px solid var(--color-accent-orange); margin-bottom: 0;">
+					<h4 class="sci-text-orange sci-mb-md">
+						<i class="fas fa-user-slash"></i> {{ LNG.al_diplo_level.3 }}
+					</h4>
+					{% for PaktInfo in diplomaticData.3 %}
+					<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}" 
+					   class="sci-btn sci-btn--ghost sci-mb-sm" 
+					   style="width: 100%; justify-content: flex-start;">
+						<i class="fas fa-users"></i> {{ PaktInfo.0 }}
+					</a>
+					{% endfor %}
+				</div>
+				{% endif %}
+				
+				{% if diplomaticData.4 %}
+				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); border: 1px solid var(--color-accent-red); margin-bottom: 0;">
+					<h4 class="sci-text-red sci-mb-md">
+						<i class="fas fa-skull-crossbones"></i> {{ LNG.al_diplo_level.4 }}
+					</h4>
+					{% for PaktInfo in diplomaticData.4 %}
+					<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}" 
+					   class="sci-btn sci-btn--ghost sci-mb-sm" 
+					   style="width: 100%; justify-content: flex-start;">
+						<i class="fas fa-users"></i> {{ PaktInfo.0 }}
+					</a>
+					{% endfor %}
+				</div>
+				{% endif %}
+			</div>
+			{% else %}
+			<div class="sci-text-center sci-text-muted" style="padding: var(--spacing-xl);">
+				<i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: var(--spacing-md); opacity: 0.3;"></i>
+				<div>{{ LNG.al_no_diplo }}</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	{% endif %}
+
+	<!-- Fight Statistics -->
+	{% if statisticData %}
+	<div class="sci-card sci-card--elevated">
+		<div class="sci-card__header">
+			<h3 class="sci-card__title">
+				<i class="fas fa-crosshairs"></i> {{ LNG.pl_fightstats }}
+			</h3>
+		</div>
+		<div class="sci-card__body">
+			<div class="sci-grid sci-grid--3" style="gap: var(--spacing-md);">
+				<div class="alliance-stat-item">
+					<span class="alliance-stat-value">{{ statisticData.totalfight|number_format }}</span>
+					<span class="alliance-stat-label">{{ LNG.pl_totalfight }}</span>
+				</div>
+				
+				<div class="alliance-stat-item" style="border-color: var(--color-accent-green);">
+					<span class="alliance-stat-value" style="color: var(--color-accent-green);">
+						{{ statisticData.fightwon|number_format }}
+					</span>
+					<span class="alliance-stat-label">
+						{{ LNG.pl_fightwon }}
+						{% if statisticData.totalfight %}
+						<br><span class="sci-text-green">({{ ((statisticData.fightwon / statisticData.totalfight * 100)|round(2)) }}%)</span>
+						{% endif %}
+					</span>
+				</div>
+				
+				<div class="alliance-stat-item" style="border-color: var(--color-accent-red);">
+					<span class="alliance-stat-value" style="color: var(--color-accent-red);">
+						{{ statisticData.fightlose|number_format }}
+					</span>
+					<span class="alliance-stat-label">
+						{{ LNG.pl_fightlose }}
+						{% if statisticData.totalfight %}
+						<br><span class="sci-text-red">({{ ((statisticData.fightlose / statisticData.totalfight * 100)|round(2)) }}%)</span>
+						{% endif %}
+					</span>
+				</div>
+				
+				<div class="alliance-stat-item" style="border-color: var(--color-accent-yellow);">
+					<span class="alliance-stat-value" style="color: var(--color-accent-yellow);">
+						{{ statisticData.fightdraw|number_format }}
+					</span>
+					<span class="alliance-stat-label">
+						{{ LNG.pl_fightdraw }}
+						{% if statisticData.totalfight %}
+						<br><span class="sci-text-yellow">({{ ((statisticData.fightdraw / statisticData.totalfight * 100)|round(2)) }}%)</span>
+						{% endif %}
+					</span>
+				</div>
+				
+				<div class="alliance-stat-item">
+					<span class="alliance-stat-value">{{ statisticData.unitsshot|number_format }}</span>
+					<span class="alliance-stat-label">{{ LNG.pl_unitsshot }}</span>
+				</div>
+				
+				<div class="alliance-stat-item">
+					<span class="alliance-stat-value">{{ statisticData.unitslose|number_format }}</span>
+					<span class="alliance-stat-label">{{ LNG.pl_unitslose }}</span>
+				</div>
+			</div>
+			
+			<div class="sci-grid sci-grid--2 sci-mt-lg" style="gap: var(--spacing-md);">
+				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(156, 163, 175, 0.1), rgba(107, 114, 128, 0.05)); border: 1px solid #9ca3af; margin-bottom: 0;">
+					<div class="sci-flex-between">
+						<span class="sci-text-secondary">
+							<i class="fas fa-database"></i> {{ LNG.pl_dermetal }}
+						</span>
+						<span class="sci-text-primary" style="font-weight: 700; font-size: 1.25rem;">
+							{{ statisticData.dermetal|number_format }}
+						</span>
+					</div>
+				</div>
+				
+				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); border: 1px solid #3b82f6; margin-bottom: 0;">
+					<div class="sci-flex-between">
+						<span class="sci-text-secondary">
+							<i class="fas fa-gem"></i> {{ LNG.pl_dercrystal }}
+						</span>
+						<span class="sci-text-primary" style="font-weight: 700; font-size: 1.25rem;">
+							{{ statisticData.dercrystal|number_format }}
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
 </div>
 
 {% endblock %}
