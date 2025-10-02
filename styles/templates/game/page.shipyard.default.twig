@@ -8,7 +8,7 @@
 		{% if mode == "defense" %}{{ LNG.lm_defenses }}{% else %}{{ LNG.lm_shipshard }}{% endif %}
 	</div>
 
-	{% if !NotBuilding %}
+	{% if not NotBuilding %}
 		<div width="99%" id="infobox" style="border: 2px solid red; text-align:center;background:transparent">{{ LNG.bd_building_shipyard }}</div>
 	{% endif %}
 
@@ -62,7 +62,7 @@
 				</div>
 
 				<div>
-					{% if Element.AlreadyBuild %}<span style="color:red">{{ LNG.bd_protection_shield_only_one }}</span>{% elseif NotBuilding && Element.buyable %}<input style="width: 90%;" type="text" name="fmenge[{{ ID }}]" id="input_{{ ID }}" value="0" tabindex="{{ loop.index }}">
+					{% if Element.AlreadyBuild %}<span style="color:red">{{ LNG.bd_protection_shield_only_one }}</span>{% elseif NotBuilding and Element.buyable %}<input style="width: 90%;" type="text" name="fmenge[{{ ID }}]" id="input_{{ ID }}" value="0" tabindex="{{ loop.index }}">
 					<input style="padding: 8px; margin-left: -10px; border-left: none;" type="button" value="{{ LNG.bd_max_ships }}" onclick="$('#input_{{ ID }}').val('{{ Element.maxBuildable }}')"></p>
 					{% endif %}
 				</div>

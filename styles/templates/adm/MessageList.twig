@@ -42,7 +42,7 @@
 	{% for messageID, messageRow in messageList %}
 	<tr data-messageID="{{ messageID }}">
 		<td><a href="#" class="toggle">{{ messageID }}</a></td>
-		{% if Selected == 100 %}<td><a href="#" class="toggle">{{ LNG.mg_type[$messageRow.type] }}</a></td>{% endif %}
+		{% if Selected == 100 %}<td><a href="#" class="toggle">{{ LNG.mg_type[messageRow.type] }}</a></td>{% endif %}
 		<td><a href="#" class="toggle">{{ messageRow.time }}</a></td>
 		<td><a href="#" class="toggle">{{ messageRow.sender }}</a></td>
 		<td><a href="#" class="toggle">{{ messageRow.receiver }}</a></td>

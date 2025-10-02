@@ -26,7 +26,7 @@
 						{% endfor %}
 
 						<div style="margin-bottom: 10px;">
-							{% for BonusName, Bonus in Element.elementBonus %}{% if loop.index % 3 == 1 %}<p>{% endif %}{% if Bonus[0] < 0 %}-{% else %}+{% endif %}{% if Bonus[1] == 0 %}{{ abs(Bonus[0] * 100) }}%{% else %}{{ Bonus[0] }}{% endif %} {{ LNG.bonus[BonusName] }}{% if loop.index % 3 == 0 || loop.last %}</p>{% else %}&nbsp;{% endif %}{% endfor %}
+							{% for BonusName, Bonus in Element.elementBonus %}{% if loop.index % 3 == 1 %}<p>{% endif %}{% if Bonus[0] < 0 %}-{% else %}+{% endif %}{% if Bonus[1] == 0 %}{{ abs(Bonus[0] * 100) }}%{% else %}{{ Bonus[0] }}{% endif %} {{ LNG.bonus[BonusName] }}{% if loop.index % 3 == 0 or loop.last %}</p>{% else %}&nbsp;{% endif %}{% endfor %}
 						</div>
 
 						{% if Element.timeLeft > 0 %}
@@ -87,7 +87,7 @@
 						{% endfor %}
 
 						<div style="margin-bottom: 10px;">
-							{% for BonusName, Bonus in Element.elementBonus %}{% if loop.index % 3 == 1 %}<p>{% endif %}{% if Bonus[0] < 0 %}-{% else %}+{% endif %}{% if Bonus[1] == 0 %}{{ abs(Bonus[0] * 100) }}%{% else %}{{ Bonus[0] }}{% endif %} {{ LNG.bonus[BonusName] }}{% if loop.index % 3 == 0 || loop.last %}</p>{% else %}&nbsp;{% endif %}{% endfor %}
+							{% for BonusName, Bonus in Element.elementBonus %}{% if loop.index % 3 == 1 %}<p>{% endif %}{% if Bonus[0] < 0 %}-{% else %}+{% endif %}{% if Bonus[1] == 0 %}{{ abs(Bonus[0] * 100) }}%{% else %}{{ Bonus[0] }}{% endif %} {{ LNG.bonus[BonusName] }}{% if loop.index % 3 == 0 or loop.last %}</p>{% else %}&nbsp;{% endif %}{% endfor %}
 						</div>
 
 					</div>

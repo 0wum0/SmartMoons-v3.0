@@ -19,7 +19,7 @@
 			{% endif %}
 			{% if loop.first %}
 			{{ LNG.ti_create }}: <b>{{ answerRow.time }}</b> {{ LNG.ti_from }} <b>{{ answerRow.ownerName }}</b>
-				<br>{{ LNG.ti_category }}: {{ categoryList[$answerRow.categoryID] }}
+				<br>{{ LNG.ti_category }}: {{ categoryList[answerRow.categoryID] }}
 			{% endif %}
 			</p>
 			<hr>

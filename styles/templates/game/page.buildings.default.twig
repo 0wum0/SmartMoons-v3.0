@@ -16,7 +16,7 @@
 			<tr>
 				<td style="width:70%;vertical-align:top;" class="left">
 					{{ loop.index }}.: 
-					{% if !(isBusy.research && (ID == 6 || ID == 31)) && !(isBusy.shipyard && (ID == 15 || ID == 21)) && RoomIsOk && CanBuildElement && BuildInfoList[ID].buyable %}
+					{% if !(isBusy.research and (ID == 6 or ID == 31)) and !(isBusy.shipyard and (ID == 15 or ID == 21)) and RoomIsOk and CanBuildElement and BuildInfoList[ID].buyable %}
 					<form class="build_form" action="game.php?page=buildings" method="post">
 						<input type="hidden" name="cmd" value="insert">
 						<input type="hidden" name="building" value="{{ ID }}">
@@ -58,7 +58,7 @@
 				<span style="float: right;">
 					{% if Element.level > 0 %}
 							{% if ID == 43 %}<a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.bd_jump_gate_action }}</a>{% endif %}
-							{% if (ID == 44 && !HaveMissiles) ||  ID != 44 %}<a class="tooltip_sticky" data-tooltip-content="
+							{% if (ID == 44 and not HaveMissiles) or ID != 44 %}<a class="tooltip_sticky" data-tooltip-content="
 								{#  Start Destruction Popup  #}
 								<table style='width:300px'>
 									<tr>
@@ -113,13 +113,13 @@
 						<div class="construct_button_lost">
 							<span style="color:red">{{ LNG.bd_maxlevel }}</span>
 						</div>
-					{% elseif (isBusy.research && (ID == 6 || ID == 31)) || (isBusy.shipyard && (ID == 15 || ID == 21)) %}
+					{% elseif (isBusy.research and (ID == 6 or ID == 31)) or (isBusy.shipyard and (ID == 15 or ID == 21)) %}
 						<div class="construct_button_lost">
 							<span style="color:red">{{ LNG.bd_working }}</span>
 						</div>
 					{% else %}
 						{% if RoomIsOk %}
-							{% if CanBuildElement && Element.buyable %}
+							{% if CanBuildElement and Element.buyable %}
 							<form action="game.php?page=buildings" method="post" class="build_form">
 								<input type="hidden" name="cmd" value="insert">
 								<input type="hidden" name="building" value="{{ ID }}">

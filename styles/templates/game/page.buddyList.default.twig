@@ -68,7 +68,7 @@
 				<td>
 				{% if myBuddyRow.onlinetime < 4 %}
 				<span style="color:lime">{{ LNG.bu_connected }}</span>
-				{% elseif myBuddyRow.onlinetime >= 4 && myBuddyRow.onlinetime <= 15 %}
+				{% elseif myBuddyRow.onlinetime >= 4 and myBuddyRow.onlinetime <= 15 %}
 				<span style="color:yellow">{{ myBuddyRow.onlinetime }} {{ LNG.bu_minutes }}</span>
 				{% else %}
 				<span style="color:red">{{ LNG.bu_disconnected }}</span>

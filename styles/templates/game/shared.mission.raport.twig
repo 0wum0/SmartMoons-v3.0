@@ -16,12 +16,12 @@
 <table>
 	<tr>
 		{% for Player in RoundInfo.attacker %}
-		{% set PlayerInfo = Raport.players[$Player.userID] %}
+		{% set PlayerInfo = Raport.players[Player.userID] %}
 		<td class="transparent">
 			<table>
 				<tr>
 					<td>
-						{{ LNG.sys_attack_attacker_pos }} {{ PlayerInfo.name }} {% if Info is defined %}([XX:XX:XX]){% else %}([{{ PlayerInfo.koords[0] }}:{{ PlayerInfo.koords[1] }}:{{ PlayerInfo.koords[2] }}]{% if PlayerInfo is defined.koords[3] %} ({{ LNG["type_planet_short_{{ PlayerInfo.koords[3] }}"] }}){% endif %}){% endif %}<br>
+						{{ LNG.sys_attack_attacker_pos }} {{ PlayerInfo.name }} {% if Info is defined %}([XX:XX:XX]){% else %}([{{ PlayerInfo.koords[0] }}:{{ PlayerInfo.koords[1] }}:{{ PlayerInfo.koords[2] }}]{% if PlayerInfo.koords[3] is defined %} ({{ LNG.type_planet_short[PlayerInfo.koords[3]] }}){% endif %}){% endif %}<br>
 						{{ LNG.sys_ship_weapon }} {{ PlayerInfo.tech[0] }}% - {{ LNG.sys_ship_shield }} {{ PlayerInfo.tech[1] }}% - {{ LNG.sys_ship_armour }} {{ PlayerInfo.tech[2] }}%
 						<table width="100%">
 						{% if Player.ships %}
@@ -74,12 +74,12 @@
 <table>
 	<tr>
 		{% for Player in RoundInfo.defender %}
-		{% set PlayerInfo = Raport.players[$Player.userID] %}
+		{% set PlayerInfo = Raport.players[Player.userID] %}
 		<td class="transparent">
 			<table>
 				<tr>
 					<td>
-						{{ LNG.sys_attack_defender_pos }} {{ PlayerInfo.name }} {% if Info is defined %}([XX:XX:XX]){% else %}([{{ PlayerInfo.koords[0] }}:{{ PlayerInfo.koords[1] }}:{{ PlayerInfo.koords[2] }}]{% if PlayerInfo is defined.koords[3] %} ({{ LNG.type_planet_short[$PlayerInfo.koords[3]] }}){% endif %}){% endif %}<br>
+						{{ LNG.sys_attack_defender_pos }} {{ PlayerInfo.name }} {% if Info is defined %}([XX:XX:XX]){% else %}([{{ PlayerInfo.koords[0] }}:{{ PlayerInfo.koords[1] }}:{{ PlayerInfo.koords[2] }}]{% if PlayerInfo.koords[3] is defined %} ({{ LNG.type_planet_short[PlayerInfo.koords[3]] }}){% endif %}){% endif %}<br>
 						{{ LNG.sys_ship_weapon }} {{ PlayerInfo.tech[0] }}% - {{ LNG.sys_ship_shield }} {{ PlayerInfo.tech[1] }}% - {{ LNG.sys_ship_armour }} {{ PlayerInfo.tech[2] }}%
 						<table width="100%">
 						{% if Player.ships %}

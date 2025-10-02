@@ -36,7 +36,7 @@
 			<td colspan="2"><a href="#" onclick="return Dialog.AllianceChat();">{{ LNG.al_goto_chat }}</a></td>
 		</tr>
 	    {% endif %}
-		{% if rights.SEEAPPLY && applyCount > 0 %}		
+		{% if rights.SEEAPPLY and applyCount > 0 %}		
 		<tr>
 			<td>{{ LNG.al_requests }}</td><td><a href="?page=alliance&amp;mode=admin&amp;action=mangeApply">{{ requests }}</a></td>
 		</tr>
@@ -106,13 +106,13 @@
 			<td>{{ LNG.pl_totalfight }}</td><td>{{ totalfight|number_format }}</td>
 		</tr>
 		<tr>
-			<td>{{ LNG.pl_fightwon }}</td><td>{{ fightwon|number_format }} {% if totalfight %}({{ round(fightwon / $totalfight * 100, 2) }}%){% endif %}</td>
+			<td>{{ LNG.pl_fightwon }}</td><td>{{ fightwon|number_format }} {% if totalfight %}({{ round(fightwon / totalfight * 100, 2) }}%){% endif %}</td>
 		</tr>
 		<tr>	
-			<td>{{ LNG.pl_fightlose }}</td><td>{{ fightlose|number_format }} {% if totalfight %}({{ round(fightlose / $totalfight * 100, 2) }}%){% endif %}</td>
+			<td>{{ LNG.pl_fightlose }}</td><td>{{ fightlose|number_format }} {% if totalfight %}({{ round(fightlose / totalfight * 100, 2) }}%){% endif %}</td>
 		</tr>
 		<tr>	
-			<td>{{ LNG.pl_fightdraw }}</td><td>{{ fightdraw|number_format }} {% if totalfight %}({{ round(fightdraw / $totalfight * 100, 2) }}%){% endif %}</td>
+			<td>{{ LNG.pl_fightdraw }}</td><td>{{ fightdraw|number_format }} {% if totalfight %}({{ round(fightdraw / totalfight * 100, 2) }}%){% endif %}</td>
 		</tr>
 		<tr>
 			<td>{{ LNG.pl_unitsshot }}</td><td>{{ unitsshot }}</td>
@@ -127,7 +127,7 @@
 			<td>{{ LNG.pl_dercrystal }}</td><td>{{ dercrystal }}</td>
 		</tr>
 	</table>
-	{% if !isOwner %}
+	{% if not isOwner %}
 	<table style="width: 100%;">
 		<tr>
 			<th>{{ LNG.al_leave_alliance }}</th>

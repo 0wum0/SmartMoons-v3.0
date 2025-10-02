@@ -20,27 +20,27 @@
 <tr>
 	<td>{{ LNG.cronjob_min }}</td>
 	<td colspan=2><select style="height:100px;width:80px;" name="min[]" multiple="multiple">{% for item in range(0, 59) %}<option value="{{ item }}">{{ item }}</option>{% endfor %}</select><br>
-	<input name="min_all" id="min_all" type="checkbox" value="1" {% if min is defined.0 && min.0 == "*" %}checked{% endif %}><label for="min_all">{{ LNG.cronjob_selectall }}</label></td>
+	<input name="min_all" id="min_all" type="checkbox" value="1" {% if min[0] is defined and min.0 == "*" %}checked{% endif %}><label for="min_all">{{ LNG.cronjob_selectall }}</label></td>
 </tr>
 <tr>
 	<td>{{ LNG.cronjob_hours }}</td>
 	<td colspan=2><select style="height:100px;width:80px;" name="hours[]" multiple="multiple">{% for item in range(0, 23) %}<option value="{{ item }}">{{ item }}</option>{% endfor %}</select><br>
-	<input name="hours_all" id="hours_all" type="checkbox" value="1" {% if hours is defined.0 && hours.0 == "*" %}checked{% endif %}><label for="hours_all">{{ LNG.cronjob_selectall }}</label></td>
+	<input name="hours_all" id="hours_all" type="checkbox" value="1" {% if hours[0] is defined and hours.0 == "*" %}checked{% endif %}><label for="hours_all">{{ LNG.cronjob_selectall }}</label></td>
 </tr>
 <tr>
 	<td>{{ LNG.cronjob_dom }}</td>
 	<td colspan=2><select style="height:100px;width:80px;" name="dom[]" multiple="multiple">{% for item in range(1, 31) %}<option value="{{ item }}">{{ item }}</option>{% endfor %}</select><br>
-	<input name="dom_all" id="dom_all" type="checkbox" value="1" {% if dom is defined.0 && dom.0 == "*" %}checked{% endif %}><label for="dom_all">{{ LNG.cronjob_selectall }}</label></td>
+	<input name="dom_all" id="dom_all" type="checkbox" value="1" {% if dom[0] is defined and dom.0 == "*" %}checked{% endif %}><label for="dom_all">{{ LNG.cronjob_selectall }}</label></td>
 </tr>
 <tr>
 	<td>{{ LNG.cronjob_month }}</td>
 	<td colspan=2><select style="height:100px;width:80px;" name="month[]" multiple="multiple">{% for item in range(0, 60) %}<option value="{{ item }}">{{ item }}</option>{% endfor %}</select><br>
-	<input name="month_all" id="month_all" type="checkbox" value="1" {% if month is defined.0 && month.0 == "*" %}checked{% endif %}><label for="month_all">{{ LNG.cronjob_selectall }}</label></td>
+	<input name="month_all" id="month_all" type="checkbox" value="1" {% if month[0] is defined and month.0 == "*" %}checked{% endif %}><label for="month_all">{{ LNG.cronjob_selectall }}</label></td>
 </tr>
 <tr>
 	<td>{{ LNG.cronjob_dow }}</td>
 	<td colspan=2><select style="height:100px;width:80px;" name="dow[]" multiple="multiple">{% for item in range(0, 60) %}<option value="{{ item }}">{{ item }}</option>{% endfor %}</select><br>
-	<input name="dow_all" id="dow_all" type="checkbox" value="1" {% if dow is defined.0 && dow.0 == "*" %}checked{% endif %}><label for="dow_all">{{ LNG.cronjob_selectall }}</label></td>
+	<input name="dow_all" id="dow_all" type="checkbox" value="1" {% if dow[0] is defined and dow.0 == "*" %}checked{% endif %}><label for="dow_all">{{ LNG.cronjob_selectall }}</label></td>
 </tr>
 <tr>
 	<td>{{ LNG.cronjob_class }}</td>

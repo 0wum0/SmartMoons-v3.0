@@ -12,11 +12,11 @@
 		<table style="width:100%;table-layout:fixed;">
 				{% for CategoryID, CategoryRow in CategoryList %}
 				{% if (loop.index % 6) == 1 %}<tr>{% endif %}
-				{% if loop.last && (loop.index % 6) != 0 %}<td>&nbsp;</td>{% endif %}
+				{% if loop.last and (loop.index % 6) != 0 %}<td>&nbsp;</td>{% endif %}
 				<td style="word-wrap: break-word;color:{{ CategoryRow.color }};"><a href="#" onclick="Message.getMessages({{ CategoryID }});return false;" style="color:{{ CategoryRow.color }};">{{ LNG.mg_type[CategoryID] }}</a>
 				<br><span id="unread_{{ CategoryID }}">{{ CategoryRow.unread }}</span>/<span id="total_{{ CategoryID }}">{{ CategoryRow.total }}</span>
 				</td>
-				{% if loop.last || (loop.index % 6) == 0 %}</tr>{% endif %}
+				{% if loop.last or (loop.index % 6) == 0 %}</tr>{% endif %}
 				{% endfor %}
 		</table>
 	</div>

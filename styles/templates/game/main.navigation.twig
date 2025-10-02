@@ -8,7 +8,7 @@
 		{% if isModuleAvailable(constant('MODULE_RESEARCH')) %}<a href="game.php?page=research">{{ LNG.lm_research }}</a>{% endif %}
 		{% if isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}<a href="game.php?page=shipyard&amp;mode=fleet">{{ LNG.lm_shipshard }}</a>{% endif %}
 		{% if isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}<a href="game.php?page=shipyard&amp;mode=defense">{{ LNG.lm_defenses }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_OFFICIER')) || isModuleAvailable(constant('MODULE_DMEXTRAS')) %}<a href="game.php?page=officier">{{ LNG.lm_officiers }}</a>{% endif %}
+		{% if isModuleAvailable(constant('MODULE_OFFICIER')) or isModuleAvailable(constant('MODULE_DMEXTRAS')) %}<a href="game.php?page=officier">{{ LNG.lm_officiers }}</a>{% endif %}
 		{% if isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}<a href="game.php?page=fleetDealer">{{ LNG.lm_fleettrader }}</a>{% endif %}
 		{% if isModuleAvailable(constant('MODULE_TRADER')) %}<a href="game.php?page=fleetTable">{{ LNG.lm_fleet }}</a>{% endif %}
 		{% if isModuleAvailable(constant('MODULE_RESSOURCE_LIST')) %}<a href="game.php?page=resources">{{ LNG.lm_resources }}</a>{% endif %}
