@@ -202,15 +202,9 @@ if (MODE === 'INGAME' || MODE === 'ADMIN' || MODE === 'CRON')
 	{
 		error_reporting(E_ERROR | E_WARNING | E_PARSE);
 		
-		// Robust handling for USER['rights'] to prevent unserialize(null) errors
-		if (!empty($USER['rights']) && is_string($USER['rights'])) {
-			$decoded = @unserialize($USER['rights']);
-			if ($decoded === false && $USER['rights'] !== 'b:0;') {
-				$USER['rights'] = [];
-			} else {
-				$USER['rights'] = $decoded;
-			}
-		} else {
+		// Safe handling for USER['rights'] to prevent unserialize warnings
+		$USER['rights'] = empty($USER['rights']) ? [] : @unserialize($USER['rights']);
+		if (!is_array($USER['rights'])) {
 			$USER['rights'] = [];
 		}
 		
