@@ -45,12 +45,26 @@ class Database_BC extends mysqli
 			require_once __DIR__ . '/../../includes/config.php';
 		}
 
+		// Validate required database credentials
+		if (empty($databaseConfig['host'])) {
+			throw new Exception("Database configuration error: 'host' is missing or empty. Please check includes/config.php");
+		}
+		if (empty($databaseConfig['user'])) {
+			throw new Exception("Database configuration error: 'user' is missing or empty. Please check includes/config.php");
+		}
+		if (empty($databaseConfig['dbname'])) {
+			throw new Exception("Database configuration error: 'dbname' is missing or empty. Please check includes/config.php");
+		}
+
+		// Set optional password with default empty string
+		$password = $databaseConfig['password'] ?? '';
+
 		// Set default port if not specified
 		if (!isset($databaseConfig['port'])) {
 			$databaseConfig['port'] = 3306;
 		}
 
-		@parent::__construct($databaseConfig['host'], $databaseConfig['user'], $databaseConfig['password'], $databaseConfig['dbname'], $databaseConfig['port']);
+		@parent::__construct($databaseConfig['host'], $databaseConfig['user'], $password, $databaseConfig['dbname'], $databaseConfig['port']);
 
 		if(mysqli_connect_error())
 		{
