@@ -15,17 +15,12 @@
 	<meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
 	{% endif %}
 
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/base/boilerplate.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/main.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/scifi-framework.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/pages.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/responsive-game.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/all.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/base/jquery.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/base/jquery.fancybox.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/base/validationEngine.jquery.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="{{ dpath }}ingame.css?v={{ REV }}">
+	<!-- SmartMoons Complete Sci-Fi Redesign Theme -->
+	<link rel="stylesheet" type="text/css" href="./styles/theme/smartmoons.css?v={{ REV }}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
 	
 	<script type="text/javascript">
@@ -59,10 +54,9 @@
 	<script type="text/javascript" src="./scripts/l18n/validationEngine/jquery.validationEngine-{{ lang }}.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/base/tooltip.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/game/base.js?v={{ REV }}"></script>
-	<!-- Real-time resource ticker -->
 	<script type="text/javascript" src="./scripts/game/topnav.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/game/sci-fi-ui.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/game/responsive-ui.js?v={{ REV }}"></script>
+	<!-- SmartMoons UI Enhancement Scripts -->
+	<script type="text/javascript" src="./scripts/game/smartmoons-ui.js?v={{ REV }}"></script>
 	{% for scriptname in scripts %}
 	<script type="text/javascript" src="./scripts/game/{{ scriptname }}.js?v={{ REV }}"></script>
 	{% endfor %}
@@ -77,79 +71,87 @@
 <body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }}">
 	<div id="tooltip" class="tip"></div>
 	
-	<!-- Futuristic Resource Header with real-time tickers -->
+	<!-- SmartMoons Sci-Fi Header -->
 	<div id="header">
 		<div id="headerTable">
+			<!-- Resources Section -->
 			{% for resourceID, resourceData in resourceTable %}
 			{% if resourceID != 921 %}
 			<div class="bar-main-container">
-			    <div class="wrap">
-			      <div class="bar-percentage"><img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt=""></div>
-			      <div class="bar-container">
-			        <div class="bar bar_{{ resourceID }}" style="width: 0%;"></div>
-			        <div class="bar-text">
-			        {% if shortlyNumber %}
-					{% if resourceData.current is not defined %}
-					{% set currentResource = resourceData.max + resourceData.used %}
-						<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ currentResource|number_format }} / {{ resourceData.max|number_format }}"><span{% if currentResource < 0 %} style="color:red"{% endif %}>{{ shortly_number(currentResource) }} / {{ shortly_number(resourceData.max) }}</span></span>
-						{% else %}
-							<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ resourceData.current|number_format }}<br>{% if resourceData.current is not defined or resourceData.max is not defined %}
+				<div class="wrap">
+					<div class="bar-percentage">
+						<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}">
+					</div>
+					<div class="bar-container">
+						<div class="bar bar_{{ resourceID }}" style="width: 0%;"></div>
+						<div class="bar-text">
+						{% if shortlyNumber %}
+							{% if resourceData.current is not defined %}
+								{% set currentResource = resourceData.max + resourceData.used %}
+								<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ currentResource|number_format }} / {{ resourceData.max|number_format }}">
+									<span{% if currentResource < 0 %} class="text-red"{% endif %}>{{ shortly_number(currentResource) }} / {{ shortly_number(resourceData.max) }}</span>
+								</span>
 							{% else %}
-							<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number(resourceData.max) }}</span>
-							{% endif %}">{{ shortly_number(resourceData.current) }}</span>
-						{% endif %}
-			        {% else %}
-					{% if resourceData.current is not defined %}
-					{% set currentResource = resourceData.max + resourceData.used %}
-						<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ currentResource|number_format }} / {{ resourceData.max|number_format }}"><span{% if currentResource < 0 %} style="color:red"{% endif %}>{{ currentResource|number_format }} / {{ resourceData.max|number_format }}</span></span>
+								<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" 
+									data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ resourceData.current|number_format }} / {{ resourceData.max|number_format }}">
+									{{ shortly_number(resourceData.current) }}
+								</span>
+							{% endif %}
 						{% else %}
-							<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ resourceData.current|number_format }}<br>{% if resourceData.current is not defined or resourceData.max is not defined %}
+							{% if resourceData.current is not defined %}
+								{% set currentResource = resourceData.max + resourceData.used %}
+								<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}">
+									<span{% if currentResource < 0 %} class="text-red"{% endif %}>{{ currentResource|number_format }} / {{ resourceData.max|number_format }}</span>
+								</span>
 							{% else %}
-							<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number(resourceData.max) }}</span>
-							{% endif %}" data-real="{{ resourceData.current }}">{{ resourceData.current|number_format }} (X%)</span>
+								<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" 
+									data-tooltip-content="{{ LNG.tech[resourceID] }}">
+									{{ resourceData.current|number_format }}
+								</span>
+							{% endif %}
 						{% endif %}
-			        {% endif %}
-			        </div>
-			      </div>
-			      {% if resourceID != 911 and resourceID != 921 %}
-			      {% if isModuleAvailable(constant('MODULE_TRADER')) %}
-			      <div class="bar-change">
-			      	<a href="game.php?page=trader&mode=trade&resource={{ resourceID }}"><i class="fas fa-arrows-alt-h"></i></a>
-			      </div>
-			      {% endif %}
-			      {% endif %}
-			    </div>
+						</div>
+					</div>
+					{% if resourceID != 911 and resourceID != 921 and isModuleAvailable(constant('MODULE_TRADER')) %}
+					<div class="bar-change">
+						<a href="game.php?page=trader&mode=trade&resource={{ resourceID }}" title="{{ LNG.lm_trader }}">
+							<i class="fas fa-exchange-alt"></i>
+						</a>
+					</div>
+					{% endif %}
+				</div>
 			</div>
 			{% else %}
-			<div class="heder_res_921 res_921_text">
-				<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="">
-				<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ resourceData.current|number_format }}<br>{% if resourceData.current is not defined or resourceData.max is not defined %}
-				{% else %}
-				<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number(resourceData.max) }}</span>
-				{% endif %}">{{ shortly_number(resourceData.current) }}</span>
+			<!-- Dark Matter Display -->
+			<div class="heder_res_921">
+				<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}">
+				<span class="res_current res_921_text tooltip" id="current_{{ resourceData.name }}" 
+					data-real="{{ resourceData.current }}" 
+					data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ resourceData.current|number_format }}">
+					{{ shortly_number(resourceData.current) }}
+				</span>
 			</div>
 			{% endif %}
 			{% endfor %}
-			<div class="clear"></div>
 
 			{% if not vmode %}
 			<script type="text/javascript">
-			var viewShortlyNumber	= {{ shortlyNumber|json_encode }};
-			var vacation			= {{ vmode }};
-	        $(function() {
-			{% for resourceID, resourceData in resourceTable %}
-			{% if resourceData.production is defined %}
-	            resourceTicker({
-	                available: {{ resourceData.current|json_encode }},
-	                limit: [0, {{ resourceData.max|json_encode }}],
-	                production: {{ resourceData.production|json_encode }},
-	                valueElem: "current_{{ resourceData.name }}",
-	                valuePoursent: "bar_{{ resourceID }}"
-	            }, true);
-			{% endif %}
-			{% endfor %}
-	        });
+			var viewShortlyNumber = {{ shortlyNumber|json_encode }};
+			var vacation = {{ vmode }};
+			$(function() {
+				{% for resourceID, resourceData in resourceTable %}
+				{% if resourceData.production is defined %}
+				resourceTicker({
+					available: {{ resourceData.current|json_encode }},
+					limit: [0, {{ resourceData.max|json_encode }}],
+					production: {{ resourceData.production|json_encode }},
+					valueElem: "current_{{ resourceData.name }}",
+					valuePoursent: "bar_{{ resourceID }}"
+				}, true);
+				{% endif %}
+				{% endfor %}
+			});
 			</script>
-	        {% endif %}
+			{% endif %}
 		</div>
 	</div>

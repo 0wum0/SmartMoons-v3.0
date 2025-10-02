@@ -1,82 +1,243 @@
-<!-- Top Navigation Bar -->
-<div id="main_header">
-	<div class="main_list_left">
-		<ul>
-			<li><a href="game.php?page=changelog" title="Version {{ VERSION|replace({'.git':''}) }}" class="sci-badge sci-badge--cyan" style="padding: var(--spacing-sm) var(--spacing-md);">
-				<i class="fas fa-code-branch"></i> v{{ VERSION|replace({'.git':''}) }}
-			</a></li>
-			<li><a href="game.php?page=overview" title="{{ LNG.lm_overview }}"><i class="fas fa-home"></i></a></li>
-			{% if isModuleAvailable(constant('MODULE_IMPERIUM')) %}
-			<li><a href="game.php?page=imperium" title="{{ LNG.lm_imperium }}"><i class="fas fa-globe"></i></a></li>
-			{% endif %}
+<!-- SmartMoons Top Navigation Bar -->
+<div id="top-nav" class="sci-fi-top-nav">
+	<div class="top-nav-container">
+		<!-- Left Section: Quick Links -->
+		<div class="top-nav-left">
+			<a href="game.php?page=overview" class="nav-item" title="{{ LNG.lm_overview }}">
+				<i class="fas fa-home"></i>
+				<span class="nav-label">{{ LNG.lm_overview }}</span>
+			</a>
 			{% if isModuleAvailable(constant('MODULE_STATISTICS')) %}
-			<li><a href="game.php?page=statistics" title="{{ LNG.lm_statistics }}"><i class="fas fa-chart-pie"></i></a></li>
-			{% endif %}
-			{% if isModuleAvailable(constant('MODULE_BATTLEHALL')) %}
-			<li><a href="game.php?page=battleHall" title="{{ LNG.lm_battlehall }}"><i class="fas fa-crosshairs"></i></a></li>
-			{% endif %}
-			{% if isModuleAvailable(constant('MODULE_RECORDS')) %}
-			<li><a href="game.php?page=records" title="{{ LNG.lm_records }}"><i class="fas fa-trophy"></i></a></li>
-			{% endif %}
-			{% if isModuleAvailable(constant('MODULE_SEARCH')) %}
-			<li><a href="game.php?page=search" title="{{ LNG.lm_search }}"><i class="fas fa-search"></i></a></li>
+			<a href="game.php?page=statistics" class="nav-item" title="{{ LNG.lm_statistics }}">
+				<i class="fas fa-chart-line"></i>
+				<span class="nav-label">{{ LNG.lm_statistics }}</span>
+			</a>
 			{% endif %}
 			{% if isModuleAvailable(constant('MODULE_MESSAGES')) %}
-			<li style="position: relative;">
-				<a href="game.php?page=messages" title="{{ LNG.lm_messages }}">
-					<i class="fas fa-envelope"></i>
-					{% if new_message > 0 %}
-					<span id="newmes">{% if new_message > 99 %}99+{% else %}{{ new_message }}{% endif %}</span>
-					{% endif %}
-				</a>
-			</li>
+			<a href="game.php?page=messages" class="nav-item messages" title="{{ LNG.lm_messages }}">
+				<i class="fas fa-envelope"></i>
+				{% if new_message > 0 %}
+				<span class="badge badge-pulse">{{ new_message > 99 ? '99+' : new_message }}</span>
+				{% endif %}
+				<span class="nav-label">{{ LNG.lm_messages }}</span>
+			</a>
 			{% endif %}
-		</ul>
-	</div>
+		</div>
 
-	<div id="planetSelectorWrapper">
-		<a href="?cp={{ previousPlanet }}" class="sci-btn sci-btn--ghost" style="padding: var(--spacing-sm); min-width: 36px; height: 36px;">
-			<i class="fas fa-chevron-left"></i>
-		</a>
-		<label for="planetSelector" class="textForBlind">Planet Selection</label>
-		<select id="planetSelector">
-			{% for key, value in PlanetSelect %}
-			<option value="{{ key }}"{% if key == current_pid %} selected{% endif %}>{{ value }}</option>
-			{% endfor %}
-		</select>
-		<a href="?cp={{ nextPlanet }}" class="sci-btn sci-btn--ghost" style="padding: var(--spacing-sm); min-width: 36px; height: 36px;">
-			<i class="fas fa-chevron-right"></i>
-		</a>
-	</div>
+		<!-- Center Section: Planet Selector -->
+		<div class="planet-selector-container">
+			<button class="planet-nav-btn prev" onclick="location.href='?cp={{ previousPlanet }}'">
+				<i class="fas fa-chevron-left"></i>
+			</button>
+			<div class="planet-selector">
+				<label for="planetSelector" class="sr-only">{{ LNG.lm_planet }}</label>
+				<select id="planetSelector" class="planet-dropdown">
+					{% for key, value in PlanetSelect %}
+					<option value="{{ key }}"{% if key == current_pid %} selected{% endif %}>{{ value }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<button class="planet-nav-btn next" onclick="location.href='?cp={{ nextPlanet }}'">
+				<i class="fas fa-chevron-right"></i>
+			</button>
+		</div>
 
-	<div class="main_list_right">
-		<ul>
-            <li>
-                <span class="servertime-badge">
-                    <i class="fas fa-clock"></i>
-                    <span class="servertime">{{ servertime }}</span>
-                </span>
-            </li>
-			{% if isModuleAvailable(constant('MODULE_TECHTREE')) %}
-			<li><a href="game.php?page=techtree" title="{{ LNG.lm_techtree }}"><i class="fas fa-flask"></i></a></li>
-			{% endif %}
-			{% if isModuleAvailable(constant('MODULE_BUDDYLIST')) %}
-			<li><a href="game.php?page=buddyList" title="{{ LNG.lm_buddylist }}"><i class="fas fa-user-friends"></i></a></li>
-			{% endif %}
-			{% if isModuleAvailable(constant('MODULE_BANLIST')) %}
-			<li><a href="game.php?page=banList" title="{{ LNG.lm_banlist }}"><i class="fas fa-user-times"></i></a></li>
-			{% endif %}
-			{% if hasBoard %}
-			<li><a href="game.php?page=board" target="forum" title="Forum"><i class="fas fa-comment-alt"></i></a></li>
-			{% endif %}
-			{% if isModuleAvailable(constant('MODULE_CHAT')) %}
-			<li><a href="game.php?page=chat" title="{{ LNG.lm_chat }}"><i class="fas fa-comments"></i></a></li>
-			{% endif %}
-			<li><a href="game.php?page=questions" title="{{ LNG.lm_faq }}"><i class="fas fa-question-circle"></i></a></li>
-			<li><a href="game.php?page=settings" title="{{ LNG.lm_settings }}"><i class="fas fa-cog"></i></a></li>
-			<li><a href="game.php?page=logout" title="{{ LNG.lm_logout }}" style="border-color: var(--color-accent-red); color: var(--color-accent-red);">
+		<!-- Right Section: User Menu -->
+		<div class="top-nav-right">
+			<div class="server-time">
+				<i class="fas fa-clock"></i>
+				<span class="servertime">{{ servertime }}</span>
+			</div>
+			<a href="game.php?page=settings" class="nav-item" title="{{ LNG.lm_settings }}">
+				<i class="fas fa-cog"></i>
+			</a>
+			<a href="game.php?page=logout" class="nav-item logout" title="{{ LNG.lm_logout }}">
 				<i class="fas fa-power-off"></i>
-			</a></li>
-		</ul>
+			</a>
+		</div>
 	</div>
 </div>
+
+<style>
+/* Top Navigation Styles */
+.sci-fi-top-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 60px;
+	background: linear-gradient(180deg, rgba(26, 35, 50, 0.98) 0%, rgba(17, 24, 39, 0.95) 100%);
+	backdrop-filter: blur(20px);
+	border-bottom: 1px solid var(--color-border-accent);
+	z-index: 100;
+	display: flex;
+	align-items: center;
+}
+
+.top-nav-container {
+	width: 100%;
+	max-width: 1920px;
+	margin: 0 auto;
+	padding: 0 var(--spacing-lg);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--spacing-xl);
+}
+
+.top-nav-left,
+.top-nav-right {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+}
+
+.nav-item {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	padding: var(--spacing-sm) var(--spacing-md);
+	background: var(--color-bg-card);
+	border: 1px solid transparent;
+	border-radius: var(--radius-md);
+	color: var(--color-text-secondary);
+	transition: var(--transition-fast);
+	position: relative;
+	font-size: 0.9rem;
+}
+
+.nav-item:hover {
+	background: var(--color-bg-hover);
+	border-color: var(--color-border-accent);
+	color: var(--color-accent-cyan);
+}
+
+.nav-item.messages {
+	position: relative;
+}
+
+.nav-item .badge {
+	position: absolute;
+	top: -4px;
+	right: -4px;
+	min-width: 20px;
+	height: 20px;
+	padding: 0 4px;
+	background: var(--color-accent-red);
+	color: white;
+	border-radius: var(--radius-full);
+	font-size: 0.75rem;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.badge-pulse {
+	animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.nav-item.logout {
+	background: rgba(239, 68, 68, 0.1);
+	border-color: rgba(239, 68, 68, 0.3);
+	color: var(--color-accent-red);
+}
+
+.nav-item.logout:hover {
+	background: rgba(239, 68, 68, 0.2);
+	border-color: var(--color-accent-red);
+}
+
+.nav-label {
+	display: none;
+}
+
+/* Planet Selector */
+.planet-selector-container {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+	background: var(--color-bg-card);
+	padding: var(--spacing-xs);
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--color-border-primary);
+}
+
+.planet-nav-btn {
+	width: 32px;
+	height: 32px;
+	background: var(--color-bg-elevated);
+	border: 1px solid transparent;
+	border-radius: var(--radius-md);
+	color: var(--color-text-secondary);
+	cursor: pointer;
+	transition: var(--transition-fast);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.planet-nav-btn:hover {
+	background: var(--color-accent-cyan);
+	color: var(--color-bg-primary);
+	border-color: var(--color-accent-cyan);
+}
+
+.planet-dropdown {
+	background: var(--color-bg-secondary);
+	border: none;
+	color: var(--color-text-primary);
+	padding: var(--spacing-sm) var(--spacing-md);
+	border-radius: var(--radius-md);
+	font-size: 0.9rem;
+	font-weight: 500;
+	min-width: 200px;
+	cursor: pointer;
+}
+
+.planet-dropdown:focus {
+	outline: none;
+	box-shadow: 0 0 0 2px var(--color-accent-cyan);
+}
+
+/* Server Time */
+.server-time {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	padding: var(--spacing-sm) var(--spacing-md);
+	background: var(--color-bg-elevated);
+	border-radius: var(--radius-md);
+	color: var(--color-accent-cyan);
+	font-family: 'Courier New', monospace;
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+	.nav-label {
+		display: inline;
+	}
+}
+
+@media (max-width: 768px) {
+	.top-nav-container {
+		padding: 0 var(--spacing-md);
+		gap: var(--spacing-md);
+	}
+	
+	.planet-dropdown {
+		min-width: 120px;
+		font-size: 0.85rem;
+	}
+	
+	.server-time span {
+		display: none;
+	}
+	
+	.nav-item {
+		padding: var(--spacing-sm);
+	}
+}
+</style>
