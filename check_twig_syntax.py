@@ -38,9 +38,11 @@ def check_twig_file(filepath: str) -> List[Dict]:
             })
         
         # Check for malformed variable blocks: {{ var }
+        # Exclude valid cases with hash literals like replace({'.git':''})
         if re.search(r'\{\{[^}]+\}(?!\})', line):
             # Make sure it's not a valid {% block %}
-            if not re.search(r'\{%.*%\}', line):
+            # Also exclude lines with hash literals (filter arguments like {'.git':''})
+            if not re.search(r'\{%.*%\}', line) and not re.search(r'\([^)]*\{[^}]*\}[^)]*\)', line):
                 errors.append({
                     'file': filepath,
                     'line': line_num,
