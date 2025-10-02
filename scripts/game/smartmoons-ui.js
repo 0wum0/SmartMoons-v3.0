@@ -7,55 +7,143 @@
     'use strict';
 
     // =====================================================
-    // 1. MOBILE MENU HANDLER
+    // 1. SIDEBAR & BURGER MENU HANDLER
     // =====================================================
-    const MobileMenu = {
+    const SidebarMenu = {
         init() {
-            this.createToggleButton();
-            this.createOverlay();
             this.bindEvents();
-        },
-
-        createToggleButton() {
-            const toggle = document.createElement('div');
-            toggle.className = 'mobile-menu-toggle';
-            toggle.id = 'mobile-menu-toggle';
-            toggle.innerHTML = `
-                <span></span>
-                <span></span>
-                <span></span>
-            `;
-            document.body.appendChild(toggle);
-        },
-
-        createOverlay() {
-            const overlay = document.createElement('div');
-            overlay.className = 'mobile-menu-overlay';
-            overlay.id = 'mobile-menu-overlay';
-            document.body.appendChild(overlay);
+            this.handleResize();
+            this.setInitialState();
         },
 
         bindEvents() {
-            const toggle = document.getElementById('mobile-menu-toggle');
-            const overlay = document.getElementById('mobile-menu-overlay');
-            const menu = document.getElementById('leftmenu');
-            const page = document.getElementById('page');
-
-            if (toggle && menu) {
-                toggle.addEventListener('click', () => {
-                    toggle.classList.toggle('active');
-                    menu.classList.toggle('active');
-                    overlay.classList.toggle('active');
-                    document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+            // Get elements
+            const burgerToggle = document.getElementById('sidebar-toggle');
+            const overlay = document.getElementById('sidebar-overlay');
+            const sidebar = document.getElementById('leftmenu');
+            
+            if (burgerToggle && sidebar) {
+                // Burger menu click
+                burgerToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.toggleSidebar();
                 });
 
-                overlay.addEventListener('click', () => {
-                    toggle.classList.remove('active');
-                    menu.classList.remove('active');
-                    overlay.classList.remove('active');
-                    document.body.style.overflow = '';
+                // Overlay click (mobile only)
+                if (overlay) {
+                    overlay.addEventListener('click', () => {
+                        this.closeSidebar();
+                    });
+                }
+
+                // Close sidebar when clicking outside on desktop
+                document.addEventListener('click', (e) => {
+                    if (window.innerWidth > 992) {
+                        const isClickInside = sidebar.contains(e.target) || 
+                                            (burgerToggle && burgerToggle.contains(e.target));
+                        if (!isClickInside && sidebar.classList.contains('active')) {
+                            this.closeSidebar();
+                        }
+                    }
+                });
+
+                // Handle escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+                        this.closeSidebar();
+                    }
                 });
             }
+        },
+
+        toggleSidebar() {
+            const burgerToggle = document.getElementById('sidebar-toggle');
+            const overlay = document.getElementById('sidebar-overlay');
+            const sidebar = document.getElementById('leftmenu');
+            const page = document.getElementById('page');
+            
+            if (sidebar) {
+                const isActive = sidebar.classList.contains('active');
+                
+                if (isActive) {
+                    this.closeSidebar();
+                } else {
+                    sidebar.classList.add('active');
+                    sidebar.classList.remove('collapsed');
+                    if (burgerToggle) burgerToggle.classList.add('active');
+                    if (overlay) overlay.classList.add('active');
+                    
+                    // On mobile, prevent body scroll
+                    if (window.innerWidth <= 992) {
+                        document.body.style.overflow = 'hidden';
+                    }
+                    
+                    // Adjust page margin on desktop
+                    if (page && window.innerWidth > 992) {
+                        page.style.marginLeft = '280px';
+                    }
+                }
+                
+                // Save state to localStorage
+                localStorage.setItem('sidebar-state', sidebar.classList.contains('active') ? 'open' : 'closed');
+            }
+        },
+
+        closeSidebar() {
+            const burgerToggle = document.getElementById('sidebar-toggle');
+            const overlay = document.getElementById('sidebar-overlay');
+            const sidebar = document.getElementById('leftmenu');
+            const page = document.getElementById('page');
+            
+            if (sidebar) {
+                sidebar.classList.remove('active');
+                sidebar.classList.add('collapsed');
+                if (burgerToggle) burgerToggle.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                if (page) {
+                    page.style.marginLeft = '0';
+                }
+                
+                localStorage.setItem('sidebar-state', 'closed');
+            }
+        },
+
+        setInitialState() {
+            const savedState = localStorage.getItem('sidebar-state');
+            const sidebar = document.getElementById('leftmenu');
+            const page = document.getElementById('page');
+            
+            if (sidebar) {
+                // On desktop, restore saved state
+                if (window.innerWidth > 992) {
+                    if (savedState === 'open') {
+                        sidebar.classList.add('active');
+                        sidebar.classList.remove('collapsed');
+                        if (page) page.style.marginLeft = '280px';
+                    } else {
+                        sidebar.classList.add('collapsed');
+                        sidebar.classList.remove('active');
+                        if (page) page.style.marginLeft = '0';
+                    }
+                } else {
+                    // On mobile, always start closed
+                    sidebar.classList.add('collapsed');
+                    sidebar.classList.remove('active');
+                    if (page) page.style.marginLeft = '0';
+                }
+            }
+        },
+
+        handleResize() {
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    this.setInitialState();
+                }, 250);
+            });
         }
     };
 
@@ -364,11 +452,12 @@
     };
 
     // =====================================================
-    // 9. REAL-TIME CLOCK
+    // 9. REAL-TIME CLOCK & PLANET SELECTOR
     // =====================================================
     const RealTimeClock = {
         init() {
             this.updateClocks();
+            this.initPlanetSelector();
             setInterval(() => this.updateClocks(), 1000);
         },
 
@@ -381,6 +470,15 @@
                     element.textContent = `${hours}:${minutes}:${seconds}`;
                 }
             });
+        },
+
+        initPlanetSelector() {
+            const selector = document.getElementById('planetSelector');
+            if (selector) {
+                selector.addEventListener('change', (e) => {
+                    window.location.href = `?cp=${e.target.value}`;
+                });
+            }
         }
     };
 
@@ -509,7 +607,7 @@
     // =====================================================
     document.addEventListener('DOMContentLoaded', () => {
         // Initialize all modules
-        MobileMenu.init();
+        SidebarMenu.init();
         ResourceTicker.init();
         ProgressBarManager.init();
         NotificationSystem.init();
@@ -533,7 +631,7 @@
     // EXPORT TO WINDOW (for external access if needed)
     // =====================================================
     window.SmartMoonsUI = {
-        MobileMenu,
+        SidebarMenu,
         ResourceTicker,
         ProgressBarManager,
         NotificationSystem,

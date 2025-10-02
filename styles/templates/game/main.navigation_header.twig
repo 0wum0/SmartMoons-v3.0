@@ -1,243 +1,63 @@
-<!-- SmartMoons Top Navigation Bar -->
-<div id="top-nav" class="sci-fi-top-nav">
-	<div class="top-nav-container">
-		<!-- Left Section: Quick Links -->
-		<div class="top-nav-left">
-			<a href="game.php?page=overview" class="nav-item" title="{{ LNG.lm_overview }}">
-				<i class="fas fa-home"></i>
-				<span class="nav-label">{{ LNG.lm_overview }}</span>
+<!-- SmartMoons Sci-Fi Header -->
+<div id="top-header" class="sci-fi-header">
+	<div class="header-container">
+		<!-- Left Section: Logo & Burger Menu -->
+		<div class="header-left">
+			<button id="sidebar-toggle" class="burger-menu" aria-label="Toggle Menu">
+				<span class="burger-line"></span>
+				<span class="burger-line"></span>
+				<span class="burger-line"></span>
+			</button>
+			<a href="game.php?page=overview" class="logo-link">
+				<div class="logo-container">
+					<i class="fas fa-rocket"></i>
+					<span class="logo-text">SmartMoons</span>
+				</div>
 			</a>
-			{% if isModuleAvailable(constant('MODULE_STATISTICS')) %}
-			<a href="game.php?page=statistics" class="nav-item" title="{{ LNG.lm_statistics }}">
-				<i class="fas fa-chart-line"></i>
-				<span class="nav-label">{{ LNG.lm_statistics }}</span>
-			</a>
-			{% endif %}
+		</div>
+
+		<!-- Center Section: Server Time & Planet Selector -->
+		<div class="header-center">
+			<div class="server-time">
+				<i class="fas fa-clock"></i>
+				<span class="servertime" id="servertime">{{ servertime }}</span>
+			</div>
+			<div class="planet-selector-container">
+				<button class="planet-nav-btn prev" onclick="location.href='?cp={{ previousPlanet }}'">
+					<i class="fas fa-chevron-left"></i>
+				</button>
+				<div class="planet-selector">
+					<select id="planetSelector" class="planet-dropdown">
+						{% for key, value in PlanetSelect %}
+						<option value="{{ key }}"{% if key == current_pid %} selected{% endif %}>{{ value }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<button class="planet-nav-btn next" onclick="location.href='?cp={{ nextPlanet }}'">
+					<i class="fas fa-chevron-right"></i>
+				</button>
+			</div>
+		</div>
+
+		<!-- Right Section: User Icons -->
+		<div class="header-right">
 			{% if isModuleAvailable(constant('MODULE_MESSAGES')) %}
-			<a href="game.php?page=messages" class="nav-item messages" title="{{ LNG.lm_messages }}">
+			<a href="game.php?page=messages" class="header-icon messages" title="{{ LNG.lm_messages }}">
 				<i class="fas fa-envelope"></i>
 				{% if new_message > 0 %}
 				<span class="badge badge-pulse">{{ new_message > 99 ? '99+' : new_message }}</span>
 				{% endif %}
-				<span class="nav-label">{{ LNG.lm_messages }}</span>
 			</a>
 			{% endif %}
-		</div>
-
-		<!-- Center Section: Planet Selector -->
-		<div class="planet-selector-container">
-			<button class="planet-nav-btn prev" onclick="location.href='?cp={{ previousPlanet }}'">
-				<i class="fas fa-chevron-left"></i>
-			</button>
-			<div class="planet-selector">
-				<label for="planetSelector" class="sr-only">{{ LNG.lm_planet }}</label>
-				<select id="planetSelector" class="planet-dropdown">
-					{% for key, value in PlanetSelect %}
-					<option value="{{ key }}"{% if key == current_pid %} selected{% endif %}>{{ value }}</option>
-					{% endfor %}
-				</select>
-			</div>
-			<button class="planet-nav-btn next" onclick="location.href='?cp={{ nextPlanet }}'">
-				<i class="fas fa-chevron-right"></i>
-			</button>
-		</div>
-
-		<!-- Right Section: User Menu -->
-		<div class="top-nav-right">
-			<div class="server-time">
-				<i class="fas fa-clock"></i>
-				<span class="servertime">{{ servertime }}</span>
-			</div>
-			<a href="game.php?page=settings" class="nav-item" title="{{ LNG.lm_settings }}">
+			<a href="game.php?page=settings" class="header-icon" title="{{ LNG.lm_settings }}">
 				<i class="fas fa-cog"></i>
 			</a>
-			<a href="game.php?page=logout" class="nav-item logout" title="{{ LNG.lm_logout }}">
-				<i class="fas fa-power-off"></i>
+			<a href="game.php?page=logout" class="header-icon logout" title="{{ LNG.lm_logout }}">
+				<i class="fas fa-sign-out-alt"></i>
 			</a>
 		</div>
 	</div>
 </div>
 
-<style>
-/* Top Navigation Styles */
-.sci-fi-top-nav {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 60px;
-	background: linear-gradient(180deg, rgba(26, 35, 50, 0.98) 0%, rgba(17, 24, 39, 0.95) 100%);
-	backdrop-filter: blur(20px);
-	border-bottom: 1px solid var(--color-border-accent);
-	z-index: 100;
-	display: flex;
-	align-items: center;
-}
-
-.top-nav-container {
-	width: 100%;
-	max-width: 1920px;
-	margin: 0 auto;
-	padding: 0 var(--spacing-lg);
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--spacing-xl);
-}
-
-.top-nav-left,
-.top-nav-right {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-sm);
-}
-
-.nav-item {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-xs);
-	padding: var(--spacing-sm) var(--spacing-md);
-	background: var(--color-bg-card);
-	border: 1px solid transparent;
-	border-radius: var(--radius-md);
-	color: var(--color-text-secondary);
-	transition: var(--transition-fast);
-	position: relative;
-	font-size: 0.9rem;
-}
-
-.nav-item:hover {
-	background: var(--color-bg-hover);
-	border-color: var(--color-border-accent);
-	color: var(--color-accent-cyan);
-}
-
-.nav-item.messages {
-	position: relative;
-}
-
-.nav-item .badge {
-	position: absolute;
-	top: -4px;
-	right: -4px;
-	min-width: 20px;
-	height: 20px;
-	padding: 0 4px;
-	background: var(--color-accent-red);
-	color: white;
-	border-radius: var(--radius-full);
-	font-size: 0.75rem;
-	font-weight: 700;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.badge-pulse {
-	animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.nav-item.logout {
-	background: rgba(239, 68, 68, 0.1);
-	border-color: rgba(239, 68, 68, 0.3);
-	color: var(--color-accent-red);
-}
-
-.nav-item.logout:hover {
-	background: rgba(239, 68, 68, 0.2);
-	border-color: var(--color-accent-red);
-}
-
-.nav-label {
-	display: none;
-}
-
-/* Planet Selector */
-.planet-selector-container {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-sm);
-	background: var(--color-bg-card);
-	padding: var(--spacing-xs);
-	border-radius: var(--radius-lg);
-	border: 1px solid var(--color-border-primary);
-}
-
-.planet-nav-btn {
-	width: 32px;
-	height: 32px;
-	background: var(--color-bg-elevated);
-	border: 1px solid transparent;
-	border-radius: var(--radius-md);
-	color: var(--color-text-secondary);
-	cursor: pointer;
-	transition: var(--transition-fast);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.planet-nav-btn:hover {
-	background: var(--color-accent-cyan);
-	color: var(--color-bg-primary);
-	border-color: var(--color-accent-cyan);
-}
-
-.planet-dropdown {
-	background: var(--color-bg-secondary);
-	border: none;
-	color: var(--color-text-primary);
-	padding: var(--spacing-sm) var(--spacing-md);
-	border-radius: var(--radius-md);
-	font-size: 0.9rem;
-	font-weight: 500;
-	min-width: 200px;
-	cursor: pointer;
-}
-
-.planet-dropdown:focus {
-	outline: none;
-	box-shadow: 0 0 0 2px var(--color-accent-cyan);
-}
-
-/* Server Time */
-.server-time {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-xs);
-	padding: var(--spacing-sm) var(--spacing-md);
-	background: var(--color-bg-elevated);
-	border-radius: var(--radius-md);
-	color: var(--color-accent-cyan);
-	font-family: 'Courier New', monospace;
-	font-weight: 600;
-	font-size: 0.9rem;
-}
-
-/* Responsive */
-@media (min-width: 768px) {
-	.nav-label {
-		display: inline;
-	}
-}
-
-@media (max-width: 768px) {
-	.top-nav-container {
-		padding: 0 var(--spacing-md);
-		gap: var(--spacing-md);
-	}
-	
-	.planet-dropdown {
-		min-width: 120px;
-		font-size: 0.85rem;
-	}
-	
-	.server-time span {
-		display: none;
-	}
-	
-	.nav-item {
-		padding: var(--spacing-sm);
-	}
-}
-</style>
+<!-- Mobile Menu Overlay -->
+<div id="sidebar-overlay" class="sidebar-overlay"></div>

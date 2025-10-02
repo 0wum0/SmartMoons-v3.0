@@ -1,25 +1,20 @@
 <!-- SmartMoons Sci-Fi Sidebar Navigation -->
 <div id="leftmenu" class="sidebar-nav">
-	<!-- User Profile Section -->
-	<div class="sidebar-header">
-		<div class="user-profile">
-			<div class="user-avatar">
-				<i class="fas fa-user-astronaut"></i>
-			</div>
-			<div class="user-info">
-				<div class="user-label">{{ LNG.lm_player }}</div>
-				<div class="user-name">{{ username }}</div>
-			</div>
-		</div>
-	</div>
-
 	<!-- Main Navigation -->
 	<div class="sidebar-content">
+		<div class="nav-section">
+			<div class="nav-section-title">{{ LNG.lm_overview }}</div>
+			<a href="game.php?page=overview" class="sidebar-link{% if GET.page|default('overview') == 'overview' %} active{% endif %}">
+				<i class="fas fa-home"></i>
+				<span>{{ LNG.lm_overview }}</span>
+			</a>
+		</div>
+
 		<div class="nav-section">
 			<div class="nav-section-title">{{ LNG.lm_empire }}</div>
 			
 			{% if isModuleAvailable(constant('MODULE_BUILDING')) %}
-			<a href="game.php?page=buildings" class="sidebar-link">
+			<a href="game.php?page=buildings" class="sidebar-link{% if GET.page|default('') == 'buildings' %} active{% endif %}">
 				<i class="fas fa-city"></i>
 				<span>{{ LNG.lm_buildings }}</span>
 			</a>
@@ -58,23 +53,40 @@
 			<div class="nav-section-title">{{ LNG.lm_navigation }}</div>
 			
 			{% if isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
-			<a href="game.php?page=fleetTable" class="sidebar-link">
+			<a href="game.php?page=fleetTable" class="sidebar-link{% if GET.page|default('') == 'fleetTable' %} active{% endif %}">
 				<i class="fas fa-space-shuttle"></i>
 				<span>{{ LNG.lm_fleet }}</span>
 			</a>
 			{% endif %}
 			
 			{% if isModuleAvailable(constant('MODULE_GALAXY')) %}
-			<a href="game.php?page=galaxy" class="sidebar-link">
+			<a href="game.php?page=galaxy" class="sidebar-link{% if GET.page|default('') == 'galaxy' %} active{% endif %}">
 				<i class="fas fa-globe"></i>
 				<span>{{ LNG.lm_galaxy }}</span>
 			</a>
 			{% endif %}
 			
 			{% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}
-			<a href="game.php?page=alliance" class="sidebar-link">
+			<a href="game.php?page=alliance" class="sidebar-link{% if GET.page|default('') == 'alliance' %} active{% endif %}">
 				<i class="fas fa-users"></i>
 				<span>{{ LNG.lm_alliance }}</span>
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_MESSAGES')) %}
+			<a href="game.php?page=messages" class="sidebar-link{% if GET.page|default('') == 'messages' %} active{% endif %}">
+				<i class="fas fa-envelope"></i>
+				<span>{{ LNG.lm_messages }}</span>
+				{% if new_message > 0 %}
+				<span class="badge">{{ new_message > 99 ? '99+' : new_message }}</span>
+				{% endif %}
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_STATISTICS')) %}
+			<a href="game.php?page=statistics" class="sidebar-link{% if GET.page|default('') == 'statistics' %} active{% endif %}">
+				<i class="fas fa-chart-line"></i>
+				<span>{{ LNG.lm_statistics }}</span>
 			</a>
 			{% endif %}
 		</div>
@@ -133,197 +145,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-/* Sidebar Navigation Styles */
-.sidebar-nav {
-	position: fixed;
-	left: 0;
-	top: 60px;
-	bottom: 0;
-	width: 280px;
-	background: linear-gradient(180deg, rgba(21, 28, 43, 0.98) 0%, rgba(17, 24, 39, 0.95) 100%);
-	backdrop-filter: blur(10px);
-	border-right: 1px solid var(--color-border-primary);
-	display: flex;
-	flex-direction: column;
-	z-index: 99;
-	transform: translateX(0);
-	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.sidebar-nav.collapsed {
-	transform: translateX(-100%);
-}
-
-/* Header */
-.sidebar-header {
-	padding: var(--spacing-lg);
-	background: var(--color-bg-elevated);
-	border-bottom: 1px solid var(--color-border-primary);
-}
-
-.user-profile {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-md);
-}
-
-.user-avatar {
-	width: 48px;
-	height: 48px;
-	border-radius: 50%;
-	background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-blue));
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	box-shadow: var(--glow-cyan);
-}
-
-.user-avatar i {
-	font-size: 1.5rem;
-	color: var(--color-bg-primary);
-}
-
-.user-info {
-	flex: 1;
-}
-
-.user-label {
-	font-size: 0.75rem;
-	color: var(--color-text-muted);
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-}
-
-.user-name {
-	font-size: 1rem;
-	font-weight: 600;
-	color: var(--color-accent-cyan);
-	text-shadow: var(--glow-cyan);
-}
-
-/* Content */
-.sidebar-content {
-	flex: 1;
-	overflow-y: auto;
-	padding: var(--spacing-md);
-}
-
-.nav-section {
-	margin-bottom: var(--spacing-lg);
-}
-
-.nav-section-title {
-	font-size: 0.75rem;
-	font-weight: 600;
-	color: var(--color-text-muted);
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	margin-bottom: var(--spacing-sm);
-	padding-left: var(--spacing-sm);
-}
-
-.sidebar-link {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-md);
-	padding: var(--spacing-sm) var(--spacing-md);
-	margin-bottom: 2px;
-	background: transparent;
-	border: 1px solid transparent;
-	border-radius: var(--radius-md);
-	color: var(--color-text-secondary);
-	transition: var(--transition-fast);
-	position: relative;
-}
-
-.sidebar-link::before {
-	content: '';
-	position: absolute;
-	left: 0;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 3px;
-	height: 0;
-	background: var(--color-accent-cyan);
-	transition: height 0.3s ease;
-}
-
-.sidebar-link:hover {
-	background: var(--color-bg-hover);
-	border-color: var(--color-border-accent);
-	color: var(--color-accent-cyan);
-	padding-left: calc(var(--spacing-md) + 4px);
-}
-
-.sidebar-link:hover::before {
-	height: 70%;
-}
-
-.sidebar-link.active {
-	background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(59, 130, 246, 0.05));
-	border-color: var(--color-accent-cyan);
-	color: var(--color-accent-cyan);
-}
-
-.sidebar-link i {
-	width: 20px;
-	text-align: center;
-}
-
-.admin-link {
-	background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
-	border-color: rgba(16, 185, 129, 0.3);
-	color: var(--color-accent-green);
-}
-
-.admin-link:hover {
-	background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
-	border-color: var(--color-accent-green);
-}
-
-/* Footer */
-.sidebar-footer {
-	padding: var(--spacing-md);
-	background: var(--color-bg-elevated);
-	border-top: 1px solid var(--color-border-primary);
-	text-align: center;
-}
-
-.version-info {
-	font-size: 0.875rem;
-	color: var(--color-accent-cyan);
-	margin-bottom: var(--spacing-xs);
-}
-
-.copyright {
-	font-size: 0.75rem;
-	color: var(--color-text-muted);
-}
-
-/* Scrollbar */
-.sidebar-content::-webkit-scrollbar {
-	width: 4px;
-}
-
-.sidebar-content::-webkit-scrollbar-track {
-	background: var(--color-bg-secondary);
-}
-
-.sidebar-content::-webkit-scrollbar-thumb {
-	background: var(--color-accent-cyan);
-	border-radius: var(--radius-full);
-}
-
-/* Responsive */
-@media (max-width: 992px) {
-	.sidebar-nav {
-		transform: translateX(-100%);
-	}
-	
-	.sidebar-nav.active {
-		transform: translateX(0);
-	}
-}
-</style>
