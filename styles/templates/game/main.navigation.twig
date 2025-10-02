@@ -1,164 +1,329 @@
-<!-- Sidebar Navigation -->
-<div id="leftmenu">
-	<!-- User Header -->
-	<div class="menu_header">
-		<div style="
-			display: flex; 
-			flex-direction: column; 
-			align-items: center; 
-			gap: var(--spacing-sm);
-			padding: var(--spacing-md) 0;
-		">
-			<div style="
-				width: 60px; 
-				height: 60px; 
-				border-radius: 50%; 
-				background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-blue));
-				display: flex; 
-				align-items: center; 
-				justify-content: center;
-				box-shadow: var(--glow-cyan);
-				border: 3px solid var(--color-bg-secondary);
-			">
-				<i class="fas fa-user" style="font-size: 1.75rem; color: var(--color-bg-primary);"></i>
+<!-- SmartMoons Sci-Fi Sidebar Navigation -->
+<div id="leftmenu" class="sidebar-nav">
+	<!-- User Profile Section -->
+	<div class="sidebar-header">
+		<div class="user-profile">
+			<div class="user-avatar">
+				<i class="fas fa-user-astronaut"></i>
 			</div>
-			<div style="text-align: center;">
-				<div style="font-size: 0.75rem; color: var(--color-text-secondary); margin-bottom: 2px;">
-					{{ LNG.mn_username }}
-				</div>
-				<div style="font-weight: 700; font-size: 1rem; color: var(--color-accent-cyan); text-shadow: var(--glow-cyan);">
-					{{ username }}
-				</div>
+			<div class="user-info">
+				<div class="user-label">{{ LNG.lm_player }}</div>
+				<div class="user-name">{{ username }}</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- Main Navigation Menu -->
-	<div class="menu_content_left">
-		{% if isModuleAvailable(constant('MODULE_BUILDING')) %}
-		<a href="game.php?page=buildings">
-			<i class="fas fa-city"></i> {{ LNG.lm_buildings }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_RESEARCH')) %}
-		<a href="game.php?page=research">
-			<i class="fas fa-flask"></i> {{ LNG.lm_research }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
-		<a href="game.php?page=shipyard&amp;mode=fleet">
-			<i class="fas fa-rocket"></i> {{ LNG.lm_shipshard }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
-		<a href="game.php?page=shipyard&amp;mode=defense">
-			<i class="fas fa-shield-alt"></i> {{ LNG.lm_defenses }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_OFFICIER')) or isModuleAvailable(constant('MODULE_DMEXTRAS')) %}
-		<a href="game.php?page=officier">
-			<i class="fas fa-user-tie"></i> {{ LNG.lm_officiers }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
-		<a href="game.php?page=fleetDealer">
-			<i class="fas fa-handshake"></i> {{ LNG.lm_fleettrader }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_TRADER')) %}
-		<a href="game.php?page=fleetTable">
-			<i class="fas fa-space-shuttle"></i> {{ LNG.lm_fleet }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_RESSOURCE_LIST')) %}
-		<a href="game.php?page=resources">
-			<i class="fas fa-chart-bar"></i> {{ LNG.lm_resources }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_GALAXY')) %}
-		<a href="game.php?page=galaxy">
-			<i class="fas fa-globe-americas"></i> {{ LNG.lm_galaxy }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}
-		<a href="game.php?page=alliance">
-			<i class="fas fa-users"></i> {{ LNG.lm_alliance }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_SUPPORT')) %}
-		<a href="game.php?page=ticket">
-			<i class="fas fa-life-ring"></i> {{ LNG.lm_support }}
-		</a>
-		{% endif %}
-		
-		<a href="index.php?page=rules" target="rules">
-			<i class="fas fa-gavel"></i> {{ LNG.lm_rules }}
-		</a>
-		
-		{% if isModuleAvailable(constant('MODULE_SIMULATOR')) %}
-		<a href="game.php?page=battleSimulator">
-			<i class="fas fa-crosshairs"></i> {{ LNG.lm_battlesim }}
-		</a>
-		{% endif %}
-		
-		{% if isModuleAvailable(constant('MODULE_NOTICE')) %}
-		<a href="javascript:OpenPopup('?page=notes', 'notes', 720, 300);">
-			<i class="fas fa-sticky-note"></i> {{ LNG.lm_notes }}
-		</a>
-		{% endif %}
-	</div>
-
-	<!-- Admin Access -->
-	{% if authlevel > 0 %}
-	<div class="menu_content_full">
-		<a href="./admin.php" style="
-			background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
-			color: var(--color-accent-green);
-			border-color: var(--color-accent-green);
-		">
-			<i class="fas fa-user-shield"></i> {{ LNG.lm_administration }}
-		</a>
-	</div>
-	{% endif %}
-
-	<!-- Footer with Server Time -->
-	<div class="menu_footer">
-		<div style="
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: var(--spacing-sm);
-			padding: var(--spacing-sm);
-			background: var(--color-bg-elevated);
-			border-radius: var(--radius-md);
-			margin-bottom: var(--spacing-sm);
-		">
-			<i class="fas fa-clock" style="color: var(--color-accent-cyan);"></i>
-			<span class="servertime" style="
-				font-family: 'Courier New', monospace;
-				font-weight: 600;
-				color: var(--color-accent-cyan);
-				text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
-			">{{ servertime }}</span>
+	<!-- Main Navigation -->
+	<div class="sidebar-content">
+		<div class="nav-section">
+			<div class="nav-section-title">{{ LNG.lm_empire }}</div>
+			
+			{% if isModuleAvailable(constant('MODULE_BUILDING')) %}
+			<a href="game.php?page=buildings" class="sidebar-link">
+				<i class="fas fa-city"></i>
+				<span>{{ LNG.lm_buildings }}</span>
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_RESEARCH')) %}
+			<a href="game.php?page=research" class="sidebar-link">
+				<i class="fas fa-flask"></i>
+				<span>{{ LNG.lm_research }}</span>
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
+			<a href="game.php?page=shipyard&mode=fleet" class="sidebar-link">
+				<i class="fas fa-rocket"></i>
+				<span>{{ LNG.lm_shipshard }}</span>
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
+			<a href="game.php?page=shipyard&mode=defense" class="sidebar-link">
+				<i class="fas fa-shield-alt"></i>
+				<span>{{ LNG.lm_defenses }}</span>
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_OFFICIER')) or isModuleAvailable(constant('MODULE_DMEXTRAS')) %}
+			<a href="game.php?page=officier" class="sidebar-link">
+				<i class="fas fa-user-tie"></i>
+				<span>{{ LNG.lm_officiers }}</span>
+			</a>
+			{% endif %}
 		</div>
-		<div style="
-			font-size: 0.7rem;
-			text-align: center;
-			opacity: 0.6;
-			padding-top: var(--spacing-sm);
-			border-top: 1px solid var(--color-border-primary);
-		">
-			<i class="far fa-copyright"></i> {{ game_name }} © {{ "now"|date("Y") }}
+
+		<div class="nav-section">
+			<div class="nav-section-title">{{ LNG.lm_navigation }}</div>
+			
+			{% if isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
+			<a href="game.php?page=fleetTable" class="sidebar-link">
+				<i class="fas fa-space-shuttle"></i>
+				<span>{{ LNG.lm_fleet }}</span>
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_GALAXY')) %}
+			<a href="game.php?page=galaxy" class="sidebar-link">
+				<i class="fas fa-globe"></i>
+				<span>{{ LNG.lm_galaxy }}</span>
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}
+			<a href="game.php?page=alliance" class="sidebar-link">
+				<i class="fas fa-users"></i>
+				<span>{{ LNG.lm_alliance }}</span>
+			</a>
+			{% endif %}
+		</div>
+
+		<div class="nav-section">
+			<div class="nav-section-title">{{ LNG.lm_tools }}</div>
+			
+			{% if isModuleAvailable(constant('MODULE_SIMULATOR')) %}
+			<a href="game.php?page=battleSimulator" class="sidebar-link">
+				<i class="fas fa-crosshairs"></i>
+				<span>{{ LNG.lm_battlesim }}</span>
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_RESSOURCE_LIST')) %}
+			<a href="game.php?page=resources" class="sidebar-link">
+				<i class="fas fa-chart-bar"></i>
+				<span>{{ LNG.lm_resources }}</span>
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_NOTICE')) %}
+			<a href="javascript:OpenPopup('?page=notes', 'notes', 720, 300);" class="sidebar-link">
+				<i class="fas fa-sticky-note"></i>
+				<span>{{ LNG.lm_notes }}</span>
+			</a>
+			{% endif %}
+			
+			{% if isModuleAvailable(constant('MODULE_SUPPORT')) %}
+			<a href="game.php?page=ticket" class="sidebar-link">
+				<i class="fas fa-headset"></i>
+				<span>{{ LNG.lm_support }}</span>
+			</a>
+			{% endif %}
+		</div>
+
+		<!-- Admin Section -->
+		{% if authlevel > 0 %}
+		<div class="nav-section">
+			<div class="nav-section-title">{{ LNG.lm_administration }}</div>
+			<a href="./admin.php" class="sidebar-link admin-link">
+				<i class="fas fa-user-shield"></i>
+				<span>{{ LNG.lm_administration }}</span>
+			</a>
+		</div>
+		{% endif %}
+	</div>
+
+	<!-- Sidebar Footer -->
+	<div class="sidebar-footer">
+		<div class="version-info">
+			<span>v{{ VERSION|replace({'.git':''}) }}</span>
+		</div>
+		<div class="copyright">
+			© {{ "now"|date("Y") }} SmartMoons
 		</div>
 	</div>
 </div>
+
+<style>
+/* Sidebar Navigation Styles */
+.sidebar-nav {
+	position: fixed;
+	left: 0;
+	top: 60px;
+	bottom: 0;
+	width: 280px;
+	background: linear-gradient(180deg, rgba(21, 28, 43, 0.98) 0%, rgba(17, 24, 39, 0.95) 100%);
+	backdrop-filter: blur(10px);
+	border-right: 1px solid var(--color-border-primary);
+	display: flex;
+	flex-direction: column;
+	z-index: 99;
+	transform: translateX(0);
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-nav.collapsed {
+	transform: translateX(-100%);
+}
+
+/* Header */
+.sidebar-header {
+	padding: var(--spacing-lg);
+	background: var(--color-bg-elevated);
+	border-bottom: 1px solid var(--color-border-primary);
+}
+
+.user-profile {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-md);
+}
+
+.user-avatar {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-blue));
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: var(--glow-cyan);
+}
+
+.user-avatar i {
+	font-size: 1.5rem;
+	color: var(--color-bg-primary);
+}
+
+.user-info {
+	flex: 1;
+}
+
+.user-label {
+	font-size: 0.75rem;
+	color: var(--color-text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.user-name {
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--color-accent-cyan);
+	text-shadow: var(--glow-cyan);
+}
+
+/* Content */
+.sidebar-content {
+	flex: 1;
+	overflow-y: auto;
+	padding: var(--spacing-md);
+}
+
+.nav-section {
+	margin-bottom: var(--spacing-lg);
+}
+
+.nav-section-title {
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--color-text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	margin-bottom: var(--spacing-sm);
+	padding-left: var(--spacing-sm);
+}
+
+.sidebar-link {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-md);
+	padding: var(--spacing-sm) var(--spacing-md);
+	margin-bottom: 2px;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: var(--radius-md);
+	color: var(--color-text-secondary);
+	transition: var(--transition-fast);
+	position: relative;
+}
+
+.sidebar-link::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 3px;
+	height: 0;
+	background: var(--color-accent-cyan);
+	transition: height 0.3s ease;
+}
+
+.sidebar-link:hover {
+	background: var(--color-bg-hover);
+	border-color: var(--color-border-accent);
+	color: var(--color-accent-cyan);
+	padding-left: calc(var(--spacing-md) + 4px);
+}
+
+.sidebar-link:hover::before {
+	height: 70%;
+}
+
+.sidebar-link.active {
+	background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(59, 130, 246, 0.05));
+	border-color: var(--color-accent-cyan);
+	color: var(--color-accent-cyan);
+}
+
+.sidebar-link i {
+	width: 20px;
+	text-align: center;
+}
+
+.admin-link {
+	background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
+	border-color: rgba(16, 185, 129, 0.3);
+	color: var(--color-accent-green);
+}
+
+.admin-link:hover {
+	background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+	border-color: var(--color-accent-green);
+}
+
+/* Footer */
+.sidebar-footer {
+	padding: var(--spacing-md);
+	background: var(--color-bg-elevated);
+	border-top: 1px solid var(--color-border-primary);
+	text-align: center;
+}
+
+.version-info {
+	font-size: 0.875rem;
+	color: var(--color-accent-cyan);
+	margin-bottom: var(--spacing-xs);
+}
+
+.copyright {
+	font-size: 0.75rem;
+	color: var(--color-text-muted);
+}
+
+/* Scrollbar */
+.sidebar-content::-webkit-scrollbar {
+	width: 4px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+	background: var(--color-bg-secondary);
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+	background: var(--color-accent-cyan);
+	border-radius: var(--radius-full);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+	.sidebar-nav {
+		transform: translateX(-100%);
+	}
+	
+	.sidebar-nav.active {
+		transform: translateX(0);
+	}
+}
+</style>

@@ -3,72 +3,83 @@
 {% block title %}{{ LNG.lm_research }}{% endblock %}
 {% block content %}
 
-<div class="content_page">
-	<div class="sci-card__header">
-		<h2 class="sci-card__title">
-			<i class="fas fa-flask"></i> {{ LNG.lm_research }}
-		</h2>
+<div class="research-page">
+	<!-- Page Header -->
+	<div class="page-header-sci">
+		<div class="header-content">
+			<h1 class="header-title">
+				<i class="fas fa-flask"></i> 
+				<span>{{ LNG.lm_research }}</span>
+			</h1>
+			<div class="header-stats">
+				<div class="stat-item">
+					<span class="stat-label">{{ LNG.bd_tech_level|default("Technologies") }}</span>
+					<span class="stat-value">{{ ResearchList|length }}</span>
+				</div>
+			</div>
+		</div>
 	</div>
 
+	<!-- Lab Build Warning -->
 	{% if IsLabinBuild %}
-	<div class="infobox">
-		<i class="fas fa-exclamation-triangle"></i> {{ LNG.bd_building_lab }}
+	<div class="alert alert-warning">
+		<div class="alert-icon">
+			<i class="fas fa-exclamation-triangle"></i>
+		</div>
+		<div class="alert-content">
+			<div class="alert-message">{{ LNG.bd_building_lab }}</div>
+		</div>
 	</div>
 	{% endif %}
 
+	<!-- Research Queue -->
 	{% if Queue %}
-	<div id="buildlist" class="sci-card sci-card--elevated sci-mb-lg">
-		<h3 class="sci-text-cyan sci-mb-md">
-			<i class="fas fa-tasks"></i> {{ LNG.bd_research_queue }}
-		</h3>
-		<div class="sci-grid sci-grid--1">
+	<div class="research-queue">
+		<div class="queue-header">
+			<h3><i class="fas fa-tasks"></i> {{ LNG.bd_research_queue|default("Research Queue") }}</h3>
+			<span class="queue-count">{{ Queue|length }}</span>
+		</div>
+		<div class="queue-list">
 			{% for List in Queue %}
 			{% set ID = List.element %}
-			<div class="sci-card" style="margin-bottom: var(--spacing-md);">
-				<div class="sci-flex-between">
-					<div class="sci-flex sci-gap-md" style="flex: 1;">
-						<span class="sci-badge sci-badge--cyan">{{ loop.index }}</span>
-						<div style="flex: 1;">
-							{% if ResearchList[List.element] is defined %}
-							{% set CQueue = ResearchList[List.element] %}
-							{% endif %}
-							
-							{% if CQueue is defined and CQueue.maxLevel != CQueue.level and not IsFullQueue and CQueue.buyable %}
-							<form action="game.php?page=research" method="post" class="build_form" style="display: inline;">
-								<input type="hidden" name="cmd" value="insert">
-								<input type="hidden" name="tech" value="{{ ID }}">
-								<button type="submit" class="sci-btn sci-btn--ghost" style="padding: var(--spacing-xs) var(--spacing-sm);">
-									{{ LNG.tech[ID] }} {{ List.level }}
-								</button>
-							</form>
-							{% else %}
-							<strong class="sci-text-primary">{{ LNG.tech[ID] }} {{ List.level }}</strong>
-							{% endif %}
-							
+			<div class="queue-item{% if loop.first %} active{% endif %}">
+				<div class="queue-number">{{ loop.index }}</div>
+				<div class="queue-content">
+					<div class="queue-info">
+						<div class="queue-name">
+							{{ LNG.tech[ID] }} 
+							<span class="level-badge">{{ LNG.bd_lvl }} {{ List.level }}</span>
 							{% if List.planet %}
-							<span class="sci-badge sci-badge--cyan sci-ml-sm">@ {{ List.planet }}</span>
-							{% endif %}
-							
-							{% if loop.first %}
-							<div class="sci-progress sci-mt-md" data-time="{{ List.resttime }}">
-								<div class="sci-progress__bar" id="progressbar" data-progress="0" 
-									 style="background: linear-gradient(90deg, var(--color-accent-purple), var(--color-accent-violet));"></div>
-								<div class="sci-progress__text" id="time" data-time="{{ List.time }}"></div>
-							</div>
+							<span class="planet-badge">
+								<i class="fas fa-globe"></i> {{ List.planet }}
+							</span>
 							{% endif %}
 						</div>
+						{% if loop.first %}
+						<div class="progress-container" data-progress data-end-time="{{ List.endtime }}" data-start-time="{{ List.time - List.resttime }}" data-progress-type="research">
+							<div class="progress-label">
+								<span>{{ LNG.bd_remaining }}</span>
+								<span class="timer" data-time="{{ List.endtime }}">{{ List.display }}</span>
+							</div>
+							<div class="progress-bar-wrapper">
+								<div class="progress-bar research"></div>
+								<span class="progress-text">0%</span>
+							</div>
+						</div>
+						{% else %}
+						<div class="queue-timer">
+							<i class="fas fa-clock"></i>
+							<span class="timer" data-time="{{ List.endtime }}">{{ List.display }}</span>
+						</div>
+						{% endif %}
 					</div>
-					
-					<div class="sci-flex sci-gap-sm" style="align-items: center;">
-						<span class="sci-text-green timer" data-time="{{ List.endtime }}">{{ List.display }}</span>
-						<form action="game.php?page=research" method="post" class="build_form" style="margin: 0;">
-							<input type="hidden" name="cmd" value="{% if loop.first %}cancel{% else %}remove{% endif %}">
-							{% if not loop.first %}<input type="hidden" name="listid" value="{{ loop.index }}">{% endif %}
-							<button type="submit" class="sci-btn sci-btn--danger" style="padding: var(--spacing-xs) var(--spacing-md);">
-								<i class="fas fa-times"></i> {{ LNG.bd_cancel }}
-							</button>
-						</form>
-					</div>
+					<form action="game.php?page=research" method="post" class="queue-action">
+						<input type="hidden" name="cmd" value="{% if loop.first %}cancel{% else %}remove{% endif %}">
+						{% if not loop.first %}<input type="hidden" name="listid" value="{{ loop.index }}">{% endif %}
+						<button type="submit" class="btn btn-danger btn-sm" title="{{ LNG.bd_cancel }}">
+							<i class="fas fa-times"></i>
+						</button>
+					</form>
 				</div>
 			</div>
 			{% endfor %}
@@ -76,96 +87,357 @@
 	</div>
 	{% endif %}
 
-	<!-- Research Technology Cards -->
-	<div class="sci-grid sci-grid--2">
+	<!-- Research Grid -->
+	<div class="research-grid">
 		{% for ID, Element in ResearchList %}
-		<div class="sci-card sci-mb-md">
-			<div class="sci-card__header">
-				<div class="sci-flex sci-gap-md" style="flex: 1;">
-					<img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}" width="50" height="50" 
-						 style="border-radius: var(--radius-md); border: 2px solid var(--color-accent-purple); box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);">
-					<div style="flex: 1;">
-						<h3 class="sci-card__title" style="margin: 0;">
-							<a href="#" onclick="return Dialog.info({{ ID }})" class="sci-text-cyan">{{ LNG.tech[ID] }}</a>
-						</h3>
-						{% if Element.level > 0 %}
-						<div class="sci-flex sci-gap-sm sci-mt-xs">
-							<span class="sci-badge sci-badge--cyan">
-								{{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}
-							</span>
-						</div>
-						{% else %}
-						<span class="sci-text-muted" style="font-size: 0.875rem;">{{ LNG.bd_not_researched }}</span>
-						{% endif %}
-					</div>
-				</div>
-			</div>
-			
-			<div class="sci-card__body">
-				<div class="sci-grid sci-grid--2 sci-mb-md">
-					<div>
-						<h4 class="sci-text-secondary" style="font-size: 0.875rem; margin-bottom: var(--spacing-sm);">
-							<i class="fas fa-coins"></i> {{ LNG.bd_needed_resources }}
-						</h4>
-						{% for RessID, RessAmount in Element.costResources %}
-						<div class="sci-flex sci-gap-sm sci-mb-sm" style="align-items: center;">
-							<img src="{{ dpath }}images/{{ RessID }}.gif" alt="" width="28" height="28" 
-								 style="border-radius: var(--radius-sm); box-shadow: 0 0 8px rgba(0, 243, 255, 0.3);">
-							<span class="{% if Element.costOverflow[RessID] == 0 %}sci-text-green{% else %}sci-text-red{% endif %} resource-value" 
-								  style="font-size: 1rem;">
-								{{ RessAmount|number_format }}
-							</span>
-						</div>
-						{% endfor %}
-					</div>
-
-					<div>
-						<div class="sci-flex sci-gap-sm sci-mb-md" style="align-items: center; padding: var(--spacing-md); background: rgba(168, 85, 247, 0.1); border-radius: var(--radius-md); border: 1px solid var(--color-accent-purple);">
-							<i class="fas fa-clock sci-text-purple" style="font-size: 1.25rem;"></i>
-							<div>
-								<div class="sci-text-muted" style="font-size: 0.75rem;">{{ LNG.bd_research_time }}</div>
-								<span class="sci-text-yellow" style="font-weight: 600; font-size: 1.125rem;">{{ Element.elementTime|time }}</span>
-							</div>
-						</div>
-						
-						{% if Element.level > 0 %}
-						<div class="sci-badge sci-badge--green" style="width: 100%; padding: var(--spacing-sm); text-align: center;">
-							<i class="fas fa-check-circle"></i> {{ LNG.bd_researched }}
-						</div>
-						{% endif %}
-					</div>
-				</div>
-
-				<div>
-					{% if Element.maxLevel == Element.levelToBuild %}
-						<div class="sci-badge sci-badge--red" style="width: 100%; padding: var(--spacing-md); text-align: center;">
-							<i class="fas fa-ban"></i> {{ LNG.bd_maxlevel }}
-						</div>
-					{% elseif IsLabinBuild or IsFullQueue or not Element.buyable %}
-						<div class="sci-badge sci-badge--red" style="width: 100%; padding: var(--spacing-md); text-align: center;">
-							<i class="fas fa-exclamation-triangle"></i> 
-							{% if Element.level == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }} {{ Element.levelToBuild + 1 }}{% endif %}
-						</div>
-					{% else %}
-						<form action="game.php?page=research" method="post" class="build_form">
-							<input type="hidden" name="cmd" value="insert">
-							<input type="hidden" name="tech" value="{{ ID }}">
-							<button type="submit" class="sci-btn sci-btn--primary" style="width: 100%;">
-								<i class="fas fa-flask"></i> 
-								{% if Element.level == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }} {{ Element.levelToBuild + 1 }}{% endif %}
-							</button>
-						</form>
+		<div class="research-card{% if Element.level > 0 %} researched{% endif %}">
+			<!-- Research Header -->
+			<div class="research-header">
+				<div class="research-image">
+					<img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}">
+					{% if Element.level > 0 %}
+					<div class="level-indicator">{{ Element.level }}</div>
 					{% endif %}
 				</div>
+				<div class="research-info">
+					<h3 class="research-name">
+						<a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.tech[ID] }}</a>
+					</h3>
+					{% if Element.maxLevel != 255 %}
+					<div class="max-level">{{ LNG.bd_max_level }}: {{ Element.maxLevel }}</div>
+					{% endif %}
+					{% if Element.level == 0 %}
+					<div class="not-researched">{{ LNG.bd_not_researched|default("Not Researched") }}</div>
+					{% endif %}
+				</div>
+			</div>
+
+			<!-- Research Body -->
+			<div class="research-body">
+				<!-- Resources Required -->
+				<div class="resource-requirements">
+					{% for RessID, RessAmount in Element.costResources %}
+					<div class="resource-item{% if Element.costOverflow[RessID] != 0 %} insufficient{% endif %}">
+						<img src="{{ dpath }}images/{{ RessID }}.gif" alt="{{ LNG.tech[RessID] }}" class="resource-icon">
+						<span class="resource-amount">{{ RessAmount|shortly_number }}</span>
+					</div>
+					{% endfor %}
+				</div>
+
+				<!-- Research Time -->
+				<div class="research-time">
+					<i class="fas fa-clock"></i>
+					<span>{{ Element.elementTime|time }}</span>
+				</div>
+
+				<!-- Tech Tree Info -->
+				{% if Element.AllTech %}
+				<div class="tech-requirements">
+					<div class="tech-label">
+						<i class="fas fa-sitemap"></i> {{ LNG.bd_tech_requirements|default("Requirements") }}:
+					</div>
+					<div class="tech-list">
+						{% for TechID in Element.AllTech %}
+						<span class="tech-item{% if Element.AllTech[TechID] %} available{% else %} locked{% endif %}">
+							<i class="fas fa-{% if Element.AllTech[TechID] %}check{% else %}lock{% endif %}"></i>
+							{{ LNG.tech[TechID] }}
+						</span>
+						{% endfor %}
+					</div>
+				</div>
+				{% endif %}
+			</div>
+
+			<!-- Research Actions -->
+			<div class="research-actions">
+				{% if Element.maxLevel == Element.levelToBuild %}
+					<div class="action-disabled">
+						<i class="fas fa-check-circle"></i> {{ LNG.bd_maxlevel }}
+					</div>
+				{% elseif IsLabinBuild %}
+					<div class="action-disabled">
+						<i class="fas fa-cog fa-spin"></i> {{ LNG.bd_working }}
+					</div>
+				{% elseif not IsFullQueue and Element.buyable %}
+					<form action="game.php?page=research" method="post" class="research-form">
+						<input type="hidden" name="cmd" value="insert">
+						<input type="hidden" name="tech" value="{{ ID }}">
+						<button type="submit" class="btn btn-primary btn-research">
+							<i class="fas fa-microscope"></i>
+							{% if Element.level == 0 %}
+								{{ LNG.bd_research }}
+							{% else %}
+								{{ LNG.bd_research_next_level }} {{ Element.levelToBuild + 1 }}
+							{% endif %}
+						</button>
+					</form>
+				{% else %}
+					<div class="action-disabled">
+						<i class="fas fa-lock"></i> 
+						{% if not Element.buyable %}
+							{{ LNG.bd_notres }}
+						{% else %}
+							{{ LNG.bd_tech_blocked|default("Blocked") }}
+						{% endif %}
+					</div>
+				{% endif %}
 			</div>
 		</div>
 		{% endfor %}
 	</div>
 </div>
 
-{% endblock %}
-{% block script %}
-{% if Queue %}
-<script src="scripts/game/research.js"></script>
-{% endif %}
+<style>
+/* Research Page Styles */
+.research-page {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+/* Page Header (reusing from buildings) */
+.research-queue {
+	background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.05));
+	border: 1px solid rgba(168, 85, 247, 0.3);
+	border-radius: var(--radius-lg);
+	padding: var(--spacing-lg);
+	margin-bottom: var(--spacing-xl);
+}
+
+.planet-badge {
+	background: var(--color-accent-purple);
+	color: white;
+	padding: 2px 8px;
+	border-radius: var(--radius-md);
+	font-size: 0.75rem;
+}
+
+/* Research Grid */
+.research-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+	gap: var(--spacing-lg);
+}
+
+.research-card {
+	background: var(--color-bg-card);
+	border: 1px solid var(--color-border-primary);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: var(--transition-normal);
+	position: relative;
+}
+
+.research-card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 3px;
+	background: linear-gradient(90deg, 
+		var(--color-accent-purple), 
+		var(--color-accent-pink));
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.research-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+	border-color: rgba(168, 85, 247, 0.5);
+}
+
+.research-card:hover::before {
+	opacity: 1;
+}
+
+.research-card.researched {
+	border-color: rgba(168, 85, 247, 0.3);
+	background: linear-gradient(135deg, 
+		rgba(168, 85, 247, 0.05) 0%, 
+		transparent 100%);
+}
+
+.research-header {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-md);
+	padding: var(--spacing-md);
+	background: var(--color-bg-elevated);
+	border-bottom: 1px solid var(--color-border-primary);
+}
+
+.research-image {
+	width: 60px;
+	height: 60px;
+	position: relative;
+	flex-shrink: 0;
+}
+
+.research-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border-radius: var(--radius-md);
+	border: 2px solid var(--color-accent-purple);
+	background: var(--color-bg-secondary);
+	box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+}
+
+.level-indicator {
+	position: absolute;
+	bottom: -4px;
+	right: -4px;
+	background: var(--color-accent-purple);
+	color: white;
+	width: 24px;
+	height: 24px;
+	border-radius: var(--radius-full);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 700;
+	font-size: 0.875rem;
+	border: 2px solid var(--color-bg-card);
+}
+
+.research-info {
+	flex: 1;
+}
+
+.research-name {
+	margin: 0 0 var(--spacing-xs) 0;
+}
+
+.research-name a {
+	color: var(--color-accent-purple);
+	text-decoration: none;
+	font-size: 1.1rem;
+	font-weight: 600;
+	transition: var(--transition-fast);
+}
+
+.research-name a:hover {
+	color: var(--color-accent-pink);
+	text-shadow: var(--glow-purple);
+}
+
+.not-researched {
+	font-size: 0.75rem;
+	color: var(--color-text-muted);
+	font-style: italic;
+}
+
+.research-body {
+	padding: var(--spacing-md);
+}
+
+.research-time {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-sm);
+	background: linear-gradient(135deg, 
+		rgba(168, 85, 247, 0.1), 
+		rgba(236, 72, 153, 0.05));
+	border: 1px solid rgba(168, 85, 247, 0.2);
+	border-radius: var(--radius-md);
+	margin-bottom: var(--spacing-md);
+}
+
+.research-time i {
+	color: var(--color-accent-purple);
+}
+
+/* Tech Requirements */
+.tech-requirements {
+	margin-top: var(--spacing-md);
+	padding: var(--spacing-sm);
+	background: var(--color-bg-elevated);
+	border-radius: var(--radius-md);
+}
+
+.tech-label {
+	font-size: 0.75rem;
+	color: var(--color-text-muted);
+	margin-bottom: var(--spacing-sm);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.tech-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-xs);
+}
+
+.tech-item {
+	padding: 2px 8px;
+	border-radius: var(--radius-sm);
+	font-size: 0.75rem;
+	background: var(--color-bg-secondary);
+	border: 1px solid var(--color-border-primary);
+}
+
+.tech-item.available {
+	color: var(--color-accent-green);
+	border-color: var(--color-accent-green);
+	background: rgba(16, 185, 129, 0.1);
+}
+
+.tech-item.locked {
+	color: var(--color-text-muted);
+	opacity: 0.6;
+}
+
+.research-actions {
+	padding: var(--spacing-md);
+	background: var(--color-bg-elevated);
+	border-top: 1px solid var(--color-border-primary);
+}
+
+.research-form {
+	width: 100%;
+}
+
+.btn-research {
+	width: 100%;
+	background: linear-gradient(135deg, 
+		var(--color-accent-purple), 
+		var(--color-accent-pink));
+	border-color: var(--color-accent-purple);
+}
+
+.btn-research:hover {
+	box-shadow: var(--glow-purple);
+	transform: translateY(-2px);
+}
+
+/* Animation for active research */
+@keyframes research-pulse {
+	0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
+	50% { box-shadow: 0 0 40px rgba(168, 85, 247, 0.6); }
+}
+
+.research-card.active-research {
+	animation: research-pulse 2s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.research-grid {
+		grid-template-columns: 1fr;
+	}
+	
+	.tech-list {
+		flex-direction: column;
+	}
+	
+	.tech-item {
+		width: 100%;
+		text-align: center;
+	}
+}
+</style>
+
 {% endblock %}
