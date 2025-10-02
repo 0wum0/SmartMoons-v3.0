@@ -57,6 +57,7 @@
 	<script type="text/javascript" src="./scripts/l18n/validationEngine/jquery.validationEngine-{{ lang }}.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/base/tooltip.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/game/base.js?v={{ REV }}"></script>
+	<script type="text/javascript" src="./scripts/game/sci-fi-ui.js?v={{ REV }}"></script>
 	{% for scriptname in scripts %}
 	<script type="text/javascript" src="./scripts/game/{{ scriptname }}.js?v={{ REV }}"></script>
 	{% endfor %}
@@ -70,3 +71,4 @@
 
 <body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }}">
 	<div id="tooltip" class="tip"></div>
+	<!-- Burger Menu für Mobile (wird durch JavaScript initialisiert) -->

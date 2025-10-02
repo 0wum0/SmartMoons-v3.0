@@ -3,145 +3,195 @@
 {% block title %}{{ LNG.lm_buildings }}{% endblock %}
 {% block content %}
 
-<div class="content_page" style="width: 95%;">
-	<div class="title">
-		{{ LNG.lm_buildings }}
+<div class="content_page">
+	<div class="sci-card__header">
+		<h2 class="sci-card__title">
+			<i class="fas fa-building"></i> {{ LNG.lm_buildings }}
+		</h2>
 	</div>
 
 	{% if Queue %}
-	<div id="buildlist" class="buildlist">
-		<table style="width:100%;">
+	<div id="buildlist" class="sci-card sci-card--elevated sci-mb-lg">
+		<h3 class="sci-text-cyan sci-mb-md">
+			<i class="fas fa-tasks"></i> {{ LNG.bd_building_queue }}
+		</h3>
+		<div class="sci-grid sci-grid--1">
 			{% for List in Queue %}
 			{% set ID = List.element %}
-			<tr>
-				<td style="width:70%;vertical-align:top;" class="left">
-				{{ loop.index }}.: 
-				{% if not (isBusy.research and (ID == 6 or ID == 31)) and not (isBusy.shipyard and (ID == 15 or ID == 21)) and RoomIsOk and CanBuildElement and BuildInfoList[ID].buyable %}
-					<form class="build_form" action="game.php?page=buildings" method="post">
-						<input type="hidden" name="cmd" value="insert">
-						<input type="hidden" name="building" value="{{ ID }}">
-						<button type="submit" class="build_submit onlist">{{ LNG.tech[ID] }} {{ List.level }}{% if List.destroy %} {{ LNG.bd_dismantle }}{% endif %}</button>
-					</form>
-					{% else %}{{ LNG.tech[ID] }} {{ List.level }} {% if List.destroy %}{{ LNG.bd_dismantle }}{% endif %}{% endif %}
-					{% if loop.first %}
-					<br><br><div id="progressbar" data-time="{{ List.resttime }}"></div>
-				</td>
-				<td>
-					<div id="time" data-time="{{ List.time }}"><br></div>
-					<form action="game.php?page=buildings" method="post" class="build_form">
-						<input type="hidden" name="cmd" value="cancel">
-						<button type="submit" class="build_submit onlist">{{ LNG.bd_cancel }}</button>
-					</form>
-					{% else %}
-				</td>
-				<td>
-					<form action="game.php?page=buildings" method="post" class="build_form">
-						<input type="hidden" name="cmd" value="remove">
-						<input type="hidden" name="listid" value="{{ loop.index }}">
-						<button type="submit" class="build_submit onlist">{{ LNG.bd_cancel }}</button>
-					</form>
-					{% endif %}
-					<br><span style="color:lime" data-time="{{ List.endtime }}" class="timer">{{ List.display }}</span>
-				</td>
-			</tr>
-		{% endfor %}
-		</table>
+			<div class="sci-card" style="margin-bottom: var(--spacing-md);">
+				<div class="sci-flex-between">
+					<div class="sci-flex sci-gap-md" style="flex: 1;">
+						<span class="sci-badge sci-badge--cyan">{{ loop.index }}</span>
+						<div>
+							{% if not (isBusy.research and (ID == 6 or ID == 31)) and not (isBusy.shipyard and (ID == 15 or ID == 21)) and RoomIsOk and CanBuildElement and BuildInfoList[ID].buyable %}
+							<form class="build_form" action="game.php?page=buildings" method="post" style="display: inline;">
+								<input type="hidden" name="cmd" value="insert">
+								<input type="hidden" name="building" value="{{ ID }}">
+								<button type="submit" class="sci-btn sci-btn--ghost" style="padding: var(--spacing-xs) var(--spacing-sm);">
+									{{ LNG.tech[ID] }} {{ List.level }}{% if List.destroy %} <i class="fas fa-trash"></i> {{ LNG.bd_dismantle }}{% endif %}
+								</button>
+							</form>
+							{% else %}
+							<strong class="sci-text-primary">{{ LNG.tech[ID] }} {{ List.level }}</strong> 
+							{% if List.destroy %}<span class="sci-text-red"><i class="fas fa-trash"></i> {{ LNG.bd_dismantle }}</span>{% endif %}
+							{% endif %}
+							
+							{% if loop.first %}
+							<div class="sci-progress sci-mt-md" data-time="{{ List.resttime }}">
+								<div class="sci-progress__bar" id="progressbar" data-progress="0"></div>
+								<div class="sci-progress__text" id="time" data-time="{{ List.time }}"></div>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+					
+					<div class="sci-flex sci-gap-sm" style="align-items: center;">
+						<span class="sci-text-green timer" data-time="{{ List.endtime }}">{{ List.display }}</span>
+						<form action="game.php?page=buildings" method="post" class="build_form" style="margin: 0;">
+							<input type="hidden" name="cmd" value="{% if loop.first %}cancel{% else %}remove{% endif %}">
+							{% if not loop.first %}<input type="hidden" name="listid" value="{{ loop.index }}">{% endif %}
+							<button type="submit" class="sci-btn sci-btn--danger" style="padding: var(--spacing-xs) var(--spacing-md);">
+								<i class="fas fa-times"></i> {{ LNG.bd_cancel }}
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
 	</div>
 	{% endif %}
 
 {% for ID, Element in BuildInfoList %}
-	<div class="main_construct">
-		
-		<div class="block_construct">
-			<div class="title" style="margin: 5px 0 0 -5px; text-align: left;">
-				<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}" width="20" height="20"> {{ LNG.tech[ID] }} {% if Element.level > 0 %} - {{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}{% endif %}</a>
-				<span style="float: right;">
+	<div class="sci-card sci-mb-md">
+		<div class="sci-card__header">
+			<div class="sci-flex sci-gap-md" style="flex: 1;">
+				<img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}" width="40" height="40" 
+					 style="border-radius: var(--radius-md); border: 2px solid var(--color-accent-cyan); box-shadow: var(--glow-cyan);">
+				<div>
+					<h3 class="sci-card__title" style="margin: 0;">
+						<a href="#" onclick="return Dialog.info({{ ID }})" class="sci-text-cyan">{{ LNG.tech[ID] }}</a>
+					</h3>
 					{% if Element.level > 0 %}
-							{% if ID == 43 %}<a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.bd_jump_gate_action }}</a>{% endif %}
-							{% if (ID == 44 and not HaveMissiles) or ID != 44 %}<a class="tooltip_sticky" data-tooltip-content="
-								{#  Start Destruction Popup  #}
-								<table style='width:300px'>
-									<tr>
-										<th colspan='2'>{{ LNG.bd_price_for_destroy }} {{ LNG.tech[ID] }} {{ Element.level }}</th>
-									</tr>
-									{% for ResType, ResCount in Element.destroyResources %}
-									<tr>
-										<td>{{ LNG.tech[ResType] }}</td>
-										<td><span style='color:lime'>{{ ResCount|number_format }}</span></td>
-									</tr>
-									{% endfor %}
-									<tr>
-										<td>{{ LNG.bd_destroy_time }}</td>
-										<td>{{ Element.destroyTime|time }}</td>
-									</tr>
-									<tr>
-										<td colspan='2'>
-											<form action='game.php?page=buildings' method='post' class='build_form'>
-												<input type='hidden' name='cmd' value='destroy'>
-												<input type='hidden' name='building' value='{{ ID }}'>
-												<button type='submit' class='build_submit onlist'>{{ LNG.bd_dismantle }}</button>
-											</form>
-										</td>
-									</tr>
-								</table>
-								{#  End Destruction Popup  #}
-								"><i class="fas fa-trash-alt" style="color: red; font-size: 11px;"></i></a>{% endif %}
-						{% endif %}
-				</span>
-				<div class="clear"></div>
-			</div>
-			<div class="block_construct_desc">
-				<div class="block_construct_desc_list">
-					{% for RessID, RessAmount in Element.costResources %}
-						<div style="margin-bottom: 10px;">
-							<img src="{{ dpath }}images/{{ RessID }}.gif" alt=""> <b><span {% if Element.costOverflow[RessID] == 0 %}class="res_{{ RessID }}_text"{% endif %} style="color:{% if Element.costOverflow[RessID] == 0 %}{% else %}red{% endif %}">{{ RessAmount|number_format }}</span></b>
-						</div>
-					{% endfor %}
-
-					{% if Element.infoEnergy %}
-						{{ LNG.bd_next_level }}<br>
-						{{ Element.infoEnergy }}<br>
-						<br>
+					<span class="sci-badge sci-badge--cyan">
+						{{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}
+					</span>
 					{% endif %}
-
-					<span style="font-weight: bold;"><i class="fas fa-tachometer-alt" style="font-size: 13px;"></i> {{ Element.elementTime|time }}</span>
-
+				</div>
+			</div>
+			
+			<div class="sci-flex sci-gap-sm">
+				{% if Element.level > 0 %}
+				{% if ID == 43 %}
+				<a href="#" onclick="return Dialog.info({{ ID }})" class="sci-btn sci-btn--primary">
+					<i class="fas fa-portal-enter"></i> {{ LNG.bd_jump_gate_action }}
+				</a>
+				{% endif %}
+				{% if (ID == 44 and not HaveMissiles) or ID != 44 %}
+				<a class="tooltip_sticky sci-btn sci-btn--danger" data-tooltip-content="
+								{#  Start Destruction Popup  #}
+								<div class='sci-card' style='width:320px; padding: var(--spacing-md);'>
+									<h4 class='sci-text-red' style='margin-bottom: var(--spacing-md);'>
+										<i class='fas fa-exclamation-triangle'></i> {{ LNG.bd_price_for_destroy }} {{ LNG.tech[ID] }} {{ Element.level }}
+									</h4>
+									<table class='sci-table' style='margin-bottom: var(--spacing-md);'>
+										<tbody>
+											{% for ResType, ResCount in Element.destroyResources %}
+											<tr>
+												<td>{{ LNG.tech[ResType] }}</td>
+												<td class='sci-text-green'>{{ ResCount|number_format }}</td>
+											</tr>
+											{% endfor %}
+											<tr>
+												<td>{{ LNG.bd_destroy_time }}</td>
+												<td class='sci-text-yellow'>{{ Element.destroyTime|time }}</td>
+											</tr>
+										</tbody>
+									</table>
+									<form action='game.php?page=buildings' method='post' class='build_form'>
+										<input type='hidden' name='cmd' value='destroy'>
+										<input type='hidden' name='building' value='{{ ID }}'>
+										<button type='submit' class='sci-btn sci-btn--danger' style='width: 100%;'>
+											<i class='fas fa-trash'></i> {{ LNG.bd_dismantle }}
+										</button>
+									</form>
+								</div>
+								{#  End Destruction Popup  #}
+							">
+					<i class="fas fa-trash"></i>
+				</a>
+				{% endif %}
+				{% endif %}
+			</div>
+		</div>
+		
+		<div class="sci-card__body">
+			<div class="sci-grid sci-grid--2 sci-mb-md">
+				<div>
+					<h4 class="sci-text-secondary" style="font-size: 0.875rem; margin-bottom: var(--spacing-sm);">
+						<i class="fas fa-coins"></i> {{ LNG.bd_needed_resources }}
+					</h4>
+					{% for RessID, RessAmount in Element.costResources %}
+					<div class="sci-flex sci-gap-sm sci-mb-sm" style="align-items: center;">
+						<img src="{{ dpath }}images/{{ RessID }}.gif" alt="" width="24" height="24" 
+							 style="border-radius: var(--radius-sm);">
+						<span class="{% if Element.costOverflow[RessID] == 0 %}sci-text-green{% else %}sci-text-red{% endif %} resource-value">
+							{{ RessAmount|number_format }}
+						</span>
+					</div>
+					{% endfor %}
 				</div>
 
 				<div>
-					{% if Element.maxLevel == Element.levelToBuild %}
-						<div class="construct_button_lost">
-							<span style="color:red">{{ LNG.bd_maxlevel }}</span>
-						</div>
-					{% elseif (isBusy.research and (ID == 6 or ID == 31)) or (isBusy.shipyard and (ID == 15 or ID == 21)) %}
-						<div class="construct_button_lost">
-							<span style="color:red">{{ LNG.bd_working }}</span>
-						</div>
-					{% else %}
-						{% if RoomIsOk %}
-							{% if CanBuildElement and Element.buyable %}
-							<form action="game.php?page=buildings" method="post" class="build_form">
-								<input type="hidden" name="cmd" value="insert">
-								<input type="hidden" name="building" value="{{ ID }}">
-								<button type="submit" class="build_submit construct_button">{% if Element.level == 0 %}{{ LNG.bd_build }}{% else %}{{ LNG.bd_build_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
-							</form>
-							{% else %}
-							<div class="construct_button_lost">
-								<span style="color:red">{% if Element.level == 0 %}{{ LNG.bd_build }}{% else %}{{ LNG.bd_build_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</span>
-							</div>
-							{% endif %}
+					{% if Element.infoEnergy %}
+					<div class="sci-badge sci-badge--cyan sci-mb-sm" style="width: 100%; text-align: left;">
+						<i class="fas fa-bolt"></i> {{ LNG.bd_next_level }}<br>
+						{{ Element.infoEnergy }}
+					</div>
+					{% endif %}
+
+					<div class="sci-flex sci-gap-sm" style="align-items: center;">
+						<i class="fas fa-clock sci-text-cyan"></i>
+						<span class="sci-text-yellow" style="font-weight: 600;">{{ Element.elementTime|time }}</span>
+					</div>
+				</div>
+			</div>
+
+			<div>
+				{% if Element.maxLevel == Element.levelToBuild %}
+					<div class="sci-badge sci-badge--red" style="width: 100%; padding: var(--spacing-md); text-align: center;">
+						<i class="fas fa-ban"></i> {{ LNG.bd_maxlevel }}
+					</div>
+				{% elseif (isBusy.research and (ID == 6 or ID == 31)) or (isBusy.shipyard and (ID == 15 or ID == 21)) %}
+					<div class="sci-badge sci-badge--red" style="width: 100%; padding: var(--spacing-md); text-align: center;">
+						<i class="fas fa-cog fa-spin"></i> {{ LNG.bd_working }}
+					</div>
+				{% else %}
+					{% if RoomIsOk %}
+						{% if CanBuildElement and Element.buyable %}
+						<form action="game.php?page=buildings" method="post" class="build_form">
+							<input type="hidden" name="cmd" value="insert">
+							<input type="hidden" name="building" value="{{ ID }}">
+							<button type="submit" class="sci-btn sci-btn--primary" style="width: 100%;">
+								<i class="fas fa-hammer"></i> {% if Element.level == 0 %}{{ LNG.bd_build }}{% else %}{{ LNG.bd_build_next_level }} {{ Element.levelToBuild + 1 }}{% endif %}
+							</button>
+						</form>
 						{% else %}
-						<div class="construct_button_lost">
-							<span style="color:red">{{ LNG.bd_no_more_fields }}</span>
+						<div class="sci-badge sci-badge--red" style="width: 100%; padding: var(--spacing-md); text-align: center;">
+							<i class="fas fa-exclamation-triangle"></i> {% if Element.level == 0 %}{{ LNG.bd_build }}{% else %}{{ LNG.bd_build_next_level }} {{ Element.levelToBuild + 1 }}{% endif %}
 						</div>
 						{% endif %}
+					{% else %}
+					<div class="sci-badge sci-badge--red" style="width: 100%; padding: var(--spacing-md); text-align: center;">
+						<i class="fas fa-th"></i> {{ LNG.bd_no_more_fields }}
+					</div>
 					{% endif %}
-				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
-	{% endfor %}
-	<div class="clear"></div>
+{% endfor %}
+</div>
 
 </div>
 
