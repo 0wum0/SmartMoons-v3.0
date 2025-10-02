@@ -63,8 +63,58 @@ class template
 
 	private function addCustomFunctions(): void
 	{
-		// Add any custom Twig functions here if needed
-		// Example: $this->twig->addFunction(new TwigFunction('custom_func', [$this, 'customFunc']));
+		// Register isModuleAvailable function for Twig templates
+		$this->twig->addFunction(new TwigFunction('isModuleAvailable', function(int $moduleId): bool {
+			return isModuleAvailable($moduleId);
+		}));
+		
+		// Register constant function for Twig templates to access PHP constants
+		$this->twig->addFunction(new TwigFunction('constant', function(string $name) {
+			return constant($name);
+		}));
+		
+		// Register shortly_number function for Twig templates
+		$this->twig->addFunction(new TwigFunction('shortly_number', function($number, ?int $decimal = null): string {
+			return shortly_number($number, $decimal);
+		}));
+		
+		// Register common PHP math functions for Twig templates
+		$this->twig->addFunction(new TwigFunction('min', function(...$values) {
+			return min(...$values);
+		}));
+		
+		$this->twig->addFunction(new TwigFunction('max', function(...$values) {
+			return max(...$values);
+		}));
+		
+		$this->twig->addFunction(new TwigFunction('abs', function($number) {
+			return abs($number);
+		}));
+		
+		$this->twig->addFunction(new TwigFunction('round', function($number, int $precision = 0, int $mode = PHP_ROUND_HALF_UP) {
+			return round($number, $precision, $mode);
+		}));
+		
+		$this->twig->addFunction(new TwigFunction('floor', function($number) {
+			return floor($number);
+		}));
+		
+		$this->twig->addFunction(new TwigFunction('ceil', function($number) {
+			return ceil($number);
+		}));
+		
+		$this->twig->addFunction(new TwigFunction('floatval', function($value) {
+			return floatval($value);
+		}));
+		
+		// Register PHP helper functions for Twig templates
+		$this->twig->addFunction(new TwigFunction('empty', function($value): bool {
+			return empty($value);
+		}));
+		
+		$this->twig->addFunction(new TwigFunction('count', function($value): int {
+			return is_countable($value) ? count($value) : 0;
+		}));
 	}
 
 	private function getTempPath(): string
