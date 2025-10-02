@@ -1,4 +1,4 @@
-{% extends "layout.full.twig" %}
+{% extends "layout.ajax.twig" %}
 
 {% block content %}
 <form action="game.php?page=messages" method="post">
@@ -46,13 +46,13 @@
 		<td>{{ Message.from }}</td>
 		<td>{{ Message.subject }}
 		{% if Message.type == 1 and MessID != 999 %}
-		<a href="#" onclick="return Dialog.PM({{ Message.sender }}, Message.CreateAnswer('{{ Message.subject }}'));" title="{{ LNG.mg_answer_to }} {{ strip_tags(Message.from) }}"><i class="far fa-envelope" title="Message privé" style="font-size: 15px;"></i></a>
+		<a href="#" onclick="return Dialog.PM({{ Message.sender }}, Message.CreateAnswer('{{ Message.subject }}'));" title="{{ LNG.mg_answer_to }} {{ Message.from|striptags }}"><i class="far fa-envelope" title="Message privé" style="font-size: 15px;"></i></a>
 		{% endif %}
 		</td>
 	</tr>
 	<tr class="messages_body">
 		<td colspan="3" class="left" style="padding: 10px; background: rgba(0,0,0,0.7);">
-		{{ Message.text }}
+		{{ Message.text|raw }}
 		</td>
 	</tr>
 	{% endfor %}
