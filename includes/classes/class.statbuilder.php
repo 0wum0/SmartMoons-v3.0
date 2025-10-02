@@ -28,7 +28,7 @@ class statbuilder
 	function __construct()
 	{
 		$this->starttime   	= microtime(true);
-		$this->memory		= array(round(memory_get_usage() / 1024,1),round(memory_get_usage(1) / 1024,1));
+		$this->memory		= array(round(memory_get_usage() / 1024,1),round(memory_get_usage(true) / 1024,1));
 		$this->time   		= TIMESTAMP;
 
 		$this->recordData  	= array();
@@ -46,9 +46,9 @@ class statbuilder
 		return array(
 			'stats_time'		=> $this->time,
 			'totaltime'    		=> round(microtime(true) - $this->starttime, 7),
-			'memory_peak'		=> array(round(memory_get_peak_usage() / 1024,1), round(memory_get_peak_usage(1) / 1024,1)),
+			'memory_peak'		=> array(round(memory_get_peak_usage() / 1024,1), round(memory_get_peak_usage(true) / 1024,1)),
 			'initial_memory'	=> $this->memory,
-			'end_memory'		=> array(round(memory_get_usage() / 1024,1), round(memory_get_usage(1) / 1024,1)),
+			'end_memory'		=> array(round(memory_get_usage() / 1024,1), round(memory_get_usage(true) / 1024,1)),
 			'sql_count'			=> Database::get()->getQueryCounter(),
 		);
 	}
