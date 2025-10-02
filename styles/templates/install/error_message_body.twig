@@ -5,7 +5,7 @@
 			<div id="lang" align="right">{{ LNG.intro_lang }}:&nbsp;<select id="lang" name="lang" onchange="document.location = '?lang='+$(this).val();">{% for key, value in Selector %}<option value="{{ key }}"{% if key == lang %} selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
 		<div id="main" align="left">
 			<h1>{{ fcm_info }}</h1>
-			{{ mes }}
+			{{ mes|raw }}
 			</div>
 		</div>
 	</td>
