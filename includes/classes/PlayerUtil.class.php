@@ -22,7 +22,12 @@ class PlayerUtil
 	{
 		$salt = NULL;
 		// @see: http://www.phpgangsta.de/schoener-hashen-mit-bcrypt
-		require_once 'includes/config.php';
+		
+		// Check if config file exists
+		$configPath = 'includes/config.php';
+		if (file_exists($configPath)) {
+			require_once $configPath;
+		}
 		
 		if(!CRYPT_BLOWFISH || is_null($salt)) {
 			return md5($password);
