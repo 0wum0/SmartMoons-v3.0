@@ -15,8 +15,8 @@
 			{% set ID = List.element %}
 			<tr>
 				<td style="width:70%;vertical-align:top;" class="left">
-					{{ loop.index }}.: 
-					{% if !(isBusy.research and (ID == 6 or ID == 31)) and !(isBusy.shipyard and (ID == 15 or ID == 21)) and RoomIsOk and CanBuildElement and BuildInfoList[ID].buyable %}
+				{{ loop.index }}.: 
+				{% if not (isBusy.research and (ID == 6 or ID == 31)) and not (isBusy.shipyard and (ID == 15 or ID == 21)) and RoomIsOk and CanBuildElement and BuildInfoList[ID].buyable %}
 					<form class="build_form" action="game.php?page=buildings" method="post">
 						<input type="hidden" name="cmd" value="insert">
 						<input type="hidden" name="building" value="{{ ID }}">

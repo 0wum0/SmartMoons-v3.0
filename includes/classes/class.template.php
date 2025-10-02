@@ -125,6 +125,16 @@ class template
 		$this->twig->addFilter(new TwigFilter('time', function($seconds) {
 			return pretty_time($seconds);
 		}));
+		
+		// Register number filter alias for number_format
+		$this->twig->addFilter(new TwigFilter('number', function($number, int $decimals = 0, string $decPoint = ',', string $thousandsSep = '.') {
+			return number_format((float)$number, $decimals, $decPoint, $thousandsSep);
+		}));
+		
+		// Register json filter alias for json_encode
+		$this->twig->addFilter(new TwigFilter('json', function($value, int $options = 0, int $depth = 512) {
+			return json_encode($value, $options, $depth);
+		}));
 	}
 
 	private function getTempPath(): string
