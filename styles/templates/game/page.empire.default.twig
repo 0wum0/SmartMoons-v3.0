@@ -45,9 +45,9 @@
 				{% for elementID, resourceArray in planetList.resource %}
 				<tr>
 					<td>{{ LNG.tech[elementID] }}</td>
-					<td class="res_{{ elementID }}_text">{array_sum(resourceArray)|number}</td>
+					<td class="res_{{ elementID }}_text">{array_sum(resourceArray)|number_format(0, '.', ',')}</td>
 					{% for planetID, resource in resourceArray %}
-						<td class="res_{{ elementID }}_text">{{ resource|number_format }}</td>
+						<td class="res_{{ elementID }}_text">{{ resource|number_format(0, '.', ',')_format }}</td>
 					{% endfor %}
 				</tr>
 				{% endfor %}
@@ -57,9 +57,9 @@
 				{% for elementID, buildArray in planetList.build %}
 				<tr>
 					<td>{{ LNG.tech[elementID] }}</td>
-					<td>{array_sum(buildArray)|number}</td>
+					<td>{array_sum(buildArray)|number_format(0, '.', ',')}</td>
 					{% for planetID, build in buildArray %}
-						<td>{{ build|number_format }}</td>
+						<td>{{ build|number_format(0, '.', ',')_format }}</td>
 					{% endfor %}
 				</tr>
 				{% endfor %}
@@ -69,9 +69,9 @@
 				{% for elementID, tech in planetList.tech %}
 				<tr>
 					<td>{{ LNG.tech[elementID] }}</td>
-					<td>{{ tech|number_format }}</td>
+					<td>{{ tech|number_format(0, '.', ',')_format }}</td>
 					{% for name in planetList.name %}
-						<td>{{ tech|number_format }}</td>
+						<td>{{ tech|number_format(0, '.', ',')_format }}</td>
 					{% endfor %}
 				</tr>
 				{% endfor %}
@@ -81,9 +81,9 @@
 				{% for elementID, fleetArray in planetList.fleet %}
 				<tr>
 					<td>{{ LNG.tech[elementID] }}</td>
-					<td>{array_sum(fleetArray)|number}</td>
+					<td>{array_sum(fleetArray)|number_format(0, '.', ',')}</td>
 					{% for planetID, fleet in fleetArray %}
-						<td>{{ fleet|number_format }}</td>
+						<td>{{ fleet|number_format(0, '.', ',')_format }}</td>
 					{% endfor %}
 				</tr>
 				{% endfor %}
@@ -93,9 +93,9 @@
 				{% for elementID, fleetArray in planetList.defense %}
 				<tr>
 					<td>{{ LNG.tech[elementID] }}</td>
-					<td>{array_sum(fleetArray)|number}</td>
+					<td>{array_sum(fleetArray)|number_format(0, '.', ',')}</td>
 					{% for planetID, fleet in fleetArray %}
-						<td>{{ fleet|number_format }}</td>
+						<td>{{ fleet|number_format(0, '.', ',')_format }}</td>
 					{% endfor %}
 				</tr>
 				{% endfor %}

@@ -21,6 +21,7 @@ require_once('vendor/autoload.php');
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
+use Twig\TwigFilter;
 
 class template
 {
@@ -59,6 +60,7 @@ class template
 		
 		// Add custom functions if needed
 		$this->addCustomFunctions();
+		$this->addCustomFilters();
 	}
 
 	private function addCustomFunctions(): void
@@ -114,6 +116,14 @@ class template
 		
 		$this->twig->addFunction(new TwigFunction('count', function($value): int {
 			return is_countable($value) ? count($value) : 0;
+		}));
+	}
+
+	private function addCustomFilters(): void
+	{
+		// Register pretty_time filter for Twig templates
+		$this->twig->addFilter(new TwigFilter('time', function($seconds) {
+			return pretty_time($seconds);
 		}));
 	}
 
