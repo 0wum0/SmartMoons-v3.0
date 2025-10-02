@@ -208,7 +208,7 @@ class Session
 	    }
 
 	    // sessions require an valid user.
-	    if(empty($this->data['userId'])) {
+	    if($this->data === null || !isset($this->data['userId']) || empty($this->data['userId'])) {
 	        $this->delete();
 	    }
 
@@ -224,7 +224,7 @@ class Session
 
 		$db->replace($sql, array(
 			':sessionId'	=> session_id(),
-			':userId'		=> $this->data['userId'],
+			':userId'		=> ($this->data !== null && isset($this->data['userId'])) ? $this->data['userId'] : null,
 			':lastActivity'	=> TIMESTAMP,
 			':userAddress'	=> $userIpAddress,
 		));
@@ -238,7 +238,7 @@ class Session
 		$db->update($sql, array(
 		   ':userAddress'	=> $userIpAddress,
 		   ':lastActivity'	=> TIMESTAMP,
-		   ':userId'		=> $this->data['userId'],
+		   ':userId'		=> ($this->data !== null && isset($this->data['userId'])) ? $this->data['userId'] : null,
 		));
 
 		$this->data['lastActivity']  = TIMESTAMP;
@@ -265,12 +265,12 @@ class Session
 
 	public function isValidSession()
 	{
-		if($this->compareIpAddress($this->data['userIpAddress'], self::getClientIp(), COMPARE_IP_BLOCKS) === false)
+		if($this->data === null || !isset($this->data['userIpAddress']) || $this->compareIpAddress($this->data['userIpAddress'], self::getClientIp(), COMPARE_IP_BLOCKS) === false)
 		{
 			return false;
 		}
 
-		if($this->data['lastActivity'] < TIMESTAMP - SESSION_LIFETIME)
+		if($this->data === null || !isset($this->data['lastActivity']) || $this->data['lastActivity'] < TIMESTAMP - SESSION_LIFETIME)
 		{
 			return false;
 		}
@@ -300,7 +300,7 @@ class Session
 
 			$db	= Database::get();
 			$planetId	= $db->selectSingle($sql, array(
-				':userId'	=> $this->data['userId'],
+				':userId'	=> ($this->data !== null && isset($this->data['userId'])) ? $this->data['userId'] : null,
 				':planetId'	=> $httpData,
 			), 'id');
 
