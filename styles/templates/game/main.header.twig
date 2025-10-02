@@ -57,6 +57,8 @@
 	<script type="text/javascript" src="./scripts/l18n/validationEngine/jquery.validationEngine-{{ lang }}.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/base/tooltip.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/game/base.js?v={{ REV }}"></script>
+	<!-- Real-time resource ticker -->
+	<script type="text/javascript" src="./scripts/game/topnav.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/game/sci-fi-ui.js?v={{ REV }}"></script>
 	{% for scriptname in scripts %}
 	<script type="text/javascript" src="./scripts/game/{{ scriptname }}.js?v={{ REV }}"></script>
@@ -72,95 +74,79 @@
 <body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }}">
 	<div id="tooltip" class="tip"></div>
 	
-	<!-- Futuristic Resource Header -->
+	<!-- Futuristic Resource Header with real-time tickers -->
 	<div id="header">
 		<div id="headerTable">
-			<!-- Metal Resource -->
+			{% for resourceID, resourceData in resourceTable %}
+			{% if resourceID != 921 %}
 			<div class="bar-main-container">
-				<div class="wrap">
-					<div class="bar-percentage">
-						<img src="{{ dpath }}images/metal.gif" alt="Metal">
-					</div>
-					<div class="bar-container">
-						<div class="bar" style="width: {{ (Metal.percent)|default(0) }}%;"></div>
-						<div class="bar-text">
-							<span class="resource-value" data-resource="metal">{{ Metal.current|number_format }}</span> / {{ Metal.max|number_format }}
-						</div>
-					</div>
-					<div class="bar-change">
-						<a href="#" title="{{ LNG.resources_metal_production }}: {{ Metal.production|number_format }}/h">
-							<i class="fas fa-info-circle"></i>
-						</a>
-					</div>
-				</div>
+			    <div class="wrap">
+			      <div class="bar-percentage"><img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt=""></div>
+			      <div class="bar-container">
+			        <div class="bar bar_{{ resourceID }}" style="width: 0%;"></div>
+			        <div class="bar-text">
+			        {% if shortlyNumber %}
+					{% if resourceData.current is not defined %}
+					{% set currentResource = resourceData.max + resourceData.used %}
+						<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ currentResource|number_format }} / {{ resourceData.max|number_format }}"><span{% if currentResource < 0 %} style="color:red"{% endif %}>{{ shortly_number(currentResource) }} / {{ shortly_number(resourceData.max) }}</span></span>
+						{% else %}
+							<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ resourceData.current|number_format }}<br>{% if resourceData.current is not defined or resourceData.max is not defined %}
+							{% else %}
+							<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number(resourceData.max) }}</span>
+							{% endif %}">{{ shortly_number(resourceData.current) }}</span>
+						{% endif %}
+			        {% else %}
+					{% if resourceData.current is not defined %}
+					{% set currentResource = resourceData.max + resourceData.used %}
+						<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ currentResource|number_format }} / {{ resourceData.max|number_format }}"><span{% if currentResource < 0 %} style="color:red"{% endif %}>{{ currentResource|number_format }} / {{ resourceData.max|number_format }}</span></span>
+						{% else %}
+							<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ resourceData.current|number_format }}<br>{% if resourceData.current is not defined or resourceData.max is not defined %}
+							{% else %}
+							<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number(resourceData.max) }}</span>
+							{% endif %}" data-real="{{ resourceData.current }}">{{ resourceData.current|number_format }} (X%)</span>
+						{% endif %}
+			        {% endif %}
+			        </div>
+			      </div>
+			      {% if resourceID != 911 and resourceID != 921 %}
+			      {% if isModuleAvailable(constant('MODULE_TRADER')) %}
+			      <div class="bar-change">
+			      	<a href="game.php?page=trader&mode=trade&resource={{ resourceID }}"><i class="fas fa-arrows-alt-h"></i></a>
+			      </div>
+			      {% endif %}
+			      {% endif %}
+			    </div>
 			</div>
-			
-			<!-- Crystal Resource -->
-			<div class="bar-main-container">
-				<div class="wrap">
-					<div class="bar-percentage">
-						<img src="{{ dpath }}images/crystal.gif" alt="Crystal">
-					</div>
-					<div class="bar-container">
-						<div class="bar" style="width: {{ (Crystal.percent)|default(0) }}%;"></div>
-						<div class="bar-text">
-							<span class="resource-value" data-resource="crystal">{{ Crystal.current|number_format }}</span> / {{ Crystal.max|number_format }}
-						</div>
-					</div>
-					<div class="bar-change">
-						<a href="#" title="{{ LNG.resources_crystal_production }}: {{ Crystal.production|number_format }}/h">
-							<i class="fas fa-info-circle"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-			
-			<!-- Deuterium Resource -->
-			<div class="bar-main-container">
-				<div class="wrap">
-					<div class="bar-percentage">
-						<img src="{{ dpath }}images/deuterium.gif" alt="Deuterium">
-					</div>
-					<div class="bar-container">
-						<div class="bar" style="width: {{ (Deuterium.percent)|default(0) }}%;"></div>
-						<div class="bar-text">
-							<span class="resource-value" data-resource="deuterium">{{ Deuterium.current|number_format }}</span> / {{ Deuterium.max|number_format }}
-						</div>
-					</div>
-					<div class="bar-change">
-						<a href="#" title="{{ LNG.resources_deuterium_production }}: {{ Deuterium.production|number_format }}/h">
-							<i class="fas fa-info-circle"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-			
-			<!-- Energy Resource -->
-			<div class="bar-main-container">
-				<div class="wrap">
-					<div class="bar-percentage">
-						<img src="{{ dpath }}images/energy.gif" alt="Energy">
-					</div>
-					<div class="bar-container">
-						<div class="bar" style="width: {{ (Energy.percent)|default(0) }}%;"></div>
-						<div class="bar-text">
-							<span class="resource-value" data-resource="energy">{{ Energy.current|number_format }}</span> / {{ Energy.max|number_format }}
-						</div>
-					</div>
-					<div class="bar-change">
-						<a href="#" title="{{ LNG.resources_energy_production }}: {{ Energy.production|number_format }}">
-							<i class="fas fa-info-circle"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-			
-			<!-- Dark Matter -->
-			{% if Darkmatter is defined %}
-			<div class="heder_res_921">
-				<img src="{{ dpath }}images/darkmatter.gif" alt="Dark Matter">
-				<span class="res_921_text resource-value" data-resource="darkmatter">{{ Darkmatter|number_format }}</span>
+			{% else %}
+			<div class="heder_res_921 res_921_text">
+				<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="">
+				<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ resourceData.current|number_format }}<br>{% if resourceData.current is not defined or resourceData.max is not defined %}
+				{% else %}
+				<span class='res_max' id='max_{{ resourceData.name }}' data-real='{{ resourceData.max }}'>{{ shortly_number(resourceData.max) }}</span>
+				{% endif %}">{{ shortly_number(resourceData.current) }}</span>
 			</div>
 			{% endif %}
+			{% endfor %}
+			<div class="clear"></div>
+
+			{% if not vmode %}
+			<script type="text/javascript">
+			var viewShortlyNumber	= {{ shortlyNumber|json_encode }};
+			var vacation			= {{ vmode }};
+	        $(function() {
+			{% for resourceID, resourceData in resourceTable %}
+			{% if resourceData.production is defined %}
+	            resourceTicker({
+	                available: {{ resourceData.current|json_encode }},
+	                limit: [0, {{ resourceData.max|json_encode }}],
+	                production: {{ resourceData.production|json_encode }},
+	                valueElem: "current_{{ resourceData.name }}",
+	                valuePoursent: "bar_{{ resourceID }}"
+	            }, true);
+			{% endif %}
+			{% endfor %}
+	        });
+			</script>
+	        {% endif %}
 		</div>
 	</div>
