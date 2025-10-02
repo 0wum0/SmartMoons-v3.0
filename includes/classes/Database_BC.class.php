@@ -49,17 +49,42 @@ class Database_BC extends mysqli
 		// This MUST be done before any validation to ensure $databaseConfig is available
 		require_once $configPath;
 
-		// Validate that $databaseConfig exists and is an array
-		if (!isset($databaseConfig) || !is_array($databaseConfig)) {
+		// Validate that $databaseConfig (or alternative $database) exists and is an array
+		if (!isset($databaseConfig) && !isset($database)) {
 			throw new Exception("Database configuration error: \$databaseConfig is not properly defined in includes/config.php. It must be an array with host, user, password, and dbname keys.");
+		}
+		
+		// Support alternative variable name $database
+		if (!isset($databaseConfig) && isset($database)) {
+			$databaseConfig = $database;
+		}
+		
+		if (!is_array($databaseConfig)) {
+			throw new Exception("Database configuration error: \$databaseConfig is not properly defined in includes/config.php. It must be an array with host, user, password, and dbname keys.");
+		}
+
+		// Normalize alternative key names to standard ones
+		// Support 'userpw' as alternative to 'password'
+		if (!isset($databaseConfig['password']) && isset($databaseConfig['userpw'])) {
+			$databaseConfig['password'] = $databaseConfig['userpw'];
+		}
+		
+		// Support 'databasename' as alternative to 'dbname'
+		if (!isset($databaseConfig['dbname']) && isset($databaseConfig['databasename'])) {
+			$databaseConfig['dbname'] = $databaseConfig['databasename'];
 		}
 
 		// Validate required database configuration keys
 		$requiredKeys = ['host', 'user', 'password', 'dbname'];
+		$missingKeys = [];
 		foreach ($requiredKeys as $key) {
 			if (!array_key_exists($key, $databaseConfig)) {
-				throw new Exception("Missing DB config key: '$key' is not defined in \$databaseConfig. Please check includes/config.php");
+				$missingKeys[] = $key;
 			}
+		}
+		
+		if (!empty($missingKeys)) {
+			throw new Exception("Database configuration error: \$databaseConfig is not properly defined in includes/config.php. Missing keys: " . implode(', ', $missingKeys));
 		}
 
 		// Validate that required values are not empty (except password which can be empty)
