@@ -8,7 +8,7 @@
 			<div class="panel-body">
 				<table class="table519">
 					<tr>
-						<td><p>{{ message }}</p>{% if redirectButtons %}<p>{% for button in redirectButtons %}<a href="{{ button.url }}"><button class="btn btn-default">{{ button.label }}</button></a>{% endfor %}</p>{% endif %}</td>
+						<td><p>{{ message|raw }}</p>{% if redirectButtons %}<p>{% for button in redirectButtons %}<a href="{{ button.url }}"><button class="btn btn-default">{{ button.label }}</button></a>{% endfor %}</p>{% endif %}</td>
 					</tr>
 				</table>
 			</div>
