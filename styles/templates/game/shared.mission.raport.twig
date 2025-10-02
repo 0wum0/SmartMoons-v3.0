@@ -34,25 +34,25 @@
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_count }}</td>
 								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[0]|number}</td>
+								<td class="transparent">{{ ShipData[0]|number }}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_weapon }}</td>
 								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[1]|number}</td>
+								<td class="transparent">{{ ShipData[1]|number }}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_shield }}</td>
 								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[2]|number}</td>
+								<td class="transparent">{{ ShipData[2]|number }}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_armour }}</td>
 								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[3]|number}</td>
+								<td class="transparent">{{ ShipData[3]|number }}</td>
 								{% endfor %}
 							</tr>
 						{% else %}
@@ -92,25 +92,25 @@
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_count }}</td>
 								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[0]|number}</td>
+								<td class="transparent">{{ ShipData[0]|number }}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_weapon }}</td>
 								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[1]|number}</td>
+								<td class="transparent">{{ ShipData[1]|number }}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_shield }}</td>
 								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[2]|number}</td>
+								<td class="transparent">{{ ShipData[2]|number }}</td>
 								{% endfor %}
 							</tr>
 							<tr>
 								<td class="transparent">{{ LNG.sys_ship_armour }}</td>
 								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[3]|number}</td>
+								<td class="transparent">{{ ShipData[3]|number }}</td>
 								{% endfor %}
 							</tr>
 						{% else %}
@@ -129,23 +129,23 @@
 	</tr>
 </table>
 {% if loop.last %}
-{{ LNG.fleet_attack_1 }} {{ RoundInfo.info[0]|number }} {{ LNG.fleet_attack_2 }} {{ RoundInfo.info[3]|number }} {{ LNG.damage }}<br>
-{{ LNG.fleet_defs_1 }} {{ RoundInfo.info[2]|number }} {{ LNG.fleet_defs_2 }} {{ RoundInfo.info[1]|number }} {{ LNG.damage }}<br><br>
+{{ LNG.fleet_attack_1 }} {{ RoundInfo.info[0]|number}} {{ LNG.fleet_attack_2 }} {{ RoundInfo.info[3]|number}} {{ LNG.damage }}<br>
+{{ LNG.fleet_defs_1 }} {{ RoundInfo.info[2]|number}} {{ LNG.fleet_defs_2 }} {{ RoundInfo.info[1]|number}} {{ LNG.damage }}<br><br>
 {% endif %}
 {% endfor %}
 <br><br>
 {% if Raport.result == "a" %}
 {{ LNG.sys_attacker_won }}<br>
-{{ LNG.sys_stealed_ressources }} {% for elementID, amount in Raport.steal %}{{ amount|number }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2 == Raport.steal|length) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}
+{{ LNG.sys_stealed_ressources }} {% for elementID, amount in Raport.steal %}{{ amount|number}} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2 == Raport.steal|length) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}
 {% elseif Raport.result == "r" %}
 {{ LNG.sys_defender_won }}
 {% else %}
 {{ LNG.sys_both_won }}
 {% endif %}
 <br><br>
-{{ LNG.sys_attacker_lostunits }} {{ Raport['units'][0]|number} {{ LNG.sys_units }}<br>
-{{ LNG.sys_defender_lostunits }} {{ Raport['units'][1]|number} {{ LNG.sys_units }}<br>
-{{ LNG.debree_field_1 }} {% for elementID, amount in Raport.debris %}{{ amount|number }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2 == Raport.debris|length) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
+{{ LNG.sys_attacker_lostunits }} {{ Raport['units'][0]|number}} {{ LNG.sys_units }}<br>
+{{ LNG.sys_defender_lostunits }} {{ Raport['units'][1]|number}} {{ LNG.sys_units }}<br>
+{{ LNG.debree_field_1 }} {% for elementID, amount in Raport.debris %}{{ amount|number}} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2 == Raport.debris|length) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
 {% if Raport.mode == 1 %}
 	{#  Destruction  #}
 	{% if Raport.moon.moonDestroySuccess == -1 %}
