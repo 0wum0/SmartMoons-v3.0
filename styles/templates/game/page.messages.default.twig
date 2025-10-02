@@ -4,35 +4,122 @@
 {% block content %}
 
 <div class="content_page">
-	<div class="title">
-		{{ LNG.mg_overview }}<span id="loading" style="display:none;"> ({{ LNG.loading }})</span>
+	<div class="sci-card__header">
+		<h2 class="sci-card__title">
+			<i class="fas fa-envelope"></i> {{ LNG.mg_overview }}
+			<span id="loading" class="sci-text-cyan" style="display:none; font-size: 0.875rem; margin-left: var(--spacing-md);">
+				<i class="fas fa-spinner fa-spin"></i> {{ LNG.loading }}
+			</span>
+		</h2>
 	</div>
 
-	<div>
-		<table style="width:100%;table-layout:fixed;">
-				{% for CategoryID, CategoryRow in CategoryList %}
-				{% if (loop.index % 6) == 1 %}<tr>{% endif %}
-				{% if loop.last and (loop.index % 6) != 0 %}<td> </td>{% endif %}
-				<td style="word-wrap: break-word;color:{{ CategoryRow.color }};"><a href="#" onclick="Message.getMessages({{ CategoryID }});return false;" style="color:{{ CategoryRow.color }};">{{ LNG.mg_type[CategoryID] }}</a>
-				<br><span id="unread_{{ CategoryID }}">{{ CategoryRow.unread }}</span>/<span id="total_{{ CategoryID }}">{{ CategoryRow.total }}</span>
-				</td>
-				{% if loop.last or (loop.index % 6) == 0 %}</tr>{% endif %}
-				{% endfor %}
-		</table>
-	</div>
-
-	<div class="title" style="margin: 0 -5px 0 -5px;">
-		{{ LNG.mg_game_operators }}
-	</div>
-
-	<table style="width:100%;table-layout:fixed;">
-		{% for OperatorName, OperatorEmail in OperatorList %}
-		<tr>
-			<td>{{ OperatorName }}<a href="mailto:{{ OperatorEmail }}" title="{{ LNG.mg_write_mail_to_ops }} {{ OperatorName }}"> <i class="far fa-envelope" title="Message privé" style="font-size: 10px;"></i></a></td>
-		</tr>
+	<!-- Message Categories Grid -->
+	<div class="sci-grid sci-grid--3 sci-mb-lg">
+		{% for CategoryID, CategoryRow in CategoryList %}
+		<div class="sci-card" style="
+			cursor: pointer;
+			transition: all var(--transition-base);
+			border: 2px solid transparent;
+			background: linear-gradient(135deg, var(--color-bg-elevated), var(--color-bg-tertiary));
+		" onclick="Message.getMessages({{ CategoryID }});return false;">
+			<div class="sci-card__body" style="padding: var(--spacing-lg);">
+				<div class="sci-flex-between" style="margin-bottom: var(--spacing-md);">
+					<h3 style="margin: 0; color: {{ CategoryRow.color }}; font-size: 1.125rem; font-weight: 600;">
+						{{ LNG.mg_type[CategoryID] }}
+					</h3>
+					{% if CategoryRow.unread > 0 %}
+					<span class="sci-badge sci-badge--red" style="
+						background: linear-gradient(135deg, var(--color-accent-red), #dc2626);
+						color: white;
+						font-weight: 700;
+						animation: pulse-glow 2s infinite;
+					">
+						{{ CategoryRow.unread }}
+					</span>
+					{% endif %}
+				</div>
+				
+				<div class="sci-flex-between" style="
+					padding: var(--spacing-sm) var(--spacing-md);
+					background: rgba(0, 243, 255, 0.05);
+					border-radius: var(--radius-md);
+					border: 1px solid var(--color-border-primary);
+				">
+					<div>
+						<div class="sci-text-muted" style="font-size: 0.75rem;">{{ LNG.mg_unread }}</div>
+						<div class="sci-text-primary" style="font-weight: 700; font-size: 1.25rem;">
+							<span id="unread_{{ CategoryID }}">{{ CategoryRow.unread }}</span>
+						</div>
+					</div>
+					<div style="text-align: right;">
+						<div class="sci-text-muted" style="font-size: 0.75rem;">{{ LNG.mg_total }}</div>
+						<div class="sci-text-primary" style="font-weight: 700; font-size: 1.25rem;">
+							<span id="total_{{ CategoryID }}">{{ CategoryRow.total }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		{% endfor %}
-	</table>
+	</div>
+
+	<!-- Game Operators Section -->
+	<div class="sci-card sci-card--elevated">
+		<div class="sci-card__header">
+			<h3 class="sci-card__title">
+				<i class="fas fa-users-cog"></i> {{ LNG.mg_game_operators }}
+			</h3>
+		</div>
+		<div class="sci-card__body">
+			<div class="sci-grid sci-grid--2" style="gap: var(--spacing-md);">
+				{% for OperatorName, OperatorEmail in OperatorList %}
+				<div class="sci-card" style="
+					padding: var(--spacing-md);
+					background: linear-gradient(135deg, rgba(0, 243, 255, 0.05), rgba(0, 102, 255, 0.03));
+					border: 1px solid var(--color-border-primary);
+					margin-bottom: 0;
+					transition: all var(--transition-base);
+				">
+					<div class="sci-flex-between" style="align-items: center;">
+						<div class="sci-flex sci-gap-md" style="align-items: center;">
+							<div style="
+								width: 40px;
+								height: 40px;
+								background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-blue));
+								border-radius: 50%;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								box-shadow: var(--glow-cyan);
+							">
+								<i class="fas fa-user-shield" style="font-size: 1.25rem; color: var(--color-bg-primary);"></i>
+							</div>
+							<div>
+								<div class="sci-text-primary" style="font-weight: 600; font-size: 1rem;">{{ OperatorName }}</div>
+								<div class="sci-text-muted" style="font-size: 0.75rem;">{{ LNG.mg_game_operator }}</div>
+							</div>
+						</div>
+						<a href="mailto:{{ OperatorEmail }}" 
+						   title="{{ LNG.mg_write_mail_to_ops }} {{ OperatorName }}"
+						   class="sci-btn sci-btn--ghost"
+						   style="padding: var(--spacing-sm);">
+							<i class="far fa-envelope"></i>
+						</a>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 </div>
+
+<style>
+.sci-card:hover {
+	border-color: var(--color-accent-cyan) !important;
+	box-shadow: var(--glow-cyan);
+	transform: translateY(-4px);
+}
+</style>
 
 {% endblock %}
 {% block script %}

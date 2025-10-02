@@ -3,108 +3,169 @@
 {% block title %}{{ LNG.lm_research }}{% endblock %}
 {% block content %}
 
-<div class="content_page" style="width: 95%;">
-	<div class="title">
-		{{ LNG.lm_research }}
+<div class="content_page">
+	<div class="sci-card__header">
+		<h2 class="sci-card__title">
+			<i class="fas fa-flask"></i> {{ LNG.lm_research }}
+		</h2>
 	</div>
 
 	{% if IsLabinBuild %}
-		<div width="99%" id="infobox" style="border: 2px solid red; text-align:center;background:transparent">{{ LNG.bd_building_lab }}</div>
-	{% endif %}
-
-	{% if Queue %}
-	<div id="buildlist" class="buildlist">
-		<table style="width: 100%;">
-			{% for List in Queue %}
-			{% set ID = List.element %}
-			<tr>
-				<td style="width:70%;vertical-align:top;" class="left">
-					{% if ResearchList[List.element] is defined %}
-					{% set CQueue = ResearchList[List.element] %}
-					{% endif %}
-					{{ loop.index }}.: 
-					{% if CQueue is defined and CQueue.maxLevel != CQueue.level and not IsFullQueue and CQueue.buyable %}
-					<form action="game.php?page=research" method="post" class="build_form">
-						<input type="hidden" name="cmd" value="insert">
-						<input type="hidden" name="tech" value="{{ ID }}">
-						<button type="submit" class="build_submit onlist">{{ LNG.tech[ID] }} {{ List.level }}{% if List.planet %} @ {{ List.planet }}{% endif %}</button>
-					</form>
-					{% else %}
-					{{ LNG.tech[ID] }} {{ List.level }}{% if List.planet %} @ {{ List.planet }}{% endif %}
-					{% endif %}
-					{% if loop.first %}
-					<br><br><div id="progressbar" data-time="{{ List.resttime }}"></div>
-				</td>
-				<td>
-					<div id="time" data-time="{{ List.time }}"><br></div>
-					<form action="game.php?page=research" method="post" class="build_form">
-						<input type="hidden" name="cmd" value="cancel">
-						<button type="submit" class="build_submit onlist">{{ LNG.bd_cancel }}</button>
-					</form>
-					{% else %}
-				</td>
-				<td>
-					<form action="game.php?page=research" method="post" class="build_form">
-						<input type="hidden" name="cmd" value="remove">
-						<input type="hidden" name="listid" value="{{ loop.index }}">
-						<button type="submit" class="build_submit onlist">{{ LNG.bd_cancel }}</button>
-					</form>
-					{% endif %}
-					<br><span style="color:lime" data-time="{{ List.endtime }}" class="timer">{{ List.display }}</span>
-				</td>
-			</tr>
-		{% endfor %}
-		</table>
+	<div class="infobox">
+		<i class="fas fa-exclamation-triangle"></i> {{ LNG.bd_building_lab }}
 	</div>
 	{% endif %}
 
-{% for ID, Element in ResearchList %}
-	<div class="main_construct">
-		
-		<div class="block_construct">
-			<div class="title" style="margin: 5px 0 0 -5px; text-align: left;">
-				<a href="#" onclick="return Dialog.info({{ ID }})"><img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}" width="20" height="20"> {{ LNG.tech[ID] }} {% if Element.level > 0 %} - {{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}{% endif %}</a>
-			</div>
-
-			<div class="block_construct_desc">
-				<div class="block_construct_desc_list">
-					{% for RessID, RessAmount in Element.costResources %}
-						<div style="margin-bottom: 10px;">
-							<img src="{{ dpath }}images/{{ RessID }}.gif" alt=""> <b><span {% if Element.costOverflow[RessID] == 0 %}class="res_{{ RessID }}_text"{% endif %} style="color:{% if Element.costOverflow[RessID] == 0 %}{% else %}red{% endif %}">{{ RessAmount|number_format }}</span></b>
+	{% if Queue %}
+	<div id="buildlist" class="sci-card sci-card--elevated sci-mb-lg">
+		<h3 class="sci-text-cyan sci-mb-md">
+			<i class="fas fa-tasks"></i> {{ LNG.bd_research_queue }}
+		</h3>
+		<div class="sci-grid sci-grid--1">
+			{% for List in Queue %}
+			{% set ID = List.element %}
+			<div class="sci-card" style="margin-bottom: var(--spacing-md);">
+				<div class="sci-flex-between">
+					<div class="sci-flex sci-gap-md" style="flex: 1;">
+						<span class="sci-badge sci-badge--cyan">{{ loop.index }}</span>
+						<div style="flex: 1;">
+							{% if ResearchList[List.element] is defined %}
+							{% set CQueue = ResearchList[List.element] %}
+							{% endif %}
+							
+							{% if CQueue is defined and CQueue.maxLevel != CQueue.level and not IsFullQueue and CQueue.buyable %}
+							<form action="game.php?page=research" method="post" class="build_form" style="display: inline;">
+								<input type="hidden" name="cmd" value="insert">
+								<input type="hidden" name="tech" value="{{ ID }}">
+								<button type="submit" class="sci-btn sci-btn--ghost" style="padding: var(--spacing-xs) var(--spacing-sm);">
+									{{ LNG.tech[ID] }} {{ List.level }}
+								</button>
+							</form>
+							{% else %}
+							<strong class="sci-text-primary">{{ LNG.tech[ID] }} {{ List.level }}</strong>
+							{% endif %}
+							
+							{% if List.planet %}
+							<span class="sci-badge sci-badge--cyan sci-ml-sm">@ {{ List.planet }}</span>
+							{% endif %}
+							
+							{% if loop.first %}
+							<div class="sci-progress sci-mt-md" data-time="{{ List.resttime }}">
+								<div class="sci-progress__bar" id="progressbar" data-progress="0" 
+									 style="background: linear-gradient(90deg, var(--color-accent-purple), var(--color-accent-violet));"></div>
+								<div class="sci-progress__text" id="time" data-time="{{ List.time }}"></div>
+							</div>
+							{% endif %}
 						</div>
-					{% endfor %}
+					</div>
+					
+					<div class="sci-flex sci-gap-sm" style="align-items: center;">
+						<span class="sci-text-green timer" data-time="{{ List.endtime }}">{{ List.display }}</span>
+						<form action="game.php?page=research" method="post" class="build_form" style="margin: 0;">
+							<input type="hidden" name="cmd" value="{% if loop.first %}cancel{% else %}remove{% endif %}">
+							{% if not loop.first %}<input type="hidden" name="listid" value="{{ loop.index }}">{% endif %}
+							<button type="submit" class="sci-btn sci-btn--danger" style="padding: var(--spacing-xs) var(--spacing-md);">
+								<i class="fas fa-times"></i> {{ LNG.bd_cancel }}
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endif %}
 
-					<span style="font-weight: bold;"><i class="fas fa-tachometer-alt" style="font-size: 13px;"></i> {{ Element.elementTime|time }}</span>
+	<!-- Research Technology Cards -->
+	<div class="sci-grid sci-grid--2">
+		{% for ID, Element in ResearchList %}
+		<div class="sci-card sci-mb-md">
+			<div class="sci-card__header">
+				<div class="sci-flex sci-gap-md" style="flex: 1;">
+					<img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}" width="50" height="50" 
+						 style="border-radius: var(--radius-md); border: 2px solid var(--color-accent-purple); box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);">
+					<div style="flex: 1;">
+						<h3 class="sci-card__title" style="margin: 0;">
+							<a href="#" onclick="return Dialog.info({{ ID }})" class="sci-text-cyan">{{ LNG.tech[ID] }}</a>
+						</h3>
+						{% if Element.level > 0 %}
+						<div class="sci-flex sci-gap-sm sci-mt-xs">
+							<span class="sci-badge sci-badge--cyan">
+								{{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}
+							</span>
+						</div>
+						{% else %}
+						<span class="sci-text-muted" style="font-size: 0.875rem;">{{ LNG.bd_not_researched }}</span>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			
+			<div class="sci-card__body">
+				<div class="sci-grid sci-grid--2 sci-mb-md">
+					<div>
+						<h4 class="sci-text-secondary" style="font-size: 0.875rem; margin-bottom: var(--spacing-sm);">
+							<i class="fas fa-coins"></i> {{ LNG.bd_needed_resources }}
+						</h4>
+						{% for RessID, RessAmount in Element.costResources %}
+						<div class="sci-flex sci-gap-sm sci-mb-sm" style="align-items: center;">
+							<img src="{{ dpath }}images/{{ RessID }}.gif" alt="" width="28" height="28" 
+								 style="border-radius: var(--radius-sm); box-shadow: 0 0 8px rgba(0, 243, 255, 0.3);">
+							<span class="{% if Element.costOverflow[RessID] == 0 %}sci-text-green{% else %}sci-text-red{% endif %} resource-value" 
+								  style="font-size: 1rem;">
+								{{ RessAmount|number_format }}
+							</span>
+						</div>
+						{% endfor %}
+					</div>
 
+					<div>
+						<div class="sci-flex sci-gap-sm sci-mb-md" style="align-items: center; padding: var(--spacing-md); background: rgba(168, 85, 247, 0.1); border-radius: var(--radius-md); border: 1px solid var(--color-accent-purple);">
+							<i class="fas fa-clock sci-text-purple" style="font-size: 1.25rem;"></i>
+							<div>
+								<div class="sci-text-muted" style="font-size: 0.75rem;">{{ LNG.bd_research_time }}</div>
+								<span class="sci-text-yellow" style="font-weight: 600; font-size: 1.125rem;">{{ Element.elementTime|time }}</span>
+							</div>
+						</div>
+						
+						{% if Element.level > 0 %}
+						<div class="sci-badge sci-badge--green" style="width: 100%; padding: var(--spacing-sm); text-align: center;">
+							<i class="fas fa-check-circle"></i> {{ LNG.bd_researched }}
+						</div>
+						{% endif %}
+					</div>
 				</div>
 
 				<div>
 					{% if Element.maxLevel == Element.levelToBuild %}
-						<div class="construct_button_lost">
-							<span style="color:red">{{ LNG.bd_maxlevel }}</span>
+						<div class="sci-badge sci-badge--red" style="width: 100%; padding: var(--spacing-md); text-align: center;">
+							<i class="fas fa-ban"></i> {{ LNG.bd_maxlevel }}
 						</div>
 					{% elseif IsLabinBuild or IsFullQueue or not Element.buyable %}
-						<div class="construct_button_lost">
-							<span style="color:red">{% if Element.level == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</span>
+						<div class="sci-badge sci-badge--red" style="width: 100%; padding: var(--spacing-md); text-align: center;">
+							<i class="fas fa-exclamation-triangle"></i> 
+							{% if Element.level == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }} {{ Element.levelToBuild + 1 }}{% endif %}
 						</div>
 					{% else %}
 						<form action="game.php?page=research" method="post" class="build_form">
 							<input type="hidden" name="cmd" value="insert">
 							<input type="hidden" name="tech" value="{{ ID }}">
-							<button type="submit" class="build_submit construct_button">{% if Element.level == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
+							<button type="submit" class="sci-btn sci-btn--primary" style="width: 100%;">
+								<i class="fas fa-flask"></i> 
+								{% if Element.level == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }} {{ Element.levelToBuild + 1 }}{% endif %}
+							</button>
 						</form>
 					{% endif %}
 				</div>
 			</div>
 		</div>
+		{% endfor %}
 	</div>
-	{% endfor %}
-	<div class="clear"></div>
-
 </div>
+
 {% endblock %}
 {% block script %}
-    {% if Queue %}
-        <script src="scripts/game/research.js"></script>
-    {% endif %}
+{% if Queue %}
+<script src="scripts/game/research.js"></script>
+{% endif %}
 {% endblock %}

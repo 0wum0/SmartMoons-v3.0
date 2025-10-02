@@ -619,3 +619,166 @@ h4 {
 .sci-glow-blue { box-shadow: var(--glow-blue); }
 .sci-glow-purple { box-shadow: var(--glow-purple); }
 .sci-glow-green { box-shadow: var(--glow-green); }
+
+/* ============================================
+   LOADING OVERLAY
+   ============================================ */
+.sci-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 14, 26, 0.95);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.sci-loading-overlay.active {
+    opacity: 1;
+}
+
+.sci-loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.sci-loading-text {
+    color: var(--color-accent-cyan);
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-shadow: var(--glow-cyan);
+    animation: pulse-glow 2s infinite;
+}
+
+/* ============================================
+   NOTIFICATIONS
+   ============================================ */
+.sci-notification {
+    position: fixed;
+    top: 80px;
+    right: -400px;
+    max-width: 350px;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-bg-elevated);
+    border: 2px solid var(--color-accent-cyan);
+    border-radius: var(--radius-md);
+    box-shadow: var(--glow-cyan), 0 8px 24px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    z-index: 2001;
+    transition: right var(--transition-base);
+}
+
+.sci-notification.active {
+    right: var(--spacing-lg);
+}
+
+.sci-notification i {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.sci-notification span {
+    color: var(--color-text-primary);
+    font-weight: 500;
+}
+
+/* ============================================
+   CARD GLOW EFFECT
+   ============================================ */
+.sci-card-glow {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(0, 243, 255, 0.4), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    animation: expandFade 1s ease-out forwards;
+}
+
+@keyframes expandFade {
+    from {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    to {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   FADE IN ANIMATION
+   ============================================ */
+.sci-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   RESOURCE COUNTER STYLING
+   ============================================ */
+.resource-value {
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================
+   SCROLL BAR STYLING
+   ============================================ */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-blue));
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-purple));
+    box-shadow: var(--glow-cyan);
+}
+
+/* ============================================
+   SELECTION STYLING
+   ============================================ */
+::selection {
+    background: rgba(0, 243, 255, 0.3);
+    color: var(--color-text-primary);
+}
+
+::-moz-selection {
+    background: rgba(0, 243, 255, 0.3);
+    color: var(--color-text-primary);
+}
