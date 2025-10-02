@@ -80,12 +80,10 @@
 				<td>
 					<select name="events[]" size="{{ available_events|length }}" multiple>
 						{% for id, mission in available_events %}
+							{% set selected = '' %}
 							{% for selected_events in ally_events %}
 								{% if selected_events == id %}
-									{assign var=selected value=selected}
-									{break}
-								{% else %}
-									{assign var=selected value=''}
+									{% set selected = 'selected' %}
 								{% endif %}
 							{% endfor %}
 							<option value="{{ id }}" {{ selected }}>{{ mission }}</option>
