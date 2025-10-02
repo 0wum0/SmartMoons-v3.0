@@ -35,11 +35,7 @@ class Database_BC extends mysqli
 	 */
 	public function __construct()
 	{
-
-		// Initialize $databaseConfig to prevent undefined variable errors
-		$databaseConfig = [];
-		
-		// Determine config path
+		// Determine config path - always use absolute path
 		$configPath = defined('ROOT_PATH') 
 			? ROOT_PATH . 'includes/config.php'
 			: __DIR__ . '/../../includes/config.php';
@@ -49,46 +45,57 @@ class Database_BC extends mysqli
 			throw new Exception("Database configuration file not found: $configPath. Please copy includes/config.sample.php to includes/config.php and configure your database settings.");
 		}
     
-		// Load database configuration from config.php
+		// CRITICAL: Load database configuration from config.php
+		// This MUST be done before any validation to ensure $databaseConfig is available
 		require_once $configPath;
 
-		// Ensure $databaseConfig is an array
-		if (!is_array($databaseConfig) || empty($databaseConfig)) {
+		// Validate that $databaseConfig exists and is an array
+		if (!isset($databaseConfig) || !is_array($databaseConfig)) {
 			throw new Exception("Database configuration error: \$databaseConfig is not properly defined in includes/config.php. It must be an array with host, user, password, and dbname keys.");
 		}
 
-		// Validate required database credentials
+		// Validate required database configuration keys
+		$requiredKeys = ['host', 'user', 'password', 'dbname'];
+		foreach ($requiredKeys as $key) {
+			if (!array_key_exists($key, $databaseConfig)) {
+				throw new Exception("Missing DB config key: '$key' is not defined in \$databaseConfig. Please check includes/config.php");
+			}
+		}
+
+		// Validate that required values are not empty (except password which can be empty)
 		if (empty($databaseConfig['host'])) {
-			throw new Exception("Database configuration error: 'host' is missing or empty. Please check includes/config.php");
+			throw new Exception("Database configuration error: 'host' is empty. Please check includes/config.php");
 		}
 		if (empty($databaseConfig['user'])) {
-			throw new Exception("Database configuration error: 'user' is missing or empty. Please check includes/config.php");
-		}
-		if (!isset($databaseConfig['password'])) {
-			throw new Exception("Database configuration error: 'password' is missing. Please check includes/config.php");
+			throw new Exception("Database configuration error: 'user' is empty. Please check includes/config.php");
 		}
 		if (empty($databaseConfig['dbname'])) {
-			throw new Exception("Database configuration error: 'dbname' is missing or empty. Please check includes/config.php");
+			throw new Exception("Database configuration error: 'dbname' is empty. Please check includes/config.php");
 		}
 
-		// Password can be empty string but must exist in config
-		$password = $databaseConfig['password'];
-
 		// Set default port if not specified
-		if (!isset($databaseConfig['port'])) {
+		if (!isset($databaseConfig['port']) || empty($databaseConfig['port'])) {
 			$databaseConfig['port'] = 3306;
 		}
 
-		@parent::__construct($databaseConfig['host'], $databaseConfig['user'], $password, $databaseConfig['dbname'], $databaseConfig['port']);
+		// Establish database connection
+		@parent::__construct(
+			$databaseConfig['host'], 
+			$databaseConfig['user'], 
+			$databaseConfig['password'], 
+			$databaseConfig['dbname'], 
+			(int)$databaseConfig['port']
+		);
 
-		if(mysqli_connect_error())
-		{
-			throw new Exception("Connection to database failed: ".mysqli_connect_error());
+		// Check for connection errors
+		if (mysqli_connect_error()) {
+			throw new Exception("Connection to database failed: " . mysqli_connect_error());
 		}
 		
-		// Set charset to utf8mb4 for better Unicode support
+		// Set charset to utf8mb4 for full Unicode support (including emojis)
 		parent::set_charset("utf8mb4");
-		#parent::query("SET SESSION sql_mode = '';");
+		
+		// Set strict SQL mode for better data integrity
 		parent::query("SET SESSION sql_mode = 'STRICT_ALL_TABLES';");
 	}
 
