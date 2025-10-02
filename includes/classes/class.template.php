@@ -65,6 +65,12 @@ class template
 
 	private function addCustomFunctions(): void
 	{
+		// Register allowedTo function for Twig templates (for rights/permissions checking)
+		$this->twig->addFunction(new TwigFunction('allowedTo', function(string $right): bool {
+			global $USER;
+			return isset($USER['rights']) && is_array($USER['rights']) && in_array($right, $USER['rights']);
+		}));
+		
 		// Register isModuleAvailable function for Twig templates
 		$this->twig->addFunction(new TwigFunction('isModuleAvailable', function(int $moduleId): bool {
 			return isModuleAvailable($moduleId);
