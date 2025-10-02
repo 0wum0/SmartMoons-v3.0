@@ -522,7 +522,6 @@ switch ($mode) {
 				HTTP::redirectTo('index.php?mode=install&step=7');
 			}
 			catch (Exception $e) {
-				$databaseConfig = array();
 				require_once 'includes/config.php';
 					@unlink('includes/config.php');
 					$error = $e->getMessage();
