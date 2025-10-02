@@ -11,7 +11,7 @@
 	</tr>
 	{% for IP, Users in multiGroups %}
 	<tr>
-		<td rowspan="{{ Users|length) }}">{{ IP }}</td>
+		<td rowspan="{{ Users|length }}">{{ IP }}</td>
 		{% for ID, User in Users %}
 		<td class="left" style="padding:3px;">{{ ID }}</td>
 		<td class="left" style="padding:3px;"><a href="admin.php?page=accountdata&id_u={{ ID }}">{{ User.username }} (?)</a></td>
