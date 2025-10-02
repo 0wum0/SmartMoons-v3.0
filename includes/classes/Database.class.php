@@ -103,6 +103,9 @@ class Database
                     PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
                 ]
             );
+            
+            // Set SQL mode to STRICT_ALL_TABLES for better data integrity
+            $db->exec("SET SESSION sql_mode = 'STRICT_ALL_TABLES';");
         } catch (PDOException $e) {
             die("Database connection failed: " . $e->getMessage());
         }
