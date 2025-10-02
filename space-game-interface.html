@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>SmartMoons - Weltraum Browsergame</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="space-game-styles.css">
+</head>
+<body>
+    <!-- Animated Starfield Background -->
+    <div class="starfield">
+        <div class="stars"></div>
+        <div class="stars stars-medium"></div>
+        <div class="stars stars-large"></div>
+    </div>
+
+    <!-- Fixed Header - Only Resources -->
+    <header class="game-header">
+        <div class="resource-bar">
+            <div class="resource-item resource-metal">
+                <div class="resource-icon">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <div class="resource-info">
+                    <span class="resource-label">Metall</span>
+                    <div class="resource-value-container">
+                        <span class="resource-value" data-resource="metal">1.250.000</span>
+                        <span class="resource-max">/ 2.000.000</span>
+                    </div>
+                    <div class="resource-progress">
+                        <div class="resource-progress-bar" style="width: 62.5%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resource-item resource-crystal">
+                <div class="resource-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="resource-info">
+                    <span class="resource-label">Kristall</span>
+                    <div class="resource-value-container">
+                        <span class="resource-value" data-resource="crystal">450.000</span>
+                        <span class="resource-max">/ 1.000.000</span>
+                    </div>
+                    <div class="resource-progress">
+                        <div class="resource-progress-bar resource-progress-bar--crystal" style="width: 45%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resource-item resource-deuterium">
+                <div class="resource-icon">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="resource-info">
+                    <span class="resource-label">Deuterium</span>
+                    <div class="resource-value-container">
+                        <span class="resource-value" data-resource="deuterium">920.000</span>
+                        <span class="resource-max">/ 1.000.000</span>
+                    </div>
+                    <div class="resource-progress">
+                        <div class="resource-progress-bar resource-progress-bar--deuterium" style="width: 92%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resource-item resource-energy">
+                <div class="resource-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="resource-info">
+                    <span class="resource-label">Energie</span>
+                    <div class="resource-value-container">
+                        <span class="resource-value" data-resource="energy">15.000</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resource-item resource-darkmatter">
+                <div class="resource-icon">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <div class="resource-info">
+                    <span class="resource-label">Dunkle Materie</span>
+                    <div class="resource-value-container">
+                        <span class="resource-value" data-resource="darkmatter">2.500</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Left Hamburger Menu - Game Navigation -->
+    <button class="hamburger-menu hamburger-menu--left" id="gameMenuToggle" aria-label="Spielmenü">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <nav class="side-menu side-menu--left" id="gameMenu">
+        <div class="side-menu-header">
+            <h2><i class="fas fa-gamepad"></i> Spiel-Menü</h2>
+            <button class="side-menu-close" aria-label="Menü schließen">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="side-menu-content">
+            <a href="#overview" class="menu-item active" data-page="overview">
+                <i class="fas fa-home"></i>
+                <span>Übersicht</span>
+            </a>
+            <a href="#buildings" class="menu-item" data-page="buildings">
+                <i class="fas fa-city"></i>
+                <span>Gebäude</span>
+            </a>
+            <a href="#research" class="menu-item" data-page="research">
+                <i class="fas fa-flask"></i>
+                <span>Forschung</span>
+            </a>
+            <a href="#shipyard" class="menu-item" data-page="shipyard">
+                <i class="fas fa-rocket"></i>
+                <span>Schiffswerft</span>
+            </a>
+            <a href="#defense" class="menu-item" data-page="defense">
+                <i class="fas fa-shield-alt"></i>
+                <span>Verteidigung</span>
+            </a>
+            <a href="#fleet" class="menu-item" data-page="fleet">
+                <i class="fas fa-space-shuttle"></i>
+                <span>Flotten</span>
+            </a>
+            <a href="#galaxy" class="menu-item" data-page="galaxy">
+                <i class="fas fa-globe"></i>
+                <span>Galaxie</span>
+            </a>
+            <a href="#alliance" class="menu-item" data-page="alliance">
+                <i class="fas fa-users"></i>
+                <span>Allianz</span>
+            </a>
+            <a href="#empire" class="menu-item" data-page="empire">
+                <i class="fas fa-crown"></i>
+                <span>Imperium</span>
+            </a>
+            <a href="#officers" class="menu-item" data-page="officers">
+                <i class="fas fa-user-tie"></i>
+                <span>Offiziere</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Right Hamburger Menu - User Navigation -->
+    <button class="hamburger-menu hamburger-menu--right" id="userMenuToggle" aria-label="Benutzermenü">
+        <div class="user-avatar">
+            <i class="fas fa-user"></i>
+        </div>
+    </button>
+
+    <nav class="side-menu side-menu--right" id="userMenu">
+        <div class="side-menu-header">
+            <div class="user-profile">
+                <div class="user-profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-profile-info">
+                    <h3>Commander Alpha</h3>
+                    <p>Rang: Admiral</p>
+                </div>
+            </div>
+            <button class="side-menu-close" aria-label="Menü schließen">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="side-menu-content">
+            <a href="#profile" class="menu-item" data-page="profile">
+                <i class="fas fa-user-circle"></i>
+                <span>Profil</span>
+            </a>
+            <a href="#settings" class="menu-item" data-page="settings">
+                <i class="fas fa-cog"></i>
+                <span>Einstellungen</span>
+            </a>
+            <a href="#notes" class="menu-item" data-page="notes">
+                <i class="fas fa-sticky-note"></i>
+                <span>Notizen</span>
+            </a>
+            <a href="#messages" class="menu-item" data-page="messages">
+                <i class="fas fa-envelope"></i>
+                <span>Nachrichten</span>
+                <span class="badge badge--danger">5</span>
+            </a>
+            <a href="#chat" class="menu-item" data-page="chat">
+                <i class="fas fa-comments"></i>
+                <span>Chat</span>
+            </a>
+            <a href="#highscore" class="menu-item" data-page="highscore">
+                <i class="fas fa-trophy"></i>
+                <span>Highscore</span>
+            </a>
+            <a href="#admin" class="menu-item" data-page="admin">
+                <i class="fas fa-user-shield"></i>
+                <span>Admin</span>
+            </a>
+            <div class="menu-divider"></div>
+            <a href="#logout" class="menu-item menu-item--danger">
+                <i class="fas fa-power-off"></i>
+                <span>Ausloggen</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="game-content">
+        <div class="container">
+            <!-- Overview Page -->
+            <div class="page active" id="page-overview">
+                <div class="page-header">
+                    <h1><i class="fas fa-home"></i> Planeten-Übersicht</h1>
+                    <div class="planet-selector">
+                        <button class="btn btn--ghost btn--sm" id="prevPlanet">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <select class="planet-select" id="planetSelect">
+                            <option value="1">Heimatwelt [1:2:3]</option>
+                            <option value="2">Kolonie Alpha [1:2:8]</option>
+                            <option value="3">Kolonie Beta [2:5:6]</option>
+                        </select>
+                        <button class="btn btn--ghost btn--sm" id="nextPlanet">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid--2">
+                    <!-- Planet Card -->
+                    <div class="card card--planet">
+                        <div class="planet-visual">
+                            <div class="planet-sphere">
+                                <div class="planet-atmosphere"></div>
+                                <div class="planet-surface"></div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                <i class="fas fa-globe"></i> Planet "Heimatwelt"
+                            </h2>
+                            <div class="planet-stats">
+                                <div class="stat-row">
+                                    <span class="stat-label">Koordinaten:</span>
+                                    <span class="stat-value stat-value--cyan">[1:2:3]</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Durchmesser:</span>
+                                    <span class="stat-value">12.800 km</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Temperatur:</span>
+                                    <span class="stat-value">-15°C bis 45°C</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Felder:</span>
+                                    <span class="stat-value">150 / 250</span>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Production Rates -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-chart-line"></i> Produktion</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="production-list">
+                                <div class="production-item">
+                                    <div class="production-icon production-icon--metal">
+                                        <i class="fas fa-cube"></i>
+                                    </div>
+                                    <div class="production-info">
+                                        <span class="production-label">Metall</span>
+                                        <span class="production-value">+12.500 / Stunde</span>
+                                    </div>
+                                </div>
+                                <div class="production-item">
+                                    <div class="production-icon production-icon--crystal">
+                                        <i class="fas fa-gem"></i>
+                                    </div>
+                                    <div class="production-info">
+                                        <span class="production-label">Kristall</span>
+                                        <span class="production-value">+8.200 / Stunde</span>
+                                    </div>
+                                </div>
+                                <div class="production-item">
+                                    <div class="production-icon production-icon--deuterium">
+                                        <i class="fas fa-flask"></i>
+                                    </div>
+                                    <div class="production-info">
+                                        <span class="production-label">Deuterium</span>
+                                        <span class="production-value">+5.100 / Stunde</span>
+                                    </div>
+                                </div>
+                                <div class="production-item">
+                                    <div class="production-icon production-icon--energy">
+                                        <i class="fas fa-bolt"></i>
+                                    </div>
+                                    <div class="production-info">
+                                        <span class="production-label">Energie</span>
+                                        <span class="production-value">15.000 / 18.000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Build & Research Queue -->
+                <div class="grid grid--2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-tasks"></i> Bau-Warteschlange</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="queue-item queue-item--active">
+                                <div class="queue-icon">
+                                    <i class="fas fa-industry"></i>
+                                </div>
+                                <div class="queue-info">
+                                    <h4>Metallmine</h4>
+                                    <p>Stufe 11 → 12</p>
+                                </div>
+                                <div class="queue-timer">
+                                    <div class="timer" data-time="930">00:15:30</div>
+                                    <div class="queue-progress">
+                                        <div class="queue-progress-bar" style="width: 65%"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn--danger btn--sm" title="Abbrechen">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="queue-item queue-item--queued">
+                                <div class="queue-icon">
+                                    <i class="fas fa-gem"></i>
+                                </div>
+                                <div class="queue-info">
+                                    <h4>Kristallmine</h4>
+                                    <p>Stufe 9 → 10</p>
+                                </div>
+                                <div class="queue-timer">
+                                    <span class="badge badge--info">In Warteschlange</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-flask"></i> Forschung</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="queue-item queue-item--active queue-item--research">
+                                <div class="queue-icon">
+                                    <i class="fas fa-atom"></i>
+                                </div>
+                                <div class="queue-info">
+                                    <h4>Energietechnik</h4>
+                                    <p>Stufe 7 → 8</p>
+                                </div>
+                                <div class="queue-timer">
+                                    <div class="timer" data-time="5025">01:23:45</div>
+                                    <div class="queue-progress">
+                                        <div class="queue-progress-bar queue-progress-bar--research" style="width: 35%"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn--danger btn--sm" title="Abbrechen">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="grid grid--4">
+                    <div class="stat-card stat-card--buildings">
+                        <div class="stat-card-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <div class="stat-card-content">
+                            <h3>25</h3>
+                            <p>Gebäude</p>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card--research">
+                        <div class="stat-card-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div class="stat-card-content">
+                            <h3>18</h3>
+                            <p>Technologien</p>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card--fleet">
+                        <div class="stat-card-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="stat-card-content">
+                            <h3>1.250</h3>
+                            <p>Schiffe</p>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card--defense">
+                        <div class="stat-card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="stat-card-content">
+                            <h3>500</h3>
+                            <p>Verteidigung</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buildings Page -->
+            <div class="page" id="page-buildings">
+                <div class="page-header">
+                    <h1><i class="fas fa-city"></i> Gebäude</h1>
+                </div>
+
+                <div class="buildings-grid">
+                    <div class="building-card">
+                        <div class="building-image">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <div class="building-info">
+                            <h3>Metallmine</h3>
+                            <div class="building-level">
+                                <span class="badge badge--success">Stufe 11</span>
+                            </div>
+                            <p class="building-description">
+                                Produziert Metall für den Ausbau deines Imperiums.
+                            </p>
+                            <div class="building-stats">
+                                <div class="building-stat">
+                                    <i class="fas fa-cube"></i>
+                                    <span>Produktion: +1.200/h</span>
+                                </div>
+                                <div class="building-stat">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Energie: -80</span>
+                                </div>
+                            </div>
+                            <div class="building-costs">
+                                <div class="cost-item">
+                                    <i class="fas fa-cube"></i> 12.000
+                                </div>
+                                <div class="cost-item">
+                                    <i class="fas fa-gem"></i> 6.000
+                                </div>
+                            </div>
+                            <div class="building-time">
+                                <i class="fas fa-clock"></i> Bauzeit: 00:18:30
+                            </div>
+                            <div class="building-actions">
+                                <button class="btn btn--primary btn--block" disabled>
+                                    <i class="fas fa-cog"></i> Im Bau
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="building-card">
+                        <div class="building-image">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="building-info">
+                            <h3>Kristallmine</h3>
+                            <div class="building-level">
+                                <span class="badge badge--info">Stufe 9</span>
+                            </div>
+                            <p class="building-description">
+                                Fördert Kristall für fortschrittliche Technologien.
+                            </p>
+                            <div class="building-stats">
+                                <div class="building-stat">
+                                    <i class="fas fa-gem"></i>
+                                    <span>Produktion: +850/h</span>
+                                </div>
+                                <div class="building-stat">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Energie: -60</span>
+                                </div>
+                            </div>
+                            <div class="building-costs">
+                                <div class="cost-item">
+                                    <i class="fas fa-cube"></i> 8.000
+                                </div>
+                                <div class="cost-item">
+                                    <i class="fas fa-gem"></i> 4.000
+                                </div>
+                            </div>
+                            <div class="building-time">
+                                <i class="fas fa-clock"></i> Bauzeit: 00:12:15
+                            </div>
+                            <div class="building-actions">
+                                <button class="btn btn--primary btn--block">
+                                    <i class="fas fa-hammer"></i> Ausbauen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="building-card">
+                        <div class="building-image">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div class="building-info">
+                            <h3>Deuterium-Synthesizer</h3>
+                            <div class="building-level">
+                                <span class="badge badge--info">Stufe 7</span>
+                            </div>
+                            <p class="building-description">
+                                Extrahiert Deuterium aus den Ozeanen.
+                            </p>
+                            <div class="building-stats">
+                                <div class="building-stat">
+                                    <i class="fas fa-flask"></i>
+                                    <span>Produktion: +520/h</span>
+                                </div>
+                                <div class="building-stat">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Energie: -100</span>
+                                </div>
+                            </div>
+                            <div class="building-costs">
+                                <div class="cost-item">
+                                    <i class="fas fa-cube"></i> 15.000
+                                </div>
+                                <div class="cost-item">
+                                    <i class="fas fa-gem"></i> 7.500
+                                </div>
+                            </div>
+                            <div class="building-time">
+                                <i class="fas fa-clock"></i> Bauzeit: 00:22:45
+                            </div>
+                            <div class="building-actions">
+                                <button class="btn btn--primary btn--block">
+                                    <i class="fas fa-hammer"></i> Ausbauen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="building-card">
+                        <div class="building-image">
+                            <i class="fas fa-solar-panel"></i>
+                        </div>
+                        <div class="building-info">
+                            <h3>Solarkraftwerk</h3>
+                            <div class="building-level">
+                                <span class="badge badge--warning">Stufe 15</span>
+                            </div>
+                            <p class="building-description">
+                                Erzeugt Energie durch Solarpanele.
+                            </p>
+                            <div class="building-stats">
+                                <div class="building-stat">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Produktion: +3.200 Energie</span>
+                                </div>
+                            </div>
+                            <div class="building-costs">
+                                <div class="cost-item">
+                                    <i class="fas fa-cube"></i> 20.000
+                                </div>
+                                <div class="cost-item">
+                                    <i class="fas fa-gem"></i> 10.000
+                                </div>
+                            </div>
+                            <div class="building-time">
+                                <i class="fas fa-clock"></i> Bauzeit: 00:28:00
+                            </div>
+                            <div class="building-actions">
+                                <button class="btn btn--primary btn--block">
+                                    <i class="fas fa-hammer"></i> Ausbauen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="building-card building-card--locked">
+                        <div class="building-image">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="building-info">
+                            <h3>Raumschiffwerft</h3>
+                            <div class="building-level">
+                                <span class="badge badge--danger">Nicht verfügbar</span>
+                            </div>
+                            <p class="building-description">
+                                Ermöglicht den Bau von Raumschiffen.
+                            </p>
+                            <div class="building-requirements">
+                                <p><i class="fas fa-exclamation-circle"></i> Anforderungen:</p>
+                                <ul>
+                                    <li>Roboterfabrik Stufe 2</li>
+                                </ul>
+                            </div>
+                            <div class="building-actions">
+                                <button class="btn btn--ghost btn--block" disabled>
+                                    <i class="fas fa-lock"></i> Gesperrt
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="building-card building-card--locked">
+                        <div class="building-image">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div class="building-info">
+                            <h3>Forschungslabor</h3>
+                            <div class="building-level">
+                                <span class="badge badge--danger">Nicht verfügbar</span>
+                            </div>
+                            <p class="building-description">
+                                Erforscht neue Technologien.
+                            </p>
+                            <div class="building-requirements">
+                                <p><i class="fas fa-exclamation-circle"></i> Anforderungen:</p>
+                                <ul>
+                                    <li>Metallmine Stufe 5</li>
+                                    <li>Kristallmine Stufe 3</li>
+                                </ul>
+                            </div>
+                            <div class="building-actions">
+                                <button class="btn btn--ghost btn--block" disabled>
+                                    <i class="fas fa-lock"></i> Gesperrt
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Research Page -->
+            <div class="page" id="page-research">
+                <div class="page-header">
+                    <h1><i class="fas fa-flask"></i> Forschung</h1>
+                </div>
+
+                <div class="research-grid">
+                    <div class="research-card">
+                        <div class="research-icon research-icon--energy">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="research-info">
+                            <h3>Energietechnik</h3>
+                            <div class="research-level">
+                                <span class="badge badge--cyan">Stufe 7</span>
+                            </div>
+                            <p>Verbessert die Energieeffizienz aller Gebäude.</p>
+                            <div class="research-costs">
+                                <div class="cost-item">
+                                    <i class="fas fa-cube"></i> 25.000
+                                </div>
+                                <div class="cost-item">
+                                    <i class="fas fa-gem"></i> 12.500
+                                </div>
+                            </div>
+                            <div class="research-time">
+                                <i class="fas fa-clock"></i> 01:45:00
+                            </div>
+                            <button class="btn btn--primary btn--block" disabled>
+                                <i class="fas fa-cog"></i> In Forschung
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="research-card">
+                        <div class="research-icon research-icon--laser">
+                            <i class="fas fa-burn"></i>
+                        </div>
+                        <div class="research-info">
+                            <h3>Lasertechnik</h3>
+                            <div class="research-level">
+                                <span class="badge badge--cyan">Stufe 5</span>
+                            </div>
+                            <p>Grundlage für Laser-Waffen und Verteidigung.</p>
+                            <div class="research-costs">
+                                <div class="cost-item">
+                                    <i class="fas fa-cube"></i> 18.000
+                                </div>
+                                <div class="cost-item">
+                                    <i class="fas fa-gem"></i> 9.000
+                                </div>
+                            </div>
+                            <div class="research-time">
+                                <i class="fas fa-clock"></i> 01:20:00
+                            </div>
+                            <button class="btn btn--primary btn--block">
+                                <i class="fas fa-flask"></i> Forschen
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="research-card">
+                        <div class="research-icon research-icon--computer">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="research-info">
+                            <h3>Computertechnik</h3>
+                            <div class="research-level">
+                                <span class="badge badge--cyan">Stufe 3</span>
+                            </div>
+                            <p>Erhöht die maximale Flottenanzahl.</p>
+                            <div class="research-costs">
+                                <div class="cost-item">
+                                    <i class="fas fa-cube"></i> 12.000
+                                </div>
+                                <div class="cost-item">
+                                    <i class="fas fa-gem"></i> 8.000
+                                </div>
+                            </div>
+                            <div class="research-time">
+                                <i class="fas fa-clock"></i> 00:55:00
+                            </div>
+                            <button class="btn btn--primary btn--block">
+                                <i class="fas fa-flask"></i> Forschen
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="research-card research-card--locked">
+                        <div class="research-icon research-icon--locked">
+                            <i class="fas fa-space-shuttle"></i>
+                        </div>
+                        <div class="research-info">
+                            <h3>Impulstriebwerk</h3>
+                            <div class="research-level">
+                                <span class="badge badge--danger">Gesperrt</span>
+                            </div>
+                            <p>Erhöht die Geschwindigkeit von Schiffen.</p>
+                            <div class="research-requirements">
+                                <p><i class="fas fa-exclamation-circle"></i> Anforderungen:</p>
+                                <ul>
+                                    <li>Energietechnik Stufe 8</li>
+                                </ul>
+                            </div>
+                            <button class="btn btn--ghost btn--block" disabled>
+                                <i class="fas fa-lock"></i> Gesperrt
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fleet Page -->
+            <div class="page" id="page-fleet">
+                <div class="page-header">
+                    <h1><i class="fas fa-space-shuttle"></i> Flottenübersicht</h1>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-satellite-dish"></i> Aktive Missionen</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="fleet-missions">
+                            <div class="fleet-mission fleet-mission--attack">
+                                <div class="fleet-mission-header">
+                                    <div class="fleet-mission-icon">
+                                        <i class="fas fa-crosshairs"></i>
+                                    </div>
+                                    <div class="fleet-mission-info">
+                                        <h4>Angriff</h4>
+                                        <p>Von [1:2:3] nach [2:5:8]</p>
+                                    </div>
+                                    <div class="fleet-mission-timer">
+                                        <div class="timer" data-time="1830">00:30:30</div>
+                                    </div>
+                                </div>
+                                <div class="fleet-mission-details">
+                                    <div class="fleet-composition">
+                                        <div class="fleet-ship">
+                                            <i class="fas fa-fighter-jet"></i> 100 Leichte Jäger
+                                        </div>
+                                        <div class="fleet-ship">
+                                            <i class="fas fa-rocket"></i> 50 Kreuzer
+                                        </div>
+                                        <div class="fleet-ship">
+                                            <i class="fas fa-space-shuttle"></i> 25 Schlachtschiffe
+                                        </div>
+                                    </div>
+                                    <div class="fleet-mission-actions">
+                                        <button class="btn btn--danger btn--sm">
+                                            <i class="fas fa-undo"></i> Zurückrufen
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="fleet-mission fleet-mission--transport">
+                                <div class="fleet-mission-header">
+                                    <div class="fleet-mission-icon">
+                                        <i class="fas fa-truck"></i>
+                                    </div>
+                                    <div class="fleet-mission-info">
+                                        <h4>Transport</h4>
+                                        <p>Von [1:2:3] nach [1:2:8]</p>
+                                    </div>
+                                    <div class="fleet-mission-timer">
+                                        <div class="timer" data-time="425">00:07:05</div>
+                                    </div>
+                                </div>
+                                <div class="fleet-mission-details">
+                                    <div class="fleet-composition">
+                                        <div class="fleet-ship">
+                                            <i class="fas fa-shipping-fast"></i> 50 Große Transporter
+                                        </div>
+                                    </div>
+                                    <div class="fleet-cargo">
+                                        <div class="cargo-item">
+                                            <i class="fas fa-cube"></i> 500.000 Metall
+                                        </div>
+                                        <div class="cargo-item">
+                                            <i class="fas fa-gem"></i> 250.000 Kristall
+                                        </div>
+                                    </div>
+                                    <div class="fleet-mission-actions">
+                                        <button class="btn btn--danger btn--sm">
+                                            <i class="fas fa-undo"></i> Zurückrufen
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid--2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-rocket"></i> Verfügbare Schiffe</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="ship-list">
+                                <div class="ship-item">
+                                    <div class="ship-icon">
+                                        <i class="fas fa-fighter-jet"></i>
+                                    </div>
+                                    <div class="ship-info">
+                                        <h4>Leichter Jäger</h4>
+                                        <span class="ship-count">420 verfügbar</span>
+                                    </div>
+                                </div>
+                                <div class="ship-item">
+                                    <div class="ship-icon">
+                                        <i class="fas fa-rocket"></i>
+                                    </div>
+                                    <div class="ship-info">
+                                        <h4>Kreuzer</h4>
+                                        <span class="ship-count">85 verfügbar</span>
+                                    </div>
+                                </div>
+                                <div class="ship-item">
+                                    <div class="ship-icon">
+                                        <i class="fas fa-space-shuttle"></i>
+                                    </div>
+                                    <div class="ship-info">
+                                        <h4>Schlachtschiff</h4>
+                                        <span class="ship-count">35 verfügbar</span>
+                                    </div>
+                                </div>
+                                <div class="ship-item">
+                                    <div class="ship-icon">
+                                        <i class="fas fa-shipping-fast"></i>
+                                    </div>
+                                    <div class="ship-info">
+                                        <h4>Großer Transporter</h4>
+                                        <span class="ship-count">120 verfügbar</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-paper-plane"></i> Neue Mission senden</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="fleet-send-form">
+                                <div class="form-group">
+                                    <label>Zielkoordinaten</label>
+                                    <input type="text" class="form-input" placeholder="1:2:3" value="2:5:8">
+                                </div>
+                                <div class="form-group">
+                                    <label>Missionstyp</label>
+                                    <select class="form-select">
+                                        <option>Angriff</option>
+                                        <option>Transport</option>
+                                        <option>Stationierung</option>
+                                        <option>Spionage</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Geschwindigkeit</label>
+                                    <input type="range" class="form-range" min="10" max="100" value="100">
+                                    <span class="range-value">100%</span>
+                                </div>
+                                <button type="submit" class="btn btn--primary btn--block">
+                                    <i class="fas fa-rocket"></i> Flotte senden
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placeholder pages for other sections -->
+            <div class="page" id="page-shipyard">
+                <div class="page-header">
+                    <h1><i class="fas fa-rocket"></i> Schiffswerft</h1>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center text-muted">Schiffswerft-Interface wird hier angezeigt...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page-defense">
+                <div class="page-header">
+                    <h1><i class="fas fa-shield-alt"></i> Verteidigung</h1>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center text-muted">Verteidigungsanlagen-Interface wird hier angezeigt...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page-galaxy">
+                <div class="page-header">
+                    <h1><i class="fas fa-globe"></i> Galaxie</h1>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center text-muted">Galaxie-Ansicht wird hier angezeigt...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page-alliance">
+                <div class="page-header">
+                    <h1><i class="fas fa-users"></i> Allianz</h1>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center text-muted">Allianz-Interface wird hier angezeigt...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page-empire">
+                <div class="page-header">
+                    <h1><i class="fas fa-crown"></i> Imperium</h1>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center text-muted">Imperium-Übersicht wird hier angezeigt...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page-officers">
+                <div class="page-header">
+                    <h1><i class="fas fa-user-tie"></i> Offiziere</h1>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center text-muted">Offiziere-Interface wird hier angezeigt...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User menu pages -->
+            <div class="page" id="page-profile">
+                <div class="page-header">
+                    <h1><i class="fas fa-user-circle"></i> Profil</h1>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center text-muted">Profil-Interface wird hier angezeigt...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page-settings">
+                <div class="page-header">
+                    <h1><i class="fas fa-cog"></i> Einstellungen</h1>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center text-muted">Einstellungen-Interface wird hier angezeigt...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page-messages">
+                <div class="page-header">
+                    <h1><i class="fas fa-envelope"></i> Nachrichten</h1>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center text-muted">Nachrichten-Interface wird hier angezeigt...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page-highscore">
+                <div class="page-header">
+                    <h1><i class="fas fa-trophy"></i> Highscore</h1>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center text-muted">Highscore-Tabelle wird hier angezeigt...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <script src="space-game-script.js"></script>
+</body>
+</html>
