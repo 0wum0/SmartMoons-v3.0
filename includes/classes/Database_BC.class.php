@@ -155,7 +155,14 @@ class Database_BC extends mysqli
 
     public function sql_escape($string, $flag = false)
     {
-        return ($flag === false) ? parent::escape_string($string) : addcslashes(parent::escape_string($string), '%_');
+        // Ab PHP 8.3 darf nur ein String übergeben werden -> sicherstellen
+        if (!is_string($string)) {
+            $string = (string) $string;
+        }
+
+        return ($flag === false) 
+            ? parent::escape_string($string) 
+            : addcslashes(parent::escape_string($string), '%_');
     }
 
     public function str_correction($str)
