@@ -124,6 +124,15 @@ SmartMoons-v3.0/
 
 ## 📖 Changelog
 
+### **v3.3.4** _(2025-10-02)_
+**🐛 Bugfix: Admin Panel Database Connection**
+- ✅ Fixed Database_BC connection issue - Admin panel now loads correctly
+- ✅ Updated `Database_BC.class.php` to properly include `includes/config.php`
+- ✅ Added proper path resolution using ROOT_PATH or __DIR__
+- ✅ Changed charset from utf8 to utf8mb4 for better Unicode support
+- ✅ Fixed "Access denied for user ''@'localhost'" error
+- 📝 Changed by: **0wum0**
+
 ### **v3.3.3** _(2025-10-01)_
 **🐛 Bugfixes**
 - ✅ Fixed invalid Twig bracket syntax in multiple templates

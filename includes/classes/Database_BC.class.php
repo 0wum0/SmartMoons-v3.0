@@ -36,11 +36,19 @@ class Database_BC extends mysqli
 	public function __construct()
 	{
 		$databaseConfig = array();
-		require_once 'includes/config.php';
+		
+		// Load database configuration from config.php
+		// Use ROOT_PATH if defined, otherwise construct path relative to this file
+		if (defined('ROOT_PATH')) {
+			require_once ROOT_PATH . 'includes/config.php';
+		} else {
+			require_once __DIR__ . '/../../includes/config.php';
+		}
 
-        if (!isset($databaseConfig['port'])) {
-            $databaseConfig['port'] = 3306;
-        }
+		// Set default port if not specified
+		if (!isset($databaseConfig['port'])) {
+			$databaseConfig['port'] = 3306;
+		}
 
 		@parent::__construct($databaseConfig['host'], $databaseConfig['user'], $databaseConfig['password'], $databaseConfig['dbname'], $databaseConfig['port']);
 
@@ -48,7 +56,9 @@ class Database_BC extends mysqli
 		{
 			throw new Exception("Connection to database failed: ".mysqli_connect_error());
 		}
-		parent::set_charset("utf8");
+		
+		// Set charset to utf8mb4 for better Unicode support
+		parent::set_charset("utf8mb4");
 		#parent::query("SET SESSION sql_mode = '';");
 		parent::query("SET SESSION sql_mode = 'STRICT_ALL_TABLES';");
 	}
