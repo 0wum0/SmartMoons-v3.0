@@ -172,22 +172,56 @@ class template
 		$this->script[] = $script;
 	}
 	
+	/**
+	 * Resolves a timezone value to a valid timezone string for DateTimeZone.
+	 * Handles invalid values (numeric, empty, invalid) by falling back to UTC.
+	 * 
+	 * @param mixed $userTz The user timezone value to resolve
+	 * @param mixed $configTz The config timezone value as fallback
+	 * @return string A valid timezone string
+	 */
+	private function resolveTimezoneString($userTz, $configTz = 'UTC'): string
+	{
+		// Priority: userTz -> configTz -> 'UTC'
+		$tz = $userTz ?? $configTz ?? 'UTC';
+		
+		// Reject numeric, empty, or non-string values
+		if (!is_string($tz) || $tz === '' || is_numeric($tz)) {
+			return 'UTC';
+		}
+		
+		// Clean and validate
+		$tz = trim($tz);
+		
+		// Try to validate by attempting to create DateTimeZone
+		try {
+			new DateTimeZone($tz);
+			return $tz;
+		} catch (Throwable $e) {
+			return 'UTC';
+		}
+	}
+	
 	private function adm_main(): void
 	{
 		global $LNG, $USER;
 		
+		$config	= Config::get();
+		
 		$dateTimeServer = new DateTime("now");
-		if(isset($USER['timezone'])) {
-			try {
-				$dateTimeUser = new DateTime("now", new DateTimeZone($USER['timezone']));
-			} catch (Exception $e) {
-				$dateTimeUser = $dateTimeServer;
-			}
-		} else {
+		
+		// Resolve timezone with robust handling for PHP 8.3+
+		$timezoneString = $this->resolveTimezoneString(
+			$USER['timezone'] ?? null,
+			$config->timezone ?? 'UTC'
+		);
+		
+		try {
+			$dateTimeUser = new DateTime("now", new DateTimeZone($timezoneString));
+		} catch (Throwable $e) {
+			// Ultimate fallback: use server time if timezone creation still fails
 			$dateTimeUser = $dateTimeServer;
 		}
-
-		$config	= Config::get();
 
 		$this->assign_vars(array(
 			'scripts'			=> $this->script,

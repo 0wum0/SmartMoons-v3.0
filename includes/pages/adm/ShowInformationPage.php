@@ -18,6 +18,38 @@ declare(strict_types=1);
 
 if (!allowedTo(str_replace(array(dirname(__FILE__), '\\', '/', '.php'), '', __FILE__))) throw new Exception("Permission error!");
 
+/**
+ * Resolves a timezone value to a valid timezone string for DateTimeZone.
+ * Handles invalid values (numeric, empty, invalid) by falling back to UTC.
+ * 
+ * @param mixed $tz The timezone value to resolve
+ * @param string $fallback The fallback timezone string
+ * @return string A valid timezone string
+ */
+function resolveTimezoneString($tz, string $fallback = 'UTC'): string
+{
+	// Use fallback if null
+	if ($tz === null) {
+		$tz = $fallback;
+	}
+	
+	// Reject numeric, empty, or non-string values
+	if (!is_string($tz) || $tz === '' || is_numeric($tz)) {
+		return $fallback;
+	}
+	
+	// Clean and validate
+	$tz = trim($tz);
+	
+	// Try to validate by attempting to create DateTimeZone
+	try {
+		new DateTimeZone($tz);
+		return $tz;
+	} catch (Throwable $e) {
+		return $fallback;
+	}
+}
+
 function ShowInformationPage()
 {
 	global $LNG, $USER;
@@ -30,21 +62,26 @@ function ShowInformationPage()
 	else
 		$Lines	= 0;
 	
+	// Resolve timezones with robust handling for PHP 8.3+
+	$serverTimezone = resolveTimezoneString($config->timezone ?? null, date_default_timezone_get());
+	$userTimezone = resolveTimezoneString($USER['timezone'] ?? null, date_default_timezone_get());
+	$phpTimezone = resolveTimezoneString(ini_get('date.timezone'), date_default_timezone_get());
+	
 	try {
-		$dateTimeZoneServer = new DateTimeZone($config->timezone);
-	} catch (Exception $e) {
+		$dateTimeZoneServer = new DateTimeZone($serverTimezone);
+	} catch (Throwable $e) {
 		$dateTimeZoneServer	= new DateTimeZone(date_default_timezone_get());
 	}
 	
 	try {
-		$dateTimeZoneUser	= new DateTimeZone($USER['timezone']);
-	} catch (Exception $e) {
+		$dateTimeZoneUser	= new DateTimeZone($userTimezone);
+	} catch (Throwable $e) {
 		$dateTimeZoneUser	= new DateTimeZone(date_default_timezone_get());
 	}
 	
 	try {
-		$dateTimeZonePHP	= new DateTimeZone(ini_get('date.timezone'));
-	} catch (Exception $e) {
+		$dateTimeZonePHP	= new DateTimeZone($phpTimezone);
+	} catch (Throwable $e) {
 		$dateTimeZonePHP	= new DateTimeZone(date_default_timezone_get());
 	}
 	
