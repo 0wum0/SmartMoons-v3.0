@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OGame - Space Strategy</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Animierter Sternenhintergrund -->
+    <div class="stars-background">
+        <div class="stars-layer-1"></div>
+        <div class="stars-layer-2"></div>
+        <div class="stars-layer-3"></div>
+    </div>
+
+    <!-- Fixed Header mit Ressourcen -->
+    <header class="fixed-header">
+        <!-- Hamburger Menu Links -->
+        <button class="hamburger-btn left" id="leftMenuToggle" aria-label="Spielmenü">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Ressourcenleiste -->
+        <div class="resources-bar">
+            <div class="resource-item">
+                <img src="stiles/metal.png" alt="Metall" class="resource-icon">
+                <div class="resource-info">
+                    <span class="resource-name">Metall</span>
+                    <span class="resource-amount" id="metalAmount">125.340</span>
+                </div>
+            </div>
+            <div class="resource-item">
+                <img src="stiles/crystal.png" alt="Kristall" class="resource-icon">
+                <div class="resource-info">
+                    <span class="resource-name">Kristall</span>
+                    <span class="resource-amount" id="crystalAmount">82.567</span>
+                </div>
+            </div>
+            <div class="resource-item">
+                <img src="stiles/deuterium.png" alt="Deuterium" class="resource-icon">
+                <div class="resource-info">
+                    <span class="resource-name">Deuterium</span>
+                    <span class="resource-amount" id="deuteriumAmount">45.234</span>
+                </div>
+            </div>
+            <div class="resource-item energy">
+                <img src="stiles/energy.png" alt="Energie" class="resource-icon">
+                <div class="resource-info">
+                    <span class="resource-name">Energie</span>
+                    <span class="resource-amount" id="energyAmount">2.450/3.200</span>
+                </div>
+            </div>
+            <div class="resource-item dark-matter">
+                <img src="stiles/darkmatter.png" alt="Dunkle Materie" class="resource-icon">
+                <div class="resource-info">
+                    <span class="resource-name">DM</span>
+                    <span class="resource-amount" id="dmAmount">1.250</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hamburger Menu Rechts -->
+        <button class="hamburger-btn right" id="rightMenuToggle" aria-label="Benutzermenü">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Linke Sidebar - Spielnavigation -->
+    <nav class="sidebar left-sidebar" id="leftSidebar">
+        <div class="sidebar-header">
+            <h2>Navigation</h2>
+            <button class="close-btn" id="closeLeftSidebar">&times;</button>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active">
+                <a href="?page=overview" class="nav-link">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Übersicht</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=buildings" class="nav-link">
+                    <span class="nav-icon">🏗️</span>
+                    <span class="nav-text">Gebäude</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=research" class="nav-link">
+                    <span class="nav-icon">🔬</span>
+                    <span class="nav-text">Forschung</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=shipyard" class="nav-link">
+                    <span class="nav-icon">🚀</span>
+                    <span class="nav-text">Schiffswerft</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=defense" class="nav-link">
+                    <span class="nav-icon">🛡️</span>
+                    <span class="nav-text">Verteidigung</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=fleet" class="nav-link">
+                    <span class="nav-icon">✈️</span>
+                    <span class="nav-text">Flotte</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=galaxy" class="nav-link">
+                    <span class="nav-icon">🌌</span>
+                    <span class="nav-text">Galaxie</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=alliance" class="nav-link">
+                    <span class="nav-icon">🤝</span>
+                    <span class="nav-text">Allianz</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=officers" class="nav-link">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Offiziere</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=merchant" class="nav-link">
+                    <span class="nav-icon">💰</span>
+                    <span class="nav-text">Händler</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Rechte Sidebar - Meta-Navigation -->
+    <nav class="sidebar right-sidebar" id="rightSidebar">
+        <div class="sidebar-header">
+            <h2>Benutzerkonto</h2>
+            <button class="close-btn" id="closeRightSidebar">&times;</button>
+        </div>
+        <div class="user-profile">
+            <div class="user-avatar">
+                <img src="stiles/avatar.png" alt="Avatar" class="avatar-img">
+            </div>
+            <div class="user-info">
+                <h3 class="username">Commander</h3>
+                <p class="user-rank">Rang: #1337</p>
+                <p class="user-points">Punkte: 2.456.789</p>
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="?page=messages" class="nav-link">
+                    <span class="nav-icon">📧</span>
+                    <span class="nav-text">Nachrichten</span>
+                    <span class="badge">3</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=buddy" class="nav-link">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">Freundesliste</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=chat" class="nav-link">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">Chat</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=settings" class="nav-link">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Einstellungen</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=premium" class="nav-link premium">
+                    <span class="nav-icon">💎</span>
+                    <span class="nav-text">Premium</span>
+                </a>
+            </li>
+            <li class="nav-item separator"></li>
+            <li class="nav-item">
+                <a href="?page=admin" class="nav-link admin">
+                    <span class="nav-icon">🔧</span>
+                    <span class="nav-text">Admin</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=logout" class="nav-link logout">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-text">Ausloggen</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Overlay für Sidebars -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Hauptinhaltsbereich -->
+    <main class="main-content" id="mainContent">
+        <!-- Overview Page -->
+        <div class="page-content" id="overviewPage">
+            <div class="page-header">
+                <h1 class="page-title">Planetenübersicht</h1>
+                <div class="planet-selector">
+                    <button class="planet-nav prev">◀</button>
+                    <span class="current-planet">Heimatplanet [2:147:4]</span>
+                    <button class="planet-nav next">▶</button>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <!-- Planeteninfo Card -->
+                <div class="card planet-info">
+                    <div class="card-header">
+                        <h2 class="card-title">Planetendaten</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="planet-visual">
+                            <img src="stiles/planet.png" alt="Planet" class="planet-image">
+                            <div class="planet-glow"></div>
+                        </div>
+                        <div class="planet-stats">
+                            <div class="stat-row">
+                                <span class="stat-label">Name:</span>
+                                <span class="stat-value">Heimatplanet</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Koordinaten:</span>
+                                <span class="stat-value">[2:147:4]</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Durchmesser:</span>
+                                <span class="stat-value">12.800 km (163/210)</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Temperatur:</span>
+                                <span class="stat-value">17°C bis 57°C</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Punkte:</span>
+                                <span class="stat-value">1.245.678</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bauqueue Card -->
+                <div class="card build-queue">
+                    <div class="card-header">
+                        <h2 class="card-title">Gebäude-Bauschleife</h2>
+                        <span class="queue-count">2/5</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="queue-item active">
+                            <div class="queue-icon">
+                                <img src="stiles/metalmine.png" alt="Metallmine">
+                            </div>
+                            <div class="queue-info">
+                                <h3>Metallmine</h3>
+                                <p>Stufe 24 → 25</p>
+                            </div>
+                            <div class="queue-timer">
+                                <span class="countdown" data-end="2024-01-15T14:30:00">02:45:30</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="queue-item">
+                            <div class="queue-icon">
+                                <img src="stiles/crystalmine.png" alt="Kristallmine">
+                            </div>
+                            <div class="queue-info">
+                                <h3>Kristallmine</h3>
+                                <p>Stufe 22 → 23</p>
+                            </div>
+                            <div class="queue-timer">
+                                <span class="time-estimate">04:12:45</span>
+                            </div>
+                        </div>
+                        <div class="queue-empty">
+                            <p>+ Weiteres Gebäude hinzufügen</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forschungsqueue Card -->
+                <div class="card research-queue">
+                    <div class="card-header">
+                        <h2 class="card-title">Forschung</h2>
+                        <span class="queue-status active">Aktiv</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="queue-item active">
+                            <div class="queue-icon">
+                                <img src="stiles/hyperspace.png" alt="Hyperraumtechnik">
+                            </div>
+                            <div class="queue-info">
+                                <h3>Hyperraumtechnik</h3>
+                                <p>Stufe 8 → 9</p>
+                            </div>
+                            <div class="queue-timer">
+                                <span class="countdown" data-end="2024-01-15T18:00:00">06:15:42</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 35%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flottenbewegungen Card -->
+                <div class="card fleet-movements">
+                    <div class="card-header">
+                        <h2 class="card-title">Flottenbewegungen</h2>
+                        <span class="fleet-count">3 Aktiv</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="fleet-item returning">
+                            <div class="fleet-mission">
+                                <span class="mission-icon">🔄</span>
+                                <span class="mission-type">Transport (R)</span>
+                            </div>
+                            <div class="fleet-details">
+                                <p class="fleet-route">[2:147:4] ← [2:148:7]</p>
+                                <p class="fleet-composition">5 Große Transporter</p>
+                            </div>
+                            <div class="fleet-timer">
+                                <span class="countdown" data-end="2024-01-15T13:45:00">01:30:15</span>
+                            </div>
+                        </div>
+                        <div class="fleet-item outgoing">
+                            <div class="fleet-mission">
+                                <span class="mission-icon">⚔️</span>
+                                <span class="mission-type">Angriff</span>
+                            </div>
+                            <div class="fleet-details">
+                                <p class="fleet-route">[2:147:4] → [2:150:12]</p>
+                                <p class="fleet-composition">100 Kreuzer, 50 Jäger</p>
+                            </div>
+                            <div class="fleet-timer">
+                                <span class="countdown" data-end="2024-01-15T15:00:00">02:45:00</span>
+                            </div>
+                        </div>
+                        <div class="fleet-item stationed">
+                            <div class="fleet-mission">
+                                <span class="mission-icon">🛡️</span>
+                                <span class="mission-type">Stationiert</span>
+                            </div>
+                            <div class="fleet-details">
+                                <p class="fleet-route">[2:145:6] (Allianz)</p>
+                                <p class="fleet-composition">200 Schlachtschiffe</p>
+                            </div>
+                            <div class="fleet-timer">
+                                <span class="time-label">Unbegrenzt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nachrichten Card -->
+                <div class="card recent-messages">
+                    <div class="card-header">
+                        <h2 class="card-title">Letzte Nachrichten</h2>
+                        <a href="?page=messages" class="see-all">Alle →</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="message-item unread">
+                            <div class="message-type spy">🕵️</div>
+                            <div class="message-content">
+                                <p class="message-title">Spionagebericht von [2:150:12]</p>
+                                <p class="message-preview">Rohstoffe: Metall: 245.000...</p>
+                            </div>
+                            <div class="message-time">vor 5 Min</div>
+                        </div>
+                        <div class="message-item">
+                            <div class="message-type combat">⚔️</div>
+                            <div class="message-content">
+                                <p class="message-title">Kampfbericht</p>
+                                <p class="message-preview">Angreifer hat gewonnen...</p>
+                            </div>
+                            <div class="message-time">vor 1 Std</div>
+                        </div>
+                        <div class="message-item">
+                            <div class="message-type alliance">🤝</div>
+                            <div class="message-content">
+                                <p class="message-title">Allianz-Rundmail</p>
+                                <p class="message-preview">Wichtige Ankündigung...</p>
+                            </div>
+                            <div class="message-time">vor 3 Std</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produktion Card -->
+                <div class="card production-overview">
+                    <div class="card-header">
+                        <h2 class="card-title">Produktion</h2>
+                        <span class="production-factor">100%</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="production-item">
+                            <img src="stiles/metal.png" alt="Metall" class="production-icon">
+                            <div class="production-info">
+                                <span class="production-name">Metall</span>
+                                <span class="production-rate">+2.456/h</span>
+                            </div>
+                        </div>
+                        <div class="production-item">
+                            <img src="stiles/crystal.png" alt="Kristall" class="production-icon">
+                            <div class="production-info">
+                                <span class="production-name">Kristall</span>
+                                <span class="production-rate">+1.234/h</span>
+                            </div>
+                        </div>
+                        <div class="production-item">
+                            <img src="stiles/deuterium.png" alt="Deuterium" class="production-icon">
+                            <div class="production-info">
+                                <span class="production-name">Deuterium</span>
+                                <span class="production-rate">+567/h</span>
+                            </div>
+                        </div>
+                        <div class="production-item">
+                            <img src="stiles/energy.png" alt="Energie" class="production-icon">
+                            <div class="production-info">
+                                <span class="production-name">Energie</span>
+                                <span class="production-rate energy-positive">+750</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buildings Page (Hidden by default) -->
+        <div class="page-content hidden" id="buildingsPage">
+            <div class="page-header">
+                <h1 class="page-title">Gebäude</h1>
+                <div class="view-toggle">
+                    <button class="view-btn active">Grid</button>
+                    <button class="view-btn">Liste</button>
+                </div>
+            </div>
+
+            <div class="buildings-grid">
+                <!-- Metallmine -->
+                <div class="building-card">
+                    <div class="building-image">
+                        <img src="stiles/metalmine.png" alt="Metallmine">
+                        <div class="building-level">24</div>
+                    </div>
+                    <div class="building-info">
+                        <h3 class="building-name">Metallmine</h3>
+                        <p class="building-desc">Hauptrohstofflieferant für den Bau tragender Strukturen.</p>
+                        <div class="building-production">
+                            <span class="production-label">Produktion:</span>
+                            <span class="production-value">+2.456/h</span>
+                        </div>
+                    </div>
+                    <div class="building-costs">
+                        <h4>Ausbau auf Stufe 25:</h4>
+                        <div class="cost-item">
+                            <img src="stiles/metal.png" alt="Metall">
+                            <span>75.420</span>
+                        </div>
+                        <div class="cost-item">
+                            <img src="stiles/crystal.png" alt="Kristall">
+                            <span>18.855</span>
+                        </div>
+                        <div class="cost-item">
+                            <img src="stiles/energy.png" alt="Energie">
+                            <span>-45</span>
+                        </div>
+                        <div class="build-time">
+                            <span class="time-icon">⏱️</span>
+                            <span>02:45:30</span>
+                        </div>
+                    </div>
+                    <div class="building-actions">
+                        <button class="btn btn-primary">Ausbauen</button>
+                        <button class="btn btn-secondary">Info</button>
+                    </div>
+                </div>
+
+                <!-- Kristallmine -->
+                <div class="building-card">
+                    <div class="building-image">
+                        <img src="stiles/crystalmine.png" alt="Kristallmine">
+                        <div class="building-level">22</div>
+                    </div>
+                    <div class="building-info">
+                        <h3 class="building-name">Kristallmine</h3>
+                        <p class="building-desc">Hauptlieferant des Rohstoffes Kristall.</p>
+                        <div class="building-production">
+                            <span class="production-label">Produktion:</span>
+                            <span class="production-value">+1.234/h</span>
+                        </div>
+                    </div>
+                    <div class="building-costs">
+                        <h4>Ausbau auf Stufe 23:</h4>
+                        <div class="cost-item">
+                            <img src="stiles/metal.png" alt="Metall">
+                            <span>45.678</span>
+                        </div>
+                        <div class="cost-item">
+                            <img src="stiles/crystal.png" alt="Kristall">
+                            <span>22.839</span>
+                        </div>
+                        <div class="cost-item">
+                            <img src="stiles/energy.png" alt="Energie">
+                            <span>-38</span>
+                        </div>
+                        <div class="build-time">
+                            <span class="time-icon">⏱️</span>
+                            <span>04:12:45</span>
+                        </div>
+                    </div>
+                    <div class="building-actions">
+                        <button class="btn btn-primary">Ausbauen</button>
+                        <button class="btn btn-secondary">Info</button>
+                    </div>
+                </div>
+
+                <!-- Deuterium-Synthetisierer -->
+                <div class="building-card">
+                    <div class="building-image">
+                        <img src="stiles/deuterium.png" alt="Deuterium-Synthetisierer">
+                        <div class="building-level">20</div>
+                    </div>
+                    <div class="building-info">
+                        <h3 class="building-name">Deuterium-Synthetisierer</h3>
+                        <p class="building-desc">Gewinnt Deuterium aus dem Wasser des Planeten.</p>
+                        <div class="building-production">
+                            <span class="production-label">Produktion:</span>
+                            <span class="production-value">+567/h</span>
+                        </div>
+                    </div>
+                    <div class="building-costs">
+                        <h4>Ausbau auf Stufe 21:</h4>
+                        <div class="cost-item">
+                            <img src="stiles/metal.png" alt="Metall">
+                            <span>34.567</span>
+                        </div>
+                        <div class="cost-item">
+                            <img src="stiles/crystal.png" alt="Kristall">
+                            <span>17.283</span>
+                        </div>
+                        <div class="cost-item">
+                            <img src="stiles/energy.png" alt="Energie">
+                            <span>-52</span>
+                        </div>
+                        <div class="build-time">
+                            <span class="time-icon">⏱️</span>
+                            <span>03:30:15</span>
+                        </div>
+                    </div>
+                    <div class="building-actions">
+                        <button class="btn btn-primary">Ausbauen</button>
+                        <button class="btn btn-secondary">Info</button>
+                    </div>
+                </div>
+
+                <!-- Solarkraftwerk -->
+                <div class="building-card">
+                    <div class="building-image">
+                        <img src="stiles/solar.png" alt="Solarkraftwerk">
+                        <div class="building-level">25</div>
+                    </div>
+                    <div class="building-info">
+                        <h3 class="building-name">Solarkraftwerk</h3>
+                        <p class="building-desc">Gewinnt Energie aus Sonneneinstrahlung.</p>
+                        <div class="building-production">
+                            <span class="production-label">Energie:</span>
+                            <span class="production-value energy-positive">+3.200</span>
+                        </div>
+                    </div>
+                    <div class="building-costs">
+                        <h4>Ausbau auf Stufe 26:</h4>
+                        <div class="cost-item">
+                            <img src="stiles/metal.png" alt="Metall">
+                            <span>89.234</span>
+                        </div>
+                        <div class="cost-item">
+                            <img src="stiles/crystal.png" alt="Kristall">
+                            <span>35.693</span>
+                        </div>
+                        <div class="build-time">
+                            <span class="time-icon">⏱️</span>
+                            <span>05:15:45</span>
+                        </div>
+                    </div>
+                    <div class="building-actions">
+                        <button class="btn btn-primary">Ausbauen</button>
+                        <button class="btn btn-secondary">Info</button>
+                    </div>
+                </div>
+
+                <!-- Weitere Gebäude-Platzhalter -->
+                <div class="building-card locked">
+                    <div class="building-image">
+                        <img src="stiles/robotics.png" alt="Roboterfabrik">
+                        <div class="building-level">10</div>
+                    </div>
+                    <div class="building-info">
+                        <h3 class="building-name">Roboterfabrik</h3>
+                        <p class="building-desc">Stellt Roboter zur Verfügung, die beim Bau helfen.</p>
+                    </div>
+                    <div class="building-actions">
+                        <button class="btn btn-primary">Ausbauen</button>
+                    </div>
+                </div>
+
+                <div class="building-card locked">
+                    <div class="building-image">
+                        <img src="stiles/shipyard.png" alt="Raumschiffwerft">
+                        <div class="building-level">12</div>
+                    </div>
+                    <div class="building-info">
+                        <h3 class="building-name">Raumschiffwerft</h3>
+                        <p class="building-desc">Hier werden Raumschiffe und Verteidigungsanlagen gebaut.</p>
+                    </div>
+                    <div class="building-actions">
+                        <button class="btn btn-primary">Ausbauen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
