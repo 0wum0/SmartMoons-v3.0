@@ -39,7 +39,9 @@ date_default_timezone_set(@date_default_timezone_get());
 
 ini_set('display_errors', '1');
 header('Content-Type: text/html; charset=UTF-8');
-define('TIMESTAMP',	time());
+if (!defined('TIMESTAMP')) {
+    define('TIMESTAMP', time());
+}
 	
 require_once 'includes/constants.php';
 
@@ -236,7 +238,9 @@ date_default_timezone_set(@date_default_timezone_get());
 
 ini_set('display_errors', '1');
 header('Content-Type: text/html; charset=UTF-8');
-define('TIMESTAMP',	time());
+if (!defined('TIMESTAMP')) {
+    define('TIMESTAMP', time());
+}
 	
 require_once 'includes/constants.php';
 
