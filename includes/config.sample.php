@@ -18,15 +18,17 @@ declare(strict_types=1);
  */
 
 //### Database access ###//
+// IMPORTANT: This must be a plain PHP array, NOT a return statement
+// The Database classes require all keys to be present
 
 $databaseConfig				= array();
-$databaseConfig['host']		= '%s';
-$databaseConfig['port']		= %s;
-$databaseConfig['user']		= '%s';
-$databaseConfig['password']	= '%s';
-$databaseConfig['dbname']	= '%s';
-$databaseConfig['prefix']	= '%s';
-$salt						= '%s'; // 22 digits from the alphabet "./0-9A-Za-z"
+$databaseConfig['host']		= '%s';        // Database host (e.g., 'localhost' or IP address)
+$databaseConfig['port']		= %s;          // Database port (default: 3306)
+$databaseConfig['user']		= '%s';        // Database username
+$databaseConfig['password']	= '%s';        // Database password (can be empty string '')
+$databaseConfig['dbname']	= '%s';        // Database name
+$databaseConfig['prefix']	= '%s';        // Table prefix (e.g., 'uni1_')
+$salt						= '%s';        // 22 digits from the alphabet "./0-9A-Za-z"
 
 //### Do not change beyond here ###//
 ?>
