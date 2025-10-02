@@ -132,11 +132,10 @@ function locale_date_format(string $format, int $time, $LNG = null): string
 
 function _date(string $format, ?int $time = null, ?string $toTimeZone = null, $LNG = null): string
 {
-	if(!isset($time))
-	{
-		$time	= TIMESTAMP;
-	}else{
-		$time 	= (int)floor($time); 
+	if ($time === false || $time === null) {
+		$time = TIMESTAMP;
+	} else {
+		$time = (int)floor($time);
 	}
 
 	if(isset($toTimeZone))
