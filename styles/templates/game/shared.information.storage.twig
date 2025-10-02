@@ -24,7 +24,7 @@
 				<tr>
 					<td><span{% if CurrentLevel == elementLevel %} style="color:#ff0000"{% endif %}>{{ elementLevel }}</span></td>
 					{% for resourceID, storage in productionData %}
-					{% set storageDiff = storage - $productionTable.storage[CurrentLevel][resourceID] %}
+					{% set storageDiff = storage - productionTable.storage[CurrentLevel][resourceID] %}
 					<td><span style="color:{% if storage > 0 %}lime{% elseif storage < 0 %}red{% else %}white{% endif %}">{{ storage|number_format }}</span></td>
 					<td><span style="color:{% if storageDiff > 0 %}lime{% elseif storageDiff < 0 %}red{% else %}white{% endif %}">{{ storageDiff|number_format }}</span></td>
 					{% endfor %}

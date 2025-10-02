@@ -38,14 +38,14 @@
 		<td>{{ LNG.mg_subject }}</td>
 	</tr>
 	{% for Message in MessageList %}
-	<tr id="message_{{ Message.id }}" class="title message_head{% if MessID != 999 && Message.unread == 1 %} mes_unread{% endif %}">
+	<tr id="message_{{ Message.id }}" class="title message_head{% if MessID != 999 and Message.unread == 1 %} mes_unread{% endif %}">
 		<td style="width:40px;" rowspan="2">
 		{% if MessID != 999 %}<input name="messageID[{{ Message.id }}]" value="1" type="checkbox">{% endif %}
 		</td>
 		<td>{{ Message.time }}</td>
 		<td>{{ Message.from }}</td>
 		<td>{{ Message.subject }}
-		{% if Message.type == 1 && MessID != 999 %}
+		{% if Message.type == 1 and MessID != 999 %}
 		<a href="#" onclick="return Dialog.PM({{ Message.sender }}, Message.CreateAnswer('{{ Message.subject }}'));" title="{{ LNG.mg_answer_to }} {{ strip_tags(Message.from) }}"><i class="far fa-envelope" title="Message privé" style="font-size: 15px;"></i></a>
 		{% endif %}
 		</td>

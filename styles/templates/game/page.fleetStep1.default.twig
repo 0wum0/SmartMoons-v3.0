@@ -84,7 +84,7 @@
 						</select>
 					</div>
 				</td>
-				{% if loop.last && (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) != 0 %}
+				{% if loop.last and (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) != 0 %}
 				{% set to = themeSettings.SHORTCUT_ROWS_ON_FLEET1 - (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) %}
 				{% for foo in range(1, to + 1) %}
 				<td class="shortcut-colum" style="width:{{ 100 / themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}%">&nbsp;</td>
@@ -129,7 +129,7 @@
 			<td>
 				<a href="javascript:setTarget({{ ColonyRow.galaxy }},{{ ColonyRow.system }},{{ ColonyRow.planet }},{{ ColonyRow.type }});updateVars();">{{ ColonyRow.name }}{% if ColonyRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ ColonyRow.galaxy }}:{{ ColonyRow.system }}:{{ ColonyRow.planet }}]</a>
 			</td>
-			{% if loop.last && (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) != 0 %}
+			{% if loop.last and (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) != 0 %}
 			{% set to = themeSettings.COLONY_ROWS_ON_FLEET1 - (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) %}
 			{% for foo in range(1, to + 1) %}<td>&nbsp;</td>{% endfor %}
 			{% endif %}
@@ -150,7 +150,7 @@
 			<tr style="height:20px;">
 				<td><a href="javascript:setACSTarget({{ ACSRow.galaxy }},{{ ACSRow.system }},{{ ACSRow.planet }},{{ ACSRow.planet_type }},{{ ACSRow.id }});">{{ ACSRow.name }} - [{{ ACSRow.galaxy }}:{{ ACSRow.system }}:{{ ACSRow.planet }}]</a></td>
 			</tr>
-			{% if loop.last && (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) != 0 %}
+			{% if loop.last and (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) != 0 %}
 			{% set to = themeSettings.ACS_ROWS_ON_FLEET1 - (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) %}
 			{% for foo in range(1, to + 1) %}<td>&nbsp;</td>{% endfor %}
 			{% endif %}

@@ -10,7 +10,7 @@
 	<td colspan="2">{{ fb_curl_info }}</td>
 </tr><tr>
 	<td>{{ fb_active }}</td>
-	<td><input name="fb_on"{% if fb_on == 1 && fb_curl == 1 %} checked="checked"{% endif %} type="checkbox"{% if fb_curl == 0 %} disabled{% endif %}></td>
+	<td><input name="fb_on"{% if fb_on == 1 and fb_curl == 1 %} checked="checked"{% endif %} type="checkbox"{% if fb_curl == 0 %} disabled{% endif %}></td>
 </tr><tr>
 	<td>{{ fb_api_key }}</td>
 	<td><input name="fb_apikey" size="40" value="{{ fb_apikey }}" type="text"{% if fb_curl == 0 %} disabled{% endif %}></td>

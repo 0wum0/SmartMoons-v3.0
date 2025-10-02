@@ -22,7 +22,7 @@
 				<tr>
 					<td><span{% if CurrentLevel == elementLevel %} style="color:#ff0000"{% endif %}>{{ elementLevel }}</span></td>
 					{% for resourceID, production in productionData %}
-					{% set productionDiff = production - $productionTable.production[CurrentLevel][resourceID] %}
+					{% set productionDiff = production - productionTable.production[CurrentLevel][resourceID] %}
 					<td><span style="color:{% if production > 0 %}lime{% elseif production < 0 %}red{% else %}white{% endif %}">{{ production|number_format }}</span></td>
 					<td><span style="color:{% if productionDiff > 0 %}lime{% elseif productionDiff < 0 %}red{% else %}white{% endif %}">{{ productionDiff|number_format }}</span></td>
 					{% endfor %}
