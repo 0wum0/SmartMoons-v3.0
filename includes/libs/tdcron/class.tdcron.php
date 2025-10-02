@@ -172,12 +172,12 @@ declare(strict_types=1);
 					$rtime[IDX_HOUR]	= reset($cron[IDX_HOUR]);
 					$rtime[IDX_MINUTE]	= reset($cron[IDX_MINUTE]);
 
-					// Now all we have to do is add/subtract a day to get a new reference time
-					// to use later to find the right date. The following line probably looks
-					// a little odd but thats the easiest way of adding/substracting a day without
-					// screwing up the date. Just trust me on that one ;-)
+				// Now all we have to do is add/subtract a day to get a new reference time
+				// to use later to find the right date. The following line probably looks
+				// a little odd but thats the easiest way of adding/substracting a day without
+				// screwing up the date. Just trust me on that one ;-)
 
-					$rtime			= explode(',', date('i,H,d,m,w,Y', mktime($rtime[IDX_HOUR], $rtime[IDX_MINUTE], 0, $rtime[IDX_MONTH], $rtime[IDX_DAY], $rtime[IDX_YEAR]) + ((($next) ? 1 : -1) * 86400)));
+				$rtime			= explode(',', date('i,H,d,m,w,Y', mktime((int)$rtime[IDX_HOUR], (int)$rtime[IDX_MINUTE], 0, (int)$rtime[IDX_MONTH], (int)$rtime[IDX_DAY], (int)$rtime[IDX_YEAR]) + ((($next) ? 1 : -1) * 86400)));
 
 				} else {
 
@@ -203,10 +203,10 @@ declare(strict_types=1);
 							%d day     01-31 (d)
 							%m month   01-12 (m)
 							%w week    0 - 6 (w)
-							%Y Year  0000-9999 (Y)
-							
-							*/
-							$rtime		= explode(',', date('i,H,d,m,w,Y', mktime($nhour, $nminute, 0, $rtime[IDX_MONTH], $rtime[IDX_DAY], $rtime[IDX_YEAR]) + ((($next) ? 1 : -1) * 86400)));
+						%Y Year  0000-9999 (Y)
+						
+						*/
+						$rtime		= explode(',', date('i,H,d,m,w,Y', mktime((int)$nhour, (int)$nminute, 0, (int)$rtime[IDX_MONTH], (int)$rtime[IDX_DAY], (int)$rtime[IDX_YEAR]) + ((($next) ? 1 : -1) * 86400)));
 
 						} else {
 
@@ -244,17 +244,17 @@ declare(strict_types=1);
 
 			if ($calc_date) {
 
-				if (in_array($rtime[IDX_DAY], $cron[IDX_DAY]) &&
-				    in_array($rtime[IDX_MONTH], $cron[IDX_MONTH]) &&
-				    in_array($rtime[IDX_WEEKDAY], $cron[IDX_WEEKDAY])) {
+			if (in_array($rtime[IDX_DAY], $cron[IDX_DAY]) &&
+			    in_array($rtime[IDX_MONTH], $cron[IDX_MONTH]) &&
+			    in_array($rtime[IDX_WEEKDAY], $cron[IDX_WEEKDAY])) {
 
-					return mktime($rtime[1], $rtime[0], 0, $rtime[3], $rtime[2], $rtime[5]);
+				return mktime((int)$rtime[1], (int)$rtime[0], 0, (int)$rtime[3], (int)$rtime[2], (int)$rtime[5]);
 
 				} else {
 
-					// OK, some searching necessary...
+				// OK, some searching necessary...
 
-					$cdate	= mktime(0, 0, 0, $rtime[IDX_MONTH], $rtime[IDX_DAY], $rtime[IDX_YEAR]);
+				$cdate	= mktime(0, 0, 0, (int)$rtime[IDX_MONTH], (int)$rtime[IDX_DAY], (int)$rtime[IDX_YEAR]);
 
 					// OK, these three nested loops are responsible for finding the date...
 					//
@@ -272,23 +272,23 @@ declare(strict_types=1);
 
 							foreach ($cron[IDX_DAY] as $nday) {
 
-								if (checkdate($nmonth,$nday,$nyear)) {
+							if (checkdate($nmonth,$nday,$nyear)) {
 
-									$ndate	= mktime(0,0,1,$nmonth,$nday,$nyear);
+								$ndate	= mktime(0, 0, 1, (int)$nmonth, (int)$nday, (int)$nyear);
 
 									if (($next) ? ($ndate >= $cdate) : ($ndate <= $cdate)) {
 
 										$dow	= date('w',$ndate);
 
-										// The date is "OK" - lets see if the weekday matches, too...
+									// The date is "OK" - lets see if the weekday matches, too...
 
-										if (in_array($dow,$cron[IDX_WEEKDAY])) {
+									if (in_array($dow,$cron[IDX_WEEKDAY])) {
 
-											// WIN! :-) We found a valid date...
+										// WIN! :-) We found a valid date...
 
-											$rtime			= explode(',', date('i,H,d,m,w,Y', mktime($rtime[IDX_HOUR], $rtime[IDX_MINUTE], 0, $nmonth, $nday, $nyear)));
+										$rtime			= explode(',', date('i,H,d,m,w,Y', mktime((int)$rtime[IDX_HOUR], (int)$rtime[IDX_MINUTE], 0, (int)$nmonth, (int)$nday, (int)$nyear)));
 
-											return mktime($rtime[1], $rtime[0], 0, $rtime[3], $rtime[2], $rtime[5]);
+										return mktime((int)$rtime[1], (int)$rtime[0], 0, (int)$rtime[3], (int)$rtime[2], (int)$rtime[5]);
 
 										}
 
@@ -304,11 +304,11 @@ declare(strict_types=1);
 
 				}
 
-				throw new Exception('Failed to find date, No matching date found in a 10 years range!', 10004);
+			throw new Exception('Failed to find date, No matching date found in a 10 years range!', 10004);
 
-			}
+		}
 
-			return mktime($rtime[1], $rtime[0], 0, $rtime[3], $rtime[2], $rtime[5]);
+		return mktime((int)$rtime[1], (int)$rtime[0], 0, (int)$rtime[3], (int)$rtime[2], (int)$rtime[5]);
 
 		}
 
