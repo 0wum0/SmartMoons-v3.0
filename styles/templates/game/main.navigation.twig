@@ -1,32 +1,164 @@
+<!-- Sidebar Navigation -->
 <div id="leftmenu">
+	<!-- User Header -->
 	<div class="menu_header">
-		{{ LNG.mn_username }} : <span style="color: cyan; font-weight: bold;">{{ username }}</span>
+		<div style="
+			display: flex; 
+			flex-direction: column; 
+			align-items: center; 
+			gap: var(--spacing-sm);
+			padding: var(--spacing-md) 0;
+		">
+			<div style="
+				width: 60px; 
+				height: 60px; 
+				border-radius: 50%; 
+				background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-blue));
+				display: flex; 
+				align-items: center; 
+				justify-content: center;
+				box-shadow: var(--glow-cyan);
+				border: 3px solid var(--color-bg-secondary);
+			">
+				<i class="fas fa-user" style="font-size: 1.75rem; color: var(--color-bg-primary);"></i>
+			</div>
+			<div style="text-align: center;">
+				<div style="font-size: 0.75rem; color: var(--color-text-secondary); margin-bottom: 2px;">
+					{{ LNG.mn_username }}
+				</div>
+				<div style="font-weight: 700; font-size: 1rem; color: var(--color-accent-cyan); text-shadow: var(--glow-cyan);">
+					{{ username }}
+				</div>
+			</div>
+		</div>
 	</div>
 
+	<!-- Main Navigation Menu -->
 	<div class="menu_content_left">
-		{% if isModuleAvailable(constant('MODULE_BUILDING')) %}<a href="game.php?page=buildings">{{ LNG.lm_buildings }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_RESEARCH')) %}<a href="game.php?page=research">{{ LNG.lm_research }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}<a href="game.php?page=shipyard&amp;mode=fleet">{{ LNG.lm_shipshard }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}<a href="game.php?page=shipyard&amp;mode=defense">{{ LNG.lm_defenses }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_OFFICIER')) or isModuleAvailable(constant('MODULE_DMEXTRAS')) %}<a href="game.php?page=officier">{{ LNG.lm_officiers }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}<a href="game.php?page=fleetDealer">{{ LNG.lm_fleettrader }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_TRADER')) %}<a href="game.php?page=fleetTable">{{ LNG.lm_fleet }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_RESSOURCE_LIST')) %}<a href="game.php?page=resources">{{ LNG.lm_resources }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_GALAXY')) %}<a href="game.php?page=galaxy">{{ LNG.lm_galaxy }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}<a href="game.php?page=alliance">{{ LNG.lm_alliance }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_SUPPORT')) %}<a href="game.php?page=ticket">{{ LNG.lm_support }}</a>{% endif %}
-		<a href="index.php?page=rules" target="rules">{{ LNG.lm_rules }}</a>
-		{% if isModuleAvailable(constant('MODULE_SIMULATOR')) %}<a href="game.php?page=battleSimulator">{{ LNG.lm_battlesim }}</a>{% endif %}
-		{% if isModuleAvailable(constant('MODULE_NOTICE')) %}<a href="javascript:OpenPopup('?page=notes', 'notes', 720, 300);">{{ LNG.lm_notes }}</a>{% endif %}
-		<div class="clear"></div>
+		{% if isModuleAvailable(constant('MODULE_BUILDING')) %}
+		<a href="game.php?page=buildings">
+			<i class="fas fa-city"></i> {{ LNG.lm_buildings }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_RESEARCH')) %}
+		<a href="game.php?page=research">
+			<i class="fas fa-flask"></i> {{ LNG.lm_research }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
+		<a href="game.php?page=shipyard&amp;mode=fleet">
+			<i class="fas fa-rocket"></i> {{ LNG.lm_shipshard }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
+		<a href="game.php?page=shipyard&amp;mode=defense">
+			<i class="fas fa-shield-alt"></i> {{ LNG.lm_defenses }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_OFFICIER')) or isModuleAvailable(constant('MODULE_DMEXTRAS')) %}
+		<a href="game.php?page=officier">
+			<i class="fas fa-user-tie"></i> {{ LNG.lm_officiers }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
+		<a href="game.php?page=fleetDealer">
+			<i class="fas fa-handshake"></i> {{ LNG.lm_fleettrader }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_TRADER')) %}
+		<a href="game.php?page=fleetTable">
+			<i class="fas fa-space-shuttle"></i> {{ LNG.lm_fleet }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_RESSOURCE_LIST')) %}
+		<a href="game.php?page=resources">
+			<i class="fas fa-chart-bar"></i> {{ LNG.lm_resources }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_GALAXY')) %}
+		<a href="game.php?page=galaxy">
+			<i class="fas fa-globe-americas"></i> {{ LNG.lm_galaxy }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}
+		<a href="game.php?page=alliance">
+			<i class="fas fa-users"></i> {{ LNG.lm_alliance }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_SUPPORT')) %}
+		<a href="game.php?page=ticket">
+			<i class="fas fa-life-ring"></i> {{ LNG.lm_support }}
+		</a>
+		{% endif %}
+		
+		<a href="index.php?page=rules" target="rules">
+			<i class="fas fa-gavel"></i> {{ LNG.lm_rules }}
+		</a>
+		
+		{% if isModuleAvailable(constant('MODULE_SIMULATOR')) %}
+		<a href="game.php?page=battleSimulator">
+			<i class="fas fa-crosshairs"></i> {{ LNG.lm_battlesim }}
+		</a>
+		{% endif %}
+		
+		{% if isModuleAvailable(constant('MODULE_NOTICE')) %}
+		<a href="javascript:OpenPopup('?page=notes', 'notes', 720, 300);">
+			<i class="fas fa-sticky-note"></i> {{ LNG.lm_notes }}
+		</a>
+		{% endif %}
 	</div>
 
+	<!-- Admin Access -->
+	{% if authlevel > 0 %}
 	<div class="menu_content_full">
-		{% if authlevel > 0 %}<a href="./admin.php" style="color:lime">{{ LNG.lm_administration }}</a>{% endif %}
+		<a href="./admin.php" style="
+			background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+			color: var(--color-accent-green);
+			border-color: var(--color-accent-green);
+		">
+			<i class="fas fa-user-shield"></i> {{ LNG.lm_administration }}
+		</a>
 	</div>
+	{% endif %}
 
+	<!-- Footer with Server Time -->
 	<div class="menu_footer">
-		<div><i class="fas fa-clock"></i> <span class="servertime">{{ servertime }}</span></div>
-		<div><i class="far fa-copyright"></i> Copyright {{ game_name }} 2018</div>
+		<div style="
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: var(--spacing-sm);
+			padding: var(--spacing-sm);
+			background: var(--color-bg-elevated);
+			border-radius: var(--radius-md);
+			margin-bottom: var(--spacing-sm);
+		">
+			<i class="fas fa-clock" style="color: var(--color-accent-cyan);"></i>
+			<span class="servertime" style="
+				font-family: 'Courier New', monospace;
+				font-weight: 600;
+				color: var(--color-accent-cyan);
+				text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+			">{{ servertime }}</span>
+		</div>
+		<div style="
+			font-size: 0.7rem;
+			text-align: center;
+			opacity: 0.6;
+			padding-top: var(--spacing-sm);
+			border-top: 1px solid var(--color-border-primary);
+		">
+			<i class="far fa-copyright"></i> {{ game_name }} © {{ "now"|date("Y") }}
+		</div>
 	</div>
 </div>

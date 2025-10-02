@@ -1,23 +1,180 @@
 <div class="clear"></div>
-<div id="footer">
-	{% if ga_active %}
-	<script type="text/javascript">
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', '{{ ga_key }}']);
-	_gaq.push(['_trackPageview']);
 
-	(function() {
+<!-- Futuristic Footer -->
+<footer id="footer" style="
+	background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-bg-tertiary));
+	border-top: 2px solid var(--color-border-accent);
+	box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5), inset 0 2px 0 rgba(0, 243, 255, 0.2);
+	padding: var(--spacing-md) var(--spacing-lg);
+	margin-top: var(--spacing-2xl);
+	position: relative;
+">
+	<!-- Animated Top Line -->
+	<div style="
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 2px;
+		background: linear-gradient(90deg, transparent, var(--color-accent-cyan), var(--color-accent-purple), transparent);
+		animation: scanline 4s infinite;
+	"></div>
+
+	<div style="
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--spacing-md);
+		max-width: 1400px;
+		margin: 0 auto;
+	">
+		<!-- Left: Game Info -->
+		<div style="
+			display: flex;
+			align-items: center;
+			gap: var(--spacing-md);
+			flex: 1 1 auto;
+		">
+			<div style="
+				width: 40px;
+				height: 40px;
+				background: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-blue));
+				border-radius: var(--radius-md);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				box-shadow: var(--glow-cyan);
+			">
+				<i class="fas fa-rocket" style="font-size: 1.25rem; color: var(--color-bg-primary);"></i>
+			</div>
+			<div>
+				<div style="
+					font-size: 0.875rem;
+					font-weight: 600;
+					color: var(--color-text-primary);
+					margin-bottom: 2px;
+				">
+					SmartMoons v{{ VERSION|replace({'.git':''}) }}
+				</div>
+				<div style="
+					font-size: 0.7rem;
+					color: var(--color-text-muted);
+				">
+					<i class="far fa-copyright"></i> {{ "now"|date("Y") }} {{ game_name }}
+				</div>
+			</div>
+		</div>
+
+		<!-- Center: Quick Stats -->
+		<div style="
+			display: flex;
+			gap: var(--spacing-lg);
+			flex: 0 1 auto;
+		">
+			<div style="
+				display: flex;
+				align-items: center;
+				gap: var(--spacing-xs);
+				font-size: 0.75rem;
+				color: var(--color-text-secondary);
+			">
+				<i class="fas fa-server" style="color: var(--color-accent-cyan);"></i>
+				<span>{{ uni_name }}</span>
+			</div>
+			<div style="
+				display: flex;
+				align-items: center;
+				gap: var(--spacing-xs);
+				font-size: 0.75rem;
+				color: var(--color-text-secondary);
+			">
+				<i class="fas fa-code-branch" style="color: var(--color-accent-purple);"></i>
+				<a href="https://github.com/0wum0/SmartMoons-v3.0/" target="_blank" style="
+					color: var(--color-accent-purple);
+					text-decoration: none;
+					transition: color var(--transition-fast);
+				" onmouseover="this.style.color='var(--color-accent-cyan)'" onmouseout="this.style.color='var(--color-accent-purple)'">
+					Open Source
+				</a>
+			</div>
+		</div>
+
+		<!-- Right: Social Links -->
+		<div style="
+			display: flex;
+			gap: var(--spacing-sm);
+			flex: 0 1 auto;
+		">
+			<a href="game.php?page=changelog" style="
+				width: 36px;
+				height: 36px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: var(--color-bg-elevated);
+				border: 1px solid var(--color-border-primary);
+				border-radius: var(--radius-md);
+				color: var(--color-text-secondary);
+				text-decoration: none;
+				transition: all var(--transition-fast);
+			" onmouseover="this.style.borderColor='var(--color-accent-cyan)'; this.style.color='var(--color-accent-cyan)'; this.style.boxShadow='var(--glow-cyan)'" onmouseout="this.style.borderColor='var(--color-border-primary)'; this.style.color='var(--color-text-secondary)'; this.style.boxShadow='none'" title="Changelog">
+				<i class="fas fa-list-alt"></i>
+			</a>
+			<a href="game.php?page=questions" style="
+				width: 36px;
+				height: 36px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: var(--color-bg-elevated);
+				border: 1px solid var(--color-border-primary);
+				border-radius: var(--radius-md);
+				color: var(--color-text-secondary);
+				text-decoration: none;
+				transition: all var(--transition-fast);
+			" onmouseover="this.style.borderColor='var(--color-accent-cyan)'; this.style.color='var(--color-accent-cyan)'; this.style.boxShadow='var(--glow-cyan)'" onmouseout="this.style.borderColor='var(--color-border-primary)'; this.style.color='var(--color-text-secondary)'; this.style.boxShadow='none'" title="FAQ">
+				<i class="fas fa-question-circle"></i>
+			</a>
+		</div>
+	</div>
+
+	<!-- Bottom Legal Text (Mobile Responsive) -->
+	<div style="
+		margin-top: var(--spacing-md);
+		padding-top: var(--spacing-md);
+		border-top: 1px solid var(--color-border-primary);
+		text-align: center;
+		font-size: 0.7rem;
+		color: var(--color-text-muted);
+		line-height: 1.4;
+	">
+		Powered by <a href="https://github.com/0wum0/SmartMoons-v3.0/" target="_blank" style="
+			color: var(--color-accent-cyan);
+			text-decoration: none;
+			font-weight: 600;
+		">SmartMoons</a> - Modern fork of 2Moons | MIT Licensed
+	</div>
+</footer>
+
+{% if ga_active %}
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', '{{ ga_key }}']);
+_gaq.push(['_trackPageview']);
+(function() {
 	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();
-	</script>
-	{% endif %}
-	{% if debug == 1 %}
-	<script type="text/javascript">
-	onerror = handleErr;
-	</script>
-	{% endif %}
-</div>
+})();
+</script>
+{% endif %}
+
+{% if debug == 1 %}
+<script type="text/javascript">
+onerror = handleErr;
+</script>
+{% endif %}
+
 </body>
 </html>

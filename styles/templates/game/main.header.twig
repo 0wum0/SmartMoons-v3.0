@@ -1,11 +1,8 @@
 <!DOCTYPE html>
-
-<!--[if lt IE 7 ]> <html lang="{{ lang }}" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="{{ lang }}" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="{{ lang }}" class="no-js ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="{{ lang }}" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="{{ lang }}" class="no-js"> <!--<![endif]-->
+<html lang="{{ lang }}" class="no-js">
 <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 	<title>{% block title %} - {{ uni_name }} - {{ game_name }}{% endblock %}</title>
 	<meta name="generator" content="SmartMoons {{ VERSION }}">
 	<!-- 
@@ -17,7 +14,6 @@
 	{% if goto %}
 	<meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
 	{% endif %}
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
 	<link rel="stylesheet" type="text/css" href="./styles/resource/css/base/boilerplate.css?v={{ REV }}">
 	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/main.css?v={{ REV }}">
@@ -27,7 +23,9 @@
 	<link rel="stylesheet" type="text/css" href="./styles/resource/css/base/jquery.fancybox.css?v={{ REV }}">
 	<link rel="stylesheet" type="text/css" href="./styles/resource/css/base/validationEngine.jquery.css?v={{ REV }}">
 	<link rel="stylesheet" type="text/css" href="{{ dpath }}ingame.css?v={{ REV }}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+	
 	<script type="text/javascript">
 	var ServerTimezoneOffset = {{ Offset }};
 	var serverTime 	= new Date({{ date.0 }}, {{ date.1 - 1 }}, {{ date.2 }}, {{ date.3 }}, {{ date.4 }}, {{ date.5 }});
@@ -50,6 +48,7 @@
 		serverTime.setSeconds(serverTime.getSeconds()+1);
 	}, 1000);
 	</script>
+	
 	<script type="text/javascript" src="./scripts/base/jquery.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/base/jquery.ui.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/base/jquery.cookie.js?v={{ REV }}"></script>
@@ -72,4 +71,96 @@
 
 <body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }}">
 	<div id="tooltip" class="tip"></div>
-	<!-- Burger Menu für Mobile (wird durch JavaScript initialisiert) -->
+	
+	<!-- Futuristic Resource Header -->
+	<div id="header">
+		<div id="headerTable">
+			<!-- Metal Resource -->
+			<div class="bar-main-container">
+				<div class="wrap">
+					<div class="bar-percentage">
+						<img src="{{ dpath }}images/metal.gif" alt="Metal">
+					</div>
+					<div class="bar-container">
+						<div class="bar" style="width: {{ (Metal.percent)|default(0) }}%;"></div>
+						<div class="bar-text">
+							<span class="resource-value" data-resource="metal">{{ Metal.current|number_format }}</span> / {{ Metal.max|number_format }}
+						</div>
+					</div>
+					<div class="bar-change">
+						<a href="#" title="{{ LNG.resources_metal_production }}: {{ Metal.production|number_format }}/h">
+							<i class="fas fa-info-circle"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Crystal Resource -->
+			<div class="bar-main-container">
+				<div class="wrap">
+					<div class="bar-percentage">
+						<img src="{{ dpath }}images/crystal.gif" alt="Crystal">
+					</div>
+					<div class="bar-container">
+						<div class="bar" style="width: {{ (Crystal.percent)|default(0) }}%;"></div>
+						<div class="bar-text">
+							<span class="resource-value" data-resource="crystal">{{ Crystal.current|number_format }}</span> / {{ Crystal.max|number_format }}
+						</div>
+					</div>
+					<div class="bar-change">
+						<a href="#" title="{{ LNG.resources_crystal_production }}: {{ Crystal.production|number_format }}/h">
+							<i class="fas fa-info-circle"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Deuterium Resource -->
+			<div class="bar-main-container">
+				<div class="wrap">
+					<div class="bar-percentage">
+						<img src="{{ dpath }}images/deuterium.gif" alt="Deuterium">
+					</div>
+					<div class="bar-container">
+						<div class="bar" style="width: {{ (Deuterium.percent)|default(0) }}%;"></div>
+						<div class="bar-text">
+							<span class="resource-value" data-resource="deuterium">{{ Deuterium.current|number_format }}</span> / {{ Deuterium.max|number_format }}
+						</div>
+					</div>
+					<div class="bar-change">
+						<a href="#" title="{{ LNG.resources_deuterium_production }}: {{ Deuterium.production|number_format }}/h">
+							<i class="fas fa-info-circle"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Energy Resource -->
+			<div class="bar-main-container">
+				<div class="wrap">
+					<div class="bar-percentage">
+						<img src="{{ dpath }}images/energy.gif" alt="Energy">
+					</div>
+					<div class="bar-container">
+						<div class="bar" style="width: {{ (Energy.percent)|default(0) }}%;"></div>
+						<div class="bar-text">
+							<span class="resource-value" data-resource="energy">{{ Energy.current|number_format }}</span> / {{ Energy.max|number_format }}
+						</div>
+					</div>
+					<div class="bar-change">
+						<a href="#" title="{{ LNG.resources_energy_production }}: {{ Energy.production|number_format }}">
+							<i class="fas fa-info-circle"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Dark Matter -->
+			{% if Darkmatter is defined %}
+			<div class="heder_res_921">
+				<img src="{{ dpath }}images/darkmatter.gif" alt="Dark Matter">
+				<span class="res_921_text resource-value" data-resource="darkmatter">{{ Darkmatter|number_format }}</span>
+			</div>
+			{% endif %}
+		</div>
+	</div>
