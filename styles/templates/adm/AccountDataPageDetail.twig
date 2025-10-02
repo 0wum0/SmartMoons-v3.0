@@ -93,7 +93,7 @@ border:0px;background:url(./styles/resource/images/admin/blank.gif);text-align:r
 			</div>
 		</td>
 	</tr><tr>
-		<td class="unico transparent">{{ AllianceHave }}</td>
+		<td class="unico transparent">{{ AllianceHave|raw }}</td>
 	</tr><tr>
 		<td class="unico transparent">
 			<div id="alianza" style="display:none">
@@ -178,7 +178,7 @@ border:0px;background:url(./styles/resource/images/admin/blank.gif);text-align:r
 				<th>{{ ac_temperature }}</th>
 				{% if canedit == 1 %}<th>{{ se_search_edit }}</th>{% endif %}
 			</tr>
-				{{ planets_moons }}
+				{{ planets_moons|raw }}
 			</table>
 			<br>
 			</div>
