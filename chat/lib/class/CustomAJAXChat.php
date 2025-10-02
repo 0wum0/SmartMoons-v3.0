@@ -75,7 +75,6 @@ class CustomAJAXChat extends AJAXChat
 		set_include_path(ROOT_PATH);
 		chdir(ROOT_PATH);
 
-		$databaseConfig		= array();
 		require_once 'includes/config.php';
 		require_once 'includes/common.php';
 

@@ -35,6 +35,7 @@ class Database_BC extends mysqli
 	 */
 	public function __construct()
 	{
+
 		// Initialize $databaseConfig to prevent undefined variable errors
 		$databaseConfig = [];
 		
@@ -47,7 +48,7 @@ class Database_BC extends mysqli
 		if (!file_exists($configPath)) {
 			throw new Exception("Database configuration file not found: $configPath. Please copy includes/config.sample.php to includes/config.php and configure your database settings.");
 		}
-		
+    
 		// Load database configuration from config.php
 		require_once $configPath;
 

@@ -42,12 +42,16 @@ class SQLDumper
 	
 	private function nativeDumpToFile($dbTables, $filePath)
 	{
+
 		$databaseConfig	= array();
 		$configPath = 'includes/config.php';
 		if (!file_exists($configPath)) {
 			throw new Exception("Database configuration file not found: $configPath. Cannot perform database dump.");
 		}
 		require_once $configPath;
+=======
+		require_once 'includes/config.php';
+
 
         $dbVersion	= Database::get()->selectSingle('SELECT @@version', array(), '@@version');
         if(version_compare($dbVersion, '5.5') >= 0) {
@@ -71,12 +75,16 @@ class SQLDumper
 		$this->setTimelimit();
 
 		$db	= Database::get();
+
 		$databaseConfig	= array();
 		$configPath = 'includes/config.php';
 		if (!file_exists($configPath)) {
 			throw new Exception("Database configuration file not found: $configPath. Cannot perform database dump.");
 		}
 		require_once $configPath;
+
+		require_once 'includes/config.php';
+
 		$integerTypes	= array('tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'decimal', 'float', 'double', 'real');
 		$gameVersion	= Config::get()->VERSION;
 		$fp	= fopen($filePath, 'w');
@@ -225,12 +233,16 @@ UNLOCK TABLES;
 		
 		if($this->canNative('mysql'))
 		{
+
 			$databaseConfig	= array();
 			$configPath = 'includes/config.php';
 			if (!file_exists($configPath)) {
 				throw new Exception("Database configuration file not found: $configPath. Cannot restore database.");
 			}
 			require_once $configPath;
+
+			require_once 'includes/config.php';
+
 			$sqlDump	= shell_exec("mysql --host='".escapeshellarg($databaseConfig['host'])."' --port=".((int) $databaseConfig['port'])." --user='".escapeshellarg($databaseConfig['user'])."' --password='".escapeshellarg($databaseConfig['password'])."' '".escapeshellarg($databaseConfig['dbname'])."' < ".escapeshellarg($filePath)." 2>&1 1> /dev/null");
 			if(strlen($sqlDump) !== 0) #mysql error
 			{
