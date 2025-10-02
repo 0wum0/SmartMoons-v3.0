@@ -136,7 +136,7 @@
 <br><br>
 {% if Raport.result == "a" %}
 {{ LNG.sys_attacker_won }}<br>
-{{ LNG.sys_stealed_ressources }} {% for elementID, amount in Raport.steal %}{{ amount|number} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2 == Raport|length.steal %} {{ LNG.sys_and }} {% elseif loop.last %}, {% endif %}{% endfor %}
+{{ LNG.sys_stealed_ressources }} {% for elementID, amount in Raport.steal %}{{ amount|number }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2 == Raport.steal|length) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}
 {% elseif Raport.result == "r" %}
 {{ LNG.sys_defender_won }}
 {% else %}
@@ -145,7 +145,7 @@
 <br><br>
 {{ LNG.sys_attacker_lostunits }} {{ Raport['units'][0]|number} {{ LNG.sys_units }}<br>
 {{ LNG.sys_defender_lostunits }} {{ Raport['units'][1]|number} {{ LNG.sys_units }}<br>
-{{ LNG.debree_field_1 }} {% for elementID, amount in Raport.debris %}{{ amount|number} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2 == Raport|length.debris %} {{ LNG.sys_and }} {% elseif loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
+{{ LNG.debree_field_1 }} {% for elementID, amount in Raport.debris %}{{ amount|number }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2 == Raport.debris|length) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
 {% if Raport.mode == 1 %}
 	{#  Destruction  #}
 	{% if Raport.moon.moonDestroySuccess == -1 %}
@@ -162,7 +162,7 @@
 			{{ LNG.sys_destruc_null }}			
 		{% endif %}
 		<br>
-		{{ sprintf(LNG.sys_destruc_rip, "{{ Raport.moon.fleetDestroyChance }}")}
+		{{ sprintf(LNG.sys_destruc_rip, Raport.moon.fleetDestroyChance) }}
 		{% if Raport.moon.fleetDestroySuccess == 1 %}
 			{#  Fleet destroyed  #}
 			<br>{{ LNG.sys_destruc_echec }}
@@ -170,14 +170,14 @@
 	{% endif %}
 {% else %}
 	{#  Normal Attack  #}
-	{{ LNG.sys_moonproba }} {{ Raport.moon.moonChance }} %<br>
+	{{ LNG.sys_moonproba }} {{ Raport.moon.moonChance }}%<br>
 	{% if Raport.moon.moonName %}
 		{% if Info is defined %}
 			{#  Moon created (HoF Mode)  #}
-			{{ sprintf(LNG.sys_moonbuilt, "{{ Raport.moon.moonName }}", "XX", "XX", "XX")}
+			{{ sprintf(LNG.sys_moonbuilt, Raport.moon.moonName, "XX", "XX", "XX") }}
 		{% else %}
 			{#  Moon created  #}
-			{{ sprintf(LNG.sys_moonbuilt, "{{ Raport.moon.moonName }}", "{{ Raport.koords[0] }}", "{{ Raport.koords[1] }}", "{{ Raport.koords[2] }}")}
+			{{ sprintf(LNG.sys_moonbuilt, Raport.moon.moonName, Raport.koords[0], Raport.koords[1], Raport.koords[2]) }}
 		{% endif %}
 	{% endif %}
 {% endif %}
