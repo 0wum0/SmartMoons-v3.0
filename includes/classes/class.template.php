@@ -304,4 +304,22 @@ class template
 	{
 		return CACHE_PATH . 'twig/';
 	}
+	
+	public function clearAllCache(): void
+	{
+		$cacheDir = ROOT_PATH . 'cache/twig';
+		if (!is_dir($cacheDir)) {
+			return;
+		}
+
+		$files = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator($cacheDir, RecursiveDirectoryIterator::SKIP_DOTS),
+			RecursiveIteratorIterator::CHILD_FIRST
+		);
+
+		foreach ($files as $fileinfo) {
+			$todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+			$todo($fileinfo->getRealPath());
+		}
+	}
 }
