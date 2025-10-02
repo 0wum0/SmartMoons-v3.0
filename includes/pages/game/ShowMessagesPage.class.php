@@ -143,7 +143,7 @@ class ShowMessagesPage extends AbstractGamePage
             'maxPage'		=> $maxPage,
         ));
 
-        $this->display('page.messages.view.tpl');
+        $this->display('page.messages.view.twig');
     }
 
 
@@ -361,7 +361,7 @@ class ShowMessagesPage extends AbstractGamePage
             'OwnerRecord'	=> $receiverRecord,
         ));
 
-        $this->display('page.messages.write.tpl');
+        $this->display('page.messages.write.twig');
     }
 
     function show()
@@ -428,6 +428,6 @@ class ShowMessagesPage extends AbstractGamePage
             'side'			=> $side,
         ));
 
-        $this->display('page.messages.default.tpl');
+        $this->display('page.messages.default.twig');
     }
 }
