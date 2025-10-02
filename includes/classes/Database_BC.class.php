@@ -35,8 +35,6 @@ class Database_BC extends mysqli
 	 */
 	public function __construct()
 	{
-		$databaseConfig = array();
-		
 		// Load database configuration from config.php
 		// Use ROOT_PATH if defined, otherwise construct path relative to this file
 		if (defined('ROOT_PATH')) {
