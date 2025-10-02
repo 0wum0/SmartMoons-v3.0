@@ -262,7 +262,7 @@ class ShowShipyardPage extends AbstractGamePage
 			'elementList'	=> $elementList,
 			'NotBuilding'	=> $NotBuilding,
 			'BuildList'		=> $buildList,
-			'maxlength'		=> strlen(Config::get()->max_fleet_per_build),
+			'maxlength'		=> strlen((string)Config::get()->max_fleet_per_build),
 			'mode'			=> $mode,
 		));
 
