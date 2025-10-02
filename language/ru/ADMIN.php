@@ -213,7 +213,7 @@ $LNG['bo_bbb_go_act']                  = '[ Перезагрузка ]';
 $LNG['bo_permanent']                   = 'Перманентная блокировка';
 $LNG['bo_bbb_title_1']                 = 'Панель блокировки';
 $LNG['bo_bbb_title_2']                 = 'Длительность блокировки';
-$LNG['bo_bbb_title_3']                 = 'Панель блокировки<br><font color=red>Этот игрок уже заблокирован.';
+$LNG['bo_bbb_title_3']                 = 'Панель блокировки<br>Этот игрок уже заблокирован.';
 $LNG['bo_bbb_title_4']                 = 'Для сокращения срока блокировки необходимо добавить число с минусом, например, -5.';
 $LNG['bo_bbb_title_5']                 = 'Заблокирован до';
 $LNG['bo_bbb_title_6']                 = 'Длительность блокировки';
@@ -351,7 +351,7 @@ $LNG['se_recaptcha_private']           = 'Приватный ключ';
 $LNG['se_recaptcha_active']            = 'Включить';
 $LNG['se_reg_closed']                  = 'Отключить регистрацию';
 $LNG['se_min_build_time']              = 'Время строительства';
-$LNG['se_min_build_time_info']         = 'Минимальное время строительства построек, флота, обороны и проведения исследований. По умолчанию установлено значение - 1 секунда (0 - не ограничено).<br><font color=orange>Если указать 0, возможны ошибки.</font>';
+$LNG['se_min_build_time_info']         = 'Минимальное время строительства построек, флота, обороны и проведения исследований. По умолчанию установлено значение - 1 секунда (0 - не ограничено).<br>Если указать 0, возможны ошибки.';
 $LNG['se_trader_head']                 = 'Скупщик флота';
 $LNG['se_trader_ships']                = 'Корабли';
 $LNG['se_trader_charge']               = 'Комиссия скупщику';
@@ -705,11 +705,11 @@ $LNG['ac_view_image2']                 = 'Показать картинку';
 $LNG['ac_view_text_ext']               = 'Показать внешний текст';
 $LNG['ac_view_text_int']               = 'Показать внутренний текст';
 $LNG['ac_view_text_sol']               = 'Показать текст заявки';
-$LNG['ac_moons_no']                    = '<font color=red>(Нет лун)</font>';
+$LNG['ac_moons_no']                    = '(Нет лун)';
 $LNG['ac_urlnow']                      = 'Ссылка: ';
 $LNG['ac_time_destruyed']              = 'Дата покидания планеты';
-$LNG['ac_isnodestruyed']               = '<font color=red>(Нет покинутых планет)</font>';
-$LNG['ac_no_alliance']                 = '<font color=red>(Нет альянса)</font>';
+$LNG['ac_isnodestruyed']               = '(Нет покинутых планет)';
+$LNG['ac_no_alliance']                 = '(Нет альянса)';
 $LNG['ac_ali_text_11']                 = 'Внутренний текст';
 $LNG['ac_ali_text_22']                 = 'Внешний текст';
 $LNG['ac_ali_text_33']                 = 'Текст заявки';
@@ -720,7 +720,7 @@ $LNG['ac_suspended_time']              = 'Когда';
 $LNG['ac_suspended_longer']            = 'Заблокирован до';
 $LNG['ac_suspended_reason']            = 'Причина';
 $LNG['ac_suspended_autor']             = 'Кто забанил';
-$LNG['ac_note_k']                      = '<table><tr><th width=10%><font color=lime>T+</font></th><th>Больше 1кккк (триллион)</th></tr><tr><th width=10%><font color=lime>T</font></th><th>Меньше или равно 1кккк (триллион)</th></tr><tr><th width=10%><font color=lime>B</font></th><th>Меньше или равно 1ккк (миллиард)</th></tr><tr><th width=10%><font color=lime>M</font></th><th>Меньше или равно 1кк (миллион)</th></tr><tr><th width=10%><font color=lime>K</font></th><th>Меньше или равно 1к (тысяча)</th></tr></table>';
+$LNG['ac_note_k']                      = '<table><tr><th width=10%>T+</th><th>Больше 1кккк (триллион)</th></tr><tr><th width=10%>T</th><th>Меньше или равно 1кккк (триллион)</th></tr><tr><th width=10%>B</th><th>Меньше или равно 1ккк (миллиард)</th></tr><tr><th width=10%>M</th><th>Меньше или равно 1кк (миллион)</th></tr><tr><th width=10%>K</th><th>Меньше или равно 1к (тысяча)</th></tr></table>';
 $LNG['ac_leyend']                      = '[ Легенда ]';
 $LNG['ac_no_rank_level']               = 'Вы имеете недостаточно прав для просмотра информации об этом игроке.';
 
@@ -897,7 +897,7 @@ $LNG['mo_fields_avaibles']             = 'Поля';
 $LNG['po_add_moon']                    = 'Создание луны';
 
 // Тех. поддержка
-$LNG['sp_admin_answer']                = '%s (Администратор) ответил %s<br><br><font color="red">%s</font>';
+$LNG['sp_admin_answer']                = '%s (Администратор) ответил %s<br><br>%s';
 $LNG['sp_answer_message_title']        = 'Заявка #%d';
 $LNG['sp_answer_message']              = 'На Вашу заявку #%d был дан ответ. Ответ смотрите в меню <a href=?page=ticket>Тех. поддержка</a>';
 $LNG['sp_admin_closed']                = '%s (Администратор) закрыл заявку %s.';
@@ -952,7 +952,7 @@ $LNG['fb_settings']                    = 'Настройки Facebook';
 $LNG['fb_active']                      = 'Включить Facebook';
 $LNG['fb_api_key']                     = 'API ID';
 $LNG['fb_secrectkey']                  = 'Секретный ключ';
-$LNG['fb_info']                        = 'Пользователи, зарегистрированные в Facebook, могут создать аккаунт в игре, не проходя регистрацию, а используя данные из Facebook.<br><br>Чтобы использовать эту возможость Вы должны быть зарегистрированы в Facebook. Кроме того, необходимо создать приложение. Это можно сделать по следующей ссылке <a href="http://www.facebook.com/developers/">http://www.facebook.com/developers/</a>. Когда Вы укажите в игре API ID и секретный ключ, можно будет пользоваться данной возможностью.<br><br><font color="red">Должна быть настроена рассылка почты (Настройки SMTP)</font>';
+$LNG['fb_info']                        = 'Пользователи, зарегистрированные в Facebook, могут создать аккаунт в игре, не проходя регистрацию, а используя данные из Facebook.<br><br>Чтобы использовать эту возможость Вы должны быть зарегистрированы в Facebook. Кроме того, необходимо создать приложение. Это можно сделать по следующей ссылке <a href="http://www.facebook.com/developers/">http://www.facebook.com/developers/</a>. Когда Вы укажите в игре API ID и секретный ключ, можно будет пользоваться данной возможностью.<br><br>Должна быть настроена рассылка почты (Настройки SMTP)';
 $LNG['fb_curl_yes']                    = '<span style="color:green">cURL установлен.</span>';
 $LNG['fb_curl_no']                     = '<span style="color:red">cURL не установлен. Для подключения к Facebook необходимо установить cURL.</span>';
 
@@ -1002,7 +1002,7 @@ $LNG['modul_27']                      = 'Техническая поддержк
 $LNG['modul_28']                      = 'Технологии';
 
 $LNG['mod_module']                     = 'Модули';
-$LNG['mod_info']                       = '<font color="red">Только Администраторы могут изменять состояние модулей.</font>';
+$LNG['mod_info']                       = 'Только Администраторы могут изменять состояние модулей.';
 $LNG['mod_active']                     = 'Включён';
 $LNG['mod_deactive']                   = 'Отключён';
 $LNG['mod_change_active']              = 'Включить';

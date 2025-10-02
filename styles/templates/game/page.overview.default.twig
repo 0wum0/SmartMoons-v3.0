@@ -8,7 +8,7 @@
 		<div class="onligne">
 			<i class="fas fa-user"></i> {{ LNG.ov_online_user }} : <span style="font-weight: bold; color: lime;">{{ onlineUser|number_format }}</span>
 		</div>
-		<span><i class="fas fa-users"></i> {{ LNG.ov_admins_online }} : {% for ID, Name in AdminsOnline %}{% if not loop.first %}&nbsp;&bull;&nbsp;{% endif %}<a href="#" onclick="return Dialog.PM({{ ID }})">{{ Name }}</a>{% else %}{{ LNG.ov_no_admins_online }}{% endfor %}</span>
+		<span><i class="fas fa-users"></i> {{ LNG.ov_admins_online }} : {% for ID, Name in AdminsOnline %}{% if not loop.first %} &bull; {% endif %}<a href="#" onclick="return Dialog.PM({{ ID }})">{{ Name }}</a>{% else %}{{ LNG.ov_no_admins_online }}{% endfor %}</span>
 		<div class="ticket">
 			<a href="game.php?page=ticket"><i class="fas fa-ticket-alt"></i> {{ LNG.ov_ticket }}</a>
 		</div>

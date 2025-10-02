@@ -232,7 +232,7 @@ $LNG['bo_bbb_go_act'] = '[Reload]';
 $LNG['bo_permanent'] = 'Ban permanent';
 $LNG['bo_bbb_title_1'] = 'Suspension System';
 $LNG['bo_bbb_title_2'] = 'When it should be unlocked';
-$LNG['bo_bbb_title_3'] = 'Suspension system • <font color="red">This player is locked</font>';
+$LNG['bo_bbb_title_3'] = 'Suspension system • This player is locked';
 $LNG['bo_bbb_title_4'] = 'In order to reduce the time duration, it is necessary to add a "-" before the number desired introduced, that is in the number of minutes that you want to reduce, such as: -5';
 $LNG['bo_bbb_title_5'] = 'Locked';
 $LNG['bo_bbb_title_6'] = 'Date modified';
@@ -770,11 +770,11 @@ $LNG['ac_view_image2'] = 'See picture';
 $LNG['ac_view_text_ext'] = 'Show external text';
 $LNG['ac_view_text_int'] = 'Show inner text';
 $LNG['ac_view_text_sol'] = 'Show text to the application';
-$LNG['ac_moons_no'] = '<font color=red>(No Moon)</font>';
+$LNG['ac_moons_no'] = '(No Moon)';
 $LNG['ac_urlnow'] = 'URL:';
 $LNG['ac_time_destruyed'] = 'Date of total destruction';
-$LNG['ac_isnodestruyed'] = '<font color=red>(Does not exist any planet destroyed recently)</font>';
-$LNG['ac_no_alliance'] = '<font color=red>(No Alliance)</font>';
+$LNG['ac_isnodestruyed'] = '(Does not exist any planet destroyed recently)';
+$LNG['ac_no_alliance'] = '(No Alliance)';
 $LNG['ac_ali_text_11'] = 'External text';
 $LNG['ac_ali_text_22'] = 'Inner text';
 $LNG['ac_ali_text_33'] = 'Text of the application';
@@ -785,7 +785,7 @@ $LNG['ac_suspended_time'] = 'Suspended';
 $LNG['ac_suspended_longer'] = 'Until';
 $LNG['ac_suspended_reason'] = 'Reason';
 $LNG['ac_suspended_autor'] = 'Suspended by';
-$LNG['ac_note_k'] = '<table><tr><th width=10%><font color=lime>T+</font></th><th>More than Trillion</th></tr><tr><th width=10%><font color=lime>T</font></th><th>More or same of Trillion</th></tr><tr><th width=10%><font color=lime>B</font></th><th>More or same of Billion</th></tr><tr><th width=10%><font color=lime>M</font></th><th>More or same of Million </th></tr><tr><th width=10%><font color=lime>K</font></th><th>More or same of Thousand</th></tr></table>';
+$LNG['ac_note_k'] = '<table><tr><th width=10%>T+</th><th>More than Trillion</th></tr><tr><th width=10%>T</th><th>More or same of Trillion</th></tr><tr><th width=10%>B</th><th>More or same of Billion</th></tr><tr><th width=10%>M</th><th>More or same of Million </th></tr><tr><th width=10%>K</th><th>More or same of Thousand</th></tr></table>';
 $LNG['ac_leyend'] = '[ Legend ]';
 $LNG['ac_no_rank_level'] = 'Dont have enough Permissions to see the informations of this user';
 //###########################################################//
@@ -969,7 +969,7 @@ $LNG['po_add_moon'] = 'Add moon';
 
 // Suporte
 
-$LNG['sp_admin_answer'] = 'Response of %s to %s<br><br><font color="red">%s</font>';
+$LNG['sp_admin_answer'] = 'Response of %s to %s<br><br>%s';
 $LNG['sp_answer_message_title'] = 'Support Ticket #%d';
 $LNG['sp_answer_message'] = 'Do you have a response to your ticket number: #%d!';
 $LNG['sp_admin_closed'] = '%s closed the Ticket to %s';
@@ -1028,7 +1028,7 @@ $LNG['fb_settings'] = 'Facebook Connect Settings';
 $LNG['fb_active'] = 'Facebook Connect activate?';
 $LNG['fb_api_key'] = 'Facebook API Key';
 $LNG['fb_secrectkey'] = 'Facebook Secret Key';
-$LNG['fb_info'] = 'With Facebook Connect users who are logged on to Facebook, log in with my click, or register. <br>  to use this feature, you must be registered with Faceebok itself. In addition, you must create an Application. This you can do to <a href="http://www.facebook.com/developers/"> http://www.facebook.com/developers/ </ a>. As Connect URL, you must enter the URL to the game. Then you are carrying here the Keys and your game should be ready Facebook. <br> <font Color="red"> for FB Connect, the mail delivery will be available! (SMTP settings)</font>';
+$LNG['fb_info'] = 'With Facebook Connect users who are logged on to Facebook, log in with my click, or register. <br>  to use this feature, you must be registered with Faceebok itself. In addition, you must create an Application. This you can do to <a href="http://www.facebook.com/developers/"> http://www.facebook.com/developers/ </ a>. As Connect URL, you must enter the URL to the game. Then you are carrying here the Keys and your game should be ready Facebook. <br>  for FB Connect, the mail delivery will be available! (SMTP settings)';
 $LNG['fb_curl_yes'] = '<span style="color:green">cURL Installed!</span>';
 $LNG['fb_curl_no'] = '<span style="color:red">cURL Not Installed! Facebook Requires cURL extension to work!</span>';
 

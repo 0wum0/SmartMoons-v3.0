@@ -61,11 +61,11 @@
 				<td><input type="text" name="newrank[rankName]" size="20" maxlength="32" id="rankName" required></td>
 	</tr>
 			<tr>
-				<th colspan="{{ countRank + 2 }}">&nbsp;</th>
+				<th colspan="{{ countRank + 2 }}"> </th>
 			</tr>
 	{% for rankId, rankName in availableRanks %}
 	<tr>
-		<td><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="{{ rankName }}" width="16" height="16">&nbsp;<label for="rank_{{ rankId }}">{{ LNG.al_rank_desc[rankName] }}</label></td>
+		<td><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="{{ rankName }}" width="16" height="16"> <label for="rank_{{ rankId }}">{{ LNG.al_rank_desc[rankName] }}</label></td>
 		<td><input type="checkbox" name="newrank[{{ rankId }}]" value="1" id="rank_{{ rankId }}" title="{{ LNG.al_rank_desc[rankName] }}"></td>
 	</tr>
 	{% endfor %}

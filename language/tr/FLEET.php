@@ -67,7 +67,7 @@ $LNG['sys_mess_spy_activity'] 				= "Casusluk Raporu";
 $LNG['sys_mess_spy_ennemyfleet'] 			= "Yabanci gezegeninden";
 $LNG['sys_mess_spy_seen_at'] 				= "ait filo su gezegeninin Yakinlarinda ";
 $LNG['sys_mess_spy_seen_at2'] 				= 'goruldu';
-$LNG['sys_mess_spy_destroyed'] 				= '<font color="red">Casus sondaniz ile baglanti kurulamiyor! </font>';
+$LNG['sys_mess_spy_destroyed'] 				= 'Casus sondaniz ile baglanti kurulamiyor! ';
 $LNG['sys_adress_planet'] 					= '[%s:%s:%s]';
 
 $LNG['sys_stat_mess_stay']           		= 'Filo Konuslandirma';
