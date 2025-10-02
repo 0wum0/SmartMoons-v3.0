@@ -73,7 +73,7 @@ $LNG['sys_mess_spy_activity'] 			= "Atividade de espionagem";
 $LNG['sys_mess_spy_ennemyfleet'] 		= "Uma frota inimiga do planeta";
 $LNG['sys_mess_spy_seen_at'] 			= "Foi avistada perto do teu planeta";
 $LNG['sys_mess_spy_seen_at2']           = 'espionagem';
-$LNG['sys_mess_spy_destroyed']          = '<font color="red">As tua frota foi descoberta e destruida!</font>';
+$LNG['sys_mess_spy_destroyed']          = 'As tua frota foi descoberta e destruida!';
 $LNG['sys_adress_planet']               = '[%s:%s:%s]';
 
 $LNG['sys_stat_mess_stay']           	= 'Frota Localizada';
@@ -198,7 +198,7 @@ $LNG['sys_destruc_null'] 				= ", As tuas estrelas da morte e os seus gravitões
 
 
 $LNG['fcp_colony']						= 'Colónia';
-$LNG['fl_simulate']						= '<font color="red">Simular</font>';
+$LNG['fl_simulate']						= 'Simular';
 
 $LNG['type_mission_1']  				= 'Atacar';
 $LNG['type_mission_2']  				= 'Ataque de Aliança';

@@ -63,7 +63,7 @@ $LNG['sys_mess_spy_activity'] 				= "Aktywność szpiegowska";
 $LNG['sys_mess_spy_ennemyfleet'] 			= "Wroga flota z planety";
 $LNG['sys_mess_spy_seen_at'] 				= "została dostrzeżona w pobliżu twojej planety";
 $LNG['sys_mess_spy_seen_at2'] 				= 'dostrzeżono';
-$LNG['sys_mess_spy_destroyed'] 				= '<font color="red">Twoja sonda została zniszczona! </font>';
+$LNG['sys_mess_spy_destroyed'] 				= 'Twoja sonda została zniszczona! ';
 $LNG['sys_adress_planet'] 					= '[%s:%s:%s]';
 
 $LNG['sys_stat_mess_stay']           		= 'Położenie floty';

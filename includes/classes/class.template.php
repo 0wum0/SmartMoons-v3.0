@@ -149,6 +149,16 @@ class template
 		$this->twig->addFilter(new TwigFilter('json', function($value, int $options = 0, int $depth = 512) {
 			return json_encode($value, $options, $depth);
 		}));
+		
+		// Register pretty_number filter for clean number formatting
+		$this->twig->addFilter(new TwigFilter('pretty_number', function($number, int $decimals = 0) {
+			return pretty_number($number, $decimals);
+		}));
+		
+		// Register shortly_number filter for abbreviated numbers (K, M, B, etc.)
+		$this->twig->addFilter(new TwigFilter('shortly', function($number, ?int $decimals = null) {
+			return shortly_number($number, $decimals);
+		}));
 	}
 
 	private function getTempPath(): string

@@ -29,7 +29,7 @@
 	</tr>
 	{% endif %}
 	<tr style="height: 20px;">
-		<td class="right" colspan="4">{{ LNG.mg_page }}: {% if page != 1 %}<a href="#" onclick="Message.getMessages({{ MessID }}, {{ page - 1 }});return false;">&laquo;</a>&nbsp;{% endif %}{% for site in range(1, maxPage + 1) %}<a href="#" onclick="Message.getMessages({{ MessID }}, {{ site }});return false;">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %}&nbsp;{% endif %}{% endfor %}{% if page != maxPage %}&nbsp;<a href="#" onclick="Message.getMessages({{ MessID }}, {{ page + 1 }});return false;">&raquo;</a>{% endif %}</td>
+		<td class="right" colspan="4">{{ LNG.mg_page }}: {% if page != 1 %}<a href="#" onclick="Message.getMessages({{ MessID }}, {{ page - 1 }});return false;">&laquo;</a> {% endif %}{% for site in range(1, maxPage + 1) %}<a href="#" onclick="Message.getMessages({{ MessID }}, {{ site }});return false;">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %} {% endif %}{% endfor %}{% if page != maxPage %} <a href="#" onclick="Message.getMessages({{ MessID }}, {{ page + 1 }});return false;">&raquo;</a>{% endif %}</td>
 	</tr>
 	<tr style="height: 20px;">
 		<td>{{ LNG.mg_action }}</td>
@@ -57,7 +57,7 @@
 	</tr>
 	{% endfor %}
 	<tr style="height: 20px;">
-		<td class="right" colspan="4">{{ LNG.mg_page }}: {% if page != 1 %}<a href="#" onclick="Message.getMessages({{ MessID }}, 1);return false;">&laquo;</a>&nbsp;{% endif %}{% for site in range(1, maxPage + 1) %}<a href="#" onclick="Message.getMessages({{ MessID }}, {{ site }});return false;">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %}&nbsp;{% endif %}{% endfor %}{% if page != maxPage %}&nbsp;<a href="#" onclick="Message.getMessages({{ MessID }}, {{ maxPage }});return false;">&raquo;</a>{% endif %}</td>
+		<td class="right" colspan="4">{{ LNG.mg_page }}: {% if page != 1 %}<a href="#" onclick="Message.getMessages({{ MessID }}, 1);return false;">&laquo;</a> {% endif %}{% for site in range(1, maxPage + 1) %}<a href="#" onclick="Message.getMessages({{ MessID }}, {{ site }});return false;">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %} {% endif %}{% endfor %}{% if page != maxPage %} <a href="#" onclick="Message.getMessages({{ MessID }}, {{ maxPage }});return false;">&raquo;</a>{% endif %}</td>
 	</tr>
 	{% if MessID != 999 %}
 	<tr>

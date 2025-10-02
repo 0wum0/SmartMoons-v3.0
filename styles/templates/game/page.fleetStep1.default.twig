@@ -87,7 +87,7 @@
 				{% if loop.last and (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) != 0 %}
 				{% set to = themeSettings.SHORTCUT_ROWS_ON_FLEET1 - (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) %}
 				{% for foo in range(1, to + 1) %}
-				<td class="shortcut-colum" style="width:{{ 100 / themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}%">&nbsp;</td>
+				<td class="shortcut-colum" style="width:{{ 100 / themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}%"> </td>
 				{% endfor %}
 				{% endif %}
 				{% if (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) == 0 %}</tr>{% endif %}
@@ -131,7 +131,7 @@
 			</td>
 			{% if loop.last and (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) != 0 %}
 			{% set to = themeSettings.COLONY_ROWS_ON_FLEET1 - (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) %}
-			{% for foo in range(1, to + 1) %}<td>&nbsp;</td>{% endfor %}
+			{% for foo in range(1, to + 1) %}<td> </td>{% endfor %}
 			{% endif %}
 			{% if (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) == 0 %}</tr>{% endif %}
 			{% else %}
@@ -152,7 +152,7 @@
 			</tr>
 			{% if loop.last and (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) != 0 %}
 			{% set to = themeSettings.ACS_ROWS_ON_FLEET1 - (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) %}
-			{% for foo in range(1, to + 1) %}<td>&nbsp;</td>{% endfor %}
+			{% for foo in range(1, to + 1) %}<td> </td>{% endfor %}
 			{% endif %}
 			{% if (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) == 0 %}</tr>{% endif %}
 			{% endfor %}

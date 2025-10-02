@@ -18,23 +18,23 @@
 </tr><tr>
 	<td>{{ LNG.bo_permanent }}</td>
 	<td><input name="permanent" type="checkbox"></td>
-	{% if changedate_advert %}<td>&nbsp;</td>{% endif %}
+	{% if changedate_advert %}<td> </td>{% endif %}
 </tr><tr>
 	<td>{{ LNG.time_days }}</td>
 	<td><input name="days" type="text" value="0" size="5"></td>
-	{% if changedate_advert %}<td>&nbsp;</td>{% endif %}
+	{% if changedate_advert %}<td> </td>{% endif %}
 </tr><tr>
 	<td>{{ LNG.time_hours }}</td>
 	<td><input name="hour" type="text" value="0" size="5"></td>
-	{% if changedate_advert %}<td>&nbsp;</td>{% endif %}
+	{% if changedate_advert %}<td> </td>{% endif %}
 </tr><tr>
 	<td>{{ LNG.time_minutes }}</td>
 	<td><input name="mins" type="text" value="0" size="5"></td>
-	{% if changedate_advert %}<td>&nbsp;</td>{% endif %}
+	{% if changedate_advert %}<td> </td>{% endif %}
 </tr><tr>
 	<td>{{ LNG.time_seconds }}</td>
 	<td><input name="secs" type="text" value="0" size="5"></td>
-	{% if changedate_advert %}<td>&nbsp;</td>{% endif %}
+	{% if changedate_advert %}<td> </td>{% endif %}
 </tr><tr>
 	<th colspan="3">{{ LNG.bo_vacaations }}</th>
 </tr><tr>
@@ -60,7 +60,7 @@
 	{{ UserSelect.List }}
 	</select>
 	<br>
-	<a href="?page=bans">{{ LNG.bo_order_username }}</a> &nbsp; <a href="?page=bans&amp;order=id">{{ LNG.bo_order_id }}</a> &nbsp; 
+	<a href="?page=bans">{{ LNG.bo_order_username }}</a>   <a href="?page=bans&amp;order=id">{{ LNG.bo_order_id }}</a>   
 	<a href="?page=bans&amp;view=bana">{{ LNG.bo_order_banned }}</a>
 	<script TYPE="text/javascript">
 		var UserList = new filterlist(document.getElementsByName('ban_name')[0]);
@@ -103,7 +103,7 @@
 </td>
 </tr><tr>
 	<td>
-	<input type="submit" value="{{ LNG.bo_ban }}" name="panel" style="width:20%;">&nbsp;
+	<input type="submit" value="{{ LNG.bo_ban }}" name="panel" style="width:20%;"> 
 	<input TYPE="button" onClick="UserList.reset();this.form.regexp.value=''" value="{{ LNG.button_reset }}">
 	</td>
 </tr><tr>
@@ -127,7 +127,7 @@
 	{{ UserSelect.ListBan }}
 	</select>
 	<br>
-	<a href="?page=bans">{{ LNG.bo_order_username }}</a> &nbsp; <a href="?page=bans&amp;order2=id">{{ LNG.bo_order_id }}</a>
+	<a href="?page=bans">{{ LNG.bo_order_username }}</a>   <a href="?page=bans&amp;order2=id">{{ LNG.bo_order_id }}</a>
 	<script TYPE="text/javascript">
 		var UsersBan = new filterlist(document.getElementsByName('unban_name')[0]);
 	</script>
@@ -170,7 +170,7 @@
 </td>
 </tr>
 <tr>
-	<td><input value="{{ LNG.bo_unban }}" type="submit" style="width:20%;">&nbsp;
+	<td><input value="{{ LNG.bo_unban }}" type="submit" style="width:20%;"> 
 	<input TYPE="button" onClick="UsersBan.reset();this.form.regexp.value=''" value="{{ LNG.button_reset }}"></td>
 </tr><tr>
 	<td align="left">

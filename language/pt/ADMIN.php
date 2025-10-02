@@ -245,12 +245,12 @@ $LNG['bo_bbb_go_act']			= '[ Recarregar ]';
 $LNG['bo_permanent']			= 'Ban Permanente';
 $LNG['bo_bbb_title_1']			= 'Sistema de Suspensão';
 $LNG['bo_bbb_title_2']			= 'Quando deve ser desbloqueado';
-$LNG['bo_bbb_title_3']			= 'Sistema de Suspensão &bull; <font color=red>Este jogador encontra-se bloqueado';
+$LNG['bo_bbb_title_3']			= 'Sistema de Suspensão &bull; Este jogador encontra-se bloqueado';
 $LNG['bo_bbb_title_4']			= 'A fim de reduzir o tempo de duração, é necessário adicionar um sinal de subração antes do numero introduzido desejado, que consta o numero de minutos que desejas reduzir, tal como: -5 ';
 $LNG['bo_bbb_title_5']			= 'Trancado';
 $LNG['bo_bbb_title_6']			= 'Data de modificação';
 $LNG['bo_characters_1']			= 'Letras disponiveis ';
-$LNG['bo_characters_suus']		= '&nbsp; (fechado)';
+$LNG['bo_characters_suus']		= '  (fechado)';
 $LNG['bo_order_username']		= '[Ordenar por nome]';
 $LNG['bo_order_id']				= '[Ordenar por ID]';
 $LNG['bo_order_banned']			= '[Ordenar por suspendido]';
@@ -772,11 +772,11 @@ $LNG['ac_view_image2']                  = 'Ver imagem';
 $LNG['ac_view_text_ext']                = 'Mostrar texto externo';
 $LNG['ac_view_text_int']                = 'Mostrar texto interno';
 $LNG['ac_view_text_sol']                = 'Mostrar texto para aplicação';
-$LNG['ac_moons_no']                     = '<font color=red>(Nenhuma Lua)</font>';
+$LNG['ac_moons_no']                     = '(Nenhuma Lua)';
 $LNG['ac_urlnow']                       = 'URL: ';
 $LNG['ac_time_destruyed']               = 'Data de destruição total';
-$LNG['ac_isnodestruyed']                = '<font color=red>(Não existe qualquer planeta destruido recentemente)</font>';
-$LNG['ac_no_alliance']                  = '<font color=red>(Nenhuma Aliança)</font>';
+$LNG['ac_isnodestruyed']                = '(Não existe qualquer planeta destruido recentemente)';
+$LNG['ac_no_alliance']                  = '(Nenhuma Aliança)';
 $LNG['ac_ali_text_11']                  = 'Texto externo';
 $LNG['ac_ali_text_22']                  = 'Texto interno';
 $LNG['ac_ali_text_33']                  = 'Texto de aplicação';
@@ -787,7 +787,7 @@ $LNG['ac_suspended_time']               = 'Suspendido';
 $LNG['ac_suspended_longer']             = 'Até';
 $LNG['ac_suspended_reason']             = 'Razão';
 $LNG['ac_suspended_autor']              = 'Suspenso por';
-$LNG['ac_note_k']                       = '<table><tr><th width=10%><font color=lime>T+</font></th><th>Mais que o trilião</th></tr><tr><th width=10%><font color=lime>T</font></th><th>Mais ou o mesmo que o trilião</th></tr><tr><th width=10%><font color=lime>B</font></th><th>Mais ou o mesmo que o bilião</th></tr><tr><th width=10%><font color=lime>M</font></th><th>Mais ou o mesmo que o milhão</th></tr><tr><th width=10%><font color=lime>K</font></th><th>Mais ou o mesmo que o milhar</th></tr></table>';
+$LNG['ac_note_k']                       = '<table><tr><th width=10%>T+</th><th>Mais que o trilião</th></tr><tr><th width=10%>T</th><th>Mais ou o mesmo que o trilião</th></tr><tr><th width=10%>B</th><th>Mais ou o mesmo que o bilião</th></tr><tr><th width=10%>M</th><th>Mais ou o mesmo que o milhão</th></tr><tr><th width=10%>K</th><th>Mais ou o mesmo que o milhar</th></tr></table>';
 $LNG['ac_leyend']                       = '[ Legenda ]';
 $LNG['ac_no_rank_level']                = 'Não tem permisões suficientes para ver informações acerca deste jogador!';
 //###########################################################//
@@ -965,7 +965,7 @@ $LNG['po_add_moon']					= 'Adicionar lua';
 
 // Suporte
 
-$LNG['sp_admin_answer']                 = 'Resposta de %s a %s<br><br><font color="red">%s</font>';
+$LNG['sp_admin_answer']                 = 'Resposta de %s a %s<br><br>%s';
 $LNG['sp_answer_message_title']         = 'Support Ticket #%d';
 $LNG['sp_answer_message']               = 'Tens uma resposta ao teu ticket numero: #%d!';
 $LNG['sp_admin_closed']                 = 'O %s fechou o Ticket a %s';
@@ -1025,7 +1025,7 @@ $LNG['fb_settings']                     = 'Configurações da conexão pelo Face
 $LNG['fb_active']                       = 'Facebook Connect ativo?';
 $LNG['fb_api_key']                      = 'Chave do Facebook API';
 $LNG['fb_secrectkey']                   = 'Chave do Facebook Secret';
-$LNG['fb_info']                         = 'Com o Facebook Connect os usuários podem que estão conectados ao Facebook, com o meu log in, clique ou registre-se. <br><br>Para usar este sistema, deves ser registrado com Faceebok. Além disso, você deve criar um aplicativo. Registar <a href="http://www.facebook.com/developers/">http://www.facebook.com/developers/</a> Como conectar URL tens de ativar o sistema e por as duas chaves.<br><br><font color="red">Para o envio de E-Mails deves ter o sistema de envio ativo! (SMTP Settings)</font>';
+$LNG['fb_info']                         = 'Com o Facebook Connect os usuários podem que estão conectados ao Facebook, com o meu log in, clique ou registre-se. <br><br>Para usar este sistema, deves ser registrado com Faceebok. Além disso, você deve criar um aplicativo. Registar <a href="http://www.facebook.com/developers/">http://www.facebook.com/developers/</a> Como conectar URL tens de ativar o sistema e por as duas chaves.<br><br>Para o envio de E-Mails deves ter o sistema de envio ativo! (SMTP Settings)';
 $LNG['fb_curl_yes']						= '<span style="color:green">O cURL esta instalado no Servidor!</span>';
 $LNG['fb_curl_no']						= '<span style="color:red">Extenção cURL não esta instalado!, o FaceBook requer que você instale para que ele funcione!</span>';
 

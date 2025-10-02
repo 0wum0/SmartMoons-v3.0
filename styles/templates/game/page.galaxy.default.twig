@@ -120,7 +120,7 @@
 					<span class="{% for class in currentPlanet.user.class %}{% if loop.first %} {% endif %}galaxy-username-{{ class }}{% endfor %} galaxy-username">{{ currentPlanet.user.username }}</span>
 
 					{% if currentPlanet.user.class %}
-					<span>(</span>{% for class in currentPlanet.user.class %}{% if loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}<span>)</span>
+					<span>(</span>{% for class in currentPlanet.user.class %}{% if loop.first %} {% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}<span>)</span>
 					{% endif %}
 				</a>
 			</td>

@@ -35,7 +35,7 @@ border:0px;background:url(./styles/resource/images/admin/blank.gif);text-align:r
 
 <table class="tableunique">
 	<tr>
-		<td class="blank"><a class="tooltip" data-tooltip-content="{{ ac_note_k }}">{{ ac_leyend }}&nbsp; <img src="./styles/resource/images/admin/i.gif" height="12" width="12"></a></td>
+		<td class="blank"><a class="tooltip" data-tooltip-content="{{ ac_note_k }}">{{ ac_leyend }} <img src="./styles/resource/images/admin/i.gif" height="12" width="12"></a></td>
 	</tr>
 	<tr>
 		<td class="unico transparent"><a href="#" onclick="$('#datos').slideToggle();return false" class="link">
@@ -44,7 +44,7 @@ border:0px;background:url(./styles/resource/images/admin/blank.gif);text-align:r
 		<td class="unico transparent">
 			<div id="datos">
 			<table align="center" width="60%">
-			<tr><th colspan="2">&nbsp;</th></tr>
+			<tr><th colspan="2"> </th></tr>
 			<tr><td height="22px">{{ input_id }}</td><td>{{ id }}</td></tr>
 			<tr><td height="22px">{{ ac_name }}</td><td>{{ nombre }}</td></tr>
 			<tr><td height="22px">{{ ac_mail }}</td><td>{{ email_1 }}</td></tr>
@@ -199,7 +199,7 @@ border:0px;background:url(./styles/resource/images/admin/blank.gif);text-align:r
 			</tr>
 				{{ resources }}
 			<tr>
-				<td colspan="5" height="30px">{{ Darkmatter }}: &nbsp;&nbsp;{{ mo }}</td>
+				<td colspan="5" height="30px">{{ Darkmatter }}:   {{ mo }}</td>
 			</tr>
 			</table>
 			<br >
@@ -265,7 +265,7 @@ border:0px;background:url(./styles/resource/images/admin/blank.gif);text-align:r
 			{% if DestruyeD == 0 %}<a href="#" onclick="$('#destr').slideToggle();return false" class="link">
 			<img src="./styles/resource/images/admin/arrowright.png" width="16" height="10"> {{ ac_recent_destroyed_planets }}</a>
 			{% else %}<span class="no_moon"><img src="./styles/resource/images/admin/arrowright.png" width="16" height="10"> 
-			{{ ac_recent_destroyed_planets }}&nbsp;{{ ac_isnodestruyed }}</span>{% endif %}
+			{{ ac_recent_destroyed_planets }} {{ ac_isnodestruyed }}</span>{% endif %}
 		</td>
 	</tr><tr>
 		<td class="unico transparent">

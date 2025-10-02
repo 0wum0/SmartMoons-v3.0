@@ -6,16 +6,16 @@
 {% for key, value in AvailableUnis %}<option value="{{ key }}"{% if key == UNI %} selected{% endif %}>{{ value }}</option>{% endfor %}
 </select>
 {% endif %}
-<a href="admin.php?page=overview" target="Hauptframe" class="topn">&nbsp;{{ adm_cp_index }}&nbsp;</a>
+<a href="admin.php?page=overview" target="Hauptframe" class="topn"> {{ adm_cp_index }} </a>
 {% if authlevel == constant('AUTH_ADM') %}
-<a href="?page=universe&amp;sid={{ sid }}" target="Hauptframe" class="topn">&nbsp;{{ mu_universe }}&nbsp;</a>
-<a href="?page=rights&amp;mode=rights&amp;sid={{ sid }}" target="Hauptframe" class="topn">&nbsp;{{ mu_moderation_page }}&nbsp;</a>
-<a href="?page=rights&amp;mode=users&amp;sid={{ sid }}" target="Hauptframe" class="topn">&nbsp;{{ ad_authlevel_title }}&nbsp;</a>
+<a href="?page=universe&amp;sid={{ sid }}" target="Hauptframe" class="topn"> {{ mu_universe }} </a>
+<a href="?page=rights&amp;mode=rights&amp;sid={{ sid }}" target="Hauptframe" class="topn"> {{ mu_moderation_page }} </a>
+<a href="?page=rights&amp;mode=users&amp;sid={{ sid }}" target="Hauptframe" class="topn"> {{ ad_authlevel_title }} </a>
 {% endif %}
 {% if id == 1 %}
-<a href="?page=reset&amp;sid={{ sid }}" target="Hauptframe" class="topn">&nbsp;{{ re_reset_universe }}&nbsp;</a>
+<a href="?page=reset&amp;sid={{ sid }}" target="Hauptframe" class="topn"> {{ re_reset_universe }} </a>
 {% endif %}
-<a href="javascript:top.location.href='game.php';" target="_top" class="out">&nbsp;{{ adm_cp_logout }}&nbsp;</a>
+<a href="javascript:top.location.href='game.php';" target="_top" class="out"> {{ adm_cp_logout }} </a>
 </div>
 <script>
 $(function() {

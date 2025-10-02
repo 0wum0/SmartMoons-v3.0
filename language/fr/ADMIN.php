@@ -217,7 +217,7 @@ $LNG['bo_bbb_go_act']					= '[ Actualiser ]';
 $LNG['bo_permanent'] 					= 'Ban permanent';
 $LNG['bo_bbb_title_1']					= 'Système bannissement';
 $LNG['bo_bbb_title_2']					= 'Quand le bannissement sera levé';
-$LNG['bo_bbb_title_3']					= 'Système bannissement<br><font color=red>Note: Cet utilisateur est déjà banni !';
+$LNG['bo_bbb_title_3']					= 'Système bannissement<br>Note: Cet utilisateur est déjà banni !';
 $LNG['bo_bbb_title_4']					= 'Pour soustraire des jours, des heures etc. Ajouter un signe ( - ) devant le nombre, Exemple : -5 ';
 $LNG['bo_bbb_title_5']					= 'Banni jusqu\'à';
 $LNG['bo_bbb_title_6']					= 'Changer date';
@@ -414,7 +414,7 @@ $LNG['se_ref_max_referals']				= 'Saisi maximale';
 $LNG['se_ref_max_referals_info']		= 'Nombre maximum de joueurs recruté par utilisateur';
 $LNG['se_silo_factor']					= 'Taille silo de missiles';
 $LNG['se_silo_factor_info']				= 'Facteur de la taille du silo';
-$LNG['se_min_build_time_info']				= 'Ici vous ajustez le minimum de temps de construction pour les Bâtiments, Recherches, ainsi que les Flottes et Défenses. Cette valeur par défaut est de 1 seconde.<br>Si 0 est tapé, la fonction est désactivée<br><font color=orange>Attention - Dans certains cas, des bugs peuvent survenir si la valeur 0 est est entrée ! </font>';
+$LNG['se_min_build_time_info']				= 'Ici vous ajustez le minimum de temps de construction pour les Bâtiments, Recherches, ainsi que les Flottes et Défenses. Cette valeur par défaut est de 1 seconde.<br>Si 0 est tapé, la fonction est désactivée<br>Attention - Dans certains cas, des bugs peuvent survenir si la valeur 0 est est entrée ! ';
 $LNG['se_news_head']					= 'Paramètres Actualités';
 $LNG['se_news_active']					= 'Ativer actualités';
 $LNG['se_news_limit']					= 'Max 255 Caractères!';
@@ -767,11 +767,11 @@ $LNG['ac_view_image2']					= 'Voir Image';
 $LNG['ac_view_text_ext']				= 'Montrer Texte externe';
 $LNG['ac_view_text_int']				= 'Montrer Texte interne';
 $LNG['ac_view_text_sol']				= 'Montrer Application Text';
-$LNG['ac_moons_no']					= '<font color=red>(Pas de Lune)</font>';
+$LNG['ac_moons_no']					= '(Pas de Lune)';
 $LNG['ac_urlnow']					= 'URL: ';
 $LNG['ac_time_destruyed']				= 'Date de la Destruction Totale';
-$LNG['ac_isnodestruyed']				= '<font color=red>(Il n\'y a pas eu de Planètes détruites récemment)</font>';
-$LNG['ac_no_alliance']					= '<font color=red>(Pas d\'Alliance)</font>';
+$LNG['ac_isnodestruyed']				= '(Il n\'y a pas eu de Planètes détruites récemment)';
+$LNG['ac_no_alliance']					= '(Pas d\'Alliance)';
 $LNG['ac_ali_text_11']					= 'Texte externe';
 $LNG['ac_ali_text_22']					= 'Texte interne';
 $LNG['ac_ali_text_33']					= 'Texte de candidature';
@@ -782,14 +782,14 @@ $LNG['ac_suspended_time']				= 'Bannis';
 $LNG['ac_suspended_longer']				= 'Jusqu\'à';
 $LNG['ac_suspended_reason']				= 'Raison';
 $LNG['ac_suspended_autor']				= 'Bannis pour';
-$LNG['ac_note_k']					.= '<table><tr><th width=10%><font color=lime>T+</font></th><th>Dépasse les Milliards</th></tr>';
+$LNG['ac_note_k']					.= '<table><tr><th width=10%>T+</th><th>Dépasse les Milliards</th></tr>';
 $LNG['ac_leyend']					= '[ Légende ]';
 $LNG['ac_no_rank_level']				= 'Vous n\'avez pas l\' autorisation suffisante pour voir les informations sur ce joueur !';
 /*
-$LNG['ac_note_k']					.= '<tr><th width=10%><font color=lime>T</font></th><th>Mille Milliards et Plus</th></tr>';
-$LNG['ac_note_k']					.= '<tr><th width=10%><font color=lime>B</font></th><th>Milliards et Plus</th></tr>';
-$LNG['ac_note_k']					.= '<tr><th width=10%><font color=lime>M</font></th><th>Millions et Plus</th></tr>';
-$LNG['ac_note_k']					.= '<tr><th width=10%><font color=lime>K</font></th><th>Mille et Plus</th></tr></table>';
+$LNG['ac_note_k']					.= '<tr><th width=10%>T</th><th>Mille Milliards et Plus</th></tr>';
+$LNG['ac_note_k']					.= '<tr><th width=10%>B</th><th>Milliards et Plus</th></tr>';
+$LNG['ac_note_k']					.= '<tr><th width=10%>M</th><th>Millions et Plus</th></tr>';
+$LNG['ac_note_k']					.= '<tr><th width=10%>K</th><th>Mille et Plus</th></tr></table>';
 */
 //###########################################################//
 
@@ -994,7 +994,7 @@ $LNG['po_delete_moon']          			= 'Supprimer une Lune';
 */
 // Support
 
-$LNG['sp_admin_answer']					= '%s (Admin) a écrit sur %s<br><br><font color="red">%s</font>';
+$LNG['sp_admin_answer']					= '%s (Admin) a écrit sur %s<br><br>%s';
 $LNG['sp_answer_message_title']				= 'Support Ticket #%d';
 $LNG['sp_answer_message']				= 'Sur Votre ticket #%d une réponse a été postée!';
 $LNG['sp_admin_closed']					= '%s (Admin) a fermé le ticket le %s !';
@@ -1052,7 +1052,7 @@ $LNG['fb_settings']					= 'Paramètres de Facebook Connect';
 $LNG['fb_active']					= 'Activer la Facebook Connect?';
 $LNG['fb_api_key']					= 'Facebook API Clé';
 $LNG['fb_secrectkey']					= 'Clé Secrète Facebook';
-$LNG['fb_info']						= 'Avec Facebook Connect, les utilisateurs qui sont connectés sur Facebook peuvent se connecter en un clic, ou s\'inscrire. <br> Pour utiliser cette fonctionnalité, vous devez être inscrit à Faceebok lui-même. En outre, vous devez créer une demande. Informations : <a href="http://www.facebook.com/developers/"> http://www.facebook.com/developers/ </ a>. Vous devez vous connecter en entrant l\'URL de la partie. Ensuite, vous portez ici les clés et votre jeu devrait être prêt pour Facebook. <font color="red"> <br> Pour FB Connect, la distribution du courrier sera disponible ! (paramètres SMTP) </ font> ';
+$LNG['fb_info']						= 'Avec Facebook Connect, les utilisateurs qui sont connectés sur Facebook peuvent se connecter en un clic, ou s\'inscrire. <br> Pour utiliser cette fonctionnalité, vous devez être inscrit à Faceebok lui-même. En outre, vous devez créer une demande. Informations : <a href="http://www.facebook.com/developers/"> http://www.facebook.com/developers/ </ a>. Vous devez vous connecter en entrant l\'URL de la partie. Ensuite, vous portez ici les clés et votre jeu devrait être prêt pour Facebook.  <br> Pour FB Connect, la distribution du courrier sera disponible ! (paramètres SMTP) </ font> ';
 $LNG['fb_curl_yes']						= '<span style="color:green">cURL installé!</span>';
 $LNG['fb_curl_no']						= '<span style="color:red">cURL n\'est pas installé! Nécessite l\'extension cURL Facebook au boulot!</span>';
 

@@ -327,7 +327,7 @@ function shortly_number(int|float $number, ?int $decial = null): string
 	}
 	
 	$decial	= !is_numeric($decial) ? ((int) (((int)$number != $number) && $key != 0 && $number != 0 && $number < 100)) : $decial;
-	return pretty_number($negate * $number, $decial).'&nbsp;'.$unit[$key];
+	return pretty_number($negate * $number, $decial).' '.$unit[$key];
 }
 
 function floatToString(int|float $number, int $Pro = 0, bool $output = false): string {
