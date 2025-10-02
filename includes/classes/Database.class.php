@@ -47,17 +47,29 @@ class Database
         // Config laden
         require 'includes/config.php';
 
-        // Standardwerte setzen, falls Keys fehlen
-        $defaults = [
-            'host'     => 'localhost',
-            'port'     => 3306,
-            'user'     => 'root',
-            'password' => '',
-            'dbname'   => '',
-            'prefix'   => '',
-        ];
+        // Validate required database credentials
+        if (empty($databaseConfig['host'])) {
+            throw new Exception("Database configuration error: 'host' is missing or empty. Please check includes/config.php");
+        }
+        if (empty($databaseConfig['user'])) {
+            throw new Exception("Database configuration error: 'user' is missing or empty. Please check includes/config.php");
+        }
+        if (!isset($databaseConfig['password'])) {
+            throw new Exception("Database configuration error: 'password' is missing. Please check includes/config.php");
+        }
+        if (empty($databaseConfig['dbname'])) {
+            throw new Exception("Database configuration error: 'dbname' is missing or empty. Please check includes/config.php");
+        }
 
-        $databaseConfig = array_merge($defaults, $databaseConfig ?? []);
+        // Set default port if not specified
+        if (!isset($databaseConfig['port'])) {
+            $databaseConfig['port'] = 3306;
+        }
+
+        // Set default prefix if not specified
+        if (!isset($databaseConfig['prefix'])) {
+            $databaseConfig['prefix'] = '';
+        }
 
         // DSN erstellen
         $dsn = sprintf(
