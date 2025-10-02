@@ -68,7 +68,15 @@ class template
 		// Register allowedTo function for Twig templates (for rights/permissions checking)
 		$this->twig->addFunction(new TwigFunction('allowedTo', function(string $right): bool {
 			global $USER;
-			return isset($USER['rights']) && is_array($USER['rights']) && in_array($right, $USER['rights']);
+			// Fallback: Admins dürfen alles
+			if (isset($USER['authlevel']) && $USER['authlevel'] >= AUTH_ADM) {
+				return true;
+			}
+			// Falls Rechte-Array existiert, prüfen
+			if (isset($USER['rights']) && is_array($USER['rights'])) {
+				return in_array($right, $USER['rights']);
+			}
+			return false;
 		}));
 		
 		// Register isModuleAvailable function for Twig templates
