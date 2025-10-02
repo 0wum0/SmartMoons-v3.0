@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 class BBCode
 {
-	static public function parse(string $sText): string
+	static public function parse(?string $sText): string
 	{
 		$sText = !empty($sText)?$sText:'';
 		// Convert Windows (\r\n) to Unix (\n)

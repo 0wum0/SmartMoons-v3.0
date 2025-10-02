@@ -130,12 +130,13 @@ function locale_date_format(string $format, int $time, $LNG = null): string
 	return $format;
 }
 
-function _date(string $format, ?int $time = null, ?string $toTimeZone = null, $LNG = null): string
+function _date(string $format, mixed $time = null, ?string $toTimeZone = null, $LNG = null): string
 {
-	if ($time === false || $time === null) {
+	// Handle false, null, empty string, and cast safely to int
+	if ($time === false || $time === null || $time === '') {
 		$time = TIMESTAMP;
 	} else {
-		$time = (int)floor($time);
+		$time = (int)floor((float)$time);
 	}
 
 	if(isset($toTimeZone))
