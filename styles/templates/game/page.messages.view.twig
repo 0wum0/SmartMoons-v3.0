@@ -43,8 +43,8 @@
 		{% if MessID != 999 %}<input name="messageID[{{ Message.id }}]" value="1" type="checkbox">{% endif %}
 		</td>
 		<td>{{ Message.time }}</td>
-		<td>{{ Message.from }}</td>
-		<td>{{ Message.subject }}
+		<td>{{ Message.from|raw }}</td>
+		<td>{{ Message.subject|raw }}
 		{% if Message.type == 1 and MessID != 999 %}
 		<a href="#" onclick="return Dialog.PM({{ Message.sender }}, Message.CreateAnswer('{{ Message.subject }}'));" title="{{ LNG.mg_answer_to }} {{ Message.from|striptags }}"><i class="far fa-envelope" title="Message privé" style="font-size: 15px;"></i></a>
 		{% endif %}
