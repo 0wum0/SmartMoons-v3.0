@@ -51,6 +51,12 @@
 
 	<div class="main_list_right">
 		<ul>
+            <li>
+                <span class="servertime-badge">
+                    <i class="fas fa-clock"></i>
+                    <span class="servertime">{{ servertime }}</span>
+                </span>
+            </li>
 			{% if isModuleAvailable(constant('MODULE_TECHTREE')) %}
 			<li><a href="game.php?page=techtree" title="{{ LNG.lm_techtree }}"><i class="fas fa-flask"></i></a></li>
 			{% endif %}
