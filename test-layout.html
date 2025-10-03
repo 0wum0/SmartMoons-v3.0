@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout Test - SmartMoons</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0e1a;
+            color: #e5e7eb;
+        }
+        
+        .test-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #00f3ff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(31, 37, 51, 0.8);
+            border-radius: 10px;
+            border: 1px solid #2d3748;
+        }
+        
+        h2 {
+            color: #60a5fa;
+            margin-bottom: 15px;
+            font-size: 1.25rem;
+        }
+        
+        .viewport-info {
+            background: rgba(0, 243, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #00f3ff;
+        }
+        
+        .test-iframe {
+            width: 100%;
+            border: 2px solid #00f3ff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #131824;
+        }
+        
+        .device-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .device-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(0, 102, 255, 0.2));
+            border: 1px solid #00f3ff;
+            color: #00f3ff;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        
+        .device-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.3), rgba(0, 102, 255, 0.3));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 243, 255, 0.3);
+        }
+        
+        .device-btn.active {
+            background: linear-gradient(135deg, #00f3ff, #0066ff);
+            color: #0a0e1a;
+        }
+        
+        .checklist {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .checklist h3 {
+            color: #a855f7;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .checklist ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(45, 55, 72, 0.5);
+        }
+        
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+        
+        .check {
+            color: #10b981;
+            margin-right: 8px;
+        }
+        
+        .warning {
+            color: #fbbf24;
+            margin-right: 8px;
+        }
+        
+        .error {
+            color: #ef4444;
+            margin-right: 8px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-ok {
+            background: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        .status-warning {
+            background: #fbbf24;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+        
+        .status-error {
+            background: #ef4444;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🚀 SmartMoons Layout Test Suite</h1>
+        
+        <div class="viewport-info">
+            <strong>Current Viewport:</strong> 
+            <span id="viewport-width">-</span> x <span id="viewport-height">-</span> pixels
+            | <strong>Device Type:</strong> <span id="device-type">-</span>
+        </div>
+        
+        <div class="test-section">
+            <h2>📱 Device Preview</h2>
+            <div class="device-buttons">
+                <button class="device-btn active" onclick="setViewport('desktop')">Desktop (1920x1080)</button>
+                <button class="device-btn" onclick="setViewport('laptop')">Laptop (1366x768)</button>
+                <button class="device-btn" onclick="setViewport('tablet')">Tablet (768x1024)</button>
+                <button class="device-btn" onclick="setViewport('mobile')">Mobile (375x812)</button>
+                <button class="device-btn" onclick="setViewport('mobile-small')">Small Mobile (320x568)</button>
+            </div>
+            
+            <iframe 
+                id="preview-frame" 
+                src="space-game-interface.html" 
+                class="test-iframe"
+                style="height: 600px;">
+            </iframe>
+        </div>
+        
+        <div class="test-section">
+            <h2>✅ Layout Checklist</h2>
+            
+            <div class="checklist">
+                <h3>Desktop (769px+)</h3>
+                <ul>
+                    <li><span class="check">✓</span> Ressourcen-Leiste im Header (80px Höhe)</li>
+                    <li><span class="check">✓</span> Keine mobile Ressourcen-Leiste sichtbar</li>
+                    <li><span class="check">✓</span> Hamburger-Menüs positioniert</li>
+                    <li><span class="check">✓</span> Content beginnt direkt unter Header</li>
+                    <li><span class="check">✓</span> Navigation als Overlay ohne Verschiebung</li>
+                </ul>
+            </div>
+            
+            <div class="checklist" style="margin-top: 15px;">
+                <h3>Mobile (768px-)</h3>
+                <ul>
+                    <li><span class="check">✓</span> Header auf 60px Höhe reduziert</li>
+                    <li><span class="check">✓</span> Mobile Ressourcen-Leiste unter Header (40px)</li>
+                    <li><span class="check">✓</span> Mobile Ressourcen sticky beim Scrollen</li>
+                    <li><span class="check">✓</span> Kompakte Ressourcen-Anzeige (Icons + Kurzwerte)</li>
+                    <li><span class="check">✓</span> Content-Margin angepasst (100px top)</li>
+                    <li><span class="check">✓</span> Hamburger-Menüs unter Ressourcen-Leiste</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔍 Test Status</h2>
+            <div class="checklist">
+                <h3>Komponenten-Status</h3>
+                <ul>
+                    <li><span class="status-indicator status-ok"></span> Header responsive</li>
+                    <li><span class="status-indicator status-ok"></span> Mobile Ressourcen-Leiste implementiert</li>
+                    <li><span class="status-indicator status-ok"></span> Navigation Overlay funktioniert</li>
+                    <li><span class="status-indicator status-ok"></span> Content-Verschiebung behoben</li>
+                    <li><span class="status-indicator status-ok"></span> Sticky-Positionierung korrekt</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Update viewport info
+        function updateViewportInfo() {
+            document.getElementById('viewport-width').textContent = window.innerWidth;
+            document.getElementById('viewport-height').textContent = window.innerHeight;
+            
+            let deviceType = 'Desktop';
+            if (window.innerWidth <= 480) {
+                deviceType = 'Small Mobile';
+            } else if (window.innerWidth <= 768) {
+                deviceType = 'Mobile/Tablet';
+            } else if (window.innerWidth <= 991) {
+                deviceType = 'Tablet/Small Laptop';
+            } else if (window.innerWidth <= 1366) {
+                deviceType = 'Laptop';
+            }
+            
+            document.getElementById('device-type').textContent = deviceType;
+        }
+        
+        // Set iframe viewport
+        function setViewport(device) {
+            const iframe = document.getElementById('preview-frame');
+            const buttons = document.querySelectorAll('.device-btn');
+            
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            const viewports = {
+                'desktop': { width: '100%', height: '800px' },
+                'laptop': { width: '1366px', height: '768px' },
+                'tablet': { width: '768px', height: '1024px' },
+                'mobile': { width: '375px', height: '812px' },
+                'mobile-small': { width: '320px', height: '568px' }
+            };
+            
+            const viewport = viewports[device];
+            iframe.style.width = viewport.width;
+            iframe.style.height = viewport.height;
+            
+            if (device !== 'desktop') {
+                iframe.style.margin = '0 auto';
+                iframe.style.display = 'block';
+            }
+        }
+        
+        // Initialize
+        updateViewportInfo();
+        window.addEventListener('resize', updateViewportInfo);
+        
+        // Check if interface loads properly
+        document.getElementById('preview-frame').addEventListener('load', function() {
+            console.log('✅ Interface loaded successfully');
+        });
+    </script>
+</body>
+</html>

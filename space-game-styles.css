@@ -204,7 +204,7 @@ body::after {
     backdrop-filter: blur(10px);
     border-bottom: 2px solid var(--color-border-accent);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 243, 255, 0.1);
-    z-index: var(--z-sticky);
+    z-index: 1000;
     padding: 0 var(--spacing-lg);
 }
 
@@ -218,6 +218,43 @@ body::after {
     margin: 0 auto;
     flex-wrap: wrap;
     padding: var(--spacing-sm) 0;
+}
+
+/* Desktop Resources */
+.resources-desktop {
+    display: flex;
+}
+
+/* Mobile Resources Bar */
+.resources-mobile {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(19, 24, 36, 0.98), rgba(19, 24, 36, 0.95));
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border-accent);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    z-index: 900;
+    padding: 0 var(--spacing-sm);
+    justify-content: space-around;
+    align-items: center;
+}
+
+.resource-mobile-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: var(--color-accent-cyan);
+    font-weight: 600;
+}
+
+.resource-mobile-item i {
+    font-size: 0.875rem;
+    color: var(--color-accent-cyan);
 }
 
 .resource-item {
@@ -340,7 +377,7 @@ body::after {
    ============================================ */
 .hamburger-menu {
     position: fixed;
-    top: calc(var(--header-height) + var(--spacing-lg));
+    top: 12px;
     width: 56px;
     height: 56px;
     border-radius: var(--radius-full);
@@ -350,7 +387,7 @@ body::after {
     color: var(--color-accent-cyan);
     font-size: 1.5rem;
     cursor: pointer;
-    z-index: calc(var(--z-modal) + 1);
+    z-index: 1100;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -400,7 +437,7 @@ body::after {
     backdrop-filter: blur(20px);
     border: 1px solid var(--color-border-accent);
     box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
-    z-index: var(--z-modal);
+    z-index: 1200;
     transform: translateX(-100%);
     transition: transform var(--transition-base);
     overflow-y: auto;
@@ -612,7 +649,7 @@ body::after {
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
-    z-index: calc(var(--z-modal) - 1);
+    z-index: 1150;
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--transition-base);
@@ -628,7 +665,7 @@ body::after {
    ============================================ */
 .game-content {
     position: relative;
-    z-index: var(--z-base);
+    z-index: 1;
     margin-top: var(--header-height);
     padding: var(--spacing-xl) var(--spacing-lg);
     min-height: calc(100vh - var(--header-height));
@@ -1906,8 +1943,61 @@ body::after {
    RESPONSIVE DESIGN
    ============================================ */
 
+/* Desktop (769px and above) */
+@media (min-width: 769px) {
+    .resources-mobile {
+        display: none !important;
+    }
+    
+    .resources-desktop {
+        display: flex !important;
+    }
+    
+    .game-content {
+        margin-top: var(--header-height);
+    }
+}
+
+/* Mobile and Tablets (768px and below) */
+@media (max-width: 768px) {
+    :root {
+        --header-height: 60px;
+    }
+    
+    .game-header {
+        height: 60px;
+    }
+    
+    .resources-desktop {
+        display: none !important;
+    }
+    
+    .resources-mobile {
+        display: flex !important;
+    }
+    
+    .game-content {
+        margin-top: 100px; /* 60px header + 40px mobile resources */
+        padding-top: var(--spacing-md);
+    }
+    
+    .hamburger-menu {
+        top: 70px; /* Below header and mobile resources bar */
+        width: 48px;
+        height: 48px;
+    }
+    
+    .hamburger-menu--left {
+        left: var(--spacing-sm);
+    }
+    
+    .hamburger-menu--right {
+        right: var(--spacing-sm);
+    }
+}
+
 /* Tablets (768px - 991px) */
-@media (max-width: 991px) {
+@media (min-width: 769px) and (max-width: 991px) {
     :root {
         --header-height: 120px;
     }
@@ -1927,68 +2017,9 @@ body::after {
     .grid--3 {
         grid-template-columns: repeat(2, 1fr);
     }
-}
-
-/* Mobile (767px and below) */
-@media (max-width: 767px) {
-    :root {
-        --header-height: 160px;
-        --spacing-lg: 1rem;
-        --spacing-xl: 1.5rem;
-    }
-    
-    .game-header {
-        padding: 0 var(--spacing-sm);
-    }
-    
-    .resource-bar {
-        gap: var(--spacing-sm);
-    }
-    
-    .resource-item {
-        min-width: calc(50% - var(--spacing-sm));
-        padding: var(--spacing-xs) var(--spacing-sm);
-    }
-    
-    .resource-icon {
-        width: 32px;
-        height: 32px;
-        font-size: 1rem;
-    }
-    
-    .resource-label {
-        font-size: 0.625rem;
-    }
-    
-    .resource-value {
-        font-size: 0.875rem;
-    }
-    
-    .resource-max {
-        font-size: 0.625rem;
-    }
-    
-    .hamburger-menu {
-        width: 48px;
-        height: 48px;
-        font-size: 1.25rem;
-        top: calc(var(--header-height) + var(--spacing-sm));
-    }
-    
-    .hamburger-menu--left {
-        left: var(--spacing-sm);
-    }
-    
-    .hamburger-menu--right {
-        right: var(--spacing-sm);
-    }
     
     .side-menu {
         width: 280px;
-    }
-    
-    .game-content {
-        padding: var(--spacing-md) var(--spacing-sm);
     }
     
     .page-header {
@@ -2045,7 +2076,7 @@ body::after {
     }
     
     .notification-container {
-        top: calc(var(--header-height) + var(--spacing-sm));
+        top: 110px; /* Below header and mobile resources */
         right: var(--spacing-sm);
         left: var(--spacing-sm);
         max-width: none;

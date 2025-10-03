@@ -256,15 +256,32 @@
             const resources = ['metal', 'crystal', 'deuterium', 'energy', 'darkmatter'];
             
             resources.forEach(resource => {
+                // Update desktop display
                 const element = document.querySelector(`[data-resource="${resource}"]`);
                 if (element && GameState.resources[resource]) {
                     const value = Math.floor(GameState.resources[resource].current);
                     element.textContent = this.formatNumber(value);
                 }
+                
+                // Update mobile display with shortened values
+                const mobileElement = document.querySelector(`[data-resource="${resource}-mobile"]`);
+                if (mobileElement && GameState.resources[resource]) {
+                    const value = Math.floor(GameState.resources[resource].current);
+                    mobileElement.textContent = this.formatShortNumber(value);
+                }
             });
 
             // Update progress bars
             this.updateProgressBars();
+        },
+        
+        formatShortNumber: function(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(0) + 'K';
+            }
+            return num.toString();
         },
 
         updateProgressBars: function() {
