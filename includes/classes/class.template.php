@@ -91,6 +91,8 @@ class template
 		
 		// Register shortly_number function for Twig templates
 		$this->twig->addFunction(new TwigFunction('shortly_number', function($number, ?int $decimal = null): string {
+			// Convert input to float for PHP 8.3 strict typing compatibility
+			$number = (float)$number;
 			return shortly_number($number, $decimal);
 		}));
 		
@@ -157,25 +159,29 @@ class template
 		
 		// Register shortly_number filter for abbreviated numbers (K, M, B, etc.)
 		$this->twig->addFilter(new TwigFilter('shortly', function($number, ?int $decimals = null) {
+			// Convert input to float for PHP 8.3 strict typing compatibility
+			$number = (float)$number;
 			return shortly_number($number, $decimals);
 		}));
 		
 		// Register shortly_number filter (alternative name for compatibility)
 		$this->twig->addFilter(new TwigFilter('shortly_number', function($number, ?int $decimals = null) {
+			// Convert input to float for PHP 8.3 strict typing compatibility
+			$number = (float)$number;
 			return shortly_number($number, $decimals);
 		}));
 		
 		// Register count_characters filter (counts characters in a string)
-		$this->twig->addFilter(new TwigFilter('count_characters', function($string, bool $includeSpaces = false) {
-			if (!is_string($string) && !is_numeric($string)) {
-				// If it's not a string or numeric, try to convert
-				$string = (string)$string;
-			}
+		$this->twig->addFilter(new TwigFilter('count_characters', function($value, bool $includeSpaces = false): int {
+			// Always convert input to string for PHP 8.3 strict typing compatibility
+			// This handles integers, floats, and other scalar types
+			$string = (string)$value;
 			
 			if ($includeSpaces) {
 				return mb_strlen($string);
 			} else {
 				// Remove spaces and count
+				// preg_replace requires string input in PHP 8.3
 				return mb_strlen(preg_replace('/\s+/', '', $string));
 			}
 		}));
