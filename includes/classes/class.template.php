@@ -159,6 +159,26 @@ class template
 		$this->twig->addFilter(new TwigFilter('shortly', function($number, ?int $decimals = null) {
 			return shortly_number($number, $decimals);
 		}));
+		
+		// Register shortly_number filter (alternative name for compatibility)
+		$this->twig->addFilter(new TwigFilter('shortly_number', function($number, ?int $decimals = null) {
+			return shortly_number($number, $decimals);
+		}));
+		
+		// Register count_characters filter (counts characters in a string)
+		$this->twig->addFilter(new TwigFilter('count_characters', function($string, bool $includeSpaces = false) {
+			if (!is_string($string) && !is_numeric($string)) {
+				// If it's not a string or numeric, try to convert
+				$string = (string)$string;
+			}
+			
+			if ($includeSpaces) {
+				return mb_strlen($string);
+			} else {
+				// Remove spaces and count
+				return mb_strlen(preg_replace('/\s+/', '', $string));
+			}
+		}));
 	}
 
 	private function getTempPath(): string
