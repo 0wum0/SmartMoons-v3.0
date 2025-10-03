@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartMoons - Mobile Sidebar Test</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/scifi-framework.css">
+    <link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/sidebar-mobile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0e1a;
+            color: #e5e7eb;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+        }
+        
+        .test-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #1a1f2e;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+        
+        .test-content {
+            margin-top: 60px;
+            padding: 20px;
+        }
+        
+        @media (min-width: 769px) {
+            .test-content {
+                margin-left: 250px;
+            }
+        }
+        
+        .content-card {
+            background: #1a1f2e;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .content-card h2 {
+            color: #00f3ff;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Header mit Burger Button -->
+    <div class="test-header">
+        <button id="sidebar-toggle" class="burger-menu" aria-label="Toggle Menu">
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+        </button>
+        <h1 style="margin: 0 0 0 20px; font-size: 1.5rem; color: #00f3ff;">SmartMoons - Sidebar Test</h1>
+    </div>
+    
+    <!-- Sidebar Navigation -->
+    <div id="leftmenu" class="sidebar-nav">
+        <div class="sidebar-content">
+            <div class="nav-section">
+                <div class="nav-section-title">Übersicht</div>
+                <a href="#" class="sidebar-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Übersicht</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Imperium</div>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-city"></i>
+                    <span>Gebäude</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-flask"></i>
+                    <span>Forschung</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-rocket"></i>
+                    <span>Schiffswerft</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Verteidigung</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Navigation</div>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-space-shuttle"></i>
+                    <span>Flotte</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-globe"></i>
+                    <span>Galaxie</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-users"></i>
+                    <span>Allianz</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Nachrichten</span>
+                    <span class="badge">3</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Statistiken</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Werkzeuge</div>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>Kampfsimulator</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Ressourcen</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>Notizen</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-headset"></i>
+                    <span>Support</span>
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Administration</div>
+                <a href="#" class="sidebar-link admin-link">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Admin-Panel</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="version-info">
+                <span>v3.0.0</span>
+            </div>
+            <div class="copyright">
+                © 2024 SmartMoons
+            </div>
+        </div>
+    </div>
+    
+    <!-- Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    
+    <!-- Test Content -->
+    <div class="test-content">
+        <div class="content-card">
+            <h2>Test der Mobile Sidebar Navigation</h2>
+            <p>Diese Testseite demonstriert die funktionierende Sidebar-Navigation für SmartMoons.</p>
+            <ul>
+                <li><strong>Desktop (>768px):</strong> Sidebar ist links fixiert und immer sichtbar</li>
+                <li><strong>Mobile (≤768px):</strong> Sidebar ist versteckt, Burger-Button öffnet sie</li>
+            </ul>
+        </div>
+        
+        <div class="content-card">
+            <h2>Features</h2>
+            <ul>
+                <li>✅ Smooth Slide-Animation</li>
+                <li>✅ Overlay mit Klick zum Schließen</li>
+                <li>✅ Sci-Fi Design mit Glow-Effekten</li>
+                <li>✅ Responsive für alle Bildschirmgrößen</li>
+                <li>✅ Touch-optimiert für Mobile</li>
+                <li>✅ Accessibility-Features (ARIA)</li>
+            </ul>
+        </div>
+        
+        <div class="content-card">
+            <h2>Interaktivität</h2>
+            <p>Teste die folgenden Aktionen:</p>
+            <ol>
+                <li>Klicke auf den Burger-Button (☰) um die Sidebar zu öffnen</li>
+                <li>Klicke auf das Overlay oder einen Link um sie zu schließen</li>
+                <li>Drücke ESC um die Sidebar zu schließen</li>
+                <li>Verändere die Fenstergröße um Desktop/Mobile-Ansicht zu testen</li>
+            </ol>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="./scripts/game/sidebar-navigation.js"></script>
+</body>
+</html>
