@@ -279,22 +279,34 @@ body {
 /* Mobile Resources */
 .mobile-resources {
   display: none;
-  padding: 10px 15px;
-  background: rgba(0, 0, 0, 0.5);
-  border-top: 1px solid rgba(0, 255, 255, 0.1);
-  gap: 15px;
+  padding: 8px 10px;
+  background: linear-gradient(180deg, rgba(15, 15, 25, 0.95) 0%, rgba(10, 10, 20, 0.9) 100%);
+  border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+  gap: 10px;
   justify-content: space-around;
+  align-items: center;
   flex-wrap: nowrap;
   overflow-x: auto;
+  min-height: 40px;
+  max-height: 50px;
 }
 
 .mobile-resource-item {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   white-space: nowrap;
   min-width: auto;
-  flex-shrink: 0;
+  flex: 0 0 auto;
+  padding: 4px 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.mobile-resource-item.resource-dm {
+  border-color: rgba(153, 69, 255, 0.2);
+  background: rgba(153, 69, 255, 0.05);
 }
 
 .resource-icon-small {
@@ -304,9 +316,14 @@ body {
 
 .resource-value-small {
   font-family: 'Orbitron', monospace;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-cyan);
+  letter-spacing: 0.5px;
+}
+
+.resource-value-small.text-purple {
+  color: var(--color-purple);
 }
 
 /* User Menu */
@@ -576,6 +593,7 @@ body {
   margin-left: var(--sidebar-width);
   min-height: calc(100vh - var(--header-height) - var(--footer-height));
   padding-bottom: 20px;
+  padding-top: 0; /* Ensure no top padding */
   transition: margin-left var(--transition-normal);
 }
 
@@ -835,6 +853,24 @@ body {
 }
 
 /* ========================================
+   MEDIA QUERIES - DESKTOP
+   ======================================== */
+@media (min-width: 769px) {
+  /* Ensure mobile resources are hidden on desktop */
+  .mobile-resources {
+    display: none !important;
+  }
+  
+  .mobile-only {
+    display: none !important;
+  }
+  
+  .desktop-only {
+    display: flex !important;
+  }
+}
+
+/* ========================================
    MEDIA QUERIES - MOBILE
    ======================================== */
 @media (max-width: 768px) {
@@ -909,7 +945,7 @@ body {
   /* Main Content Adjustments */
   .game-main {
     margin-left: 0;
-    padding-top: calc(var(--header-mobile-height) + 50px); /* Header + Resources */
+    /* Removed padding-top to prevent content shift */
   }
   
   .content-wrapper {
