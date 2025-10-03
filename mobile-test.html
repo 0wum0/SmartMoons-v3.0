@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Navigation Test - OGame Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Test-Styles für bessere Mobile-Demonstration */
+        .test-info {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            color: var(--text-primary);
+        }
+        
+        .test-info h2 {
+            color: var(--accent-green);
+            margin-bottom: 15px;
+        }
+        
+        .test-info ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .test-info li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        
+        .test-info li:last-child {
+            border-bottom: none;
+        }
+        
+        .test-info .icon {
+            display: inline-block;
+            width: 20px;
+            margin-right: 10px;
+        }
+        
+        /* Force mobile view for testing */
+        @media (min-width: 769px) {
+            .test-mobile-view .hamburger-btn {
+                display: flex !important;
+            }
+            
+            .test-mobile-view .sidebar {
+                position: fixed !important;
+                transform: translateX(-100%) !important;
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            }
+            
+            .test-mobile-view .sidebar.right-sidebar {
+                transform: translateX(100%) !important;
+            }
+            
+            .test-mobile-view .sidebar.active {
+                transform: translateX(0) !important;
+            }
+            
+            .test-mobile-view .sidebar-overlay {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="test-mobile-view">
+    <!-- Animierter Sternenhintergrund -->
+    <div class="stars-background">
+        <div class="stars-layer-1"></div>
+        <div class="stars-layer-2"></div>
+        <div class="stars-layer-3"></div>
+    </div>
+
+    <!-- Fixed Header mit Ressourcen -->
+    <header class="fixed-header">
+        <!-- Hamburger Menu Links -->
+        <button class="hamburger-btn left" id="leftMenuToggle" aria-label="Spielmenü" aria-expanded="false" aria-controls="leftSidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Ressourcenleiste -->
+        <div class="resources-bar">
+            <div class="resource-item">
+                <div class="resource-info">
+                    <span class="resource-name">Metall</span>
+                    <span class="resource-amount" id="metalAmount">125.340</span>
+                </div>
+            </div>
+            <div class="resource-item">
+                <div class="resource-info">
+                    <span class="resource-name">Kristall</span>
+                    <span class="resource-amount" id="crystalAmount">82.567</span>
+                </div>
+            </div>
+            <div class="resource-item energy">
+                <div class="resource-info">
+                    <span class="resource-name">Energie</span>
+                    <span class="resource-amount" id="energyAmount">2.450/3.200</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hamburger Menu Rechts -->
+        <button class="hamburger-btn right" id="rightMenuToggle" aria-label="Benutzermenü" aria-expanded="false" aria-controls="rightSidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Linke Sidebar - Spielnavigation -->
+    <nav class="sidebar left-sidebar" id="leftSidebar" aria-hidden="true">
+        <div class="sidebar-header">
+            <h2>Navigation</h2>
+            <button class="close-btn" id="closeLeftSidebar">&times;</button>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Übersicht</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">🏗️</span>
+                    <span class="nav-text">Gebäude</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">🔬</span>
+                    <span class="nav-text">Forschung</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">🚀</span>
+                    <span class="nav-text">Schiffswerft</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">🛡️</span>
+                    <span class="nav-text">Verteidigung</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">✈️</span>
+                    <span class="nav-text">Flotte</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">🌌</span>
+                    <span class="nav-text">Galaxie</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Rechte Sidebar - Meta-Navigation -->
+    <nav class="sidebar right-sidebar" id="rightSidebar" aria-hidden="true">
+        <div class="sidebar-header">
+            <h2>Benutzerkonto</h2>
+            <button class="close-btn" id="closeRightSidebar">&times;</button>
+        </div>
+        <div class="user-profile">
+            <div class="user-info">
+                <h3 class="username">Commander</h3>
+                <p class="user-rank">Rang: #1337</p>
+                <p class="user-points">Punkte: 2.456.789</p>
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">📧</span>
+                    <span class="nav-text">Nachrichten</span>
+                    <span class="badge">3</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Einstellungen</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link logout">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-text">Ausloggen</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Overlay für Sidebars -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Hauptinhaltsbereich -->
+    <main class="main-content" id="mainContent">
+        <div class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">Mobile Navigation Test</h1>
+            </div>
+
+            <div class="test-info">
+                <h2>✅ Burger-Menü Funktionalität implementiert!</h2>
+                <ul>
+                    <li><span class="icon">📱</span> <strong>Mobile Ansicht:</strong> Burger-Menüs sind sichtbar und funktionieren</li>
+                    <li><span class="icon">🖱️</span> <strong>Klick auf linkes Burger-Menü:</strong> Öffnet die Spielnavigation von links</li>
+                    <li><span class="icon">🖱️</span> <strong>Klick auf rechtes Burger-Menü:</strong> Öffnet das Benutzermenü von rechts</li>
+                    <li><span class="icon">✨</span> <strong>Animationen:</strong> Sanftes Hineinsliden mit CSS transitions</li>
+                    <li><span class="icon">🔒</span> <strong>Overlay:</strong> Klick außerhalb schließt das Menü</li>
+                    <li><span class="icon">❌</span> <strong>X-Button:</strong> Schließt das jeweilige Menü</li>
+                    <li><span class="icon">⌨️</span> <strong>ESC-Taste:</strong> Schließt alle offenen Menüs</li>
+                    <li><span class="icon">♿</span> <strong>Zugänglichkeit:</strong> ARIA-Attribute für Screenreader</li>
+                    <li><span class="icon">💻</span> <strong>Desktop:</strong> Sidebar bleibt statisch sichtbar (in dieser Test-Datei für Demo deaktiviert)</li>
+                </ul>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Test-Funktionen</h2>
+                    </div>
+                    <div class="card-body">
+                        <p style="margin-bottom: 15px;">Testen Sie die folgenden Funktionen:</p>
+                        <ol style="padding-left: 20px; color: var(--text-secondary);">
+                            <li style="margin-bottom: 10px;">Klicken Sie auf das linke Burger-Menü (☰) - die Sidebar sollte von links hereingleiten</li>
+                            <li style="margin-bottom: 10px;">Klicken Sie auf das rechte Burger-Menü (☰) - die Sidebar sollte von rechts hereingleiten</li>
+                            <li style="margin-bottom: 10px;">Klicken Sie auf den dunklen Overlay-Bereich - das Menü sollte sich schließen</li>
+                            <li style="margin-bottom: 10px;">Klicken Sie auf den X-Button in der Sidebar - das Menü sollte sich schließen</li>
+                            <li style="margin-bottom: 10px;">Drücken Sie die ESC-Taste - alle offenen Menüs sollten sich schließen</li>
+                            <li style="margin-bottom: 10px;">Die Burger-Icons animieren sich zu einem X wenn aktiv</li>
+                            <li style="margin-bottom: 10px;">Der Seitenhintergrund wird abgedunkelt wenn ein Menü offen ist</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Responsive Design</h2>
+                    </div>
+                    <div class="card-body">
+                        <p style="margin-bottom: 15px;">Das Interface passt sich automatisch an verschiedene Bildschirmgrößen an:</p>
+                        <ul style="padding-left: 20px; color: var(--text-secondary);">
+                            <li style="margin-bottom: 10px;"><strong>Mobile (&lt; 768px):</strong> Burger-Menü aktiv, Sidebars versteckt</li>
+                            <li style="margin-bottom: 10px;"><strong>Tablet (768px - 1200px):</strong> Optimierte Layouts</li>
+                            <li style="margin-bottom: 10px;"><strong>Desktop (&gt; 1200px):</strong> Sidebars statisch sichtbar, kein Burger-Menü</li>
+                        </ul>
+                        <p style="margin-top: 15px; color: var(--accent-cyan);">Diese Test-Seite zeigt immer die Mobile-Ansicht für Demonstrationszwecke.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Zugänglichkeit</h2>
+                    </div>
+                    <div class="card-body">
+                        <p style="margin-bottom: 15px;">Implementierte Zugänglichkeitsfunktionen:</p>
+                        <ul style="padding-left: 20px; color: var(--text-secondary);">
+                            <li style="margin-bottom: 10px;"><code>aria-expanded</code> zeigt den Status des Burger-Menüs an</li>
+                            <li style="margin-bottom: 10px;"><code>aria-hidden</code> versteckt geschlossene Menüs vor Screenreadern</li>
+                            <li style="margin-bottom: 10px;"><code>aria-label</code> beschreibt die Funktion der Buttons</li>
+                            <li style="margin-bottom: 10px;"><code>aria-controls</code> verknüpft Buttons mit ihren Zielelementen</li>
+                            <li style="margin-bottom: 10px;">Tastatur-Navigation mit ESC-Taste</li>
+                            <li style="margin-bottom: 10px;">Fokus-Management beim Öffnen/Schließen</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
