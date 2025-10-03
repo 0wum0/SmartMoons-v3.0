@@ -16,12 +16,12 @@
 
     <!-- Fixed Header mit Ressourcen -->
     <header class="fixed-header">
-        <!-- Hamburger Menu Links -->
-        <button class="hamburger-btn left" id="leftMenuToggle" aria-label="Spielmenü">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+    <!-- Hamburger Menu Links -->
+    <button class="hamburger-btn left" id="leftMenuToggle" aria-label="Spielmenü" aria-expanded="false" aria-controls="leftSidebar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 
         <!-- Ressourcenleiste -->
         <div class="resources-bar">
@@ -62,16 +62,16 @@
             </div>
         </div>
 
-        <!-- Hamburger Menu Rechts -->
-        <button class="hamburger-btn right" id="rightMenuToggle" aria-label="Benutzermenü">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+    <!-- Hamburger Menu Rechts -->
+    <button class="hamburger-btn right" id="rightMenuToggle" aria-label="Benutzermenü" aria-expanded="false" aria-controls="rightSidebar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
     </header>
 
-    <!-- Linke Sidebar - Spielnavigation -->
-    <nav class="sidebar left-sidebar" id="leftSidebar">
+<!-- Linke Sidebar - Spielnavigation -->
+<nav class="sidebar left-sidebar" id="leftSidebar" aria-hidden="true">
         <div class="sidebar-header">
             <h2>Navigation</h2>
             <button class="close-btn" id="closeLeftSidebar">&times;</button>
@@ -140,8 +140,8 @@
         </ul>
     </nav>
 
-    <!-- Rechte Sidebar - Meta-Navigation -->
-    <nav class="sidebar right-sidebar" id="rightSidebar">
+<!-- Rechte Sidebar - Meta-Navigation -->
+<nav class="sidebar right-sidebar" id="rightSidebar" aria-hidden="true">
         <div class="sidebar-header">
             <h2>Benutzerkonto</h2>
             <button class="close-btn" id="closeRightSidebar">&times;</button>

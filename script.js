@@ -91,6 +91,10 @@ class SidebarManager {
         elements.sidebarOverlay.classList.add('active');
         this.activeMenu = side;
         
+        // Update ARIA attributes
+        if (button) button.setAttribute('aria-expanded', 'true');
+        if (sidebar) sidebar.setAttribute('aria-hidden', 'false');
+        
         // Prevent body scroll when sidebar is open
         document.body.style.overflow = 'hidden';
     }
@@ -101,6 +105,10 @@ class SidebarManager {
         
         sidebar.classList.remove('active');
         button.classList.remove('active');
+        
+        // Update ARIA attributes
+        if (button) button.setAttribute('aria-expanded', 'false');
+        if (sidebar) sidebar.setAttribute('aria-hidden', 'true');
         
         if (this.activeMenu === side) {
             elements.sidebarOverlay.classList.remove('active');
