@@ -5,146 +5,270 @@
 <form action="game.php?page=settings" method="post">
 <input type="hidden" name="mode" value="send">
 
-<div class="content_page">
+<div class="content_page settings-page-responsive">
 	<div class="title">
 		{{ LNG.lm_options }}
 	</div>
 
-	<div>
-		<table style="width:100%;">
-			<tbody>
-				{% if userAuthlevel > 0 %}
-				<tr class="title">
-					<th colspan="2">{{ LNG.op_admin_title_options }}</th>
-				</tr>
-				<tr>
-					<td>{{ LNG.op_admin_planets_protection }}</td>
-					<td><input name="adminprotection" type="checkbox" value="1" {% if adminProtection > 0 %}checked="checked"{% endif %}></td>
-				</tr>
-				{% endif %}
-				<tr class="title">
-					<th colspan="2">{{ LNG.op_user_data }}</th>
-				</tr>
-				<tr>
-					<td width="50%">{{ LNG.op_username }}</td>
-					<td width="50%" style="height:22px;">{% if changeNickTime < 0 %}<input name="username" size="20" value="{{ username }}" type="text">{% else %}{{ username }}{% endif %}</td>
-				</tr>
-				<tr>
-					<td>{{ LNG.op_old_pass }}</td>
-					<td><input name="password" size="20" type="password" class="autocomplete"></td>
-				</tr>
-				<tr>
-					<td>{{ LNG.op_new_pass }}</td>
-					<td><input name="newpassword" size="20" maxlength="40" type="password" class="autocomplete"></td>
-				</tr>
-				<tr>
-					<td>{{ LNG.op_repeat_new_pass }}</td>
-					<td><input name="newpassword2" size="20" maxlength="40" type="password" class="autocomplete"></td>
-				</tr>
-				<tr>
-					<td><a title="{{ LNG.op_email_adress_descrip }}">{{ LNG.op_email_adress }}</a></td>
-					<td><input name="email" maxlength="64" size="20" value="{{ email }}" type="text"></td>
-				</tr>
-				<tr>
-					<td style="height:22px;">{{ LNG.op_permanent_email_adress }}</td>
-					<td>{{ permaEmail }}</td>
-				</tr>
-				<tr class="title">
-					<th colspan="2">{{ LNG.op_general_settings }}</th>
-				</tr>
-				<tr>
-					<td>{{ LNG.op_timezone }}</td>
-					<td><!-- TODO: Complex html_options - needs manual review --></td>
-				</tr>
+	<div class="settings-container">
+		{% if userAuthlevel > 0 %}
+		<!-- Admin Options Card -->
+		<div class="settings-card">
+			<div class="card-header">
+				<h3>{{ LNG.op_admin_title_options }}</h3>
+			</div>
+			<div class="card-body">
+				<div class="settings-group">
+					<label class="settings-label">
+						<span>{{ LNG.op_admin_planets_protection }}</span>
+						<input name="adminprotection" type="checkbox" value="1" {% if adminProtection > 0 %}checked="checked"{% endif %}>
+					</label>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
+		<!-- User Data Card -->
+		<div class="settings-card">
+			<div class="card-header">
+				<h3>{{ LNG.op_user_data }}</h3>
+			</div>
+			<div class="card-body">
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_username }}</label>
+					<div class="settings-control">
+						{% if changeNickTime < 0 %}
+						<input name="username" size="20" value="{{ username }}" type="text" class="settings-input">
+						{% else %}
+						<span class="settings-value">{{ username }}</span>
+						{% endif %}
+					</div>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_old_pass }}</label>
+					<div class="settings-control">
+						<input name="password" size="20" type="password" class="settings-input autocomplete">
+					</div>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_new_pass }}</label>
+					<div class="settings-control">
+						<input name="newpassword" size="20" maxlength="40" type="password" class="settings-input autocomplete">
+					</div>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_repeat_new_pass }}</label>
+					<div class="settings-control">
+						<input name="newpassword2" size="20" maxlength="40" type="password" class="settings-input autocomplete">
+					</div>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label" title="{{ LNG.op_email_adress_descrip }}">{{ LNG.op_email_adress }}</label>
+					<div class="settings-control">
+						<input name="email" maxlength="64" size="20" value="{{ email }}" type="text" class="settings-input">
+					</div>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_permanent_email_adress }}</label>
+					<div class="settings-control">
+						<span class="settings-value">{{ permaEmail }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- General Settings Card -->
+		<div class="settings-card">
+			<div class="card-header">
+				<h3>{{ LNG.op_general_settings }}</h3>
+			</div>
+			<div class="card-body">
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_timezone }}</label>
+					<div class="settings-control">
+						<select name="timezone" class="settings-select">
+							{{ Selectors.timezones|raw }}
+						</select>
+					</div>
+				</div>
+				
 				{% if Selectors.lang|length > 1 %}
-				<tr>
-					<td>{{ LNG.op_lang }}</td>
-					<td><!-- TODO: Complex html_options - needs manual review --></td>
-				</tr>
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_lang }}</label>
+					<div class="settings-control">
+						<select name="language" class="settings-select">
+							{{ Selectors.language|raw }}
+						</select>
+					</div>
+				</div>
 				{% endif %}
-				<tr>
-					<td>{{ LNG.op_sort_planets_by }}</td>
-					<td><!-- TODO: Complex html_options - needs manual review --></td>
-				</tr>
-				<tr>
-					<td>{{ LNG.op_sort_kind }}</td>
-					<td>
-						<!-- TODO: Complex html_options - needs manual review -->
-					</td>
-				</tr>
+				
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_sort_planets_by }}</label>
+					<div class="settings-control">
+						<select name="planet_sort" class="settings-select">
+							{{ Selectors.Sort|raw }}
+						</select>
+					</div>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_sort_kind }}</label>
+					<div class="settings-control">
+						<select name="planet_sort_sequence" class="settings-select">
+							{{ Selectors.SortUpDown|raw }}
+						</select>
+					</div>
+				</div>
+				
 				{% if Selectors.Skins|length > 1 %}
-				<tr>
-					<td>{{ LNG.op_skin_example }}</td>
-					<td><!-- TODO: Complex html_options - needs manual review --></td>
-				</tr>
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_skin_example }}</label>
+					<div class="settings-control">
+						<select name="theme" class="settings-select">
+							{{ Selectors.Skins|raw }}
+						</select>
+					</div>
+				</div>
 				{% endif %}
-				<tr>
-					<td>{{ LNG.op_active_build_messages }}</td>
-					<td><input name="queueMessages" type="checkbox" value="1" {% if queueMessages == 1 %}checked="checked"{% endif %}></td>
-				</tr>
-				<tr>
-					<td>{{ LNG.op_active_spy_messages_mode }}</td>
-					<td><input name="spyMessagesMode" type="checkbox" value="1" {% if spyMessagesMode == 1 %}checked="checked"{% endif %}></td>
-				</tr>
-				<tr>
-					<td>{{ LNG.op_block_pm }}</td>
-					<td><input name="blockPM" type="checkbox" value="1" {% if blockPM == 1 %}checked="checked"{% endif %}></td>
-				</tr>
-				<tr class="title">
-					<th colspan="2">{{ LNG.op_galaxy_settings }}</th>
-				</tr>
-				<tr>
-					<td><a title="{{ LNG.op_spy_probes_number_descrip }}">{{ LNG.op_spy_probes_number }}</a></td>
-					<td><input name="spycount" size="{{ spycount|count_characters + 3 }}" value="{{ spycount }}" type="int"></td>
-				</tr>
-				<tr>
-					<td>{{ LNG.op_max_fleets_messages }}</td>
-					<td><input name="fleetactions" maxlength="2" size="{{ fleetActions|count_characters + 2 }}" value="{{ fleetActions }}" type="int"></td>
-				</tr>
-				<tr class="title">
-					<th>{{ LNG.op_shortcut }}</th>
-					<th>{{ LNG.op_show }}</th>
-				</tr>
-				<tr>
-					<td><img src="{{ dpath }}img/e.gif" alt="">{{ LNG.op_spy }}</td>
-					<td><input name="galaxySpy" type="checkbox" value="1" {% if galaxySpy == 1 %}checked="checked"{% endif %}></td>
-				</tr>
-				<tr>
-					<td><img src="{{ dpath }}img/m.gif" alt="">{{ LNG.op_write_message }}</td>
-					<td><input name="galaxyMessage" type="checkbox" value="1" {% if galaxyMessage == 1 %}checked="checked"{% endif %}></td>
-				</tr>
-				<tr>
-					<td><img src="{{ dpath }}img/b.gif" alt="">{{ LNG.op_add_to_buddy_list }}</td>
-					<td><input name="galaxyBuddyList" type="checkbox" value="1" {% if galaxyBuddyList == 1 %}checked="checked"{% endif %}></td>
-				</tr>
-				<tr>
-					<td><img src="{{ dpath }}img/r.gif" alt="">{{ LNG.op_missile_attack }}</td>
-					<td><input name="galaxyMissle" type="checkbox" value="1" {% if galaxyMissle == 1 %}checked="checked"{% endif %}></td>
-				</tr>
-				<tr class="title">
-					<th colspan="2">{{ LNG.op_vacation_delete_mode }}</th>
-				</tr>
-				<tr>
-					<td><a title="{{ LNG.op_activate_vacation_mode_descrip }}">{{ LNG.op_activate_vacation_mode }}</a></td>
-					<td><input name="vacation" type="checkbox" value="1"></td>
-				</tr>
-				<tr>
-					<td><a title="{{ LNG.op_dlte_account_descrip }}">{{ LNG.op_dlte_account }}</a></td>
-					<td><input name="delete" type="checkbox" value="1" {% if delete > 0 %}checked="checked"{% endif %}></td>
-				</tr>
-				{% if isModuleAvailable(constant('MODULE_BANNER')) %}
-				<tr class="title">
-					<th colspan="3">{{ LNG.ov_userbanner }}</th>
-				</tr>
-				<tr>
-					<td colspan="3"><img src="userpic.php?id={{ userid }}" alt="" width="590" height="95" id="userpic"><br><br><table><tr><td class="transparent">HTML:</td><td class="transparent"><input type="text" value='<a href="{{ SELF_URL }}{% if ref_active %}index.php?ref={{ userid }}{% endif %}"><img src="{{ SELF_URL }}userpic.php?id={{ userid }}"></a>' readonly="readonly" style="width:450px;"></td></tr><tr><td class="transparent">BBCode:</td><td class="transparent"><input type="text" value="[url={{ SELF_URL }}{% if ref_active %}index.php?ref={{ userid }}{% endif %}][img]{{ SELF_URL }}userpic.php?id={{ userid }}[/img][/url]" readonly="readonly" style="width:450px;"></td></tr></table></td>
-				</tr>
-				{% endif %}
-				<tr>
-					<td colspan="2"><input value="{{ LNG.op_save_changes }}" type="submit"></td>
-				</tr>
-			</tbody>
-		</table>
+				
+				<div class="settings-group">
+					<label class="settings-label settings-checkbox">
+						<input name="queueMessages" type="checkbox" value="1" {% if queueMessages == 1 %}checked="checked"{% endif %}>
+						<span>{{ LNG.op_active_build_messages }}</span>
+					</label>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label settings-checkbox">
+						<input name="spyMessagesMode" type="checkbox" value="1" {% if spyMessagesMode == 1 %}checked="checked"{% endif %}>
+						<span>{{ LNG.op_active_spy_messages_mode }}</span>
+					</label>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label settings-checkbox">
+						<input name="blockPM" type="checkbox" value="1" {% if blockPM == 1 %}checked="checked"{% endif %}>
+						<span>{{ LNG.op_block_pm }}</span>
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<!-- Galaxy Settings Card -->
+		<div class="settings-card">
+			<div class="card-header">
+				<h3>{{ LNG.op_galaxy_settings }}</h3>
+			</div>
+			<div class="card-body">
+				<div class="settings-group">
+					<label class="settings-label" title="{{ LNG.op_spy_probes_number_descrip }}">{{ LNG.op_spy_probes_number }}</label>
+					<div class="settings-control">
+						<input name="spycount" size="{{ spycount|count_characters + 3 }}" value="{{ spycount }}" type="number" class="settings-input">
+					</div>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label">{{ LNG.op_max_fleets_messages }}</label>
+					<div class="settings-control">
+						<input name="fleetactions" maxlength="2" size="{{ fleetActions|count_characters + 2 }}" value="{{ fleetActions }}" type="number" class="settings-input">
+					</div>
+				</div>
+				
+				<div class="settings-group-header">
+					<span>{{ LNG.op_shortcut }}</span>
+					<span>{{ LNG.op_show }}</span>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label settings-checkbox">
+						<input name="galaxySpy" type="checkbox" value="1" {% if galaxySpy == 1 %}checked="checked"{% endif %}>
+						<span><img src="{{ dpath }}img/e.gif" alt=""> {{ LNG.op_spy }}</span>
+					</label>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label settings-checkbox">
+						<input name="galaxyMessage" type="checkbox" value="1" {% if galaxyMessage == 1 %}checked="checked"{% endif %}>
+						<span><img src="{{ dpath }}img/m.gif" alt=""> {{ LNG.op_write_message }}</span>
+					</label>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label settings-checkbox">
+						<input name="galaxyBuddyList" type="checkbox" value="1" {% if galaxyBuddyList == 1 %}checked="checked"{% endif %}>
+						<span><img src="{{ dpath }}img/b.gif" alt=""> {{ LNG.op_add_to_buddy_list }}</span>
+					</label>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label settings-checkbox">
+						<input name="galaxyMissle" type="checkbox" value="1" {% if galaxyMissle == 1 %}checked="checked"{% endif %}>
+						<span><img src="{{ dpath }}img/r.gif" alt=""> {{ LNG.op_missile_attack }}</span>
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<!-- Vacation & Delete Mode Card -->
+		<div class="settings-card">
+			<div class="card-header">
+				<h3>{{ LNG.op_vacation_delete_mode }}</h3>
+			</div>
+			<div class="card-body">
+				<div class="settings-group">
+					<label class="settings-label settings-checkbox" title="{{ LNG.op_activate_vacation_mode_descrip }}">
+						<input name="vacation" type="checkbox" value="1">
+						<span>{{ LNG.op_activate_vacation_mode }}</span>
+					</label>
+				</div>
+				
+				<div class="settings-group">
+					<label class="settings-label settings-checkbox" title="{{ LNG.op_dlte_account_descrip }}">
+						<input name="delete" type="checkbox" value="1" {% if delete > 0 %}checked="checked"{% endif %}>
+						<span>{{ LNG.op_dlte_account }}</span>
+					</label>
+				</div>
+			</div>
+		</div>
+
+		{% if isModuleAvailable(constant('MODULE_BANNER')) %}
+		<!-- User Banner Card -->
+		<div class="settings-card full-width">
+			<div class="card-header">
+				<h3>{{ LNG.ov_userbanner }}</h3>
+			</div>
+			<div class="card-body">
+				<div class="banner-preview">
+					<img src="userpic.php?id={{ userid }}" alt="" width="590" height="95" id="userpic">
+				</div>
+				<div class="banner-codes">
+					<div class="settings-group">
+						<label class="settings-label">HTML:</label>
+						<div class="settings-control">
+							<input type="text" value='<a href="{{ SELF_URL }}{% if ref_active %}index.php?ref={{ userid }}{% endif %}"><img src="{{ SELF_URL }}userpic.php?id={{ userid }}"></a>' readonly="readonly" class="settings-input banner-code">
+						</div>
+					</div>
+					<div class="settings-group">
+						<label class="settings-label">BBCode:</label>
+						<div class="settings-control">
+							<input type="text" value="[url={{ SELF_URL }}{% if ref_active %}index.php?ref={{ userid }}{% endif %}][img]{{ SELF_URL }}userpic.php?id={{ userid }}[/img][/url]" readonly="readonly" class="settings-input banner-code">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
+		<!-- Submit Button -->
+		<div class="settings-submit">
+			<button type="submit" class="btn btn-primary">{{ LNG.op_save_changes }}</button>
+		</div>
 	</div>
 </div>
 </form>
