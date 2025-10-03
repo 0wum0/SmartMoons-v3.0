@@ -860,6 +860,52 @@ th {
 	opacity: 1;
 }
 
+/* Mobile Navigation Menu */
+.mobile-nav {
+	display: none;
+	background: #111;
+	color: #fff;
+	padding: 1rem;
+	position: fixed;
+	top: 60px;
+	left: 0;
+	right: 0;
+	z-index: 9999;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+	border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+}
+
+.mobile-nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.mobile-nav li {
+	margin: 10px 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	padding-bottom: 10px;
+}
+
+.mobile-nav li:last-child {
+	border-bottom: none;
+}
+
+.mobile-nav a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 1.1rem;
+	display: block;
+	padding: 5px 10px;
+	transition: all 0.3s ease;
+}
+
+.mobile-nav a:hover {
+	background: rgba(0, 243, 255, 0.1);
+	color: #00f3ff;
+	padding-left: 20px;
+}
+
 /* ============================================
    RESPONSIVE DESIGN - MOBILE FIRST
    ============================================ */

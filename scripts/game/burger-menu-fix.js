@@ -23,6 +23,10 @@
                            document.getElementById('sidebar-toggle') || 
                            document.querySelector('.burger-menu');
                            
+        // Look for mobile navigation first, then sidebar
+        const mobileNav = document.getElementById('mobile-nav') || 
+                         document.querySelector('.mobile-nav');
+                         
         const sidebar = document.getElementById('gameSidebar') || 
                        document.getElementById('leftmenu') || 
                        document.querySelector('.game-sidebar') || 
@@ -39,6 +43,7 @@
         // Debug logging
         console.log('[BurgerMenuFix] Elements found:', {
             burgerButton: !!burgerButton,
+            mobileNav: !!mobileNav,
             sidebar: !!sidebar,
             overlay: !!overlay,
             closeButton: !!closeButton
@@ -46,13 +51,32 @@
         
         // Create overlay if it doesn't exist
         let overlayElement = overlay;
-        if (!overlayElement && sidebar) {
+        if (!overlayElement && (sidebar || mobileNav)) {
             overlayElement = createOverlay();
             console.log('[BurgerMenuFix] Created overlay element');
         }
         
-        // Setup event handlers
-        if (burgerButton && sidebar) {
+        // Setup event handlers for mobile navigation (priority)
+        if (burgerButton && mobileNav) {
+            // Remove any existing event listeners to avoid duplicates
+            const newBurgerButton = burgerButton.cloneNode(true);
+            burgerButton.parentNode.replaceChild(newBurgerButton, burgerButton);
+            
+            // Add click handler to burger button for mobile nav
+            newBurgerButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('[BurgerMenuFix] Burger button clicked for mobile nav');
+                toggleMobileNav(mobileNav, newBurgerButton, overlayElement);
+            });
+            
+            // Add ARIA attributes
+            newBurgerButton.setAttribute('aria-expanded', 'false');
+            newBurgerButton.setAttribute('aria-controls', 'mobile-nav');
+            mobileNav.setAttribute('aria-hidden', 'true');
+        }
+        // Setup event handlers for sidebar (fallback)
+        else if (burgerButton && sidebar) {
             // Remove any existing event listeners to avoid duplicates
             const newBurgerButton = burgerButton.cloneNode(true);
             burgerButton.parentNode.replaceChild(newBurgerButton, burgerButton);
@@ -72,11 +96,19 @@
         }
         
         // Setup overlay click handler
-        if (overlayElement && sidebar) {
+        if (overlayElement) {
             overlayElement.addEventListener('click', function(e) {
                 e.preventDefault();
                 console.log('[BurgerMenuFix] Overlay clicked');
-                closeSidebar(sidebar, burgerButton || newBurgerButton, overlayElement);
+                
+                // Close mobile nav if it's open
+                if (mobileNav && mobileNav.style.display === 'block') {
+                    closeMobileNav(mobileNav, burgerButton || newBurgerButton, overlayElement);
+                }
+                // Otherwise close sidebar if it's open
+                else if (sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar(sidebar, burgerButton || newBurgerButton, overlayElement);
+                }
             });
         }
         
@@ -91,9 +123,17 @@
         
         // Handle escape key
         document.addEventListener('keydown', function(e) {
-            if ((e.key === 'Escape' || e.keyCode === 27) && sidebar && sidebar.classList.contains('active')) {
+            if (e.key === 'Escape' || e.keyCode === 27) {
                 console.log('[BurgerMenuFix] Escape key pressed');
-                closeSidebar(sidebar, burgerButton || newBurgerButton, overlayElement);
+                
+                // Close mobile nav if it's open
+                if (mobileNav && mobileNav.style.display === 'block') {
+                    closeMobileNav(mobileNav, burgerButton || newBurgerButton, overlayElement);
+                }
+                // Otherwise close sidebar if it's open
+                else if (sidebar && sidebar.classList.contains('active')) {
+                    closeSidebar(sidebar, burgerButton || newBurgerButton, overlayElement);
+                }
             }
         });
         
@@ -128,6 +168,68 @@
         `;
         document.body.appendChild(overlay);
         return overlay;
+    }
+    
+    function toggleMobileNav(mobileNav, burgerButton, overlay) {
+        if (mobileNav.style.display === 'block') {
+            closeMobileNav(mobileNav, burgerButton, overlay);
+        } else {
+            openMobileNav(mobileNav, burgerButton, overlay);
+        }
+    }
+    
+    function openMobileNav(mobileNav, burgerButton, overlay) {
+        console.log('[BurgerMenuFix] Opening mobile nav');
+        
+        // Show mobile nav
+        mobileNav.style.display = 'block';
+        
+        if (burgerButton) {
+            burgerButton.classList.add('active');
+            burgerButton.setAttribute('aria-expanded', 'true');
+        }
+        
+        if (overlay) {
+            overlay.style.display = 'block';
+            // Force reflow to ensure transition works
+            overlay.offsetHeight;
+            overlay.classList.add('active');
+            overlay.style.opacity = '1';
+        }
+        
+        // Update ARIA
+        mobileNav.setAttribute('aria-hidden', 'false');
+        
+        // Prevent body scroll on mobile
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeMobileNav(mobileNav, burgerButton, overlay) {
+        console.log('[BurgerMenuFix] Closing mobile nav');
+        
+        // Hide mobile nav
+        mobileNav.style.display = 'none';
+        
+        if (burgerButton) {
+            burgerButton.classList.remove('active');
+            burgerButton.setAttribute('aria-expanded', 'false');
+        }
+        
+        if (overlay) {
+            overlay.classList.remove('active');
+            overlay.style.opacity = '0';
+            setTimeout(function() {
+                if (!overlay.classList.contains('active')) {
+                    overlay.style.display = 'none';
+                }
+            }, 300);
+        }
+        
+        // Update ARIA
+        mobileNav.setAttribute('aria-hidden', 'true');
+        
+        // Restore body scroll
+        document.body.style.overflow = '';
     }
     
     function toggleSidebar(sidebar, burgerButton, overlay) {
