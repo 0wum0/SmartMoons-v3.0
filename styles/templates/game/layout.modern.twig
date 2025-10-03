@@ -10,7 +10,7 @@
 	<meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
 	{% endif %}
 
-	<!-- Modern Layout CSS -->
+	<!-- Modern Sci-Fi Layout CSS -->
 	<link rel="stylesheet" type="text/css" href="./styles/theme/smartmoons.css?v={{ REV }}">
 	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/modern-layout.css?v={{ REV }}">
 	
@@ -20,7 +20,7 @@
 	<!-- Google Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 	
 	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
 	
@@ -74,222 +74,365 @@
 <body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }}">
 	<div id="tooltip" class="tip"></div>
 	
-	<!-- Modern Game Container -->
+	<!-- Modern Sci-Fi Game Container -->
 	<div class="game-container">
 		
 		<!-- Sticky Header -->
 		<header class="game-header">
-			<!-- Burger Menu (Mobile) -->
-			<button class="burger-menu" aria-label="Toggle Navigation">
-				<i class="fas fa-bars"></i>
-			</button>
-			
-			<!-- Logo Section -->
-			<div class="header-logo">
-				<div class="header-logo-icon">
-					<i class="fas fa-rocket"></i>
+			<div class="header-inner">
+				<!-- Left Section: Logo + Burger -->
+				<div class="header-left">
+					<!-- Burger Menu (Mobile Only) -->
+					<button class="burger-menu" id="burgerMenu" aria-label="Toggle Navigation">
+						<span></span>
+						<span></span>
+						<span></span>
+					</button>
+					
+					<!-- Logo -->
+					<div class="header-logo">
+						<div class="logo-icon">
+							<i class="fas fa-rocket"></i>
+						</div>
+						<div class="logo-text">
+							<span class="logo-title">{{ game_name }}</span>
+							<span class="logo-subtitle">{{ uni_name }}</span>
+						</div>
+					</div>
 				</div>
-				<div class="header-logo-text">{{ game_name }}</div>
+				
+				<!-- Right Section: Resources (Desktop) / User Menu -->
+				<div class="header-right">
+					<!-- Desktop Resources -->
+					<div class="header-resources desktop-only">
+						{% for resourceID, resourceData in resourceTable %}
+						<div class="resource-item{% if resourceID == 921 %} resource-dm{% endif %}" 
+						     data-tooltip-content="{{ LNG.tech[resourceID] }}{% if resourceID != 921 %}: {{ resourceData.current|default(resourceData.max + resourceData.used)|number_format }} / {{ resourceData.max|number_format }}{% endif %}">
+							<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}" class="resource-icon">
+							<div class="resource-info">
+								<span class="resource-label">{{ LNG.tech[resourceID] }}</span>
+								<span class="resource-value{% if resourceID == 921 %} text-purple{% endif %}" 
+								      id="current_{{ resourceData.name }}" 
+								      data-real="{{ resourceData.current|default(resourceData.max + resourceData.used) }}">
+									{% if shortlyNumber %}
+										{{ shortly_number(resourceData.current|default(resourceData.max + resourceData.used)) }}
+									{% else %}
+										{{ resourceData.current|default(resourceData.max + resourceData.used)|number_format }}
+									{% endif %}
+								</span>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					
+					<!-- User Menu -->
+					<div class="header-user">
+						<div class="user-dropdown">
+							<button class="user-button">
+								<i class="fas fa-user-astronaut"></i>
+								<span class="desktop-only">{{ username|default('Commander') }}</span>
+								<i class="fas fa-chevron-down"></i>
+							</button>
+							<div class="dropdown-menu">
+								<a href="game.php?page=settings" class="dropdown-item">
+									<i class="fas fa-cog"></i> {{ LNG.lm_options }}
+								</a>
+								<a href="game.php?page=logout" class="dropdown-item">
+									<i class="fas fa-sign-out-alt"></i> {{ LNG.lm_logout }}
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			
-			<!-- Resource Counters -->
-			<div class="header-resources">
+			<!-- Mobile Resources Bar -->
+			<div class="mobile-resources mobile-only">
 				{% for resourceID, resourceData in resourceTable %}
-				{% if resourceID != 921 %}
-				<div class="resource-item" data-tooltip="{{ LNG.tech[resourceID] }}: {{ resourceData.current|default(resourceData.max + resourceData.used)|number_format }} / {{ resourceData.max|number_format }}">
-					<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}" class="resource-icon">
-					<span class="resource-value" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current|default(resourceData.max + resourceData.used) }}">
-						{% if shortlyNumber %}
-							{{ shortly_number(resourceData.current|default(resourceData.max + resourceData.used)) }}
-						{% else %}
-							{{ resourceData.current|default(resourceData.max + resourceData.used)|number_format }}
-						{% endif %}
+				<div class="mobile-resource-item{% if resourceID == 921 %} resource-dm{% endif %}">
+					<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}" class="resource-icon-small">
+					<span class="resource-value-small{% if resourceID == 921 %} text-purple{% endif %}" 
+					      id="mobile_current_{{ resourceData.name }}">
+						{{ shortly_number(resourceData.current|default(resourceData.max + resourceData.used)) }}
 					</span>
 				</div>
-				{% else %}
-				<!-- Dark Matter -->
-				<div class="resource-item resource-dm" data-tooltip="{{ LNG.tech[resourceID] }}: {{ resourceData.current|number_format }}">
-					<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}" class="resource-icon">
-					<span class="resource-value text-purple" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}">
-						{{ shortly_number(resourceData.current) }}
-					</span>
-				</div>
-				{% endif %}
 				{% endfor %}
 			</div>
 		</header>
 		
 		<!-- Sidebar Navigation -->
-		<aside class="game-sidebar" id="sidebar">
-			<div class="sidebar-content">
-				<!-- Overview Section -->
-				<div class="nav-section">
-					<div class="nav-section-title">{{ LNG.lm_overview }}</div>
-					<a href="game.php?page=overview" class="sidebar-link{% if GET.page|default('overview') == 'overview' %} active{% endif %}">
-						<i class="fas fa-home"></i>
-						<span>{{ LNG.lm_overview }}</span>
-					</a>
-				</div>
+		<aside class="game-sidebar" id="gameSidebar">
+			<div class="sidebar-inner">
+				<!-- Close Button (Mobile) -->
+				<button class="sidebar-close mobile-only" id="sidebarClose">
+					<i class="fas fa-times"></i>
+				</button>
 				
-				<!-- Empire Section -->
-				<div class="nav-section">
-					<div class="nav-section-title">{{ LNG.lm_empire }}</div>
+				<!-- Navigation Sections -->
+				<nav class="sidebar-nav">
+					<!-- Overview -->
+					<div class="nav-section">
+						<div class="nav-section-title">
+							<i class="fas fa-home"></i>
+							<span>{{ LNG.lm_overview }}</span>
+						</div>
+						<div class="nav-cards">
+							<a href="game.php?page=overview" class="nav-card{% if GET.page|default('overview') == 'overview' %} active{% endif %}">
+								<i class="fas fa-dashboard"></i>
+								<span>{{ LNG.lm_overview }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+						</div>
+					</div>
 					
-					{% if isModuleAvailable(constant('MODULE_BUILDING')) %}
-					<a href="game.php?page=buildings" class="sidebar-link{% if GET.page|default('') == 'buildings' %} active{% endif %}">
-						<i class="fas fa-city"></i>
-						<span>{{ LNG.lm_buildings }}</span>
-					</a>
+					<!-- Empire -->
+					<div class="nav-section">
+						<div class="nav-section-title">
+							<i class="fas fa-crown"></i>
+							<span>{{ LNG.lm_empire }}</span>
+						</div>
+						<div class="nav-cards">
+							{% if isModuleAvailable(constant('MODULE_BUILDING')) %}
+							<a href="game.php?page=buildings" class="nav-card{% if GET.page|default('') == 'buildings' %} active{% endif %}">
+								<i class="fas fa-city"></i>
+								<span>{{ LNG.lm_buildings }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_RESEARCH')) %}
+							<a href="game.php?page=research" class="nav-card{% if GET.page|default('') == 'research' %} active{% endif %}">
+								<i class="fas fa-flask"></i>
+								<span>{{ LNG.lm_research }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
+							<a href="game.php?page=shipyard&mode=fleet" class="nav-card{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'fleet' %} active{% endif %}">
+								<i class="fas fa-rocket"></i>
+								<span>{{ LNG.lm_shipshard }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
+							<a href="game.php?page=shipyard&mode=defense" class="nav-card{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'defense' %} active{% endif %}">
+								<i class="fas fa-shield-alt"></i>
+								<span>{{ LNG.lm_defenses }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_OFFICIER')) or isModuleAvailable(constant('MODULE_DMEXTRAS')) %}
+							<a href="game.php?page=officier" class="nav-card{% if GET.page|default('') == 'officier' %} active{% endif %}">
+								<i class="fas fa-user-tie"></i>
+								<span>{{ LNG.lm_officiers }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+						</div>
+					</div>
+					
+					<!-- Navigation -->
+					<div class="nav-section">
+						<div class="nav-section-title">
+							<i class="fas fa-compass"></i>
+							<span>{{ LNG.lm_navigation }}</span>
+						</div>
+						<div class="nav-cards">
+							{% if isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
+							<a href="game.php?page=fleetTable" class="nav-card{% if GET.page|default('') == 'fleetTable' %} active{% endif %}">
+								<i class="fas fa-space-shuttle"></i>
+								<span>{{ LNG.lm_fleet }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_GALAXY')) %}
+							<a href="game.php?page=galaxy" class="nav-card{% if GET.page|default('') == 'galaxy' %} active{% endif %}">
+								<i class="fas fa-globe"></i>
+								<span>{{ LNG.lm_galaxy }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}
+							<a href="game.php?page=alliance" class="nav-card{% if GET.page|default('') == 'alliance' %} active{% endif %}">
+								<i class="fas fa-users"></i>
+								<span>{{ LNG.lm_alliance }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+						</div>
+					</div>
+					
+					<!-- Communication -->
+					<div class="nav-section">
+						<div class="nav-section-title">
+							<i class="fas fa-comments"></i>
+							<span>{{ LNG.lm_messages }}</span>
+						</div>
+						<div class="nav-cards">
+							{% if isModuleAvailable(constant('MODULE_MESSAGES')) %}
+							<a href="game.php?page=messages" class="nav-card{% if GET.page|default('') == 'messages' %} active{% endif %}">
+								<i class="fas fa-envelope"></i>
+								<span>{{ LNG.lm_messages }}</span>
+								{% if new_message > 0 %}
+								<span class="nav-badge pulse">{{ new_message > 99 ? '99+' : new_message }}</span>
+								{% endif %}
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_BUDDYLIST')) %}
+							<a href="game.php?page=buddyList" class="nav-card{% if GET.page|default('') == 'buddyList' %} active{% endif %}">
+								<i class="fas fa-user-friends"></i>
+								<span>{{ LNG.lm_buddylist }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_CHAT')) %}
+							<a href="game.php?page=chat" class="nav-card{% if GET.page|default('') == 'chat' %} active{% endif %}">
+								<i class="fas fa-comment-dots"></i>
+								<span>{{ LNG.lm_chat }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+						</div>
+					</div>
+					
+					<!-- Statistics & Tools -->
+					<div class="nav-section">
+						<div class="nav-section-title">
+							<i class="fas fa-tools"></i>
+							<span>{{ LNG.lm_tools }}</span>
+						</div>
+						<div class="nav-cards">
+							{% if isModuleAvailable(constant('MODULE_STATISTICS')) %}
+							<a href="game.php?page=statistics" class="nav-card{% if GET.page|default('') == 'statistics' %} active{% endif %}">
+								<i class="fas fa-chart-line"></i>
+								<span>{{ LNG.lm_statistics }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_RECORDS')) %}
+							<a href="game.php?page=records" class="nav-card{% if GET.page|default('') == 'records' %} active{% endif %}">
+								<i class="fas fa-trophy"></i>
+								<span>{{ LNG.lm_records }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_BATTLEHALL')) %}
+							<a href="game.php?page=battleHall" class="nav-card{% if GET.page|default('') == 'battleHall' %} active{% endif %}">
+								<i class="fas fa-fist-raised"></i>
+								<span>{{ LNG.lm_topkb }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_SIMULATOR')) %}
+							<a href="game.php?page=battleSimulator" class="nav-card{% if GET.page|default('') == 'battleSimulator' %} active{% endif %}">
+								<i class="fas fa-crosshairs"></i>
+								<span>{{ LNG.lm_battlesim }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_RESSOURCE_LIST')) %}
+							<a href="game.php?page=resources" class="nav-card{% if GET.page|default('') == 'resources' %} active{% endif %}">
+								<i class="fas fa-chart-bar"></i>
+								<span>{{ LNG.lm_resources }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_NOTICE')) %}
+							<a href="javascript:OpenPopup('?page=notes', 'notes', 720, 300);" class="nav-card">
+								<i class="fas fa-sticky-note"></i>
+								<span>{{ LNG.lm_notes }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							{% if isModuleAvailable(constant('MODULE_SUPPORT')) %}
+							<a href="game.php?page=ticket" class="nav-card{% if GET.page|default('') == 'ticket' %} active{% endif %}">
+								<i class="fas fa-headset"></i>
+								<span>{{ LNG.lm_support }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+							{% endif %}
+							
+							<a href="game.php?page=settings" class="nav-card{% if GET.page|default('') == 'settings' %} active{% endif %}">
+								<i class="fas fa-cog"></i>
+								<span>{{ LNG.lm_options }}</span>
+								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
+							</a>
+						</div>
+					</div>
+					
+					<!-- Administration -->
+					{% if authlevel > 0 %}
+					<div class="nav-section">
+						<div class="nav-section-title">
+							<i class="fas fa-user-shield"></i>
+							<span>{{ LNG.lm_administration }}</span>
+						</div>
+						<div class="nav-cards">
+							<a href="./admin.php" class="nav-card admin-card" target="_blank">
+								<i class="fas fa-crown"></i>
+								<span>{{ LNG.lm_administration }}</span>
+								<span class="nav-arrow"><i class="fas fa-external-link-alt"></i></span>
+							</a>
+						</div>
+					</div>
 					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_RESEARCH')) %}
-					<a href="game.php?page=research" class="sidebar-link{% if GET.page|default('') == 'research' %} active{% endif %}">
-						<i class="fas fa-flask"></i>
-						<span>{{ LNG.lm_research }}</span>
-					</a>
-					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
-					<a href="game.php?page=shipyard&mode=fleet" class="sidebar-link{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'fleet' %} active{% endif %}">
-						<i class="fas fa-rocket"></i>
-						<span>{{ LNG.lm_shipshard }}</span>
-					</a>
-					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
-					<a href="game.php?page=shipyard&mode=defense" class="sidebar-link{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'defense' %} active{% endif %}">
-						<i class="fas fa-shield-alt"></i>
-						<span>{{ LNG.lm_defenses }}</span>
-					</a>
-					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_OFFICIER')) or isModuleAvailable(constant('MODULE_DMEXTRAS')) %}
-					<a href="game.php?page=officier" class="sidebar-link{% if GET.page|default('') == 'officier' %} active{% endif %}">
-						<i class="fas fa-user-tie"></i>
-						<span>{{ LNG.lm_officiers }}</span>
-					</a>
-					{% endif %}
-				</div>
-				
-				<!-- Navigation Section -->
-				<div class="nav-section">
-					<div class="nav-section-title">{{ LNG.lm_navigation }}</div>
-					
-					{% if isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
-					<a href="game.php?page=fleetTable" class="sidebar-link{% if GET.page|default('') == 'fleetTable' %} active{% endif %}">
-						<i class="fas fa-space-shuttle"></i>
-						<span>{{ LNG.lm_fleet }}</span>
-					</a>
-					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_GALAXY')) %}
-					<a href="game.php?page=galaxy" class="sidebar-link{% if GET.page|default('') == 'galaxy' %} active{% endif %}">
-						<i class="fas fa-globe"></i>
-						<span>{{ LNG.lm_galaxy }}</span>
-					</a>
-					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}
-					<a href="game.php?page=alliance" class="sidebar-link{% if GET.page|default('') == 'alliance' %} active{% endif %}">
-						<i class="fas fa-users"></i>
-						<span>{{ LNG.lm_alliance }}</span>
-					</a>
-					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_MESSAGES')) %}
-					<a href="game.php?page=messages" class="sidebar-link{% if GET.page|default('') == 'messages' %} active{% endif %}">
-						<i class="fas fa-envelope"></i>
-						<span>{{ LNG.lm_messages }}</span>
-						{% if new_message > 0 %}
-						<span class="badge">{{ new_message > 99 ? '99+' : new_message }}</span>
-						{% endif %}
-					</a>
-					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_STATISTICS')) %}
-					<a href="game.php?page=statistics" class="sidebar-link{% if GET.page|default('') == 'statistics' %} active{% endif %}">
-						<i class="fas fa-chart-line"></i>
-						<span>{{ LNG.lm_statistics }}</span>
-					</a>
-					{% endif %}
-				</div>
-				
-				<!-- Tools Section -->
-				<div class="nav-section">
-					<div class="nav-section-title">{{ LNG.lm_tools }}</div>
-					
-					{% if isModuleAvailable(constant('MODULE_SIMULATOR')) %}
-					<a href="game.php?page=battleSimulator" class="sidebar-link{% if GET.page|default('') == 'battleSimulator' %} active{% endif %}">
-						<i class="fas fa-crosshairs"></i>
-						<span>{{ LNG.lm_battlesim }}</span>
-					</a>
-					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_RESSOURCE_LIST')) %}
-					<a href="game.php?page=resources" class="sidebar-link{% if GET.page|default('') == 'resources' %} active{% endif %}">
-						<i class="fas fa-chart-bar"></i>
-						<span>{{ LNG.lm_resources }}</span>
-					</a>
-					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_NOTICE')) %}
-					<a href="javascript:OpenPopup('?page=notes', 'notes', 720, 300);" class="sidebar-link">
-						<i class="fas fa-sticky-note"></i>
-						<span>{{ LNG.lm_notes }}</span>
-					</a>
-					{% endif %}
-					
-					{% if isModuleAvailable(constant('MODULE_SUPPORT')) %}
-					<a href="game.php?page=ticket" class="sidebar-link{% if GET.page|default('') == 'ticket' %} active{% endif %}">
-						<i class="fas fa-headset"></i>
-						<span>{{ LNG.lm_support }}</span>
-					</a>
-					{% endif %}
-					
-					<a href="game.php?page=settings" class="sidebar-link{% if GET.page|default('') == 'settings' %} active{% endif %}">
-						<i class="fas fa-cog"></i>
-						<span>{{ LNG.lm_options }}</span>
-					</a>
-					
-					<a href="game.php?page=logout" class="sidebar-link">
-						<i class="fas fa-sign-out-alt"></i>
-						<span>{{ LNG.lm_logout }}</span>
-					</a>
-				</div>
-				
-				<!-- Admin Section -->
-				{% if authlevel > 0 %}
-				<div class="nav-section">
-					<div class="nav-section-title">{{ LNG.lm_administration }}</div>
-					<a href="./admin.php" class="sidebar-link admin-link" target="_blank">
-						<i class="fas fa-user-shield"></i>
-						<span>{{ LNG.lm_administration }}</span>
-					</a>
-				</div>
-				{% endif %}
+				</nav>
 			</div>
 		</aside>
 		
-		<!-- Mobile Overlay -->
-		<div class="sidebar-overlay"></div>
+		<!-- Mobile Sidebar Overlay -->
+		<div class="sidebar-overlay" id="sidebarOverlay"></div>
 		
 		<!-- Main Content Area -->
 		<main class="game-main">
-			{% if hasAdminAccess %}
-			<div class="game-card mb-3">
-				<div class="card-body bg-yellow">
-					<div class="flex items-center gap-3">
-						<i class="fas fa-exclamation-triangle text-yellow"></i>
-						<span>{{ LNG.admin_access_1 }} <a id="drop-admin" href="#" class="text-cyan">{{ LNG.admin_access_link }}</a>{{ LNG.admin_access_2 }}</span>
+			<div class="content-wrapper">
+				<!-- Admin Warning -->
+				{% if hasAdminAccess %}
+				<div class="game-card alert-card">
+					<div class="card-header">
+						<i class="fas fa-exclamation-triangle"></i>
+						<span>Admin Access Warning</span>
+					</div>
+					<div class="card-body">
+						{{ LNG.admin_access_1 }} <a id="drop-admin" href="#" class="text-link">{{ LNG.admin_access_link }}</a>{{ LNG.admin_access_2 }}
 					</div>
 				</div>
-			</div>
-			{% endif %}
-			
-			<div class="content-container">
-				{% block content %}{% endblock %}
+				{% endif %}
+				
+				<!-- Page Content -->
+				<div class="page-content">
+					{% block content %}{% endblock %}
+				</div>
 			</div>
 		</main>
+		
+		<!-- Fixed Footer -->
+		<footer class="game-footer">
+			<div class="footer-inner">
+				<div class="footer-left">
+					<span class="footer-text">© {{ "now"|date("Y") }} {{ game_name }} - {{ uni_name }}</span>
+					<span class="footer-separator">|</span>
+					<span class="footer-version">Version {{ VERSION }}</span>
+				</div>
+				<div class="footer-right">
+					<span class="footer-time" id="servertime"></span>
+				</div>
+			</div>
+		</footer>
 	</div>
 	
 	<!-- Resource Ticker Script -->
@@ -300,17 +443,44 @@
 	$(function() {
 		{% for resourceID, resourceData in resourceTable %}
 		{% if resourceData.production is defined %}
+		// Desktop Resource Ticker
 		resourceTicker({
 			available: {{ resourceData.current|json_encode }},
 			limit: [0, {{ resourceData.max|json_encode }}],
 			production: {{ resourceData.production|json_encode }},
 			valueElem: "current_{{ resourceData.name }}"
 		}, true);
+		
+		// Mobile Resource Ticker
+		resourceTicker({
+			available: {{ resourceData.current|json_encode }},
+			limit: [0, {{ resourceData.max|json_encode }}],
+			production: {{ resourceData.production|json_encode }},
+			valueElem: "mobile_current_{{ resourceData.name }}"
+		}, true);
 		{% endif %}
 		{% endfor %}
 	});
 	</script>
 	{% endif %}
+	
+	<!-- Server Time Display -->
+	<script type="text/javascript">
+	function updateServerTime() {
+		var timeElem = document.getElementById('servertime');
+		if(timeElem) {
+			var h = serverTime.getHours();
+			var m = serverTime.getMinutes();
+			var s = serverTime.getSeconds();
+			h = h < 10 ? '0' + h : h;
+			m = m < 10 ? '0' + m : m;
+			s = s < 10 ? '0' + s : s;
+			timeElem.innerHTML = h + ':' + m + ':' + s;
+		}
+	}
+	setInterval(updateServerTime, 1000);
+	updateServerTime();
+	</script>
 	
 	<!-- Cronjobs -->
 	{% for cronjob in cronjobs %}<img src="cronjob.php?cronjobID={{ cronjob }}" alt="" style="display:none;">{% endfor %}

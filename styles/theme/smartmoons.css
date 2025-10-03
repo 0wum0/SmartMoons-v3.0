@@ -4,8 +4,8 @@
    Modern Card Layouts, Glow Effects, Responsive Design
    ===================================================== */
 
-/* Import mobile sidebar navigation styles */
-@import url('../resource/css/ingame/sidebar-mobile.css');
+/* Import modern layout styles */
+@import url('../resource/css/ingame/modern-layout.css');
 
 /* =====================================================
    1. CSS VARIABLES & ROOT CONFIGURATION
