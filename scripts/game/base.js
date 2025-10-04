@@ -266,66 +266,156 @@ $(function() {
 		return false;
 	});
 	
-	// SmartMoons New Mobile Drawer Handler
-	initSmartMoonsDrawer();
+	// Initialize Mobile Navigation Handler
+	initMobileNavigation();
 });
 
-// SmartMoons New Mobile Drawer System
-function initSmartMoonsDrawer() {
-  var burger   = document.getElementById('sm-burger');
-  var drawer   = document.getElementById('sm-mobile-drawer');
-  var overlay  = document.getElementById('sm-overlay');
-  if(!burger || !drawer || !overlay) return;
-
-  function openDrawer() {
-    drawer.hidden = false;
-    overlay.hidden = false;
-    drawer.setAttribute('aria-hidden', 'false');
-    burger.setAttribute('aria-expanded', 'true');
-    document.body.classList.add('sm-no-scroll');
-    setTimeout(function() {
-      var focusable = drawer.querySelector('a,button,[tabindex]:not([tabindex="-1"])');
-      if (focusable) focusable.focus();
-    }, 0);
-  }
-
-  function closeDrawer() {
-    drawer.setAttribute('aria-hidden', 'true');
-    burger.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('sm-no-scroll');
-    setTimeout(function(){
-      drawer.hidden = true;
-      overlay.hidden = true;
-    }, 280);
-    burger.focus();
-  }
-
-  burger.addEventListener('click', function () {
-    var isOpen = drawer.getAttribute('aria-hidden') === 'false';
-    if (isOpen) closeDrawer(); else openDrawer();
-  });
-
-  overlay.addEventListener('click', closeDrawer);
-  drawer.addEventListener('click', function (e) {
-    if (e.target && (e.target.matches('[data-close]') || e.target.closest('[data-close]'))) {
-      closeDrawer();
-    }
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeDrawer();
-  });
+// Enhanced Mobile Navigation System
+function initMobileNavigation() {
+	// Get elements - support multiple IDs for compatibility
+	var burgerMenu = document.getElementById('burgerMenu') || document.querySelector('.burger-menu');
+	var mobileNav = document.getElementById('mobileNav') || document.querySelector('.mobile-nav');
+	var navOverlay = document.getElementById('navOverlay') || document.querySelector('.nav-overlay');
+	var closeNav = document.getElementById('closeNav') || document.querySelector('.close-nav');
+	var userButton = document.querySelector('.user-button');
+	var dropdownContent = document.querySelector('.dropdown-content');
+	
+	// Check if elements exist
+	if (!burgerMenu || !mobileNav || !navOverlay) {
+		console.warn('Mobile navigation elements not found');
+		return;
+	}
+	
+	// Open mobile navigation
+	function openMobileNav() {
+		mobileNav.classList.add('active');
+		navOverlay.classList.add('active');
+		burgerMenu.classList.add('active');
+		document.body.classList.add('nav-open');
+		// Focus first link for accessibility
+		setTimeout(function() {
+			var firstLink = mobileNav.querySelector('a');
+			if (firstLink) firstLink.focus();
+		}, 300);
+	}
+	
+	// Close mobile navigation
+	function closeMobileNav() {
+		mobileNav.classList.remove('active');
+		navOverlay.classList.remove('active');
+		burgerMenu.classList.remove('active');
+		document.body.classList.remove('nav-open');
+		burgerMenu.focus();
+	}
+	
+	// Toggle mobile navigation
+	burgerMenu.addEventListener('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		if (mobileNav.classList.contains('active')) {
+			closeMobileNav();
+		} else {
+			openMobileNav();
+		}
+	});
+	
+	// Close button handler
+	if (closeNav) {
+		closeNav.addEventListener('click', function(e) {
+			e.preventDefault();
+			closeMobileNav();
+		});
+	}
+	
+	// Overlay click handler
+	navOverlay.addEventListener('click', closeMobileNav);
+	
+	// User dropdown toggle
+	if (userButton && dropdownContent) {
+		userButton.addEventListener('click', function(e) {
+			e.stopPropagation();
+			dropdownContent.classList.toggle('show');
+		});
+		
+		// Close dropdown when clicking outside
+		document.addEventListener('click', function() {
+			if (dropdownContent) dropdownContent.classList.remove('show');
+		});
+		
+		dropdownContent.addEventListener('click', function(e) {
+			e.stopPropagation();
+		});
+	}
+	
+	// ESC key handler
+	document.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+			closeMobileNav();
+		}
+	});
+	
+	// Close mobile nav on window resize to desktop
+	window.addEventListener('resize', function() {
+		if (window.innerWidth > 992 && mobileNav.classList.contains('active')) {
+			closeMobileNav();
+		}
+	});
 }
 
-// SmartMoons Layout Fixes
-document.addEventListener("DOMContentLoaded", () => {
-  // Remove stray empty header div if exists
-  const stray = document.querySelector("header > div:empty");
-  if(stray) stray.remove();
+// Format numbers with short notation
+function formatResourceNumber(number) {
+	if (!number) return '0';
+	var num = parseFloat(number);
+	if (isNaN(num)) return '0';
+	
+	// For numbers less than 1000, show as is
+	if (Math.abs(num) < 1000) {
+		return Math.floor(num).toString();
+	}
+	
+	// For larger numbers, use short format
+	var units = ['', 'K', 'M', 'B', 'T', 'Q'];
+	var unitIndex = 0;
+	
+	while (Math.abs(num) >= 1000 && unitIndex < units.length - 1) {
+		num /= 1000;
+		unitIndex++;
+	}
+	
+	// Format with 1 decimal for numbers < 100, otherwise no decimal
+	var formatted = num < 100 ? num.toFixed(1) : Math.floor(num).toString();
+	
+	// Remove unnecessary .0
+	formatted = formatted.replace(/\.0$/, '');
+	
+	return formatted + ' ' + units[unitIndex];
+}
 
-  // Prevent content jump
-  const mainContent = document.querySelector("#content, .main-content, .game-main");
-  if(mainContent && mainContent.getBoundingClientRect().top > 300) {
-    mainContent.style.marginTop = "100px";
-  }
+// Update resource display format on page load
+document.addEventListener('DOMContentLoaded', function() {
+	// Update resource values to short format
+	var resourceValues = document.querySelectorAll('.resource-value');
+	resourceValues.forEach(function(elem) {
+		var realValue = elem.getAttribute('data-real');
+		if (realValue) {
+			elem.innerHTML = formatResourceNumber(realValue);
+		}
+	});
+	
+	// Update resource max values
+	var resourceMaxValues = document.querySelectorAll('.resource-max');
+	resourceMaxValues.forEach(function(elem) {
+		var text = elem.textContent;
+		var match = text.match(/\/ ([\d,\.]+)/);
+		if (match) {
+			var number = match[1].replace(/,/g, '').replace(/\./g, '');
+			elem.textContent = '/ ' + formatResourceNumber(number);
+		}
+	});
+	
+	// Clean up any empty divs or ghost elements
+	var emptyDivs = document.querySelectorAll('body > div:empty:not([id]):not([class])');
+	emptyDivs.forEach(function(div) {
+		div.remove();
+	});
 });
