@@ -102,7 +102,7 @@
                 console.log('[BurgerMenuFix] Overlay clicked');
                 
                 // Close mobile nav if it's open
-                if (mobileNav && mobileNav.style.display === 'block') {
+                if (mobileNav && (mobileNav.classList.contains('open') || mobileNav.style.display === 'block')) {
                     closeMobileNav(mobileNav, burgerButton || newBurgerButton, overlayElement);
                 }
                 // Otherwise close sidebar if it's open
@@ -127,7 +127,7 @@
                 console.log('[BurgerMenuFix] Escape key pressed');
                 
                 // Close mobile nav if it's open
-                if (mobileNav && mobileNav.style.display === 'block') {
+        if (mobileNav && (mobileNav.classList.contains('open') || mobileNav.style.display === 'block')) {
                     closeMobileNav(mobileNav, burgerButton || newBurgerButton, overlayElement);
                 }
                 // Otherwise close sidebar if it's open

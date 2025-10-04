@@ -26,15 +26,13 @@ function resourceTicker(config, init) {
 		{
 			element.addClass('res_current_warn');
 		}
-		if(viewShortlyNumber) {
-			//element.attr('data-tooltip-content', NumberGetHumanReadable(nrResource));
-			element.html(shortly_number(nrResource) + " ("+pourcent+"%) ");
-			elementPoursent.css('width', pourcent+'%');
-
-		} else {
+        if(viewShortlyNumber) {
+            // Prefer Twig filter output; JS fallback for safety
+            element.html(shortly_number(nrResource) + " ("+pourcent+"%) ");
+            elementPoursent.css('width', pourcent+'%');
+        } else {
 			element.html(NumberGetHumanReadable(nrResource) + " ("+pourcent+"%) ");
 			elementPoursent.css('width', pourcent+'%');
-
 		}
 	} else {
 		elementPoursent.css('width', '100%');
