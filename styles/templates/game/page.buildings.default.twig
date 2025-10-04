@@ -104,7 +104,7 @@
 					{% for RessID, RessAmount in Element.costResources %}
 					<div class="resource-item{% if Element.costOverflow[RessID] != 0 %} insufficient{% endif %}">
 						<img src="{{ dpath }}images/{{ RessID }}.gif" alt="{{ LNG.tech[RessID] }}" class="resource-icon">
-						<span class="resource-amount">{{ RessAmount|shortly_number }}</span>
+                        <span class="resource-amount">{{ RessAmount|number_format }}</span>
 					</div>
 					{% endfor %}
 				</div>

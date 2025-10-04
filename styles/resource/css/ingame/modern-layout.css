@@ -595,7 +595,7 @@ body {
   margin-left: var(--sidebar-width);
   margin-top: var(--header-height);
   min-height: calc(100vh - var(--header-height) - var(--footer-height));
-  padding-bottom: 20px;
+  padding-bottom: calc(var(--footer-height) + 20px);
   padding-top: 20px;
   transition: margin-left var(--transition-normal);
 }
@@ -919,10 +919,10 @@ body {
   /* Sidebar Mobile */
   .game-sidebar {
     position: fixed;
-    top: 0;
+    top: var(--header-mobile-height);
     width: var(--sidebar-mobile-width);
     max-width: 320px;
-    height: 100vh;
+    height: calc(100vh - var(--header-mobile-height));
     transform: translateX(-100%);
     z-index: 1001;
   }
@@ -939,6 +939,8 @@ body {
   .sidebar-overlay {
     display: block;
     visibility: hidden;
+    top: var(--header-mobile-height);
+    height: calc(100vh - var(--header-mobile-height));
   }
   
   .sidebar-overlay.active {
