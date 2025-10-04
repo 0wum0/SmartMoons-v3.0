@@ -10,7 +10,7 @@
 #burgerMenu,
 #burger-toggle,
 #sidebar-toggle {
-    display: none; /* Hidden by default, shown on mobile via media query */
+    display: flex; /* Always visible for debugging, will be controlled by media queries */
     position: relative;
     width: 40px;
     height: 40px;
