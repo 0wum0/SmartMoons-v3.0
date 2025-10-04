@@ -90,46 +90,54 @@
 					<a href="game.php?page=overview" class="nav-link{% if GET.page|default('overview') == 'overview' %} active{% endif %}">
 						<i class="fas fa-home"></i> {{ LNG.lm_overview }}
 					</a>
-					{% if constant('MODULE_BUILDING') is defined and isModuleAvailable(constant('MODULE_BUILDING')) %}
-					<a href="game.php?page=buildings" class="nav-link{% if GET.page|default('') == 'buildings' %} active{% endif %}">
-						<i class="fas fa-city"></i> {{ LNG.lm_buildings }}
-					</a>
-					{% endif %}
-					{% if constant('MODULE_RESEARCH') is defined and isModuleAvailable(constant('MODULE_RESEARCH')) %}
-					<a href="game.php?page=research" class="nav-link{% if GET.page|default('') == 'research' %} active{% endif %}">
-						<i class="fas fa-flask"></i> {{ LNG.lm_research }}
-					</a>
-					{% endif %}
-					{% if constant('MODULE_SHIPYARD_FLEET') is defined and isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
-					<a href="game.php?page=shipyard&mode=fleet" class="nav-link{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'fleet' %} active{% endif %}">
-						<i class="fas fa-rocket"></i> {{ LNG.lm_shipshard }}
-					</a>
-					{% endif %}
-					{% if constant('MODULE_SHIPYARD_DEFENSIVE') is defined and isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
-					<a href="game.php?page=shipyard&mode=defense" class="nav-link{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'defense' %} active{% endif %}">
-						<i class="fas fa-shield-alt"></i> {{ LNG.lm_defenses }}
-					</a>
-					{% endif %}
-					{% if constant('MODULE_OFFICIER') is defined and isModuleAvailable(constant('MODULE_OFFICIER')) %}
-					<a href="game.php?page=officier" class="nav-link{% if GET.page|default('') == 'officier' %} active{% endif %}">
-						<i class="fas fa-user-tie"></i> {{ LNG.lm_officiers }}
-					</a>
-					{% endif %}
-					{% if constant('MODULE_GALAXY') is defined and isModuleAvailable(constant('MODULE_GALAXY')) %}
-					<a href="game.php?page=galaxy" class="nav-link{% if GET.page|default('') == 'galaxy' %} active{% endif %}">
-						<i class="fas fa-globe"></i> {{ LNG.lm_galaxy }}
-					</a>
-					{% endif %}
-					{% if constant('MODULE_FLEET_TRADER') is defined and isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
-					<a href="game.php?page=fleetTable" class="nav-link{% if GET.page|default('') == 'fleetTable' %} active{% endif %}">
-						<i class="fas fa-space-shuttle"></i> {{ LNG.lm_fleet }}
-					</a>
-					{% endif %}
-					{% if constant('MODULE_ALLIANCE') is defined and isModuleAvailable(constant('MODULE_ALLIANCE')) %}
-					<a href="game.php?page=alliance" class="nav-link{% if GET.page|default('') == 'alliance' %} active{% endif %}">
-						<i class="fas fa-users"></i> {{ LNG.lm_alliance }}
-					</a>
-					{% endif %}
+				{% set module_building = constant('MODULE_BUILDING')|default(null) %}
+				{% if module_building and isModuleAvailable(module_building) %}
+				<a href="game.php?page=buildings" class="nav-link{% if GET.page|default('') == 'buildings' %} active{% endif %}">
+					<i class="fas fa-city"></i> {{ LNG.lm_buildings }}
+				</a>
+				{% endif %}
+				{% set module_research = constant('MODULE_RESEARCH')|default(null) %}
+				{% if module_research and isModuleAvailable(module_research) %}
+				<a href="game.php?page=research" class="nav-link{% if GET.page|default('') == 'research' %} active{% endif %}">
+					<i class="fas fa-flask"></i> {{ LNG.lm_research }}
+				</a>
+				{% endif %}
+				{% set module_shipyard_fleet = constant('MODULE_SHIPYARD_FLEET')|default(null) %}
+				{% if module_shipyard_fleet and isModuleAvailable(module_shipyard_fleet) %}
+				<a href="game.php?page=shipyard&mode=fleet" class="nav-link{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'fleet' %} active{% endif %}">
+					<i class="fas fa-rocket"></i> {{ LNG.lm_shipshard }}
+				</a>
+				{% endif %}
+				{% set module_shipyard_defensive = constant('MODULE_SHIPYARD_DEFENSIVE')|default(null) %}
+				{% if module_shipyard_defensive and isModuleAvailable(module_shipyard_defensive) %}
+				<a href="game.php?page=shipyard&mode=defense" class="nav-link{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'defense' %} active{% endif %}">
+					<i class="fas fa-shield-alt"></i> {{ LNG.lm_defenses }}
+				</a>
+				{% endif %}
+				{% set module_officier = constant('MODULE_OFFICIER')|default(null) %}
+				{% if module_officier and isModuleAvailable(module_officier) %}
+				<a href="game.php?page=officier" class="nav-link{% if GET.page|default('') == 'officier' %} active{% endif %}">
+					<i class="fas fa-user-tie"></i> {{ LNG.lm_officiers }}
+				</a>
+				{% endif %}
+				{% set module_galaxy = constant('MODULE_GALAXY')|default(null) %}
+				{% if module_galaxy and isModuleAvailable(module_galaxy) %}
+				<a href="game.php?page=galaxy" class="nav-link{% if GET.page|default('') == 'galaxy' %} active{% endif %}">
+					<i class="fas fa-globe"></i> {{ LNG.lm_galaxy }}
+				</a>
+				{% endif %}
+				{% set module_fleet_trader = constant('MODULE_FLEET_TRADER')|default(null) %}
+				{% if module_fleet_trader and isModuleAvailable(module_fleet_trader) %}
+				<a href="game.php?page=fleetTable" class="nav-link{% if GET.page|default('') == 'fleetTable' %} active{% endif %}">
+					<i class="fas fa-space-shuttle"></i> {{ LNG.lm_fleet }}
+				</a>
+				{% endif %}
+				{% set module_alliance = constant('MODULE_ALLIANCE')|default(null) %}
+				{% if module_alliance and isModuleAvailable(module_alliance) %}
+				<a href="game.php?page=alliance" class="nav-link{% if GET.page|default('') == 'alliance' %} active{% endif %}">
+					<i class="fas fa-users"></i> {{ LNG.lm_alliance }}
+				</a>
+				{% endif %}
 				</nav>
 				
 				<!-- User Menu -->
@@ -141,43 +149,55 @@
 							<i class="fas fa-chevron-down"></i>
 						</button>
 						<div class="dropdown-content">
-							{% if constant('MODULE_MESSAGES') is defined and isModuleAvailable(constant('MODULE_MESSAGES')) %}
+							{% set module_messages = constant('MODULE_MESSAGES')|default(null) %}
+							{% if module_messages and isModuleAvailable(module_messages) %}
 							<a href="game.php?page=messages">
 								<i class="fas fa-envelope"></i> {{ LNG.lm_messages }}
 								{% if new_message > 0 %}<span class="badge">{{ new_message }}</span>{% endif %}
 							</a>
 							{% endif %}
-							{% if constant('MODULE_CHAT') is defined and isModuleAvailable(constant('MODULE_CHAT')) %}
+							{% set module_chat = constant('MODULE_CHAT')|default(null) %}
+							{% if module_chat and isModuleAvailable(module_chat) %}
 							<a href="game.php?page=chat"><i class="fas fa-comment-dots"></i> {{ LNG.lm_chat }}</a>
 							{% endif %}
-							{% if constant('MODULE_STATISTICS') is defined and isModuleAvailable(constant('MODULE_STATISTICS')) %}
+							{% set module_statistics = constant('MODULE_STATISTICS')|default(null) %}
+							{% if module_statistics and isModuleAvailable(module_statistics) %}
 							<a href="game.php?page=statistics"><i class="fas fa-chart-line"></i> {{ LNG.lm_statistics }}</a>
 							{% endif %}
-							{% if constant('MODULE_RECORDS') is defined and isModuleAvailable(constant('MODULE_RECORDS')) %}
+							{% set module_records = constant('MODULE_RECORDS')|default(null) %}
+							{% if module_records and isModuleAvailable(module_records) %}
 							<a href="game.php?page=records"><i class="fas fa-trophy"></i> {{ LNG.lm_records }}</a>
 							{% endif %}
-							{% if constant('MODULE_BATTLEHALL') is defined and isModuleAvailable(constant('MODULE_BATTLEHALL')) %}
+							{% set module_battlehall = constant('MODULE_BATTLEHALL')|default(null) %}
+							{% if module_battlehall and isModuleAvailable(module_battlehall) %}
 							<a href="game.php?page=battleHall"><i class="fas fa-fist-raised"></i> {{ LNG.lm_topkb }}</a>
 							{% endif %}
-							{% if constant('MODULE_BUDDYLIST') is defined and isModuleAvailable(constant('MODULE_BUDDYLIST')) %}
+							{% set module_buddylist = constant('MODULE_BUDDYLIST')|default(null) %}
+							{% if module_buddylist and isModuleAvailable(module_buddylist) %}
 							<a href="game.php?page=buddyList"><i class="fas fa-user-friends"></i> {{ LNG.lm_buddylist }}</a>
 							{% endif %}
-							{% if constant('MODULE_BANLIST') is defined and isModuleAvailable(constant('MODULE_BANLIST')) %}
+							{% set module_banlist = constant('MODULE_BANLIST')|default(null) %}
+							{% if module_banlist and isModuleAvailable(module_banlist) %}
 							<a href="game.php?page=banList"><i class="fas fa-ban"></i> {{ LNG.lm_banned }}</a>
 							{% endif %}
-							{% if constant('MODULE_NOTES') is defined and isModuleAvailable(constant('MODULE_NOTES')) %}
+							{% set module_notes = constant('MODULE_NOTES')|default(null) %}
+							{% if module_notes and isModuleAvailable(module_notes) %}
 							<a href="game.php?page=notes"><i class="fas fa-sticky-note"></i> {{ LNG.lm_notes }}</a>
 							{% endif %}
-							{% if constant('MODULE_SIMULATOR') is defined and isModuleAvailable(constant('MODULE_SIMULATOR')) %}
+							{% set module_simulator = constant('MODULE_SIMULATOR')|default(null) %}
+							{% if module_simulator and isModuleAvailable(module_simulator) %}
 							<a href="game.php?page=battleSimulator"><i class="fas fa-crosshairs"></i> {{ LNG.lm_battlesim }}</a>
 							{% endif %}
-							{% if constant('MODULE_TRADER') is defined and isModuleAvailable(constant('MODULE_TRADER')) %}
+							{% set module_trader = constant('MODULE_TRADER')|default(null) %}
+							{% if module_trader and isModuleAvailable(module_trader) %}
 							<a href="game.php?page=fleetDealer"><i class="fas fa-store"></i> {{ LNG.lm_fleettrader }}</a>
 							{% endif %}
-							{% if constant('MODULE_RESSOURCE_LIST') is defined and isModuleAvailable(constant('MODULE_RESSOURCE_LIST')) %}
+							{% set module_ressource_list = constant('MODULE_RESSOURCE_LIST')|default(null) %}
+							{% if module_ressource_list and isModuleAvailable(module_ressource_list) %}
 							<a href="game.php?page=resources"><i class="fas fa-chart-bar"></i> {{ LNG.lm_resources }}</a>
 							{% endif %}
-							{% if constant('MODULE_SUPPORT') is defined and isModuleAvailable(constant('MODULE_SUPPORT')) %}
+							{% set module_support = constant('MODULE_SUPPORT')|default(null) %}
+							{% if module_support and isModuleAvailable(module_support) %}
 							<a href="game.php?page=ticket"><i class="fas fa-headset"></i> {{ LNG.lm_support }}</a>
 							{% endif %}
 							<a href="game.php?page=settings"><i class="fas fa-cog"></i> {{ LNG.lm_options }}</a>
@@ -234,54 +254,64 @@
 				<a href="game.php?page=overview" class="mobile-nav-item{% if GET.page|default('overview') == 'overview' %} active{% endif %}">
 					<i class="fas fa-home"></i> {{ LNG.lm_overview }}
 				</a>
-				{% if constant('MODULE_BUILDING') is defined and isModuleAvailable(constant('MODULE_BUILDING')) %}
+				{% set module_building = constant('MODULE_BUILDING')|default(null) %}
+				{% if module_building and isModuleAvailable(module_building) %}
 				<a href="game.php?page=buildings" class="mobile-nav-item{% if GET.page|default('') == 'buildings' %} active{% endif %}">
 					<i class="fas fa-city"></i> {{ LNG.lm_buildings }}
 				</a>
 				{% endif %}
-				{% if constant('MODULE_RESEARCH') is defined and isModuleAvailable(constant('MODULE_RESEARCH')) %}
+				{% set module_research = constant('MODULE_RESEARCH')|default(null) %}
+				{% if module_research and isModuleAvailable(module_research) %}
 				<a href="game.php?page=research" class="mobile-nav-item{% if GET.page|default('') == 'research' %} active{% endif %}">
 					<i class="fas fa-flask"></i> {{ LNG.lm_research }}
 				</a>
 				{% endif %}
-				{% if constant('MODULE_SHIPYARD_FLEET') is defined and isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
+				{% set module_shipyard_fleet = constant('MODULE_SHIPYARD_FLEET')|default(null) %}
+				{% if module_shipyard_fleet and isModuleAvailable(module_shipyard_fleet) %}
 				<a href="game.php?page=shipyard&mode=fleet" class="mobile-nav-item{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'fleet' %} active{% endif %}">
 					<i class="fas fa-rocket"></i> {{ LNG.lm_shipshard }}
 				</a>
 				{% endif %}
-				{% if constant('MODULE_SHIPYARD_DEFENSIVE') is defined and isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
+				{% set module_shipyard_defensive = constant('MODULE_SHIPYARD_DEFENSIVE')|default(null) %}
+				{% if module_shipyard_defensive and isModuleAvailable(module_shipyard_defensive) %}
 				<a href="game.php?page=shipyard&mode=defense" class="mobile-nav-item{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'defense' %} active{% endif %}">
 					<i class="fas fa-shield-alt"></i> {{ LNG.lm_defenses }}
 				</a>
 				{% endif %}
-				{% if constant('MODULE_OFFICIER') is defined and isModuleAvailable(constant('MODULE_OFFICIER')) %}
+				{% set module_officier = constant('MODULE_OFFICIER')|default(null) %}
+				{% if module_officier and isModuleAvailable(module_officier) %}
 				<a href="game.php?page=officier" class="mobile-nav-item{% if GET.page|default('') == 'officier' %} active{% endif %}">
 					<i class="fas fa-user-tie"></i> {{ LNG.lm_officiers }}
 				</a>
 				{% endif %}
-				{% if constant('MODULE_GALAXY') is defined and isModuleAvailable(constant('MODULE_GALAXY')) %}
+				{% set module_galaxy = constant('MODULE_GALAXY')|default(null) %}
+				{% if module_galaxy and isModuleAvailable(module_galaxy) %}
 				<a href="game.php?page=galaxy" class="mobile-nav-item{% if GET.page|default('') == 'galaxy' %} active{% endif %}">
 					<i class="fas fa-globe"></i> {{ LNG.lm_galaxy }}
 				</a>
 				{% endif %}
-				{% if constant('MODULE_FLEET_TRADER') is defined and isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
+				{% set module_fleet_trader = constant('MODULE_FLEET_TRADER')|default(null) %}
+				{% if module_fleet_trader and isModuleAvailable(module_fleet_trader) %}
 				<a href="game.php?page=fleetTable" class="mobile-nav-item{% if GET.page|default('') == 'fleetTable' %} active{% endif %}">
 					<i class="fas fa-space-shuttle"></i> {{ LNG.lm_fleet }}
 				</a>
 				{% endif %}
-				{% if constant('MODULE_ALLIANCE') is defined and isModuleAvailable(constant('MODULE_ALLIANCE')) %}
+				{% set module_alliance = constant('MODULE_ALLIANCE')|default(null) %}
+				{% if module_alliance and isModuleAvailable(module_alliance) %}
 				<a href="game.php?page=alliance" class="mobile-nav-item{% if GET.page|default('') == 'alliance' %} active{% endif %}">
 					<i class="fas fa-users"></i> {{ LNG.lm_alliance }}
 				</a>
 				{% endif %}
 				<div class="mobile-nav-divider"></div>
-				{% if constant('MODULE_MESSAGES') is defined and isModuleAvailable(constant('MODULE_MESSAGES')) %}
+				{% set module_messages = constant('MODULE_MESSAGES')|default(null) %}
+				{% if module_messages and isModuleAvailable(module_messages) %}
 				<a href="game.php?page=messages" class="mobile-nav-item">
 					<i class="fas fa-envelope"></i> {{ LNG.lm_messages }}
 					{% if new_message > 0 %}<span class="badge">{{ new_message }}</span>{% endif %}
 				</a>
 				{% endif %}
-				{% if constant('MODULE_STATISTICS') is defined and isModuleAvailable(constant('MODULE_STATISTICS')) %}
+				{% set module_statistics = constant('MODULE_STATISTICS')|default(null) %}
+				{% if module_statistics and isModuleAvailable(module_statistics) %}
 				<a href="game.php?page=statistics" class="mobile-nav-item">
 					<i class="fas fa-chart-line"></i> {{ LNG.lm_statistics }}
 				</a>

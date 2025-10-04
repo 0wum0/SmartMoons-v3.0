@@ -334,8 +334,13 @@ function floatToString(int|float $number, int $Pro = 0, bool $output = false): s
 	return $output ? str_replace(",",".", sprintf("%.".$Pro."f", $number)) : sprintf("%.".$Pro."f", $number);
 }
 
-function isModuleAvailable(int $ID): bool
+function isModuleAvailable($ID): bool
 {
+	// Handle null or empty values
+	if (empty($ID)) {
+		return false;
+	}
+	
 	global $USER;
 	$modules	= explode(';', Config::get()->moduls);
 
