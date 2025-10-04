@@ -113,7 +113,7 @@
 						{% endif %}
 						</div>
 					</div>
-					{% if resourceID != 911 and resourceID != 921 and isModuleAvailable(constant('MODULE_TRADER')) %}
+					{% if resourceID != 911 and resourceID != 921 and constant('MODULE_TRADER') is defined and isModuleAvailable(constant('MODULE_TRADER')) %}
 					<div class="bar-change">
 						<a href="game.php?page=trader&mode=trade&resource={{ resourceID }}" title="{{ LNG.lm_trader }}">
 							<i class="fas fa-exchange-alt"></i>

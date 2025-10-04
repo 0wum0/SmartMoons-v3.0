@@ -188,6 +188,7 @@ define('MODULE_MISSION_SPY'			, 24);
 define('MODULE_MISSION_STATION'		, 36);
 define('MODULE_MISSION_TRANSPORT'	, 34);
 define('MODULE_NOTICE'				, 17);
+define('MODULE_NOTES'				, 17); // Alias for MODULE_NOTICE for compatibility
 define('MODULE_OFFICIER'			, 18);
 define('MODULE_PHALANX'				, 19);
 define('MODULE_PLAYERCARD'			, 20);

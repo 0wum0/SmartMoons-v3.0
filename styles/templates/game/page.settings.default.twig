@@ -237,7 +237,7 @@
 			</div>
 		</div>
 
-		{% if isModuleAvailable(constant('MODULE_BANNER')) %}
+		{% if constant('MODULE_BANNER') is defined and isModuleAvailable(constant('MODULE_BANNER')) %}
 		<!-- User Banner Card -->
 		<div class="settings-card full-width">
 			<div class="card-header">

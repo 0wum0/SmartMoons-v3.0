@@ -235,7 +235,7 @@
 							<span>{{ LNG.lm_empire }}</span>
 						</div>
 						<div class="nav-cards">
-							{% if isModuleAvailable(constant('MODULE_BUILDING')) %}
+							{% if constant('MODULE_BUILDING') is defined and isModuleAvailable(constant('MODULE_BUILDING')) %}
 							<a href="game.php?page=buildings" class="nav-card{% if GET.page|default('') == 'buildings' %} active{% endif %}">
 								<i class="fas fa-city"></i>
 								<span>{{ LNG.lm_buildings }}</span>
@@ -243,7 +243,7 @@
 							</a>
 							{% endif %}
 							
-							{% if isModuleAvailable(constant('MODULE_RESEARCH')) %}
+							{% if constant('MODULE_RESEARCH') is defined and isModuleAvailable(constant('MODULE_RESEARCH')) %}
 							<a href="game.php?page=research" class="nav-card{% if GET.page|default('') == 'research' %} active{% endif %}">
 								<i class="fas fa-flask"></i>
 								<span>{{ LNG.lm_research }}</span>
@@ -251,7 +251,7 @@
 							</a>
 							{% endif %}
 							
-							{% if isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
+							{% if constant('MODULE_SHIPYARD_FLEET') is defined and isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
 							<a href="game.php?page=shipyard&mode=fleet" class="nav-card{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'fleet' %} active{% endif %}">
 								<i class="fas fa-rocket"></i>
 								<span>{{ LNG.lm_shipshard }}</span>
@@ -259,7 +259,7 @@
 							</a>
 							{% endif %}
 							
-							{% if isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
+							{% if constant('MODULE_SHIPYARD_DEFENSIVE') is defined and isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
 							<a href="game.php?page=shipyard&mode=defense" class="nav-card{% if GET.page|default('') == 'shipyard' and GET.mode|default('') == 'defense' %} active{% endif %}">
 								<i class="fas fa-shield-alt"></i>
 								<span>{{ LNG.lm_defenses }}</span>
@@ -267,7 +267,7 @@
 							</a>
 							{% endif %}
 							
-							{% if isModuleAvailable(constant('MODULE_OFFICIER')) or isModuleAvailable(constant('MODULE_DMEXTRAS')) %}
+							{% if (constant('MODULE_OFFICIER') is defined and isModuleAvailable(constant('MODULE_OFFICIER'))) or (constant('MODULE_DMEXTRAS') is defined and isModuleAvailable(constant('MODULE_DMEXTRAS'))) %}
 							<a href="game.php?page=officier" class="nav-card{% if GET.page|default('') == 'officier' %} active{% endif %}">
 								<i class="fas fa-user-tie"></i>
 								<span>{{ LNG.lm_officiers }}</span>
