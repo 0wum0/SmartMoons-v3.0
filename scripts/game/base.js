@@ -265,4 +265,97 @@ $(function() {
 
 		return false;
 	});
+	
+	// SmartMoons Burger Menu Handler
+	initBurgerMenu();
 });
+
+// SmartMoons Mobile Menu System
+function initBurgerMenu() {
+	var burgerBtn = document.getElementById('burger-btn');
+	var closeMenuBtn = document.getElementById('close-menu-btn');
+	var mobileMenu = document.getElementById('mobile-menu');
+	var mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+	var body = document.body;
+	
+	// Check if elements exist
+	if (!burgerBtn || !mobileMenu) {
+		console.log('Burger menu elements not found');
+		return;
+	}
+	
+	// Open menu function
+	function openMenu() {
+		mobileMenu.classList.add('open');
+		if (mobileMenuOverlay) {
+			mobileMenuOverlay.classList.add('open');
+		}
+		body.style.overflow = 'hidden'; // Prevent scrolling
+		
+		// Trigger animations
+		setTimeout(function() {
+			mobileMenu.style.display = 'block';
+			setTimeout(function() {
+				mobileMenu.style.opacity = '1';
+				mobileMenu.style.transform = 'translateY(0)';
+			}, 10);
+		}, 10);
+	}
+	
+	// Close menu function
+	function closeMenu() {
+		mobileMenu.style.opacity = '0';
+		mobileMenu.style.transform = 'translateY(-100%)';
+		
+		setTimeout(function() {
+			mobileMenu.classList.remove('open');
+			mobileMenu.style.display = 'none';
+			if (mobileMenuOverlay) {
+				mobileMenuOverlay.classList.remove('open');
+			}
+			body.style.overflow = ''; // Restore scrolling
+		}, 400);
+	}
+	
+	// Burger button click handler
+	burgerBtn.addEventListener('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		openMenu();
+	});
+	
+	// Close button click handler
+	if (closeMenuBtn) {
+		closeMenuBtn.addEventListener('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			closeMenu();
+		});
+	}
+	
+	// Overlay click handler
+	if (mobileMenuOverlay) {
+		mobileMenuOverlay.addEventListener('click', function(e) {
+			e.preventDefault();
+			closeMenu();
+		});
+	}
+	
+	// Close menu on ESC key
+	document.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+			closeMenu();
+		}
+	});
+	
+	// Handle menu item clicks
+	var menuLinks = mobileMenu.querySelectorAll('.mobile-menu-list a');
+	menuLinks.forEach(function(link) {
+		link.addEventListener('click', function() {
+			// Close menu after clicking a link
+			setTimeout(closeMenu, 100);
+		});
+	});
+	
+	console.log('SmartMoons burger menu initialized');
+}

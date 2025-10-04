@@ -17,11 +17,8 @@
 
 	<!-- SmartMoons Complete Sci-Fi Redesign Theme -->
 	<link rel="stylesheet" type="text/css" href="./styles/theme/smartmoons.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/sidebar-mobile.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/burger-menu-fix.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/settings-responsive.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/mobile-navigation-fix.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/mobile-menu-enhanced.css?v={{ REV }}">
+	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/main.css?v={{ REV }}">
+	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/mobile-menu-scifi.css?v={{ REV }}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,12 +57,6 @@
 	<script type="text/javascript" src="./scripts/base/tooltip.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/game/base.js?v={{ REV }}"></script>
 	<script type="text/javascript" src="./scripts/game/topnav.js?v={{ REV }}"></script>
-	<!-- SmartMoons UI Enhancement Scripts -->
-	<script type="text/javascript" src="./scripts/game/smartmoons-ui.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/game/sidebar-navigation.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/game/burger-menu-fix.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/game/mobile-menu-handler.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/game/mobile-menu-enhanced.js?v={{ REV }}"></script>
 	{% for scriptname in scripts %}
 	<script type="text/javascript" src="./scripts/game/{{ scriptname }}.js?v={{ REV }}"></script>
 	{% endfor %}
@@ -80,39 +71,37 @@
 <body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }}">
 	<div id="tooltip" class="tip"></div>
 	
-	<!-- SmartMoons Mobile Navigation Header -->
-	<div id="mobile-header" class="mobile-only">
-		<div class="mobile-header-content">
-			<button id="sidebar-toggle" class="burger-menu" aria-label="Toggle Menu">
-				<span class="burger-line"></span>
-				<span class="burger-line"></span>
-				<span class="burger-line"></span>
-			</button>
-			<div class="mobile-logo">
-				<span>{{ game_name }}</span>
-			</div>
-		</div>
-		<!-- Mobile Navigation Menu -->
-		<nav class="mobile-nav" id="mobile-nav">
-			<ul>
-				<li><a href="game.php?page=overview"><i class="fas fa-home"></i> {{ LNG.lm_overview }}</a></li>
-				<li><a href="game.php?page=buildings"><i class="fas fa-city"></i> {{ LNG.lm_buildings }}</a></li>
-				<li><a href="game.php?page=research"><i class="fas fa-flask"></i> {{ LNG.lm_research }}</a></li>
-				<li><a href="game.php?page=shipyard&mode=fleet"><i class="fas fa-rocket"></i> {{ LNG.lm_shipshard }}</a></li>
-				<li><a href="game.php?page=shipyard&mode=defense"><i class="fas fa-shield-alt"></i> {{ LNG.lm_defenses }}</a></li>
-				<li><a href="game.php?page=fleetTable"><i class="fas fa-space-shuttle"></i> {{ LNG.lm_fleet }}</a></li>
-				<li><a href="game.php?page=galaxy"><i class="fas fa-globe"></i> {{ LNG.lm_galaxy }}</a></li>
-				<li><a href="game.php?page=alliance"><i class="fas fa-users"></i> {{ LNG.lm_alliance }}</a></li>
-				<li><a href="game.php?page=messages"><i class="fas fa-envelope"></i> {{ LNG.lm_messages }}</a></li>
-				<li><a href="game.php?page=statistics"><i class="fas fa-chart-line"></i> {{ LNG.lm_statistics }}</a></li>
-				<li><a href="game.php?page=settings"><i class="fas fa-cog"></i> {{ LNG.lm_options }}</a></li>
-				<li><a href="game.php?page=logout"><i class="fas fa-sign-out-alt"></i> {{ LNG.lm_logout }}</a></li>
-			</ul>
-		</nav>
-	</div>
+	<!-- SmartMoons Burger Menu Button (Mobile Only) -->
+	<button id="burger-btn" class="burger-menu-btn" aria-label="Toggle Menu">
+		<i class="fas fa-bars"></i>
+	</button>
 	
-	<!-- Mobile Menu Overlay -->
-	<div id="sidebar-overlay" class="mobile-nav-overlay"></div>
+	<!-- SmartMoons Mobile Navigation Menu -->
+	<nav id="mobile-menu" class="mobile-menu">
+		<div class="mobile-menu-header">
+			<div class="mobile-menu-logo">{{ game_name }}</div>
+			<button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+		<ul class="mobile-menu-list">
+			<li><a href="game.php?page=overview"><i class="fas fa-home"></i><span>{{ LNG.lm_overview }}</span></a></li>
+			<li><a href="game.php?page=buildings"><i class="fas fa-city"></i><span>{{ LNG.lm_buildings }}</span></a></li>
+			<li><a href="game.php?page=research"><i class="fas fa-flask"></i><span>{{ LNG.lm_research }}</span></a></li>
+			<li><a href="game.php?page=shipyard&mode=fleet"><i class="fas fa-rocket"></i><span>{{ LNG.lm_shipshard }}</span></a></li>
+			<li><a href="game.php?page=shipyard&mode=defense"><i class="fas fa-shield-alt"></i><span>{{ LNG.lm_defenses }}</span></a></li>
+			<li><a href="game.php?page=fleetTable"><i class="fas fa-space-shuttle"></i><span>{{ LNG.lm_fleet }}</span></a></li>
+			<li><a href="game.php?page=galaxy"><i class="fas fa-globe"></i><span>{{ LNG.lm_galaxy }}</span></a></li>
+			<li><a href="game.php?page=alliance"><i class="fas fa-users"></i><span>{{ LNG.lm_alliance }}</span></a></li>
+			<li><a href="game.php?page=messages"><i class="fas fa-envelope"></i><span>{{ LNG.lm_messages }}</span></a></li>
+			<li><a href="game.php?page=officier"><i class="fas fa-star"></i><span>{{ LNG.lm_officiers }}</span></a></li>
+			<li><a href="game.php?page=settings"><i class="fas fa-cog"></i><span>{{ LNG.lm_options }}</span></a></li>
+			<li><a href="game.php?page=logout"><i class="fas fa-sign-out-alt"></i><span>{{ LNG.lm_logout }}</span></a></li>
+		</ul>
+	</nav>
+	
+	<!-- Mobile Menu Overlay Background -->
+	<div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
 	
 	<!-- SmartMoons Sci-Fi Header -->
 	<div id="header">
