@@ -32,7 +32,7 @@
 	        </div>
 	      </div>
 	      {% if resourceID != 911 and resourceID != 921 %}
-	      {% if isModuleAvailable(constant('MODULE_TRADER')) %}
+	      {% if constant('MODULE_TRADER') is defined and isModuleAvailable(constant('MODULE_TRADER')) %}
 	      <div class="bar-change">
 	      	<a href="game.php?page=trader&mode=trade&resource={{ resourceID }}"><i class="fas fa-arrows-alt-h"></i></a>
 	      </div>

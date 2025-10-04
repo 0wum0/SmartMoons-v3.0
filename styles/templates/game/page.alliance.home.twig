@@ -31,7 +31,7 @@
 			<td>{{ LNG.al_rank }}</td>
 			<td>{{ rankName }}{% if rights.ADMIN %} (<a href="?page=alliance&amp;mode=admin">{{ LNG.al_manage_alliance }}</a>){% endif %}</td>
 		</tr>
-	    {% if isModuleAvailable(constant('MODULE_CHAT')) %}
+	    {% if constant('MODULE_CHAT') is defined and isModuleAvailable(constant('MODULE_CHAT')) %}
 		<tr>
 			<td colspan="2"><a href="#" onclick="return Dialog.AllianceChat();">{{ LNG.al_goto_chat }}</a></td>
 		</tr>
