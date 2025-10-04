@@ -18,7 +18,6 @@
 	<!-- SmartMoons Complete Sci-Fi Redesign Theme -->
 	<link rel="stylesheet" type="text/css" href="./styles/theme/smartmoons.css?v={{ REV }}">
 	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/main.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/mobile-menu-scifi.css?v={{ REV }}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,37 +70,60 @@
 <body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }}">
 	<div id="tooltip" class="tip"></div>
 	
-	<!-- SmartMoons Burger Menu Button (Mobile Only) -->
-	<button id="burger-btn" class="burger-menu-btn" aria-label="Toggle Menu">
-		<i class="fas fa-bars"></i>
-	</button>
-	
-	<!-- SmartMoons Mobile Navigation Menu -->
-	<nav id="mobile-menu" class="mobile-menu">
-		<div class="mobile-menu-header">
-			<div class="mobile-menu-logo">{{ game_name }}</div>
-			<button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu">
-				<i class="fas fa-times"></i>
-			</button>
-		</div>
-		<ul class="mobile-menu-list">
-			<li><a href="game.php?page=overview"><i class="fas fa-home"></i><span>{{ LNG.lm_overview }}</span></a></li>
-			<li><a href="game.php?page=buildings"><i class="fas fa-city"></i><span>{{ LNG.lm_buildings }}</span></a></li>
-			<li><a href="game.php?page=research"><i class="fas fa-flask"></i><span>{{ LNG.lm_research }}</span></a></li>
-			<li><a href="game.php?page=shipyard&mode=fleet"><i class="fas fa-rocket"></i><span>{{ LNG.lm_shipshard }}</span></a></li>
-			<li><a href="game.php?page=shipyard&mode=defense"><i class="fas fa-shield-alt"></i><span>{{ LNG.lm_defenses }}</span></a></li>
-			<li><a href="game.php?page=fleetTable"><i class="fas fa-space-shuttle"></i><span>{{ LNG.lm_fleet }}</span></a></li>
-			<li><a href="game.php?page=galaxy"><i class="fas fa-globe"></i><span>{{ LNG.lm_galaxy }}</span></a></li>
-			<li><a href="game.php?page=alliance"><i class="fas fa-users"></i><span>{{ LNG.lm_alliance }}</span></a></li>
-			<li><a href="game.php?page=messages"><i class="fas fa-envelope"></i><span>{{ LNG.lm_messages }}</span></a></li>
-			<li><a href="game.php?page=officier"><i class="fas fa-star"></i><span>{{ LNG.lm_officiers }}</span></a></li>
-			<li><a href="game.php?page=settings"><i class="fas fa-cog"></i><span>{{ LNG.lm_options }}</span></a></li>
-			<li><a href="game.php?page=logout"><i class="fas fa-sign-out-alt"></i><span>{{ LNG.lm_logout }}</span></a></li>
-		</ul>
-	</nav>
-	
-	<!-- Mobile Menu Overlay Background -->
-	<div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
+{# === Mobile Burger Button (visible on <= 1024px) === #}
+<button id="sm-burger" class="sm-burger sm-only" aria-controls="sm-mobile-drawer" aria-expanded="false" aria-label="Menü öffnen">
+  <span class="sm-burger-bar"></span>
+  <span class="sm-burger-bar"></span>
+  <span class="sm-burger-bar"></span>
+</button>
+
+{# === Mobile Drawer + Overlay === #}
+<div id="sm-overlay" class="sm-overlay" hidden></div>
+
+<aside id="sm-mobile-drawer" class="sm-drawer" role="dialog" aria-modal="true" aria-labelledby="sm-drawer-title" hidden>
+  <div class="sm-drawer-header">
+    <h2 id="sm-drawer-title">{{ config.game_name|default('2Moons Universum 1') }}</h2>
+    <button class="sm-drawer-close" aria-label="Menü schließen" data-close>×</button>
+  </div>
+
+  <nav class="sm-drawer-nav" aria-label="Hauptnavigation">
+    <ul class="sm-drawer-list">
+      <li><a href="game.php?page=overview">🏠 {{ LNG.lm_overview }}</a></li>
+
+      <li class="sm-section">{{ LNG.lm_empire|default('IMPERIUM') }}</li>
+      <li><a href="game.php?page=buildings">🏗️ {{ LNG.lm_buildings }}</a></li>
+      <li><a href="game.php?page=research">⚗️ {{ LNG.lm_research }}</a></li>
+      <li><a href="game.php?page=shipyard">🚀 {{ LNG.lm_shipyard }}</a></li>
+      <li><a href="game.php?page=defense">🛡️ {{ LNG.lm_defense }}</a></li>
+      <li><a href="game.php?page=officier">👥 {{ LNG.lm_officiers }}</a></li>
+
+      <li class="sm-section">{{ LNG.lm_fleet|default('FLOTTE & GALAXIE') }}</li>
+      <li><a href="game.php?page=fleetTable">✈️ {{ LNG.lm_fleet }}</a></li>
+      <li><a href="game.php?page=galaxy">🌐 {{ LNG.lm_galaxy }}</a></li>
+      <li><a href="game.php?page=alliance">👪 {{ LNG.lm_alliance }}</a></li>
+
+      <li class="sm-section">{{ LNG.lm_messages|default('NACHRICHTEN') }}</li>
+      <li><a href="game.php?page=messages">✉️ {{ LNG.lm_messages }}</a></li>
+      <li><a href="game.php?page=buddyList">👥 {{ LNG.lm_buddylist }}</a></li>
+      <li><a href="game.php?page=chat">💬 {{ LNG.lm_chat }}</a></li>
+
+      <li class="sm-section">{{ LNG.lm_stats|default('TOOLS & INFO') }}</li>
+      <li><a href="game.php?page=statistics">📈 {{ LNG.lm_statistics }}</a></li>
+      <li><a href="game.php?page=records">🏆 {{ LNG.lm_records }}</a></li>
+      <li><a href="game.php?page=hallOfFame">🥇 {{ LNG.lm_hof }}</a></li>
+      <li><a href="game.php?page=battleSimulator">⚔️ {{ LNG.lm_battlesim }}</a></li>
+      <li><a href="game.php?page=resources">📦 {{ LNG.lm_resources }}</a></li>
+      <li><a href="game.php?page=notes">🗒️ {{ LNG.lm_notes }}</a></li>
+      <li><a href="game.php?page=ticket">🆘 {{ LNG.lm_support }}</a></li>
+      <li><a href="game.php?page=settings">⚙️ {{ LNG.lm_options }}</a></li>
+
+      {% if USER.authlevel|default(0) >= constant('AUTH_OPS') %}
+        <li class="sm-section">ADMIN</li>
+        <li><a href="admin.php" rel="nofollow">🛠️ Administration</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+</aside>
 	
 	<!-- SmartMoons Sci-Fi Header -->
 	<div id="header">
