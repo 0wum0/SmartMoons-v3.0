@@ -69,7 +69,7 @@
 			{% endif %}
 		{% endif %}
 		<tr>
-			<td colspan="2" style="height:100px" class="bbcode">{% if ally_description %}{{ ally_description }}{% else %}{{ LNG.al_description_message }}{% endif %}</td>
+			<td colspan="2" style="height:100px" class="bbcode">{% if ally_description %}{{ ally_description|raw }}{% else %}{{ LNG.al_description_message }}{% endif %}</td>
 		</tr>
 		{% if ally_web %}
 		<tr>

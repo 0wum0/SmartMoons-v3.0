@@ -69,7 +69,7 @@
 				</h4>
 				<div class="sci-text-secondary" style="line-height: 1.8;">
 					{% if ally_description %}
-						{{ ally_description|nl2br }}
+						{{ ally_description|nl2br|raw }}
 					{% else %}
 						<span class="sci-text-muted">{{ LNG.al_description_message }}</span>
 					{% endif %}
