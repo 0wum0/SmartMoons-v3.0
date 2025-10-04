@@ -136,9 +136,44 @@
 								<i class="fas fa-chevron-down"></i>
 							</button>
 							<div class="dropdown-menu">
+								<a href="game.php?page=messages" class="dropdown-item">
+									<i class="fas fa-envelope"></i> {{ LNG.lm_messages }}
+								</a>
+								<a href="game.php?page=buddyList" class="dropdown-item">
+									<i class="fas fa-user-friends"></i> {{ LNG.lm_buddylist }}
+								</a>
+								<a href="game.php?page=chat" class="dropdown-item">
+									<i class="fas fa-comment-dots"></i> {{ LNG.lm_chat }}
+								</a>
+								<a href="game.php?page=statistics" class="dropdown-item">
+									<i class="fas fa-chart-line"></i> {{ LNG.lm_statistics }}
+								</a>
+								<a href="game.php?page=records" class="dropdown-item">
+									<i class="fas fa-trophy"></i> {{ LNG.lm_records }}
+								</a>
+								<a href="game.php?page=hallOfFame" class="dropdown-item">
+									<i class="fas fa-medal"></i> {{ LNG.lm_hof }}
+								</a>
+								<a href="game.php?page=battleSimulator" class="dropdown-item">
+									<i class="fas fa-crosshairs"></i> {{ LNG.lm_battlesim }}
+								</a>
+								<a href="game.php?page=resources" class="dropdown-item">
+									<i class="fas fa-chart-bar"></i> {{ LNG.lm_resources }}
+								</a>
+								<a href="game.php?page=notes" class="dropdown-item">
+									<i class="fas fa-sticky-note"></i> {{ LNG.lm_notes }}
+								</a>
+								<a href="game.php?page=ticket" class="dropdown-item">
+									<i class="fas fa-headset"></i> {{ LNG.lm_support }}
+								</a>
 								<a href="game.php?page=settings" class="dropdown-item">
 									<i class="fas fa-cog"></i> {{ LNG.lm_options }}
 								</a>
+								{% if USER.authlevel|default(0) >= constant('AUTH_OPS') %}
+								<a href="admin.php" class="dropdown-item">
+									<i class="fas fa-user-shield"></i> 🛠️ Administration
+								</a>
+								{% endif %}
 								<a href="game.php?page=logout" class="dropdown-item">
 									<i class="fas fa-sign-out-alt"></i> {{ LNG.lm_logout }}
 								</a>
@@ -269,65 +304,14 @@
 						</div>
 					</div>
 					
-					<!-- Communication -->
-					<div class="nav-section">
-						<div class="nav-section-title">
-							<i class="fas fa-comments"></i>
-							<span>{{ LNG.lm_messages }}</span>
-						</div>
-						<div class="nav-cards">
-							{% if isModuleAvailable(constant('MODULE_MESSAGES')) %}
-							<a href="game.php?page=messages" class="nav-card{% if GET.page|default('') == 'messages' %} active{% endif %}">
-								<i class="fas fa-envelope"></i>
-								<span>{{ LNG.lm_messages }}</span>
-								{% if new_message > 0 %}
-								<span class="nav-badge pulse">{{ new_message > 99 ? '99+' : new_message }}</span>
-								{% endif %}
-								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
-							</a>
-							{% endif %}
-							
-							{% if isModuleAvailable(constant('MODULE_BUDDYLIST')) %}
-							<a href="game.php?page=buddyList" class="nav-card{% if GET.page|default('') == 'buddyList' %} active{% endif %}">
-								<i class="fas fa-user-friends"></i>
-								<span>{{ LNG.lm_buddylist }}</span>
-								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
-							</a>
-							{% endif %}
-							
-							{% if isModuleAvailable(constant('MODULE_CHAT')) %}
-							<a href="game.php?page=chat" class="nav-card{% if GET.page|default('') == 'chat' %} active{% endif %}">
-								<i class="fas fa-comment-dots"></i>
-								<span>{{ LNG.lm_chat }}</span>
-								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
-							</a>
-							{% endif %}
-						</div>
-					</div>
 					
-					<!-- Statistics & Tools -->
+					<!-- Tools -->
 					<div class="nav-section">
 						<div class="nav-section-title">
 							<i class="fas fa-tools"></i>
 							<span>{{ LNG.lm_tools }}</span>
 						</div>
 						<div class="nav-cards">
-							{% if isModuleAvailable(constant('MODULE_STATISTICS')) %}
-							<a href="game.php?page=statistics" class="nav-card{% if GET.page|default('') == 'statistics' %} active{% endif %}">
-								<i class="fas fa-chart-line"></i>
-								<span>{{ LNG.lm_statistics }}</span>
-								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
-							</a>
-							{% endif %}
-							
-							{% if isModuleAvailable(constant('MODULE_RECORDS')) %}
-							<a href="game.php?page=records" class="nav-card{% if GET.page|default('') == 'records' %} active{% endif %}">
-								<i class="fas fa-trophy"></i>
-								<span>{{ LNG.lm_records }}</span>
-								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
-							</a>
-							{% endif %}
-							
 							{% if isModuleAvailable(constant('MODULE_BATTLEHALL')) %}
 							<a href="game.php?page=battleHall" class="nav-card{% if GET.page|default('') == 'battleHall' %} active{% endif %}">
 								<i class="fas fa-fist-raised"></i>
@@ -335,63 +319,9 @@
 								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
 							</a>
 							{% endif %}
-							
-							{% if isModuleAvailable(constant('MODULE_SIMULATOR')) %}
-							<a href="game.php?page=battleSimulator" class="nav-card{% if GET.page|default('') == 'battleSimulator' %} active{% endif %}">
-								<i class="fas fa-crosshairs"></i>
-								<span>{{ LNG.lm_battlesim }}</span>
-								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
-							</a>
-							{% endif %}
-							
-							{% if isModuleAvailable(constant('MODULE_RESSOURCE_LIST')) %}
-							<a href="game.php?page=resources" class="nav-card{% if GET.page|default('') == 'resources' %} active{% endif %}">
-								<i class="fas fa-chart-bar"></i>
-								<span>{{ LNG.lm_resources }}</span>
-								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
-							</a>
-							{% endif %}
-							
-							{% if isModuleAvailable(constant('MODULE_NOTICE')) %}
-							<a href="javascript:OpenPopup('?page=notes', 'notes', 720, 300);" class="nav-card">
-								<i class="fas fa-sticky-note"></i>
-								<span>{{ LNG.lm_notes }}</span>
-								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
-							</a>
-							{% endif %}
-							
-							{% if isModuleAvailable(constant('MODULE_SUPPORT')) %}
-							<a href="game.php?page=ticket" class="nav-card{% if GET.page|default('') == 'ticket' %} active{% endif %}">
-								<i class="fas fa-headset"></i>
-								<span>{{ LNG.lm_support }}</span>
-								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
-							</a>
-							{% endif %}
-							
-							<a href="game.php?page=settings" class="nav-card{% if GET.page|default('') == 'settings' %} active{% endif %}">
-								<i class="fas fa-cog"></i>
-								<span>{{ LNG.lm_options }}</span>
-								<span class="nav-arrow"><i class="fas fa-chevron-right"></i></span>
-							</a>
 						</div>
 					</div>
 					
-					<!-- Administration -->
-					{% if authlevel > 0 %}
-					<div class="nav-section">
-						<div class="nav-section-title">
-							<i class="fas fa-user-shield"></i>
-							<span>{{ LNG.lm_administration }}</span>
-						</div>
-						<div class="nav-cards">
-							<a href="./admin.php" class="nav-card admin-card" target="_blank">
-								<i class="fas fa-crown"></i>
-								<span>{{ LNG.lm_administration }}</span>
-								<span class="nav-arrow"><i class="fas fa-external-link-alt"></i></span>
-							</a>
-						</div>
-					</div>
-					{% endif %}
 				</nav>
 			</div>
 		</aside>

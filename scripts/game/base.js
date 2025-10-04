@@ -316,3 +316,16 @@ function initSmartMoonsDrawer() {
     if (e.key === 'Escape') closeDrawer();
   });
 }
+
+// SmartMoons Layout Fixes
+document.addEventListener("DOMContentLoaded", () => {
+  // Remove stray empty header div if exists
+  const stray = document.querySelector("header > div:empty");
+  if(stray) stray.remove();
+
+  // Prevent content jump
+  const mainContent = document.querySelector("#content, .main-content, .game-main");
+  if(mainContent && mainContent.getBoundingClientRect().top > 300) {
+    mainContent.style.marginTop = "100px";
+  }
+});

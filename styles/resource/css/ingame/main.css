@@ -1400,3 +1400,45 @@ body.sm-no-scroll { overflow: hidden; }
 .mobile-toggle, .menu-toggle-placeholder, 
 .burger-menu-btn, #burger-btn, .mobile-menu, .mobile-menu-overlay,
 #burgerMenu, #sidebar-toggle, .mobile-nav { display: none !important; }
+
+/* === FIXED HEADER / LAYOUT === */
+header, .main-header, .game-header { position: fixed; top: 0; left: 0; right: 0; z-index: 1100; }
+body { margin: 0; padding: 0; background: radial-gradient(ellipse at center, #0b0f17 0%, #0a0d13 100%); }
+#content, .main-content, .game-main { margin-top: 100px !important; }
+
+/* === FIX: Remove Stray Box === */
+.mobile-toggle, .menu-toggle-placeholder, .empty-div, .toggle-menu, header > div:empty { display: none !important; }
+
+/* === CARDS: Increase Height for Planets / Overview === */
+.planet-card, .overview-card, .game-card {
+  min-height: 420px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(18,24,36,0.9), rgba(6,9,14,0.95));
+  box-shadow: 0 0 20px rgba(0,0,0,.45);
+  overflow: hidden;
+}
+.planet-card img, .overview-card img, .game-card img { max-height: 220px; object-fit: cover; width: 100%; border-bottom: 1px solid rgba(255,255,255,.08); }
+
+/* === PAGE WRAPPER: prevent large top gaps === */
+.page-wrapper, .game-page, main, .game-main, .content-wrapper {
+  padding-top: 10px !important;
+  margin-top: 0 !important;
+}
+
+/* === RIGHT USER MENU: dropdown layout === */
+.user-menu ul, .dropdown-menu { list-style: none; padding: 0; margin: 0; }
+.user-menu li a, .dropdown-item {
+  display: flex; align-items: center; gap: 8px;
+  color: #b8ecff; padding: 8px 14px; text-decoration: none;
+  border-radius: 8px;
+  background: rgba(255,255,255,.04);
+  margin: 3px 0;
+}
+.user-menu li a:hover, .dropdown-item:hover { background: rgba(72,229,194,.12); color: #fff; }
+
+/* === RESPONSIVE HEADER AND BURGER === */
+@media (max-width: 1024px) {
+  #content, .main-content, .game-main { margin-top: 80px !important; }
+  .sm-drawer-list { padding-bottom: 60px; }
+  footer, .game-footer { position: fixed; bottom: 0; width: 100%; }
+}
