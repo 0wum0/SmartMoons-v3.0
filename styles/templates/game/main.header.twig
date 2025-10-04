@@ -86,19 +86,19 @@
 					<div class="bar-container">
 						<div class="bar bar_{{ resourceID }}" style="width: 0%;"></div>
 						<div class="bar-text">
-						{% if shortlyNumber %}
-							{% if resourceData.current is not defined %}
-								{% set currentResource = resourceData.max + resourceData.used %}
-								<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ currentResource|number_format }} / {{ resourceData.max|number_format }}">
-                                    <span{% if currentResource < 0 %} class="text-red"{% endif %}>{{ currentResource|number_format }} / {{ resourceData.max|number_format }}</span>
-								</span>
-							{% else %}
-								<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" 
-									data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ resourceData.current|number_format }} / {{ resourceData.max|number_format }}">
-                                    {{ resourceData.current|number_format }}
-								</span>
-							{% endif %}
-						{% else %}
+                        {% if shortlyNumber %}
+                            {% if resourceData.current is not defined %}
+                                {% set currentResource = resourceData.max + resourceData.used %}
+                                <span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ currentResource|number_format }} / {{ resourceData.max|number_format }}">
+                                    <span{% if currentResource < 0 %} class="text-red"{% endif %}>{{ currentResource|shortly_number }} / {{ resourceData.max|shortly_number }}</span>
+                                </span>
+                            {% else %}
+                                <span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" 
+                                    data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ resourceData.current|number_format }} / {{ resourceData.max|number_format }}">
+                                    {{ resourceData.current|shortly_number }}
+                                </span>
+                            {% endif %}
+                        {% else %}
 							{% if resourceData.current is not defined %}
 								{% set currentResource = resourceData.max + resourceData.used %}
 								<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}">
@@ -124,12 +124,12 @@
 			</div>
 			{% else %}
 			<!-- Dark Matter Display -->
-			<div class="heder_res_921">
+            <div class="heder_res_921">
 				<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}">
 				<span class="res_current res_921_text tooltip" id="current_{{ resourceData.name }}" 
 					data-real="{{ resourceData.current }}" 
 					data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ resourceData.current|number_format }}">
-                    {{ resourceData.current|number_format }}
+                    {% if shortlyNumber %}{{ resourceData.current|shortly_number }}{% else %}{{ resourceData.current|number_format }}{% endif %}
 				</span>
 			</div>
 			{% endif %}

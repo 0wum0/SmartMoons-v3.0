@@ -154,7 +154,7 @@
     position: relative !important;
     width: 44px !important;
     height: 44px !important;
-    display: none !important; /* Hidden by default, shown on mobile */
+    display: flex !important; /* Ensure visible; media queries may hide on desktop */
     align-items: center !important;
     justify-content: center !important;
     flex-direction: column !important;

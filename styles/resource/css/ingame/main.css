@@ -1397,14 +1397,16 @@ th {
 body.sm-no-scroll { overflow: hidden; }
 
 /* Hide old mobile menu elements */
-.mobile-toggle, .menu-toggle-placeholder, 
-.burger-menu-btn, #burger-btn, .mobile-menu, .mobile-menu-overlay,
-#burgerMenu, #sidebar-toggle, .mobile-nav { display: none !important; }
+.mobile-toggle, .menu-toggle-placeholder,
+.burger-menu-btn, #burger-btn, .mobile-menu, .mobile-menu-overlay { display: none !important; }
+
+/* Do NOT hide modern burger buttons or the mobile nav.
+   They are controlled via media queries in modern layout CSS. */
 
 /* === FIXED HEADER / LAYOUT === */
 header, .main-header, .game-header { position: fixed; top: 0; left: 0; right: 0; z-index: 1100; }
 body { margin: 0; padding: 0; background: radial-gradient(ellipse at center, #0b0f17 0%, #0a0d13 100%); }
-#content, .main-content, .game-main { margin-top: 100px !important; }
+#content, .main-content, .game-main { margin-top: 16px !important; }
 
 /* === FIX: Remove Stray Box === */
 .mobile-toggle, .menu-toggle-placeholder, .empty-div, .toggle-menu, header > div:empty { display: none !important; }
