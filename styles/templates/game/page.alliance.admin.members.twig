@@ -35,7 +35,7 @@
                             </a>
                         </td>
                         <td>{% if memberListRow.rankID == -1 %}{{ founder }}{% elseif rankSelectList %}<!-- TODO: Complex html_options - needs manual review -->{% else %}{{ rankList[memberListRow.rankID] }}{% endif %}</td>
-                        <td><span title="{{ memberListRow.points|number_format }}">{{ shortly_number(memberListRow.points) }}</span></td>
+                        <td><span title="{{ memberListRow.points|number_format }}">{{ memberListRow.points|number_format }}</span></td>
                         <td><a href="game.php?page=galaxy&amp;galaxy={{ memberListRow.galaxy }}&amp;system={{ memberListRow.system }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
                         <td>{{ memberListRow.register_time }}</td>
                         <td>{% if rights.ONLINESTATE %}{% if memberListRow.onlinetime < 4 %}<span style="color:lime">{{ LNG.al_memberlist_on }}</span>{% elseif memberListRow.onlinetime >= 4 and memberListRow.onlinetime <= 15 %}<span style="color:yellow">{{ memberListRow.onlinetime }} {{ LNG.al_memberlist_min }}</span>{% else %}<span style="color:red">{{ LNG.al_memberlist_off }}</span>{% endif %}{% else %}-{% endif %}</td>

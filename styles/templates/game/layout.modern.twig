@@ -113,15 +113,11 @@
 							<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}" class="resource-icon">
 							<div class="resource-info">
 								<span class="resource-label">{{ LNG.tech[resourceID] }}</span>
-								<span class="resource-value{% if resourceID == 921 %} text-purple{% endif %}" 
-								      id="current_{{ resourceData.name }}" 
-								      data-real="{{ resourceData.current|default(resourceData.max + resourceData.used) }}">
-									{% if shortlyNumber %}
-										{{ shortly_number(resourceData.current|default(resourceData.max + resourceData.used)) }}
-									{% else %}
-										{{ resourceData.current|default(resourceData.max + resourceData.used)|number_format }}
-									{% endif %}
-								</span>
+                                <span class="resource-value{% if resourceID == 921 %} text-purple{% endif %}" 
+                                      id="current_{{ resourceData.name }}" 
+                                      data-real="{{ resourceData.current|default(resourceData.max + resourceData.used) }}">
+                                    {{ resourceData.current|default(resourceData.max + resourceData.used)|number_format }}
+                                </span>
 							</div>
 						</div>
 						{% endfor %}
@@ -188,10 +184,10 @@
 				{% for resourceID, resourceData in resourceTable %}
 				<div class="mobile-resource-item{% if resourceID == 921 %} resource-dm{% endif %}">
 					<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}" class="resource-icon-small">
-					<span class="resource-value-small{% if resourceID == 921 %} text-purple{% endif %}" 
-					      id="mobile_current_{{ resourceData.name }}">
-						{{ shortly_number(resourceData.current|default(resourceData.max + resourceData.used)) }}
-					</span>
+                    <span class="resource-value-small{% if resourceID == 921 %} text-purple{% endif %}" 
+                          id="mobile_current_{{ resourceData.name }}">
+                        {{ resourceData.current|default(resourceData.max + resourceData.used)|number_format }}
+                    </span>
 				</div>
 				{% endfor %}
 			</div>
