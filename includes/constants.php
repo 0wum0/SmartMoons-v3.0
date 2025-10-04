@@ -159,7 +159,7 @@ define('AUTH_MOD'					, 1);
 define('AUTH_USR'					, 0);
 
 // Modules
-define('MODULE_AMOUNT'				, 43);
+define('MODULE_AMOUNT'				, 45);
 define('MODULE_ALLIANCE'			, 0);
 define('MODULE_BANLIST'				, 21);
 define('MODULE_BANNER'				, 37);
@@ -188,6 +188,8 @@ define('MODULE_MISSION_SPY'			, 24);
 define('MODULE_MISSION_STATION'		, 36);
 define('MODULE_MISSION_TRANSPORT'	, 34);
 define('MODULE_NOTICE'				, 17);
+define('MODULE_NOTES'				, 43);
+define('MODULE_SETTINGS'			, 44);
 define('MODULE_OFFICIER'			, 18);
 define('MODULE_PHALANX'				, 19);
 define('MODULE_PLAYERCARD'			, 20);
