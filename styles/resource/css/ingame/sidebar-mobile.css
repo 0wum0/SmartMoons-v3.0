@@ -54,7 +54,7 @@
     }
     
     /* Hide burger button on desktop */
-    #sidebar-toggle,
+    /* #sidebar-toggle removed - using #burgerMenu instead */
     .burger-menu {
         display: none !important;
     }
@@ -92,7 +92,7 @@
     }
     
     /* Show burger button on mobile */
-    #sidebar-toggle,
+    /* #sidebar-toggle removed - using #burgerMenu instead */
     .burger-menu {
         display: flex !important;
     }
@@ -101,7 +101,7 @@
 /* ============================================
    BURGER BUTTON STYLES
    ============================================ */
-#sidebar-toggle,
+/* #sidebar-toggle removed - using #burgerMenu instead */
 .burger-menu {
     position: relative;
     width: 40px;
@@ -120,7 +120,7 @@
     margin-right: 10px;
 }
 
-#sidebar-toggle:hover,
+/* #sidebar-toggle removed */
 .burger-menu:hover {
     background: rgba(0, 243, 255, 0.1);
     border-color: var(--color-accent-cyan, #00f3ff);
@@ -137,17 +137,20 @@
 
 /* Burger animation when active */
 .burger-menu.active .burger-line:nth-child(1),
-#sidebar-toggle.active .burger-line:nth-child(1) {
+/* #sidebar-toggle removed */
+.burger-menu.active .burger-line:nth-child(1) {
     transform: rotate(45deg) translateY(8px);
 }
 
 .burger-menu.active .burger-line:nth-child(2),
-#sidebar-toggle.active .burger-line:nth-child(2) {
+/* #sidebar-toggle removed */
+.burger-menu.active .burger-line:nth-child(2) {
     opacity: 0;
 }
 
 .burger-menu.active .burger-line:nth-child(3),
-#sidebar-toggle.active .burger-line:nth-child(3) {
+/* #sidebar-toggle removed */
+.burger-menu.active .burger-line:nth-child(3) {
     transform: rotate(-45deg) translateY(-8px);
 }
 

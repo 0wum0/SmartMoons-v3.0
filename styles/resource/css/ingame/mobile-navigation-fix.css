@@ -149,7 +149,7 @@
 /* ============================================
    BURGER MENU BUTTON ENHANCEMENTS
    ============================================ */
-#sidebar-toggle,
+/* #sidebar-toggle removed - using #burgerMenu instead */
 .burger-menu {
     position: relative !important;
     width: 44px !important;
@@ -170,13 +170,13 @@
 
 /* Show burger menu on mobile */
 @media (max-width: 768px) {
-    #sidebar-toggle,
+    /* #sidebar-toggle removed - using #burgerMenu instead */
     .burger-menu {
         display: flex !important;
     }
 }
 
-#sidebar-toggle:hover,
+/* #sidebar-toggle removed */
 .burger-menu:hover {
     background: rgba(0, 243, 255, 0.15) !important;
     border-color: #00f3ff !important;
@@ -184,7 +184,7 @@
     box-shadow: 0 0 15px rgba(0, 243, 255, 0.5) !important;
 }
 
-#sidebar-toggle:active,
+/* #sidebar-toggle removed */
 .burger-menu:active {
     transform: scale(0.95) !important;
 }
@@ -200,18 +200,18 @@
 }
 
 /* Active state animation */
-#sidebar-toggle.active .burger-line:nth-child(1),
+/* #sidebar-toggle removed */
 .burger-menu.active .burger-line:nth-child(1) {
     transform: rotate(45deg) translate(7px, 7px) !important;
 }
 
-#sidebar-toggle.active .burger-line:nth-child(2),
+/* #sidebar-toggle removed */
 .burger-menu.active .burger-line:nth-child(2) {
     opacity: 0 !important;
     transform: translateX(-10px) !important;
 }
 
-#sidebar-toggle.active .burger-line:nth-child(3),
+/* #sidebar-toggle removed */
 .burger-menu.active .burger-line:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -7px) !important;
 }
@@ -353,7 +353,7 @@
 /* ============================================
    ACCESSIBILITY IMPROVEMENTS
    ============================================ */
-#sidebar-toggle:focus,
+/* #sidebar-toggle removed */
 .burger-menu:focus {
     outline: 3px solid #00f3ff !important;
     outline-offset: 2px !important;

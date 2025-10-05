@@ -1357,6 +1357,23 @@ tbody tr:nth-child(odd) {
   overflow: hidden;
 }
 
+/* Fix: Hide empty header-left elements and duplicate burger buttons */
+.header-left:empty,
+.menu-toggle:empty,
+#sidebar-toggle {
+  display: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Ensure the correct burger button stays visible on mobile */
+@media (max-width: 992px) {
+  .burger-menu#burgerMenu {
+    display: flex !important;
+  }
+}
+
 .burger-menu span {
   display: block;
   width: 22px;
