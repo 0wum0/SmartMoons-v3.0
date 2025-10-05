@@ -171,8 +171,8 @@
 /* ============================================
    ENHANCED BURGER BUTTON
    ============================================ */
-.burger-menu,
-#sidebar-toggle {
+.burger-menu {
+  /* #sidebar-toggle removed - using #burgerMenu instead */
   display: none; /* Hidden by default */
   position: relative;
   width: 44px;
@@ -193,22 +193,22 @@
 
 /* Show on mobile */
 @media (max-width: 768px) {
-  .burger-menu,
-  #sidebar-toggle {
+  .burger-menu {
     display: flex !important;
   }
+  /* #sidebar-toggle removed */
 }
 
-.burger-menu:hover,
-#sidebar-toggle:hover {
+.burger-menu:hover {
+  /* #sidebar-toggle removed */
   background: rgba(0, 243, 255, 0.15);
   border-color: #00f3ff;
   transform: scale(1.05);
   box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
 }
 
-.burger-menu:active,
-#sidebar-toggle:active {
+.burger-menu:active {
+  /* #sidebar-toggle removed */
   transform: scale(0.95);
 }
 

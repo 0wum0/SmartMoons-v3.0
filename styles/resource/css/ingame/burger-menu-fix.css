@@ -8,9 +8,8 @@
    ============================================ */
 .burger-menu,
 #burgerMenu,
-#burger-toggle,
-#sidebar-toggle {
-    display: flex; /* Always visible for debugging, will be controlled by media queries */
+#burger-toggle {
+    display: none; /* Hidden by default, shown via media queries */
     position: relative;
     width: 40px;
     height: 40px;
@@ -27,10 +26,14 @@
     z-index: 10001;
 }
 
+/* Hide sidebar-toggle as it's redundant */
+#sidebar-toggle {
+    display: none !important;
+}
+
 .burger-menu:hover,
 #burgerMenu:hover,
-#burger-toggle:hover,
-#sidebar-toggle:hover {
+#burger-toggle:hover {
     background: rgba(0, 243, 255, 0.1);
     border-color: var(--color-accent-cyan, #00f3ff);
     transform: scale(1.05);
@@ -40,7 +43,6 @@
 .burger-menu span,
 #burgerMenu span,
 #burger-toggle span,
-#sidebar-toggle span,
 .burger-line {
     display: block;
     width: 24px;
@@ -53,23 +55,20 @@
 /* Active state animations */
 .burger-menu.active span:nth-child(1),
 #burgerMenu.active span:nth-child(1),
-#burger-toggle.active span:nth-child(1),
-#sidebar-toggle.active span:nth-child(1) {
+#burger-toggle.active span:nth-child(1) {
     transform: rotate(45deg) translateY(8px);
 }
 
 .burger-menu.active span:nth-child(2),
 #burgerMenu.active span:nth-child(2),
-#burger-toggle.active span:nth-child(2),
-#sidebar-toggle.active span:nth-child(2) {
+#burger-toggle.active span:nth-child(2) {
     opacity: 0;
     transform: translateX(-20px);
 }
 
 .burger-menu.active span:nth-child(3),
 #burgerMenu.active span:nth-child(3),
-#burger-toggle.active span:nth-child(3),
-#sidebar-toggle.active span:nth-child(3) {
+#burger-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translateY(-8px);
 }
 
@@ -235,6 +234,12 @@
    ============================================ */
 @media screen and (max-width: 992px) {
     /* Show burger menu */
+    .burger-menu,
+    #burgerMenu,
+    #burger-toggle {
+        display: flex !important;
+    }
+    
     /* Sidebar and overlay offset for mobile header height */
     .game-sidebar,
     #gameSidebar {
