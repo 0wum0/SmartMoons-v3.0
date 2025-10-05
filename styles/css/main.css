@@ -52,8 +52,10 @@
 .topbar::before,
 .main-header::before,
 .header-bg,
+.navbar-bg,
 .nav-bg {
   display: none !important;
+  content: none !important;
 }
 body {
   background: 
@@ -70,21 +72,10 @@ body {
   position: relative;
 }
 
-/* Enhanced background with animated particles */
+/* Enhanced background with animated particles - DEAKTIVIERT um störende Überlagerung zu vermeiden */
 body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 30% 40%, rgba(0, 234, 255, 0.02), transparent 50%),
-    radial-gradient(circle at 70% 60%, rgba(167, 108, 255, 0.02), transparent 50%),
-    radial-gradient(circle at 50% 80%, rgba(255, 69, 232, 0.01), transparent 40%);
-  pointer-events: none;
-  z-index: 0;
-  animation: backgroundPulse 20s ease-in-out infinite;
+  display: none !important; /* Entfernt störenden halbtransparenten Block */
+  content: none !important;
 }
 
 @keyframes backgroundPulse {
@@ -114,21 +105,10 @@ header, .topnav, .main-header {
   overflow: visible;
 }
 
-/* Subtle light reflection on header */
+/* Subtle light reflection on header - DEAKTIVIERT um störenden Streifen zu vermeiden */
 header::after, .main-header::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(0, 234, 255, 0.3) 25%, 
-    rgba(167, 108, 255, 0.2) 50%, 
-    rgba(0, 234, 255, 0.3) 75%, 
-    transparent 100%);
-  animation: headerShimmer 8s linear infinite;
+  display: none !important; /* Entfernt störenden Streifen über Header */
+  content: none !important;
 }
 
 @keyframes headerShimmer {
@@ -782,22 +762,7 @@ header::after, .main-header::after {
 /* Animated background particles - DEAKTIVIERT um störenden Block zu entfernen */
 .main-content::before {
   display: none !important;
-  /* Original-Code deaktiviert, da er den störenden halbtransparenten Block verursacht
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    radial-gradient(2px 2px at 20% 30%, rgba(0, 234, 255, 0.2), transparent),
-    radial-gradient(2px 2px at 60% 70%, rgba(167, 108, 255, 0.15), transparent),
-    radial-gradient(1px 1px at 90% 10%, rgba(255, 69, 232, 0.1), transparent);
-  background-size: 200px 200px;
-  animation: particleFloat 30s linear infinite;
-  pointer-events: none;
-  opacity: 0.4;
-  */
+  content: none !important;
 }
 
 @keyframes particleFloat {
@@ -1371,7 +1336,7 @@ tbody tr:nth-child(odd) {
   -webkit-user-select: none;
   user-select: none;
   position: relative;
-  overflow: hidden;
+  overflow: visible !important; /* Wichtig: overflow visible damit Linien sichtbar sind */
 }
 
 /* Fix: Hide empty header-left elements and duplicate burger buttons */
@@ -1391,14 +1356,42 @@ tbody tr:nth-child(odd) {
   }
 }
 
-.burger-menu span {
-  display: block;
+/* Burger Menu Lines - Sicherstellen dass sie sichtbar sind */
+.burger-menu span,
+.burger::before,
+.burger::after {
+  display: block !important;
   width: 22px;
-  height: 2px;
-  background: var(--neon-cyan);
+  height: 3px !important;
+  background-color: #00bfff !important;
   margin: 4px auto;
   transition: var(--transition-normal);
   box-shadow: 0 0 4px rgba(0, 234, 255, 0.5);
+  border-radius: 3px;
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Falls SVG-Icon verwendet wird */
+.burger-menu svg {
+  fill: #00bfff !important;
+  color: #00bfff !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Falls Font-Awesome Icon verwendet wird */
+.burger-menu i {
+  color: #00bfff !important;
+  font-size: 24px !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .burger-menu.active span:nth-child(1) {
