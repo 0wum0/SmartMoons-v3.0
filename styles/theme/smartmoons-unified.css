@@ -3,6 +3,16 @@
    Elegant futuristic design with glass morphism
    ===================================================== */
 
+/* KRITISCHER FIX: Entfernt störende halbtransparente Blöcke über Ressourcenleiste */
+.header::before,
+.topbar::before,
+.main-header::before,
+.header-bg,
+.nav-bg,
+.main-content::before {
+  display: none !important;
+}
+
 /* =====================================================
    1. CSS VARIABLES & ROOT
    ===================================================== */
@@ -143,7 +153,7 @@ a:hover {
    4. HEADER - FIXED DARK GLASS
    ===================================================== */
 .main-header {
-    position: fixed;
+    position: sticky; /* Geändert von fixed zu sticky - bleibt oben aber im Dokumentfluss */
     top: 0;
     left: 0;
     right: 0;
@@ -151,9 +161,10 @@ a:hover {
     background: var(--bg-glass);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: var(--border-glass);
+    border-bottom: none; /* Border entfernt - Resource Bar schließt direkt an */
     z-index: var(--z-header);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: none; /* Shadow nur an der Resource Bar für nahtlosen Übergang */
+    border-radius: 12px 12px 0 0; /* Rundung nur oben */
 }
 
 /* Header Content Layout */
@@ -583,22 +594,23 @@ a:hover {
    6. RESOURCE BAR - INTEGRATED WITH HEADER
    ===================================================== */
 .resource-bar {
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    right: 0;
+    position: relative; /* Geändert von fixed zu relative - direkt im Header-Flow */
+    /* top, left, right entfernt - nicht benötigt bei relative Position */
     height: var(--resource-height);
     background: var(--bg-glass-light);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: var(--border-glass);
+    border-top: none; /* Kein oberer Rand - nahtloser Übergang zum Header */
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--gap-lg);
     padding: 0 var(--gap-lg);
+    margin: 0; /* Kein Abstand */
     z-index: var(--z-resource);
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+    border-radius: 0 0 12px 12px; /* Rundung nur unten */
 }
 
 .resource-item {
@@ -672,10 +684,10 @@ a:hover {
    ===================================================== */
 .main-content {
     flex: 1;
-    margin-top: var(--total-header);
+    margin-top: 0; /* Kein Abstand - Ressourcenleiste ist Teil des Headers */
     padding: var(--gap-lg);
     padding-bottom: calc(var(--footer-height) + var(--gap-lg));
-    min-height: calc(100vh - var(--total-header));
+    min-height: 100vh; /* Volle Höhe ohne Header-Abzug */
     position: relative;
 }
 
