@@ -484,19 +484,21 @@
 		
 		// Prevent body scroll when nav is open
 		var scrollPosition = 0;
-		navOverlay.addEventListener('transitionstart', function() {
-			if (navOverlay.classList.contains('active')) {
-				scrollPosition = window.pageYOffset;
-				document.body.style.top = '-' + scrollPosition + 'px';
-			}
-		});
-		
-		navOverlay.addEventListener('transitionend', function() {
-			if (!navOverlay.classList.contains('active')) {
-				document.body.style.top = '';
-				window.scrollTo(0, scrollPosition);
-			}
-		});
+		if (navOverlay) {
+			navOverlay.addEventListener('transitionstart', function() {
+				if (navOverlay.classList.contains('active')) {
+					scrollPosition = window.pageYOffset;
+					document.body.style.top = '-' + scrollPosition + 'px';
+				}
+			});
+			
+			navOverlay.addEventListener('transitionend', function() {
+				if (!navOverlay.classList.contains('active')) {
+					document.body.style.top = '';
+					window.scrollTo(0, scrollPosition);
+				}
+			});
+		}
 	});
 	</script>
 	

@@ -64,8 +64,8 @@
     --z-header: 1000;
     --z-resource: 999;
     --z-dropdown: 1100;
-    --z-nav: 1200;
-    --z-overlay: 1300;
+    --z-nav: 9999;  /* Mobile nav must be above overlay */
+    --z-overlay: 9998;  /* Overlay just below mobile nav */
     --z-modal: 1400;
 }
 
@@ -405,18 +405,20 @@ a:hover {
     top: 0;
     left: 0;
     bottom: 0;
-    width: var(--sidebar-width);
-    max-width: 85vw;
-    background: var(--bg-glass);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    width: 80%;  /* 80% width as specified */
+    max-width: 320px;
+    height: 100vh;
+    background: rgba(10, 15, 25, 0.98);  /* Dark glass with high opacity */
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     border-right: var(--border-glass);
     transform: translateX(-100%);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: var(--z-nav);
+    transition: transform 0.35s ease-in-out;  /* Smooth transition */
+    z-index: 9999;  /* Explicit high z-index */
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 0 30px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 15px rgba(0, 234, 255, 0.3);  /* Neon glow shadow */
+    overflow-y: auto;  /* Allow scrolling */
 }
 
 .mobile-nav.active {
@@ -488,10 +490,13 @@ a:hover {
     display: flex;
     align-items: center;
     gap: var(--gap-md);
-    padding: 14px 16px;
-    margin-bottom: 4px;
-    color: var(--text-secondary);
-    border-radius: 8px;
+    padding: 12px 18px;  /* As specified */
+    margin-bottom: 0;
+    color: #00eaff;  /* Cyan color for links */
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 234, 255, 0.1);
+    border-radius: 0;  /* Cleaner look */
     transition: var(--transition);
     position: relative;
     overflow: hidden;
@@ -512,6 +517,7 @@ a:hover {
 .mobile-nav-item:hover {
     background: rgba(0, 234, 255, 0.08);
     color: var(--text-primary);
+    text-shadow: 0 0 8px #00eaff;  /* Subtle neon hover */
     transform: translateX(5px);
 }
 
@@ -520,8 +526,9 @@ a:hover {
 }
 
 .mobile-nav-item.active {
-    background: rgba(0, 234, 255, 0.15);
+    background: rgba(0, 234, 255, 0.1);  /* As specified */
     color: var(--neon-cyan);
+    border-left: 3px solid #00eaff;  /* Active indicator */
     box-shadow: inset 0 0 20px rgba(0, 234, 255, 0.1);
 }
 
@@ -560,10 +567,9 @@ a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    z-index: var(--z-overlay);
+    background: rgba(0, 0, 0, 0.5);  /* Semi-transparent, no blur */
+    /* Removed backdrop-filter to prevent blur covering nav */
+    z-index: 9998;  /* Just below mobile nav at 9999 */
     opacity: 0;
     transition: opacity 0.3s ease;
 }
