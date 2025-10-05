@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartMoons Header Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/css/main.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a14;
+        }
+        .test-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,255,255,0.1);
+            border: 1px solid #00bfff;
+            padding: 10px;
+            border-radius: 8px;
+            color: #00bfff;
+            font-family: monospace;
+            z-index: 10000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Header -->
+    <div class="app-container">
+        <header class="main-header">
+            <div class="header-content">
+                <!-- Left: Burger Menu -->
+                <div class="header-left">
+                    <button class="burger-menu" id="burgerMenu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <a href="#" class="logo">
+                        <i class="fas fa-rocket"></i>
+                        <span class="logo-text">SmartMoons</span>
+                    </a>
+                </div>
+                
+                <!-- Center: Desktop Navigation -->
+                <nav class="desktop-nav">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-home"></i> Overview
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-city"></i> Buildings
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-flask"></i> Research
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-rocket"></i> Fleet
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-globe"></i> Galaxy
+                    </a>
+                </nav>
+                
+                <!-- Right: User Menu -->
+                <div class="header-right">
+                    <div class="user-menu">
+                        <button class="user-button">
+                            <i class="fas fa-user-astronaut"></i>
+                            <span>Commander</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Resource Bar -->
+            <div class="resource-bar">
+                <div class="resource-item">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' fill='%2300bfff'/%3E%3C/svg%3E" alt="Metal">
+                    <div class="resource-info">
+                        <span class="resource-name">Metal</span>
+                        <span class="resource-value">125.430</span>
+                        <span class="resource-max">/ 500.000</span>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' fill='%2300ff88'/%3E%3C/svg%3E" alt="Crystal">
+                    <div class="resource-info">
+                        <span class="resource-name">Crystal</span>
+                        <span class="resource-value">84.320</span>
+                        <span class="resource-max">/ 300.000</span>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' fill='%23ff00ff'/%3E%3C/svg%3E" alt="Deuterium">
+                    <div class="resource-info">
+                        <span class="resource-name">Deuterium</span>
+                        <span class="resource-value">42.150</span>
+                        <span class="resource-max">/ 150.000</span>
+                    </div>
+                </div>
+                <div class="resource-item resource-dm">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' fill='%23a76cff'/%3E%3C/svg%3E" alt="Dark Matter">
+                    <div class="resource-info">
+                        <span class="resource-name">Dark Matter</span>
+                        <span class="resource-value">5.000</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-header">
+                <span class="mobile-nav-title">Navigation</span>
+                <button class="close-nav" id="closeNav">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mobile-nav-content">
+                <a href="#" class="mobile-nav-item active">
+                    <i class="fas fa-home"></i> Overview
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-city"></i> Buildings
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-flask"></i> Research
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-rocket"></i> Fleet
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-globe"></i> Galaxy
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Navigation Overlay -->
+        <div class="nav-overlay" id="navOverlay"></div>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <div class="card">
+                    <h2>Test Content</h2>
+                    <p>This is a test page to verify the header fixes:</p>
+                    <ul>
+                        <li>✓ No gradient/stripe above header</li>
+                        <li>✓ Burger menu on the left with 3 visible lines</li>
+                        <li>✓ User menu on the right</li>
+                        <li>✓ Resources centered and styled correctly</li>
+                        <li>✓ Modern sci-fi design with neon accents</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div class="test-info">
+        <strong>Header Fix Test</strong><br>
+        Resize window to test responsive
+    </div>
+    
+    <script>
+        // Test burger menu functionality
+        document.getElementById('burgerMenu').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('mobileNav').classList.toggle('active');
+            document.getElementById('navOverlay').classList.toggle('active');
+        });
+        
+        document.getElementById('closeNav').addEventListener('click', function() {
+            document.getElementById('burgerMenu').classList.remove('active');
+            document.getElementById('mobileNav').classList.remove('active');
+            document.getElementById('navOverlay').classList.remove('active');
+        });
+        
+        document.getElementById('navOverlay').addEventListener('click', function() {
+            document.getElementById('burgerMenu').classList.remove('active');
+            document.getElementById('mobileNav').classList.remove('active');
+            this.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
