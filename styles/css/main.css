@@ -1419,3 +1419,97 @@ body.nav-open {
 .main-header { z-index: 999; }
 .dropdown-content { z-index: 1100; }
 .main-footer { z-index: 998; }
+
+/* === FORCE HEADER FIX: SMARTMOONS FINAL === */
+header, .topnav, .header-bar, .main-header {
+  background: linear-gradient(180deg, rgba(5,10,25,0.97), rgba(10,15,40,0.9)) !important;
+  border-bottom: 1px solid rgba(0,255,255,0.1) !important;
+  box-shadow: 0 0 12px rgba(0,255,255,0.15) !important;
+  backdrop-filter: blur(8px) !important;
+  position: relative !important;
+  z-index: 2000 !important;
+}
+header::before,
+header::after,
+.topnav::before,
+.topnav::after,
+.header-bar::before,
+.header-bar::after,
+.main-header::before,
+.main-header::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  border: none !important;
+  height: 0 !important;
+  box-shadow: none !important;
+}
+.resourcebar, .resource-bar, .res-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  background: rgba(0,10,30,0.25) !important;
+  border-radius: 12px !important;
+  padding: 6px 10px !important;
+  box-shadow: inset 0 0 10px rgba(0,255,255,0.08);
+}
+.user-icon, .account-menu, .user-menu, .header-right {
+  order: 3 !important;
+  margin-left: auto !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.burger, .menu-toggle, .nav-button, .burger-menu, #burgerMenu {
+  background: transparent !important;
+  border: 1px solid rgba(0,255,255,0.2) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  width: 36px !important;
+  height: 36px !important;
+  margin-right: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+  border-radius: 4px !important;
+}
+.burger span, .menu-toggle span, .nav-button span, .burger-menu span, #burgerMenu span {
+  display: block !important;
+  position: relative !important;
+  width: 22px !important;
+  height: 3px !important;
+  background-color: #00bfff !important;
+  border-radius: 3px !important;
+  transition: all 0.3s ease-in-out;
+  margin: 3px 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  box-shadow: 0 0 5px rgba(0,255,255,0.4) !important;
+}
+.header-line, .top-line, .gradient-line {
+  display: none !important;
+}
+
+/* Burger menu visibility on mobile */
+@media (max-width: 992px) {
+  .burger-menu, #burgerMenu {
+    display: flex !important;
+  }
+}
+
+/* Header layout adjustments */
+.header-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 12px 20px !important;
+}
+
+.header-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+/* === ENDE FIX === */
