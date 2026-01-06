@@ -231,6 +231,41 @@ header::after, .main-header::after {
   overflow: hidden;
 }
 
+/* Desktop: Ressourcen gehören in die Header-Zeile (nicht darunter) */
+.header-resources {
+  display: none; /* wird per Media Query aktiviert */
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.header-resources::-webkit-scrollbar { display: none; }
+
+@media (min-width: 993px) {
+  .header-resources {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .header-resources .resource-item {
+    flex-direction: row;
+    gap: 8px;
+    padding: 6px 10px;
+    min-width: unset;
+    white-space: nowrap;
+  }
+
+  .header-resources .resource-item img {
+    margin-bottom: 0;
+  }
+
+  /* Auf Desktop die separate Leiste ausblenden */
+  .resource-bar {
+    display: none;
+  }
+}
+
 /* Glass effect overlay */
 .resource-bar::before {
   content: '';
@@ -1241,7 +1276,13 @@ tbody tr:nth-child(odd) {
 /* =====================================================
    TOOLTIPS - ENHANCED HOLOGRAPHIC
    ===================================================== */
-.tooltip, #tooltip {
+.tooltip {
+  /* Tooltip-Trigger (z.B. Icons/Spans) darf keinen Block "oben" erzeugen */
+  cursor: help;
+}
+
+/* Das eigentliche Tooltip-Overlay (wird per JS positioniert) */
+#tooltip {
   background: linear-gradient(135deg, 
     rgba(20, 25, 45, 0.95) 0%, 
     rgba(30, 30, 60, 0.95) 100%);
@@ -1259,6 +1300,9 @@ tbody tr:nth-child(odd) {
   max-width: 300px;
   z-index: 10000;
   animation: tooltipFadeIn 0.3s ease;
+  position: absolute;
+  display: none; /* wichtig: kein "Balken" über dem Header */
+  pointer-events: none;
 }
 
 @keyframes tooltipFadeIn {
