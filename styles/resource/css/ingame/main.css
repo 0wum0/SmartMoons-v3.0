@@ -151,14 +151,10 @@ textarea.tinymce {
 }
 
 #header::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 2px;
-	background: linear-gradient(90deg, transparent, var(--color-accent-cyan), var(--color-accent-purple), transparent);
-	animation: scanline 4s infinite;
+	/* Deaktiviert: wurde als "kleiner Balken ganz oben" wahrgenommen
+	   und wirkt je nach Browser/Zoom wie ein unerwünschter UI-Streifen. */
+	display: none;
+	content: none;
 }
 
 #headerTable {

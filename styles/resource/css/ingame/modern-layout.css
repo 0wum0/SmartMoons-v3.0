@@ -229,6 +229,9 @@ body {
 .header-resources {
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 100%;
 }
 
 .resource-item {
@@ -240,6 +243,7 @@ body {
   border: 1px solid rgba(0, 255, 255, 0.2);
   border-radius: var(--radius-md);
   transition: var(--transition-fast);
+  min-width: 0;
 }
 
 .resource-item:hover {
@@ -285,12 +289,11 @@ body {
   background: linear-gradient(180deg, rgba(15, 15, 25, 0.95) 0%, rgba(10, 10, 20, 0.9) 100%);
   border-bottom: 1px solid rgba(0, 255, 255, 0.15);
   gap: 10px;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  overflow: hidden;
   min-height: 40px;
-  max-height: 50px;
 }
 
 .mobile-resource-item {
@@ -299,7 +302,7 @@ body {
   gap: 4px;
   white-space: nowrap;
   min-width: auto;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   padding: 4px 6px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: var(--radius-sm);

@@ -93,17 +93,15 @@ body > div[style*="position: absolute"] {
   position: relative !important;
 }
 
-/* Header MUSS am oberen Rand kleben */
-header, 
+/* Header MUSS am oberen Rand kleben
+   WICHTIG: Keine globalen position-Overrides, sonst brechen moderne Layouts (z.B. .game-header). */
+#header,
 .main-header,
 .topbar,
-.navbar,
-#header,
-.game-header {
+.navbar {
   margin-top: 0 !important;
   padding-top: 0 !important;
   top: 0 !important;
-  position: relative !important; /* oder sticky/fixed je nach Layout */
 }
 
 /* Stelle sicher dass der erste sichtbare Header ganz oben ist */
@@ -414,18 +412,8 @@ header {
   visibility: hidden !important;
 }
 
-/* Stelle sicher dass nichts über dem Header schwebt */
-*[style*="position: absolute"][style*="top: 0"] {
-  display: none !important;
-}
-
-/* Exception für wichtige Elemente */
-.main-header,
-.burger-menu,
-.mobile-nav,
-.nav-overlay {
-  display: flex !important; /* oder block, je nach Element */
-}
+/* Stelle sicher dass nichts über dem Header schwebt
+   (früher global per inline-style gefiltert; das war zu aggressiv und hat moderne Header/Overlays beschädigt) */
 
 /* ============================================
    DEBUG HELPERS (können später entfernt werden)
