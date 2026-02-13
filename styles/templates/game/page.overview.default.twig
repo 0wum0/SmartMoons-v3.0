@@ -1,23 +1,109 @@
 {% extends "layout.full.twig" %}
 {% block title %}{{ LNG.lm_overview }}{% endblock %}
 {% block content %}
-<div class="content_page"><div class="aerospace-wrapper">
-    <div class="glass-panel header-panel"><h2 class="page-title"><i class="fas fa-globe"></i> {{ LNG.lm_overview }}</h2><div class="update-info">{{ servertime }}</div></div>
-    {% if messages %}<div class="glass-panel" style="margin-bottom: 20px; padding: 15px; text-align:center;"><a href="game.php?page=messages">{{ messages }}</a></div>{% endif %}
-    <div class="overview-grid">
-        <div class="planet-profile-card">
-            <div class="planet-visual-box"><img src="{{ dpath }}planeten/{{ planetimage }}.jpg" class="planet-img" alt="{{ planetname }}"><div class="planet-header-overlay"><div class="planet-name">{{ planetname }}</div><div class="planet-coords">[{{ galaxy }}:{{ system }}:{{ planet }}]</div></div></div>
-            <div class="planet-data-list"><div class="data-row"><span class="data-label">{{ LNG.ov_diameter }}</span><span class="data-value">{{ planet_diameter }} km ({{ planet_field_current }}/{{ planet_field_max }})</span></div><div class="data-row"><span class="data-label">{{ LNG.ov_temperature }}</span><span class="data-value">{{ planet_temp_min }}°C / {{ planet_temp_max }}°C</span></div>
-            {% if GalaxyRows %}<div class="debris-box"><i class="fas fa-recycle"></i> {{ LNG.ov_debris_field }}: {{ GalaxyRows.debris.metal|number_format }} M / {{ GalaxyRows.debris.crystal|number_format }} K <span class="debris-actions"><a href="game.php?page=fleetTable&galaxy={{ galaxy }}&system={{ system }}&planet={{ planet }}&planettype=1&target_mission=8">{{ LNG.ov_harvest }}</a></span></div>{% endif %}
-            <div style="text-align:center; margin-top:15px;"><a href="game.php?page=settings" class="btn-action" style="font-size:0.8rem;">{{ LNG.lm_options }}</a></div></div>
+<div class="content_page">
+<div class="aerospace-wrapper overview-page">
+
+    {% if messages %}
+    <div class="glass-panel ov-message-bar">
+        <a href="game.php?page=messages">{{ messages }}</a>
+    </div>
+    {% endif %}
+
+    <div class="glass-panel planet-profile-card">
+        <div class="planet-visual-box">
+            <img src="{{ dpath }}planeten/{{ planetimage }}.jpg" class="planet-img" alt="{{ planetname }}">
         </div>
-        <div class="overview-dashboard">
-            {% if fleets|length > 0 %}<div class="fleet-status-bar"><div style="color:#00f3ff; font-weight:bold; margin-bottom:10px; text-transform:uppercase;">{{ LNG.ov_events }}</div>{% for fleet in fleets %}<div class="status-item" id="fleet_{{ fleet.id }}"><span class="timer" data-time="{{ fleet.returntime }}" data-uuid="{{ fleet.id }}">{{ fleet.resttime }}</span><span class="mission-text">{{ fleet.text }}</span></div>{% endfor %}</div>{% endif %}
-            {% if buildInfo.buildings %}<div class="queue-box"><div class="q-icon"><img src="{{ dpath }}gebaeude/{{ buildInfo.buildings.id }}.gif"></div><div class="q-content"><div class="q-title">{{ buildInfo.buildings.name }} ({{ buildInfo.buildings.level }})</div><div class="q-progress"><div class="q-bar" style="width:{{ buildInfo.buildings.percentage }}%"></div></div><div class="q-timer timer" data-time="{{ buildInfo.buildings.timeleft }}">{{ buildInfo.buildings.starttime }}</div></div><div class="q-cancel"><a href="game.php?page=buildings&amp;mode=cancel" class="btn-cancel">X</a></div></div>{% endif %}
-            {% if buildInfo.tech %}<div class="queue-box"><div class="q-icon"><img src="{{ dpath }}gebaeude/{{ buildInfo.tech.id }}.gif"></div><div class="q-content"><div class="q-title">{{ buildInfo.tech.name }} ({{ buildInfo.tech.level }})</div><div class="q-progress"><div class="q-bar" style="width:{{ buildInfo.tech.percentage }}%"></div></div><div class="q-timer timer" data-time="{{ buildInfo.tech.timeleft }}">{{ buildInfo.tech.starttime }}</div></div><div class="q-cancel"><a href="game.php?page=research&amp;mode=cancel" class="btn-cancel">X</a></div></div>{% endif %}
-            {% if buildInfo.fleet %}<div class="queue-box"><div class="q-icon"><img src="{{ dpath }}gebaeude/{{ buildInfo.fleet.id }}.gif"></div><div class="q-content"><div class="q-title">{{ buildInfo.fleet.name }} ({{ buildInfo.fleet.amount }})</div><div class="q-progress"><div class="q-bar" style="width:100%"></div></div><div class="q-timer timer" data-time="{{ buildInfo.fleet.timeleft }}">{{ buildInfo.fleet.starttime }}</div></div></div>{% endif %}
+        <div class="planet-name-row">
+            <span class="planet-name">{{ planetname }}</span>
+            <a href="game.php?page=settings" class="planet-edit-icon"><i class="fas fa-pen"></i></a>
+        </div>
+        <div class="planet-data-list">
+            <div class="data-row">
+                <span class="data-label"><i class="fas fa-arrows-alt-h"></i> {{ LNG.ov_diameter }}</span>
+                <span class="data-value">{{ planet_diameter }} km ({{ planet_field_current }}/{{ planet_field_max }})</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label"><i class="fas fa-thermometer-half"></i> {{ LNG.ov_temperature }}</span>
+                <span class="data-value">{{ planet_temp_min }}°C / {{ planet_temp_max }}°C</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label"><i class="fas fa-map-marker-alt"></i> Position</span>
+                <span class="data-value">{{ galaxy }}:{{ system }}:{{ planet }}</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label"><i class="fas fa-chart-line"></i> {{ LNG.ov_points }}</span>
+                <span class="data-value">({{ LNG.ov_rank|default('Rank') }} )</span>
+            </div>
+        </div>
+        {% if GalaxyRows %}
+        <div class="debris-box">
+            <i class="fas fa-recycle"></i> {{ LNG.ov_debris_field }}: {{ GalaxyRows.debris.metal|number_format }} M / {{ GalaxyRows.debris.crystal|number_format }} K
+            <span class="debris-actions">
+                <a href="game.php?page=fleetTable&galaxy={{ galaxy }}&system={{ system }}&planet={{ planet }}&planettype=1&target_mission=8">{{ LNG.ov_harvest }}</a>
+            </span>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="overview-dashboard">
+        {% if fleets|length > 0 %}
+        <div class="glass-panel fleet-status-bar">
+            <div class="fleet-events-title"><i class="fas fa-satellite-dish"></i> {{ LNG.ov_events }}</div>
+            {% for fleet in fleets %}
+            <div class="status-item" id="fleet_{{ fleet.id }}">
+                <span class="timer" data-time="{{ fleet.returntime }}" data-uuid="{{ fleet.id }}">{{ fleet.resttime }}</span>
+                <span class="mission-text">{{ fleet.text }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="glass-panel fleet-free-card">
+            <div class="fleet-free-icon"><i class="fas fa-external-link-alt"></i></div>
+            <div class="fleet-free-text">{{ LNG.ov_free|default('Frei') }}</div>
+        </div>
+        {% endif %}
+
+        {% if buildInfo.buildings %}
+        <div class="glass-panel queue-box">
+            <div class="q-icon"><img src="{{ dpath }}gebaeude/{{ buildInfo.buildings.id }}.gif"></div>
+            <div class="q-content">
+                <div class="q-title">{{ buildInfo.buildings.name }} ({{ buildInfo.buildings.level }})</div>
+                <div class="q-progress"><div class="q-bar" style="width:{{ buildInfo.buildings.percentage }}%"></div></div>
+                <div class="q-timer timer" data-time="{{ buildInfo.buildings.timeleft }}">{{ buildInfo.buildings.starttime }}</div>
+            </div>
+            <div class="q-cancel"><a href="game.php?page=buildings&amp;mode=cancel" class="btn-cancel"><i class="fas fa-times"></i></a></div>
+        </div>
+        {% endif %}
+        {% if buildInfo.tech %}
+        <div class="glass-panel queue-box">
+            <div class="q-icon"><img src="{{ dpath }}gebaeude/{{ buildInfo.tech.id }}.gif"></div>
+            <div class="q-content">
+                <div class="q-title">{{ buildInfo.tech.name }} ({{ buildInfo.tech.level }})</div>
+                <div class="q-progress"><div class="q-bar" style="width:{{ buildInfo.tech.percentage }}%"></div></div>
+                <div class="q-timer timer" data-time="{{ buildInfo.tech.timeleft }}">{{ buildInfo.tech.starttime }}</div>
+            </div>
+            <div class="q-cancel"><a href="game.php?page=research&amp;mode=cancel" class="btn-cancel"><i class="fas fa-times"></i></a></div>
+        </div>
+        {% endif %}
+        {% if buildInfo.fleet %}
+        <div class="glass-panel queue-box">
+            <div class="q-icon"><img src="{{ dpath }}gebaeude/{{ buildInfo.fleet.id }}.gif"></div>
+            <div class="q-content">
+                <div class="q-title">{{ buildInfo.fleet.name }} ({{ buildInfo.fleet.amount }})</div>
+                <div class="q-progress"><div class="q-bar" style="width:100%"></div></div>
+                <div class="q-timer timer" data-time="{{ buildInfo.fleet.timeleft }}">{{ buildInfo.fleet.starttime }}</div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="glass-panel ov-social-card">
+            <div class="social-row"><i class="fas fa-users"></i> {{ LNG.ov_online_users|default('Verbundener Spieler') }} {{ onlinePlayers|default('0') }}</div>
+            <div class="social-row"><i class="fas fa-headset"></i> Support</div>
         </div>
     </div>
-</div></div>
+
+</div>
+</div>
 {% endblock %}
 {% block script %}<script src="scripts/game/overview.js"></script>{% endblock %}

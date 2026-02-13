@@ -12,7 +12,7 @@
         <div class="slot-metric">
             <span class="label">{{ LNG.fl_fleets }}</span>
             <div class="progress-track">
-                <div class="progress-fill" style="width: {{ (activeFleetSlots / maxFleetSlots * 100)|min(100) }}%;"></div>
+                <div class="progress-fill" style="width: {{ (maxFleetSlots > 0) ? min(activeFleetSlots / maxFleetSlots * 100, 100) : 0 }}%;"></div>
             </div>
             <span class="value">{{ activeFleetSlots }} / {{ maxFleetSlots }}</span>
         </div>
@@ -20,7 +20,7 @@
         <div class="slot-metric">
             <span class="label">{{ LNG.fl_expeditions }}</span>
             <div class="progress-track expedition">
-                <div class="progress-fill" style="width: {{ (activeExpedition / maxExpedition * 100)|min(100) }}%;"></div>
+                <div class="progress-fill" style="width: {{ (maxExpedition > 0) ? min(activeExpedition / maxExpedition * 100, 100) : 0 }}%;"></div>
             </div>
             <span class="value">{{ activeExpedition }} / {{ maxExpedition }}</span>
         </div>
