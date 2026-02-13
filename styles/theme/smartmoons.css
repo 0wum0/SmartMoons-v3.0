@@ -136,5 +136,166 @@ a:hover { color: var(--color-primary); text-shadow: 0 0 8px var(--color-primary)
 .content_page { width: 100%; }
 
 /* ==========================================================================
+   EXTRAHIERTE STYLES AUS TEMPLATES
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Aus page.shipyard.default.twig
+   -------------------------------------------------------------------------- */
+
+/* Grid-System fuer Schiffswerft-Karten */
+.ship-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+/* Shipyard-spezifische Overrides */
+.ship-img-box {
+    height: 120px !important; /* Erzwingt kompakte Bildhoehe in der Werft */
+}
+
+/* --------------------------------------------------------------------------
+   Aus page.trader.trade.twig
+   -------------------------------------------------------------------------- */
+
+/* Trader Terminal */
+.centered-view { display: flex; justify-content: center; align-items: center; min-height: 80vh; width: 100%; padding: 20px; box-sizing: border-box; }
+
+.trader-terminal {
+    background: rgba(16, 20, 28, 0.95);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 700px; width: 100%;
+    box-shadow: 0 0 50px rgba(0,0,0,0.6);
+}
+
+.terminal-header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+.terminal-header h2 { color: #00f3ff; margin: 0; text-transform: uppercase; font-size: 1.5rem; }
+
+.trade-grid { display: flex; flex-direction: column; gap: 10px; }
+.trade-row { display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; }
+.trade-row.header { background: transparent; font-weight: bold; color: #aaa; text-transform: uppercase; font-size: 0.85rem; padding-bottom: 5px; }
+.trade-row.highlight { background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.2); }
+
+.col { flex: 1; }
+.col.name { font-weight: bold; color: #fff; }
+.col.amount { flex: 2; position: relative; }
+.col.rate { flex: 0.5; text-align: right; font-family: monospace; color: #00f3ff; }
+
+.val-highlight { font-size: 1.2rem; font-weight: bold; color: #00f3ff; }
+
+.glass-input:focus { border-color: #00f3ff; outline: none; background: rgba(0,0,0,0.5); }
+
+.short-val { position: absolute; right: 10%; bottom: -15px; font-size: 0.7rem; color: #888; }
+
+.terminal-footer { text-align: center; margin-top: 30px; }
+.btn-trade {
+    background: linear-gradient(45deg, #00f3ff, #0072ff);
+    border: none; padding: 12px 50px; border-radius: 6px;
+    color: #000; font-weight: bold; font-size: 1.2rem; cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3); transition: 0.2s;
+}
+.btn-trade:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(0, 243, 255, 0.5); }
+
+/* --------------------------------------------------------------------------
+   Aus page.notes.default.twig (Logout-Seite)
+   -------------------------------------------------------------------------- */
+
+/* Logout Page */
+.logout-container {
+    display: flex; justify-content: center; align-items: center;
+    min-height: 80vh;
+}
+
+.logout-card {
+    background: rgba(16, 20, 28, 0.9);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.logout-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, #e74c3c, transparent);
+}
+
+.logout-icon {
+    font-size: 4rem; color: #e74c3c; margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(231, 76, 60, 0.4);
+    animation: pulse-logout 2s infinite;
+}
+
+.logout-title {
+    color: #fff; font-size: 1.8rem; margin: 0 0 10px 0;
+    text-transform: uppercase; letter-spacing: 2px;
+}
+
+.logout-message { color: #aaa; margin-bottom: 30px; line-height: 1.5; }
+
+.redirect-box {
+    background: rgba(255,255,255,0.05);
+    padding: 15px; border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+}
+
+.countdown-text { color: #e74c3c; font-weight: bold; font-size: 1.2rem; font-family: monospace; }
+
+.btn-relogin {
+    display: inline-block;
+    padding: 10px 25px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; text-decoration: none; border-radius: 30px;
+    transition: 0.3s;
+    text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
+}
+.btn-relogin:hover {
+    background: #fff; color: #000;
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+@keyframes pulse-logout {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 30px rgba(231, 76, 60, 0.8); }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+.loader-ring {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-top: 2px solid #e74c3c;
+    border-radius: 50%;
+    animation: spin-loader 1s linear infinite;
+}
+@keyframes spin-loader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* ==========================================================================
+   OVERVIEW - PLANET-BILD FIX
+   ========================================================================== */
+
+/* Sicherstellung: Planetenbild wird nie zu gross */
+.planet-profile-card img {
+    max-width: 100%;
+    height: auto;
+}
+.planet-visual-box {
+    max-height: 200px;
+}
+.planet-visual-box img,
+.planet-visual-box img.planet-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* ==========================================================================
    END OF AEROSPACE THEME
    ========================================================================== */
