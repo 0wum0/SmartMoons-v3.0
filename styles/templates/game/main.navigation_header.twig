@@ -1,4 +1,15 @@
 <header class="game-header">
+    <button
+        id="sidebar-toggle"
+        class="sidebar-menu-toggle burger-menu mobile-menu-toggle"
+        type="button"
+        aria-label="{{ LNG.lm_navigation|default('Menu') }}"
+        aria-controls="leftmenu"
+        aria-expanded="false">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+    </button>
     
     <div class="res-bar-container">
         <div class="res-bar">
@@ -44,6 +55,58 @@
     </div>
 
 </header>
+
+<div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+<script type="text/javascript">
+(function() {
+    var toggle = document.getElementById('sidebar-toggle');
+    var sidebar = document.getElementById('leftmenu') || document.querySelector('.sidebar-nav');
+    var overlay = document.getElementById('sidebar-overlay') || document.querySelector('.sidebar-overlay');
+
+    if (!toggle || !sidebar || toggle.dataset.sidebarBound === '1') {
+        return;
+    }
+
+    toggle.dataset.sidebarBound = '1';
+
+    function setSidebarState(isOpen) {
+        sidebar.classList.toggle('active', isOpen);
+        sidebar.classList.toggle('collapsed', !isOpen);
+        toggle.classList.toggle('active', isOpen);
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        document.documentElement.classList.toggle('sidebar-open', isOpen);
+
+        if (overlay) {
+            overlay.classList.toggle('active', isOpen);
+            overlay.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+        }
+    }
+
+    toggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        setSidebarState(!sidebar.classList.contains('active'));
+    }, true);
+
+    if (overlay) {
+        overlay.addEventListener('click', function(event) {
+            event.preventDefault();
+            setSidebarState(false);
+        });
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            setSidebarState(false);
+        }
+    });
+
+    if (window.matchMedia('(max-width: 992px)').matches) {
+        setSidebarState(false);
+    }
+})();
+</script>
 
 {% if not vmode %}
 <script type="text/javascript">
