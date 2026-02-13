@@ -1,142 +1,100 @@
-<aside class="sidebar desktop-only">
-    <div class="sidebar-brand">
-        <a href="game.php?page=overview">
-            <i class="fas fa-rocket brand-icon"></i>
-            <span class="brand-text">{{ gameName }}</span>
-        </a>
-    </div>
-    
-    <div class="nav-scroll custom-scrollbar">
-        
-        <div class="nav-group">
-            <div class="nav-label">{{ LNG.lm_general }}</div>
-            
-            <a href="game.php?page=overview" class="nav-item {% if GET.page|default('overview') == 'overview' %}active{% endif %}">
-                <i class="fas fa-home nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_overview }}</span>
-            </a>
+<!-- SmartMoons Sci-Fi Sidebar Navigation -->
+<div id="leftmenu" class="sidebar-nav" aria-hidden="true">
+	<!-- Main Navigation -->
+	<div class="sidebar-content">
+		<div class="nav-section">
+			<div class="nav-section-title">{{ LNG.lm_overview }}</div>
+			<a href="game.php?page=overview" class="sidebar-link{% if GET.page|default('overview') == 'overview' %} active{% endif %}">
+				<i class="fas fa-home"></i>
+				<span>{{ LNG.lm_overview }}</span>
+			</a>
+		</div>
 
-            {% if isModuleAvailable(constant('MODULE_BUILDING')) %}
-            <a href="game.php?page=buildings" class="nav-item {% if GET.page == 'buildings' %}active{% endif %}">
-                <i class="fas fa-city nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_buildings }}</span>
-            </a>
-            {% endif %}
+		<div class="nav-section">
+			<div class="nav-section-title">{{ LNG.lm_empire }}</div>
+			
+			{% if constant('MODULE_BUILDING') is defined and isModuleAvailable(constant('MODULE_BUILDING')) %}
+			<a href="game.php?page=buildings" class="sidebar-link{% if GET.page|default('') == 'buildings' %} active{% endif %}">
+				<i class="fas fa-city"></i>
+				<span>{{ LNG.lm_buildings }}</span>
+			</a>
+			{% endif %}
+			
+			{% if constant('MODULE_RESEARCH') is defined and isModuleAvailable(constant('MODULE_RESEARCH')) %}
+			<a href="game.php?page=research" class="sidebar-link">
+				<i class="fas fa-flask"></i>
+				<span>{{ LNG.lm_research }}</span>
+			</a>
+			{% endif %}
+			
+			{% if constant('MODULE_SHIPYARD_FLEET') is defined and isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
+			<a href="game.php?page=shipyard&mode=fleet" class="sidebar-link">
+				<i class="fas fa-rocket"></i>
+				<span>{{ LNG.lm_shipshard }}</span>
+			</a>
+			{% endif %}
+			
+			{% if constant('MODULE_SHIPYARD_DEFENSIVE') is defined and isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
+			<a href="game.php?page=shipyard&mode=defense" class="sidebar-link">
+				<i class="fas fa-shield-alt"></i>
+				<span>{{ LNG.lm_defenses }}</span>
+			</a>
+			{% endif %}
+			
+			{% if (constant('MODULE_OFFICIER') is defined and isModuleAvailable(constant('MODULE_OFFICIER'))) or (constant('MODULE_DMEXTRAS') is defined and isModuleAvailable(constant('MODULE_DMEXTRAS'))) %}
+			<a href="game.php?page=officier" class="sidebar-link">
+				<i class="fas fa-user-tie"></i>
+				<span>{{ LNG.lm_officiers }}</span>
+			</a>
+			{% endif %}
+		</div>
 
-            {% if isModuleAvailable(constant('MODULE_RESEARCH')) %}
-            <a href="game.php?page=research" class="nav-item {% if GET.page == 'research' %}active{% endif %}">
-                <i class="fas fa-flask nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_research }}</span>
-            </a>
-            {% endif %}
+		<div class="nav-section">
+			<div class="nav-section-title">{{ LNG.lm_navigation }}</div>
+			
+			{% if constant('MODULE_FLEET_TRADER') is defined and isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
+			<a href="game.php?page=fleetTable" class="sidebar-link{% if GET.page|default('') == 'fleetTable' %} active{% endif %}">
+				<i class="fas fa-space-shuttle"></i>
+				<span>{{ LNG.lm_fleet }}</span>
+			</a>
+			{% endif %}
+			
+			{% if constant('MODULE_GALAXY') is defined and isModuleAvailable(constant('MODULE_GALAXY')) %}
+			<a href="game.php?page=galaxy" class="sidebar-link{% if GET.page|default('') == 'galaxy' %} active{% endif %}">
+				<i class="fas fa-globe"></i>
+				<span>{{ LNG.lm_galaxy }}</span>
+			</a>
+			{% endif %}
+			
+			{% if constant('MODULE_ALLIANCE') is defined and isModuleAvailable(constant('MODULE_ALLIANCE')) %}
+			<a href="game.php?page=alliance" class="sidebar-link{% if GET.page|default('') == 'alliance' %} active{% endif %}">
+				<i class="fas fa-users"></i>
+				<span>{{ LNG.lm_alliance }}</span>
+			</a>
+			{% endif %}
+		</div>
 
-            {% if isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
-            <a href="game.php?page=shipyard&mode=fleet" class="nav-item {% if GET.page == 'shipyard' and GET.mode == 'fleet' %}active{% endif %}">
-                <i class="fas fa-fighter-jet nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_shipshard }}</span>
-            </a>
-            {% endif %}
+		{# Tools and extra links removed from sidebar; available in header user dropdown #}
 
-            {% if isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
-            <a href="game.php?page=shipyard&mode=defense" class="nav-item {% if GET.page == 'shipyard' and GET.mode == 'defense' %}active{% endif %}">
-                <i class="fas fa-shield-alt nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_defenses }}</span>
-            </a>
-            {% endif %}
-        </div>
+		<!-- Admin Section -->
+		{% if authlevel > 0 %}
+		<div class="nav-section">
+			<div class="nav-section-title">{{ LNG.lm_administration }}</div>
+			<a href="./admin.php" class="sidebar-link admin-link">
+				<i class="fas fa-user-shield"></i>
+				<span>{{ LNG.lm_administration }}</span>
+			</a>
+		</div>
+		{% endif %}
+	</div>
 
-        <div class="nav-group">
-            <div class="nav-label">{{ LNG.lm_operations }}</div>
-
-            {% if isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
-            <a href="game.php?page=fleetTable" class="nav-item {% if GET.page == 'fleetTable' %}active{% endif %}">
-                <i class="fas fa-space-shuttle nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_fleet }}</span>
-            </a>
-            {% endif %}
-
-            {% if isModuleAvailable(constant('MODULE_GALAXY')) %}
-            <a href="game.php?page=galaxy" class="nav-item {% if GET.page == 'galaxy' %}active{% endif %}">
-                <i class="fas fa-globe nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_galaxy }}</span>
-            </a>
-            {% endif %}
-
-            {% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}
-            <a href="game.php?page=alliance" class="nav-item {% if GET.page == 'alliance' %}active{% endif %}">
-                <i class="fas fa-users nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_alliance }}</span>
-            </a>
-            {% endif %}
-            
-            {% if isModuleAvailable(constant('MODULE_OFFICIER')) %}
-            <a href="game.php?page=officier" class="nav-item {% if GET.page == 'officier' %}active{% endif %}">
-                <i class="fas fa-user-tie nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_officiers }}</span>
-            </a>
-            {% endif %}
-
-            {% if isModuleAvailable(constant('MODULE_TRADER')) %}
-            <a href="game.php?page=trader" class="nav-item {% if GET.page == 'trader' %}active{% endif %}">
-                <i class="fas fa-exchange-alt nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_trader }}</span>
-            </a>
-            {% endif %}
-        </div>
-
-        <div class="nav-group">
-            <div class="nav-label">{{ LNG.lm_community }}</div>
-
-            {% if isModuleAvailable(constant('MODULE_TECHTREE')) %}
-            <a href="game.php?page=techtree" class="nav-item {% if GET.page == 'techtree' %}active{% endif %}">
-                <i class="fas fa-sitemap nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_technology }}</span>
-            </a>
-            {% endif %}
-
-            <a href="game.php?page=statistics" class="nav-item {% if GET.page == 'statistics' %}active{% endif %}">
-                <i class="fas fa-chart-line nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_statistics }}</span>
-            </a>
-
-            <a href="game.php?page=records" class="nav-item {% if GET.page == 'records' %}active{% endif %}">
-                <i class="fas fa-trophy nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_records }}</span>
-            </a>
-            
-            <a href="game.php?page=battleHall" class="nav-item {% if GET.page == 'battleHall' %}active{% endif %}">
-                <i class="fas fa-skull-crossbones nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_topkb }}</span>
-            </a>
-            
-            <a href="game.php?page=search" class="nav-item {% if GET.page == 'search' %}active{% endif %}">
-                <i class="fas fa-search nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_search }}</span>
-            </a>
-        </div>
-        
-        <div class="nav-group">
-            <div class="nav-label">{{ LNG.lm_options }}</div>
-            
-            <a href="game.php?page=settings" class="nav-item {% if GET.page == 'settings' %}active{% endif %}">
-                <i class="fas fa-cogs nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_options }}</span>
-            </a>
-            
-            <a href="game.php?page=logout" class="nav-item text-danger">
-                <i class="fas fa-sign-out-alt nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_logout }}</span>
-            </a>
-        </div>
-        
-        {% if authlevel > 0 %}
-        <div class="nav-group">
-             <a href="./admin.php" class="nav-item admin-link" target="_blank">
-                <i class="fas fa-user-shield nav-icon"></i>
-                <span class="nav-text">{{ LNG.lm_administration }}</span>
-            </a>
-        </div>
-        {% endif %}
-
-    </div>
-</aside>
+	<!-- Sidebar Footer -->
+	<div class="sidebar-footer">
+		<div class="version-info">
+			<span>v{{ VERSION|replace({'.git':''}) }}</span>
+		</div>
+		<div class="copyright">
+			© {{ "now"|date("Y") }} SmartMoons
+		</div>
+	</div>
+</div>
