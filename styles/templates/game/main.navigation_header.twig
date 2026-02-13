@@ -1,90 +1,66 @@
-<!-- SmartMoons Sci-Fi Header -->
-<div id="top-header" class="sci-fi-header">
-	<div class="header-container">
-		<!-- Left Section: Logo -->
-		<div class="header-left">
-			<!-- sidebar-toggle removed - using unified burgerMenu button instead -->
-            <!-- Mobile Navigation Menu (populated from sidebar) -->
-            <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
-                <ul>
-                    {# Build items from the same logic as sidebar navigation to ensure parity #}
-                    <li><a href="game.php?page=overview">{{ LNG.lm_overview }}</a></li>
-                    {% if constant('MODULE_BUILDING') is defined and isModuleAvailable(constant('MODULE_BUILDING')) %}
-                    <li><a href="game.php?page=buildings">{{ LNG.lm_buildings }}</a></li>
-                    {% endif %}
-                    {% if constant('MODULE_RESEARCH') is defined and isModuleAvailable(constant('MODULE_RESEARCH')) %}
-                    <li><a href="game.php?page=research">{{ LNG.lm_research }}</a></li>
-                    {% endif %}
-                    {% if constant('MODULE_SHIPYARD_FLEET') is defined and isModuleAvailable(constant('MODULE_SHIPYARD_FLEET')) %}
-                    <li><a href="game.php?page=shipyard&amp;mode=fleet">{{ LNG.lm_shipshard }}</a></li>
-                    {% endif %}
-                    {% if constant('MODULE_SHIPYARD_DEFENSIVE') is defined and isModuleAvailable(constant('MODULE_SHIPYARD_DEFENSIVE')) %}
-                    <li><a href="game.php?page=shipyard&amp;mode=defense">{{ LNG.lm_defenses }}</a></li>
-                    {% endif %}
-                    {% if constant('MODULE_FLEET_TRADER') is defined and isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
-                    <li><a href="game.php?page=fleetTable">{{ LNG.lm_fleet }}</a></li>
-                    {% endif %}
-                    {% if isModuleAvailable(constant('MODULE_GALAXY')) %}
-                    <li><a href="game.php?page=galaxy">{{ LNG.lm_galaxy }}</a></li>
-                    {% endif %}
-                    {% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}
-                    <li><a href="game.php?page=alliance">{{ LNG.lm_alliance }}</a></li>
-                    {% endif %}
-                    <li><a href="game.php?page=messages">{{ LNG.lm_messages }}</a></li>
-                    <li><a href="game.php?page=settings">{{ LNG.lm_options }}</a></li>
-                    <li><a href="game.php?page=logout">{{ LNG.lm_logout }}</a></li>
-                </ul>
-            </nav>
-			<a href="game.php?page=overview" class="logo-link">
-				<div class="logo-container">
-					<i class="fas fa-rocket"></i>
-					<span class="logo-text">SmartMoons</span>
-				</div>
-			</a>
-		</div>
+<header class="game-header">
+    
+    <div class="res-bar-container">
+        <div class="res-bar">
+            {% for resourceID, resourceData in resourceTable %}
+            <div class="res-item tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ resourceData.current|number_format }} / {{ resourceData.max|number_format }}">
+                
+                <div class="res-icon">
+                    <img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}">
+                </div>
 
-		<!-- Center Section: Server Time & Planet Selector -->
-		<div class="header-center">
-			<div class="server-time">
-				<i class="fas fa-clock"></i>
-				<span class="servertime" id="servertime">{{ servertime }}</span>
-			</div>
-			<div class="planet-selector-container">
-				<button class="planet-nav-btn prev" onclick="location.href='?cp={{ previousPlanet }}'">
-					<i class="fas fa-chevron-left"></i>
-				</button>
-				<div class="planet-selector">
-					<select id="planetSelector" class="planet-dropdown">
-						{% for key, value in PlanetSelect %}
-						<option value="{{ key }}"{% if key == current_pid %} selected{% endif %}>{{ value }}</option>
-						{% endfor %}
-					</select>
-				</div>
-				<button class="planet-nav-btn next" onclick="location.href='?cp={{ nextPlanet }}'">
-					<i class="fas fa-chevron-right"></i>
-				</button>
-			</div>
-		</div>
+                <div class="res-info">
+                    <span class="res-val {% if resourceData.current >= resourceData.max %}text-danger{% endif %}" 
+                          id="current_{{ resourceData.name }}" 
+                          data-real="{{ resourceData.current|default(resourceData.max + resourceData.used) }}">
+                        {% if shortlyNumber %}
+                            {{ resourceData.current|default(resourceData.max + resourceData.used)|shortly_number }}
+                        {% else %}
+                            {{ resourceData.current|default(resourceData.max + resourceData.used)|number_format }}
+                        {% endif %}
+                    </span>
+                    
+                    {% if resourceID != 921 %} <div class="res-limit-bar">
+                        {% set percentage = (resourceData.max > 0) ? (resourceData.current / resourceData.max * 100) : 100 %}
+                        <div class="res-progress" style="width: {{ (percentage > 100) ? 100 : percentage }}%;"></div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
-        <!-- Right Section: User Icons -->
-		<div class="header-right">
-			{% if isModuleAvailable(constant('MODULE_MESSAGES')) %}
-			<a href="game.php?page=messages" class="header-icon messages" title="{{ LNG.lm_messages }}">
-				<i class="fas fa-envelope"></i>
-				{% if new_message > 0 %}
-				<span class="badge badge-pulse">{{ new_message > 99 ? '99+' : new_message }}</span>
-				{% endif %}
-			</a>
-			{% endif %}
-			<a href="game.php?page=settings" class="header-icon" title="{{ LNG.lm_settings }}">
-				<i class="fas fa-cog"></i>
-			</a>
-			<a href="game.php?page=logout" class="header-icon logout" title="{{ LNG.lm_logout }}">
-				<i class="fas fa-sign-out-alt"></i>
-			</a>
-		</div>
-	</div>
-</div>
+    <div class="planet-select-wrapper desktop-only">
+        <div class="sci-select-container">
+            <i class="fas fa-globe-americas select-icon"></i>
+            <select id="planetSelector" class="sci-select" onchange="window.location.href='?cp='+this.value;">
+                {% for key, value in PlanetSelect %}
+                <option value="{{ key }}"{% if key == current_pid %} selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+            <i class="fas fa-caret-down select-arrow"></i>
+        </div>
+    </div>
 
-<!-- Mobile Menu Overlay (separate, not covering header) -->
-<div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true" style="top:60px"></div>
+</header>
+
+{% if not vmode %}
+<script type="text/javascript">
+var viewShortlyNumber = {{ shortlyNumber|json_encode }};
+var vacation = {{ vmode }};
+
+$(function() {
+    {% for resourceID, resourceData in resourceTable %}
+    {% if resourceData.production is defined %}
+    resourceTicker({
+        available: {{ resourceData.current|json_encode }},
+        limit: [0, {{ resourceData.max|json_encode }}],
+        production: {{ resourceData.production|json_encode }},
+        valueElem: "current_{{ resourceData.name }}"
+    }, true);
+    {% endif %}
+    {% endfor %}
+});
+</script>
+{% endif %}

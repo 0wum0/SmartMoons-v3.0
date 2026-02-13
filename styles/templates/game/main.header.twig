@@ -5,27 +5,21 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 	<title>{% block title %} - {{ uni_name }} - {{ game_name }}{% endblock %}</title>
 	<meta name="generator" content="SmartMoons {{ VERSION }}">
-	<!-- 
-		This website is powered by SmartMoons {{ VERSION }}
-		SmartMoons is a modern fork of 2Moons, a free Space Browsergame initially created by Jan Kröpke and licensed under MIT.
-		Original 2Moons is copyright 2009-2018 of Jan Kröpke. SmartMoons modernization by 0wum0.
-		Information and contribution at https://github.com/0wum0/SmartMoons-v3.0/
-	-->
-	{% if goto %}
+	<meta name="theme-color" content="#0a0e1a"> {% if goto %}
 	<meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
 	{% endif %}
 
-	<!-- SmartMoons Complete Sci-Fi Redesign Theme -->
-	<link rel="stylesheet" type="text/css" href="./styles/theme/smartmoons.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/resource/css/ingame/main.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/css/header-fix.css?v={{ REV }}">
-	<link rel="stylesheet" type="text/css" href="./styles/css/header-cleanup.css?v={{ REV }}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="styles/theme/smartmoons.css?v=1">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	
+    <link rel="stylesheet" type="text/css" href="styles/resource/css/base/jquery.fancybox.css">
+	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+
 	<script type="text/javascript">
 	var ServerTimezoneOffset = {{ Offset }};
 	var serverTime 	= new Date({{ date.0 }}, {{ date.1 - 1 }}, {{ date.2 }}, {{ date.3 }}, {{ date.4 }}, {{ date.5 }});
@@ -49,112 +43,26 @@
 	}, 1000);
 	</script>
 	
-	<script type="text/javascript" src="./scripts/base/jquery.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/base/jquery.ui.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/base/jquery.cookie.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/base/jquery.fancybox.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/base/jquery.validationEngine.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/l18n/validationEngine/jquery.validationEngine-{{ lang }}.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/base/tooltip.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/game/base.js?v={{ REV }}"></script>
-	<script type="text/javascript" src="./scripts/game/topnav.js?v={{ REV }}"></script>
+	<script src="scripts/base/jquery.js?v={{ REV }}"></script>
+	<script src="scripts/base/jquery.ui.js?v={{ REV }}"></script>
+	<script src="scripts/base/jquery.cookie.js?v={{ REV }}"></script>
+	<script src="scripts/base/jquery.fancybox.js?v={{ REV }}"></script>
+	<script src="scripts/base/jquery.validationEngine.js?v={{ REV }}"></script>
+	<script src="scripts/l18n/validationEngine/jquery.validationEngine-{{ lang }}.js?v={{ REV }}"></script>
+	<script src="scripts/base/tooltip.js?v={{ REV }}"></script>
+	<script src="scripts/game/base.js?v={{ REV }}"></script>
+	
 	{% for scriptname in scripts %}
-	<script type="text/javascript" src="./scripts/game/{{ scriptname }}.js?v={{ REV }}"></script>
+	<script src="scripts/game/{{ scriptname }}.js?v={{ REV }}"></script>
 	{% endfor %}
+	
 	{% block script %}{% endblock %}
+	
 	<script type="text/javascript">
 	$(function() {
 		{{ execscript|raw }}
 	});
 	</script>
 </head>
-
-<body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }}">
+<body id="{{ GET.page|default("overview")|e }}" class="{{ bodyclass }} aerospace-theme">
 	<div id="tooltip" class="tip"></div>
-	
-{# Removed legacy mobile burger and drawer in favor of unified modern layout burger #}
-	
-	<!-- SmartMoons Sci-Fi Header -->
-	<div id="header">
-		<div id="headerTable">
-			<!-- Resources Section -->
-			{% for resourceID, resourceData in resourceTable %}
-			{% if resourceID != 921 %}
-			<div class="bar-main-container">
-				<div class="wrap">
-					<div class="bar-percentage">
-						<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}">
-					</div>
-					<div class="bar-container">
-						<div class="bar bar_{{ resourceID }}" style="width: 0%;"></div>
-						<div class="bar-text">
-                        {% if shortlyNumber %}
-                            {% if resourceData.current is not defined %}
-                                {% set currentResource = resourceData.max + resourceData.used %}
-                                <span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ currentResource|number_format }} / {{ resourceData.max|number_format }}">
-                                    <span{% if currentResource < 0 %} class="text-red"{% endif %}>{{ currentResource|shortly_number }} / {{ resourceData.max|shortly_number }}</span>
-                                </span>
-                            {% else %}
-                                <span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" 
-                                    data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ resourceData.current|number_format }} / {{ resourceData.max|number_format }}">
-                                    {{ resourceData.current|shortly_number }}
-                                </span>
-                            {% endif %}
-                        {% else %}
-							{% if resourceData.current is not defined %}
-								{% set currentResource = resourceData.max + resourceData.used %}
-								<span class="res_current tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}">
-									<span{% if currentResource < 0 %} class="text-red"{% endif %}>{{ currentResource|number_format }} / {{ resourceData.max|number_format }}</span>
-								</span>
-							{% else %}
-								<span class="res_current tooltip" id="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}" 
-									data-tooltip-content="{{ LNG.tech[resourceID] }}">
-									{{ resourceData.current|number_format }}
-								</span>
-							{% endif %}
-						{% endif %}
-						</div>
-					</div>
-					{% if resourceID != 911 and resourceID != 921 and constant('MODULE_TRADER') is defined and isModuleAvailable(constant('MODULE_TRADER')) %}
-					<div class="bar-change">
-						<a href="game.php?page=trader&mode=trade&resource={{ resourceID }}" title="{{ LNG.lm_trader }}">
-							<i class="fas fa-exchange-alt"></i>
-						</a>
-					</div>
-					{% endif %}
-				</div>
-			</div>
-			{% else %}
-			<!-- Dark Matter Display -->
-            <div class="heder_res_921">
-				<img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}">
-				<span class="res_current res_921_text tooltip" id="current_{{ resourceData.name }}" 
-					data-real="{{ resourceData.current }}" 
-					data-tooltip-content="{{ LNG.tech[resourceID] }}: {{ resourceData.current|number_format }}">
-                    {% if shortlyNumber %}{{ resourceData.current|shortly_number }}{% else %}{{ resourceData.current|number_format }}{% endif %}
-				</span>
-			</div>
-			{% endif %}
-			{% endfor %}
-
-			{% if not vmode %}
-			<script type="text/javascript">
-			var viewShortlyNumber = {{ shortlyNumber|json_encode }};
-			var vacation = {{ vmode }};
-			$(function() {
-				{% for resourceID, resourceData in resourceTable %}
-				{% if resourceData.production is defined %}
-				resourceTicker({
-					available: {{ resourceData.current|json_encode }},
-					limit: [0, {{ resourceData.max|json_encode }}],
-					production: {{ resourceData.production|json_encode }},
-					valueElem: "current_{{ resourceData.name }}",
-					valuePoursent: "bar_{{ resourceID }}"
-				}, true);
-				{% endif %}
-				{% endfor %}
-			});
-			</script>
-			{% endif %}
-		</div>
-	</div>

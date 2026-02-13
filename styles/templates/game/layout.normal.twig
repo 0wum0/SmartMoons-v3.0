@@ -1,0 +1,16 @@
+{% include "main.header.twig" %}
+{% include "main.navigation.twig" %}
+
+<!-- Layout Normal injects content here inside .content-scroll -->
+<div class="container">
+    <div class="glass-card">
+        <div class="card-head">
+            {% block title %}{% endblock %}
+        </div>
+        <div>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+{% include "main.footer.twig" %}
