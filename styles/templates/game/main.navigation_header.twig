@@ -76,6 +76,7 @@
         toggle.classList.toggle('active', isOpen);
         toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         document.documentElement.classList.toggle('sidebar-open', isOpen);
+        document.body.classList.toggle('sidebar-open', isOpen);
 
         if (overlay) {
             overlay.classList.toggle('active', isOpen);
@@ -105,6 +106,68 @@
     if (window.matchMedia('(max-width: 992px)').matches) {
         setSidebarState(false);
     }
+
+    var sidebarLinks = sidebar.querySelectorAll('a.sidebar-link');
+    sidebarLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            if (window.matchMedia('(max-width: 992px)').matches) {
+                setSidebarState(false);
+            }
+        });
+    });
+})();
+</script>
+
+<script type="text/javascript">
+(function() {
+    var tip = document.getElementById('tooltip');
+    if (!tip || document.documentElement.dataset.resourceTipBound === '1') {
+        return;
+    }
+
+    if (!window.matchMedia('(hover: none), (pointer: coarse)').matches) {
+        return;
+    }
+
+    document.documentElement.dataset.resourceTipBound = '1';
+
+    var resourceItems = document.querySelectorAll('.res-item.tooltip');
+    var hideTimer = null;
+
+    function hideTip() {
+        if (!tip) {
+            return;
+        }
+
+        tip.style.display = 'none';
+    }
+
+    resourceItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+            var content = item.getAttribute('data-tooltip-content');
+            if (!content) {
+                hideTip();
+                return;
+            }
+
+            tip.innerHTML = content;
+            tip.style.display = 'block';
+            tip.style.top = 'calc(env(safe-area-inset-top) + 12px)';
+            tip.style.left = '50%';
+            tip.style.transform = 'translateX(-50%)';
+
+            if (hideTimer) {
+                clearTimeout(hideTimer);
+            }
+            hideTimer = setTimeout(hideTip, 2200);
+        });
+    });
+
+    document.addEventListener('touchstart', function(event) {
+        if (!event.target.closest('.res-item.tooltip')) {
+            hideTip();
+        }
+    }, { passive: true });
 })();
 </script>
 

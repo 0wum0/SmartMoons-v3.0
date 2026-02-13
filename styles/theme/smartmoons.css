@@ -1440,6 +1440,34 @@ select.form-control {
     border-top-color: var(--color-border-accent);
 }
 
+/* Legacy #tooltip container: prevent empty square at top-left on touch/click */
+#tooltip.tip {
+    display: none;
+    position: fixed;
+    top: calc(env(safe-area-inset-top) + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2001;
+    width: max-content;
+    max-width: min(460px, calc(100vw - 24px));
+    white-space: normal;
+}
+
+#tooltip.tip:empty {
+    display: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #tooltip.tip {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: none;
+        width: auto;
+        max-width: 300px;
+    }
+}
+
 /* =====================================================
    16. NOTIFICATION/ALERT STYLES
    ===================================================== */
@@ -5260,6 +5288,11 @@ body:not(.popup-window) {
     -webkit-overflow-scrolling: touch;
     touch-action: auto;
     overscroll-behavior-y: auto;
+}
+
+html.sidebar-open body,
+body.sidebar-open {
+    overflow: hidden;
 }
 
 /* --- GAME WRAPPER (layout.modern.twig) --- */
