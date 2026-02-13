@@ -147,7 +147,7 @@
 					<div class="progress-bar-container">
 						<div class="progress-bar">
 							<div class="progress-bar-fill" 
-								 style="width: {{ (resourceTable[resourceID].current / resourceTable[resourceID].max * 100)|min(100) }}%"
+								 style="width: {{ (resourceTable[resourceID].max > 0) ? min(resourceTable[resourceID].current / resourceTable[resourceID].max * 100, 100) : 0 }}%"
 								 data-resource="{{ resourceID }}">
 							</div>
 						</div>

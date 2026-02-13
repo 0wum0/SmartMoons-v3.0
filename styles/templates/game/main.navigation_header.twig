@@ -3,7 +3,7 @@
     <div class="res-bar-container">
         <div class="res-bar">
             {% for resourceID, resourceData in resourceTable %}
-            <div class="res-item tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ resourceData.current|number_format }} / {{ resourceData.max|number_format }}">
+            <div class="res-item tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ resourceData.current|default(0)|number_format }} / {{ resourceData.max|default(0)|number_format }}">
                 
                 <div class="res-icon">
                     <img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="{{ LNG.tech[resourceID] }}">
