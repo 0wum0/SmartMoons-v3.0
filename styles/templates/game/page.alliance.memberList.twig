@@ -66,17 +66,6 @@
         </div>
     </div>
 </div>
-
-<style>
-/* Reusing Status Dots from Admin Member List */
-.status-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
-.status-dot.online { background: var(--success); box-shadow: 0 0 5px var(--success); }
-.status-dot.away { background: var(--warning); box-shadow: 0 0 5px var(--warning); }
-.status-dot.offline { background: var(--danger); box-shadow: 0 0 5px var(--danger); }
-.icon-btn { color: var(--text-muted); transition: 0.2s; }
-.icon-btn:hover { color: #fff; transform: scale(1.1); }
-</style>
-
 {% endblock %}
 {% block script %}
 <script src="scripts/base/jquery.tablesorter.js"></script>

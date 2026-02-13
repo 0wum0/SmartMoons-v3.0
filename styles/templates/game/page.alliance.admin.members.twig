@@ -86,18 +86,6 @@
         </form>
     </div>
 </div>
-
-<style>
-/* Status Dots */
-.status-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
-.status-dot.online { background: var(--success); box-shadow: 0 0 5px var(--success); }
-.status-dot.away { background: var(--warning); box-shadow: 0 0 5px var(--warning); }
-.status-dot.offline { background: var(--danger); box-shadow: 0 0 5px var(--danger); }
-
-.founder-badge { color: var(--primary); font-weight: bold; border: 1px solid var(--primary); padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
-.btn-ghost.small { padding: 5px 10px; font-size: 0.85rem; text-decoration: none; display: flex; align-items: center; gap: 5px; }
-</style>
-
 {% endblock %}
 {% block script %}
     <script src="scripts/base/jquery.tablesorter.js"></script>

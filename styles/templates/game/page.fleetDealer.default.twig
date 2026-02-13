@@ -94,46 +94,6 @@
         </div>
     </form>
 </div>
-
-<style>
-/* Dealer Specific Styles */
-.dealer-grid { display: grid; grid-template-columns: 300px 1fr; gap: 2rem; align-items: start; }
-
-.dealer-visual { display: flex; justify-content: center; }
-.ship-preview-box { width: 100%; aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-.ship-img { width: 100%; height: 100%; object-fit: cover; }
-
-.dealer-controls { display: flex; flex-direction: column; gap: 1.5rem; }
-
-.label-highlight { color: var(--primary); font-size: 0.9rem; margin-bottom: 5px; display: block; text-transform: uppercase; }
-.ship-title { font-family: var(--font-heading); font-size: 1.5rem; margin: 0 0 10px 0; color: #fff; }
-
-.input-action-row { display: flex; align-items: center; gap: 10px; }
-.input-action-row .glass-input { flex: 1; }
-
-.resource-breakdown { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; }
-.res-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.res-row:last-child { border-bottom: none; }
-.res-row img { width: 20px; height: 20px; }
-.res-name { color: var(--text-muted); flex: 1; }
-.res-value { font-family: monospace; font-size: 1rem; color: #fff; }
-.res-row.highlight .res-value { color: var(--warning); }
-
-.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); margin: 10px 0; }
-
-.total-label { text-transform: uppercase; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
-.total-res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.total-item { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; }
-.total-item span { font-family: monospace; font-weight: bold; }
-
-.full-width { width: 100%; }
-
-@media (max-width: 900px) {
-    .dealer-grid { grid-template-columns: 1fr; }
-    .ship-preview-box { max-width: 400px; margin: 0 auto; }
-}
-</style>
-
 <script>
 // Integrate with existing game logic vars
 var CostInfo = {{ CostInfo|json_encode|raw }};

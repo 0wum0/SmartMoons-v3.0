@@ -121,35 +121,6 @@
     
     <div id="results" style="margin-top: 20px;"></div>
 </div>
-
-<style>
-/* Battle Sim Styles */
-.resource-input-panel { display: flex; justify-content: space-between; align-items: center; padding: 15px; margin-bottom: 20px; }
-.res-input-group { display: flex; gap: 15px; align-items: center; }
-.res-field { display: flex; align-items: center; gap: 5px; }
-.res-field img { width: 20px; height: 20px; }
-.glass-input.small { width: 80px; text-align: right; }
-.glass-input.tiny { width: 50px; text-align: center; }
-
-.battle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.battle-col { padding: 15px; }
-.col-header { font-size: 1.2rem; font-family: var(--font-heading); text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-.tech-header { font-weight: bold; color: var(--text-muted); margin: 10px 0 5px; font-size: 0.85rem; text-transform: uppercase; }
-
-.tech-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 0.9rem; }
-.tech-row .label { color: #ccc; }
-.tech-row input { width: 80px; text-align: right; }
-
-.action-panel { text-align: center; padding: 20px; }
-.mt-2 { margin-top: 15px; }
-
-/* Tabs (Simple override for jQuery UI tabs to match glass theme) */
-.ui-widget-content { background: transparent !important; border: none !important; color: #fff !important; }
-.ui-widget-header { background: transparent !important; border: none !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
-.ui-state-default, .ui-widget-content .ui-state-default { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #fff !important; }
-.ui-state-active, .ui-widget-content .ui-state-active { background: var(--primary) !important; border-color: var(--primary) !important; color: #000 !important; }
-</style>
-
 <script>
 $(function() {
     $("#tabs").tabs();

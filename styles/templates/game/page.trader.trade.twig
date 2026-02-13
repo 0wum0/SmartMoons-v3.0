@@ -58,49 +58,4 @@ var charge = {{ charge|json_encode|raw }};
 {% endblock %}
 
 {% block style %}
-<style>
-/* TRADER ACTION STYLES */
-.centered-view { display: flex; justify-content: center; align-items: center; min-height: 80vh; width: 100%; padding: 20px; box-sizing: border-box; }
-
-.trader-terminal {
-    background: rgba(16, 20, 28, 0.95);
-    border: 1px solid rgba(0, 243, 255, 0.3);
-    border-radius: 12px;
-    padding: 30px;
-    max-width: 700px; width: 100%;
-    box-shadow: 0 0 50px rgba(0,0,0,0.6);
-}
-
-.terminal-header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
-.terminal-header h2 { color: #00f3ff; margin: 0; text-transform: uppercase; font-size: 1.5rem; }
-
-.trade-grid { display: flex; flex-direction: column; gap: 10px; }
-.trade-row { display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; }
-.trade-row.header { background: transparent; font-weight: bold; color: #aaa; text-transform: uppercase; font-size: 0.85rem; padding-bottom: 5px; }
-.trade-row.highlight { background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.2); }
-
-.col { flex: 1; }
-.col.name { font-weight: bold; color: #fff; }
-.col.amount { flex: 2; position: relative; }
-.col.rate { flex: 0.5; text-align: right; font-family: monospace; color: #00f3ff; }
-
-.val-highlight { font-size: 1.2rem; font-weight: bold; color: #00f3ff; }
-
-.glass-input { 
-    width: 90%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); 
-    color: #fff; padding: 10px; border-radius: 4px; font-size: 1.1rem; text-align: right;
-}
-.glass-input:focus { border-color: #00f3ff; outline: none; background: rgba(0,0,0,0.5); }
-
-.short-val { position: absolute; right: 10%; bottom: -15px; font-size: 0.7rem; color: #888; }
-
-.terminal-footer { text-align: center; margin-top: 30px; }
-.btn-trade {
-    background: linear-gradient(45deg, #00f3ff, #0072ff);
-    border: none; padding: 12px 50px; border-radius: 6px;
-    color: #000; font-weight: bold; font-size: 1.2rem; cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3); transition: 0.2s;
-}
-.btn-trade:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(0, 243, 255, 0.5); }
-</style>
 {% endblock %}

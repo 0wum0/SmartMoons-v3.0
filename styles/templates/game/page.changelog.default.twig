@@ -18,28 +18,4 @@
     </div>
 
 </div>
-
-<style>
-/* Changelog Specific Overrides */
-.changelog-wrapper { padding: 1rem; }
-
-/* Force styles on the injected HTML */
-.glass-table td { 
-    padding: 12px 15px; 
-    border-bottom: 1px solid rgba(255,255,255,0.05); 
-    color: var(--text-muted);
-    vertical-align: top;
-}
-
-/* Assuming the first cell is version/date and second is description */
-.glass-table td:first-child {
-    font-family: monospace;
-    color: var(--primary);
-    width: 150px;
-    font-weight: bold;
-    border-right: 1px solid rgba(255,255,255,0.05);
-}
-
-.glass-table tr:last-child td { border-bottom: none; }
-</style>
 {% endblock %}

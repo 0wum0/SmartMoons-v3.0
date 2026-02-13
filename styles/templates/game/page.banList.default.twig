@@ -82,33 +82,4 @@
 
     </div>
 </div>
-
-<style>
-/* Table Styles */
-.glass-table { width: 100%; border-collapse: separate; border-spacing: 0 5px; }
-.glass-table th { text-align: left; padding: 15px; color: var(--primary); text-transform: uppercase; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.glass-table td { padding: 15px; background: rgba(255,255,255,0.02); color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.02); }
-.glass-table tr:hover td { background: rgba(0, 243, 255, 0.05); color: #fff; }
-.glass-table tr td:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
-.glass-table tr td:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
-
-/* Pagination */
-.pagination-wrapper { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-bottom: 1rem; padding: 0 10px; }
-.page-label { font-size: 0.8rem; color: var(--text-muted); }
-.pagination-controls { display: flex; gap: 5px; }
-.page-btn { 
-    display: flex; align-items: center; justify-content: center;
-    width: 30px; height: 30px; 
-    background: rgba(0,0,0,0.3); 
-    border: 1px solid rgba(255,255,255,0.1); 
-    color: var(--text-muted); 
-    border-radius: 4px; 
-    font-size: 0.9rem;
-    transition: 0.2s;
-}
-.page-btn:hover, .page-btn.active { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 0 10px rgba(0,243,255,0.3); }
-
-.text-center { text-align: center !important; }
-.mt-3 { margin-top: 1rem; }
-</style>
 {% endblock %}

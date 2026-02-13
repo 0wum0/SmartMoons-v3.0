@@ -127,46 +127,6 @@
     </div>
     </form>
 </div>
-
-<style>
-/* Alliance Admin CSS */
-.admin-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-top: 1rem; }
-.admin-nav-buttons { display: flex; gap: 10px; }
-.admin-nav-buttons .small { font-size: 0.8rem; padding: 5px 15px; }
-
-/* Forms */
-.form-group { margin-bottom: 1rem; }
-.form-group label { display: block; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 5px; }
-.glass-input, .glass-select { 
-    width: 100%; 
-    background: rgba(0,0,0,0.3); 
-    border: 1px solid rgba(255,255,255,0.1); 
-    color: #fff; 
-    padding: 8px; 
-    border-radius: 4px; 
-}
-.glass-input:focus { border-color: var(--primary); }
-.multi-select { height: 150px; }
-
-/* Tabs */
-.text-tabs { display: flex; gap: 5px; margin-left: auto; }
-.tab-link { font-size: 0.8rem; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.05); color: var(--text-muted); }
-.tab-link.active { background: var(--primary); color: #000; }
-.tab-link:hover { color: #fff; }
-
-.action-bar { margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px; }
-.btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-muted); padding: 8px 15px; border-radius: 4px; cursor: pointer; }
-.btn-ghost:hover { border-color: #fff; color: #fff; }
-
-/* Danger Zone */
-.danger-panel { border-color: rgba(255, 0, 85, 0.3); }
-.danger-actions { display: flex; justify-content: space-around; }
-
-@media (max-width: 1000px) {
-    .admin-grid { grid-template-columns: 1fr; }
-}
-</style>
-
 {% endblock %}
 {% block script %}
 <script type="text/javascript" src="scripts/base/tinymce/tiny_mce_gzip.js"></script>

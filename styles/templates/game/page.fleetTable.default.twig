@@ -121,25 +121,4 @@
     </div>
 
 </div>
-
-<style>
-/* Fleet Slots */
-.slots-panel { display: flex; gap: 2rem; padding: 1.5rem; justify-content: space-around; }
-.slot-metric { flex: 1; text-align: center; }
-.progress-track { background: rgba(0,0,0,0.5); height: 10px; border-radius: 5px; margin: 5px 0; overflow: hidden; position: relative; }
-.progress-fill { background: var(--success); height: 100%; transition: width 0.5s; }
-.progress-track.expedition .progress-fill { background: var(--warning); }
-.slot-metric .label { text-transform: uppercase; font-size: 0.8rem; color: var(--text-muted); }
-.slot-metric .value { font-weight: bold; font-family: monospace; }
-
-/* Table specifics */
-.fleet-row.returning td { color: var(--text-muted); }
-.mission-badge { font-weight: bold; font-size: 0.9rem; }
-.small-status { font-size: 0.75rem; margin-top: 3px; }
-.timer-cell { font-family: monospace; font-size: 0.95rem; }
-
-/* Bonus Grid */
-.bonus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 10px; text-align: center; }
-.bonus-val { display: block; font-size: 1.2rem; font-weight: bold; }
-</style>
 {% endblock %}

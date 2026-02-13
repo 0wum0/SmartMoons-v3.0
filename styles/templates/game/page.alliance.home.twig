@@ -116,34 +116,4 @@
         </div>
     </div>
 </div>
-
-<style>
-/* Alliance Home CSS */
-.ally-home-header { padding: 0; position: relative; overflow: hidden; margin-bottom: 2rem; height: 250px; display: flex; align-items: flex-end; }
-.ally-banner { width: 100%; height: 100%; position: relative; }
-.ally-img-banner { width: 100%; height: 100%; object-fit: cover; mask-image: linear-gradient(to bottom, black 50%, transparent 100%); }
-.ally-placeholder-banner { width: 100%; height: 100%; background: linear-gradient(45deg, var(--bg-deep), #1a233a); display: flex; align-items: center; justify-content: center; font-size: 5rem; color: rgba(255,255,255,0.05); }
-
-.ally-title-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(to top, var(--bg-deep), transparent); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; }
-.ally-name { margin: 0; font-family: var(--font-heading); font-size: 2.5rem; text-shadow: 0 0 10px rgba(0,0,0,0.8); }
-.ally-tag { color: var(--primary); font-size: 1.5rem; }
-
-.ally-meta-actions { display: flex; gap: 10px; }
-.ally-meta-actions .small { font-size: 0.8rem; padding: 5px 12px; }
-
-.ally-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
-.ally-text-content { padding: 1rem; line-height: 1.6; color: var(--text-muted); font-size: 0.95rem; }
-
-.stat-row, .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
-.diplo-category { margin-bottom: 5px; font-size: 0.9rem; }
-.diplo-category a { color: var(--text-highlight); }
-
-.notify-panel { display: flex; align-items: center; justify-content: center; background: rgba(0, 243, 255, 0.1); border-color: var(--primary); color: var(--primary); font-weight: bold; text-decoration: none; transition: 0.3s; }
-.notify-panel:hover { background: var(--primary); color: #000; }
-
-@media (max-width: 900px) {
-    .ally-grid { grid-template-columns: 1fr; }
-    .ally-title-overlay { flex-direction: column; align-items: flex-start; }
-}
-</style>
 {% endblock %}

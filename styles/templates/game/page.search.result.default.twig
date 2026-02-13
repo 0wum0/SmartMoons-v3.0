@@ -39,23 +39,4 @@
     </div>
     {% endfor %}
 </div>
-
-<style>
-.result-list { background: rgba(22, 27, 38, 0.9); border-radius: 8px; overflow: hidden; }
-.result-header-row { display: flex; background: rgba(0, 243, 255, 0.1); padding: 10px; font-weight: bold; color: #00f3ff; text-transform: uppercase; font-size: 0.85rem; }
-.result-row { display: flex; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; transition: 0.2s; }
-.result-row:hover { background: rgba(255,255,255,0.03); }
-
-.col { flex: 1; padding: 0 5px; }
-.col.name { flex: 1.5; font-weight: bold; }
-.col.actions { flex: 0.8; display: flex; gap: 5px; }
-.col.coords { font-family: monospace; }
-.col.rank { flex: 0.5; text-align: right; color: #aaa; }
-
-.user-link { color: #fff; text-decoration: none; }
-.btn-icon { color: #ccc; transition: 0.2s; }
-.btn-icon:hover { color: #00f3ff; }
-.coord-link { color: #3498db; text-decoration: none; }
-.text-muted { color: #555; }
-</style>
 {% endblock %}
