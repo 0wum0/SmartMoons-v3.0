@@ -7,75 +7,146 @@
 <input type="hidden" name="messcat" value="{{ MessID }}">
 <input type="hidden" name="side" value="{{ page }}">
 
-<div id="messagestable">
-<div class="title" style="margin: 0 -5px 0 -5px;">
-	{{ LNG.mg_message_title }}
-</div>
-<table style="width:100%;">
-	{% if MessID != 999 %}
-	<tr>
-		<td colspan="4">
-			<select name="actionTop">
-				<option value="readmarked">{{ LNG.mg_read_marked }}</option>
-				<option value="readtypeall">{{ LNG.mg_read_type_all }}</option>
-				<option value="readall">{{ LNG.mg_read_all }}</option>
-				<option value="deletemarked">{{ LNG.mg_delete_marked }}</option>
-				<option value="deleteunmarked">{{ LNG.mg_delete_unmarked }}</option>
-				<option value="deletetypeall">{{ LNG.mg_delete_type_all }}</option>
-				<option value="deleteall">{{ LNG.mg_delete_all }}</option>
-			</select>
-			<input value="{{ LNG.mg_confirm }}" type="submit" name="submitTop">
-		</td>
-	</tr>
-	{% endif %}
-	<tr style="height: 20px;">
-		<td class="right" colspan="4">{{ LNG.mg_page }}: {% if page != 1 %}<a href="#" onclick="Message.getMessages({{ MessID }}, {{ page - 1 }});return false;">&laquo;</a> {% endif %}{% for site in range(1, maxPage + 1) %}<a href="#" onclick="Message.getMessages({{ MessID }}, {{ site }});return false;">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %} {% endif %}{% endfor %}{% if page != maxPage %} <a href="#" onclick="Message.getMessages({{ MessID }}, {{ page + 1 }});return false;">&raquo;</a>{% endif %}</td>
-	</tr>
-	<tr style="height: 20px;">
-		<td>{{ LNG.mg_action }}</td>
-		<td>{{ LNG.mg_date }}</td>
-		<td>{% if MessID != 999 %}{{ LNG.mg_from }}{% else %}{{ LNG.mg_to }}{% endif %}</td>
-		<td>{{ LNG.mg_subject }}</td>
-	</tr>
-	{% for Message in MessageList %}
-	<tr id="message_{{ Message.id }}" class="title message_head{% if MessID != 999 and Message.unread == 1 %} mes_unread{% endif %}">
-		<td style="width:40px;" rowspan="2">
-		{% if MessID != 999 %}<input name="messageID[{{ Message.id }}]" value="1" type="checkbox">{% endif %}
-		</td>
-		<td>{{ Message.time }}</td>
-		<td>{{ Message.from|raw }}</td>
-		<td>{{ Message.subject|raw }}
-		{% if Message.type == 1 and MessID != 999 %}
-		<a href="#" onclick="return Dialog.PM({{ Message.sender }}, Message.CreateAnswer('{{ Message.subject }}'));" title="{{ LNG.mg_answer_to }} {{ Message.from|striptags }}"><i class="far fa-envelope" title="Message privé" style="font-size: 15px;"></i></a>
-		{% endif %}
-		</td>
-	</tr>
-	<tr class="messages_body">
-		<td colspan="3" class="left" style="padding: 10px; background: rgba(0,0,0,0.7);">
-		{{ Message.text|raw }}
-		</td>
-	</tr>
-	{% endfor %}
-	<tr style="height: 20px;">
-		<td class="right" colspan="4">{{ LNG.mg_page }}: {% if page != 1 %}<a href="#" onclick="Message.getMessages({{ MessID }}, 1);return false;">&laquo;</a> {% endif %}{% for site in range(1, maxPage + 1) %}<a href="#" onclick="Message.getMessages({{ MessID }}, {{ site }});return false;">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %} {% endif %}{% endfor %}{% if page != maxPage %} <a href="#" onclick="Message.getMessages({{ MessID }}, {{ maxPage }});return false;">&raquo;</a>{% endif %}</td>
-	</tr>
-	{% if MessID != 999 %}
-	<tr>
-		<td colspan="4">
-			<select name="actionBottom">
-				<option value="readmarked">{{ LNG.mg_read_marked }}</option>
-				<option value="readtypeall">{{ LNG.mg_read_type_all }}</option>
-				<option value="readall">{{ LNG.mg_read_all }}</option>
-				<option value="deletemarked">{{ LNG.mg_delete_marked }}</option>
-				<option value="deleteunmarked">{{ LNG.mg_delete_unmarked }}</option>
-				<option value="deletetypeall">{{ LNG.mg_delete_type_all }}</option>
-				<option value="deleteall">{{ LNG.mg_delete_all }}</option>
-			</select>
-			<input value="{{ LNG.mg_confirm }}" type="submit" name="submitBottom">
-		</td>
-	</tr>
-	{% endif %}
-</table>
+<div class="msg-viewer">
+    
+    {% if MessID != 999 %}
+    <div class="msg-toolbar glass-panel">
+        <div class="toolbar-title">{{ LNG.mg_message_title }}</div>
+        <div class="toolbar-actions">
+            <select name="actionTop" class="glass-select">
+                <option value="readmarked">{{ LNG.mg_read_marked }}</option>
+                <option value="readtypeall">{{ LNG.mg_read_type_all }}</option>
+                <option value="readall">{{ LNG.mg_read_all }}</option>
+                <option value="deletemarked">{{ LNG.mg_delete_marked }}</option>
+                <option value="deleteunmarked">{{ LNG.mg_delete_unmarked }}</option>
+                <option value="deletetypeall">{{ LNG.mg_delete_type_all }}</option>
+                <option value="deleteall">{{ LNG.mg_delete_all }}</option>
+            </select>
+            <button type="submit" name="submitTop" class="btn-action-small">{{ LNG.mg_confirm }}</button>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="msg-feed">
+        {% for Message in MessageList %}
+        <div class="msg-item message_{{ Message.id }}">
+            
+            <div class="msg-header">
+                <div class="msg-checkbox">
+                    <input type="checkbox" name=\"delmes[{{ Message.id }}]\" id="msg_{{ Message.id }}">
+                </div>
+                
+                <div class="msg-meta">
+                    <span class="msg-date"><i class="far fa-clock"></i> {{ Message.time }}</span>
+                    <span class="msg-sender">
+                        {{ LNG.mg_from }}: 
+                        {% if Message.user == -1 %}
+                            <span class="system-sender">{{ LNG.mg_system }}</span>
+                        {% else %}
+                            {{ Message.from }}
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="msg-subject">
+                    {% if Message.subject %}
+                        {{ Message.subject|raw }}
+                    {% else %}
+                        {{ LNG.mg_no_subject }}
+                    {% endif %}
+                </div>
+
+                <div class="msg-controls">
+                    {% if Message.user != -1 %}
+                    <a href="?page=messages&mode=write&id={{ Message.user }}&subject={{ LNG.mg_answer_to }} {{ Message.subject|url_encode }}" class="btn-icon reply">
+                        <i class="fas fa-reply"></i>
+                    </a>
+                    {% endif %}
+                    <a href="#" onclick="Message.getMessages({{ MessID }}, {{ page }}, {{ Message.id }});return false;" class="btn-icon delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="msg-body">
+                {{ Message.text|raw }}
+            </div>
+            
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="msg-pagination glass-panel">
+        <div class="pagination-label">{{ LNG.mg_page }}:</div>
+        <div class="pagination-links">
+            {% if page != 1 %}
+                <a href="#" onclick="Message.getMessages({{ MessID }}, 1);return false;" class="page-link">&laquo;</a> 
+            {% endif %}
+            
+            {% for site in range(1, maxPage + 1) %}
+                <a href="#" onclick="Message.getMessages({{ MessID }}, {{ site }});return false;" class="page-link {% if site == page %}active{% endif %}">
+                    {{ site }}
+                </a>
+            {% endfor %}
+            
+            {% if page != maxPage %} 
+                <a href="#" onclick="Message.getMessages({{ MessID }}, {{ maxPage }});return false;" class="page-link">&raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+
 </div>
 </form>
+
+<style>
+/* AJAX MESSAGE VIEW STYLES */
+.msg-viewer { margin-top: 20px; color: #ccc; }
+
+.glass-panel { background: rgba(0,0,0,0.5); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; }
+
+/* Toolbar */
+.msg-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.toolbar-title { font-weight: bold; color: #fff; text-transform: uppercase; }
+.toolbar-actions { display: flex; gap: 10px; }
+.glass-select { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 5px; border-radius: 4px; outline: none; }
+.glass-select option { background: #111; color: #fff; }
+.btn-action-small { background: var(--primary); color: #000; border: none; padding: 5px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
+/* Message Item */
+.msg-item {
+    background: rgba(22, 27, 38, 0.9);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.msg-header {
+    background: rgba(255,255,255,0.03);
+    padding: 10px 15px;
+    display: flex; align-items: center; gap: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.msg-meta { font-size: 0.8rem; color: #888; display: flex; flex-direction: column; min-width: 150px; }
+.system-sender { color: #e74c3c; font-weight: bold; }
+
+.msg-subject { flex: 1; font-weight: bold; color: #fff; }
+
+.msg-controls { display: flex; gap: 5px; }
+.btn-icon { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; color: #aaa; transition: 0.2s; border-radius: 4px; }
+.btn-icon:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.btn-icon.delete:hover { color: #e74c3c; }
+
+.msg-body { padding: 20px; line-height: 1.5; font-size: 0.9rem; color: #ddd; word-wrap: break-word; }
+
+/* Pagination */
+.msg-pagination { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.page-link { 
+    display: inline-block; padding: 5px 10px; 
+    background: rgba(255,255,255,0.05); color: #fff; 
+    text-decoration: none; border-radius: 3px; 
+}
+.page-link.active, .page-link:hover { background: var(--primary); color: #000; }
+</style>
 {% endblock %}

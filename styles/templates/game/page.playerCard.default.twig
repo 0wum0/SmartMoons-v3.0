@@ -2,106 +2,242 @@
 
 {% block title %}{{ LNG.lm_playercard }}{% endblock %}
 {% block content %}
-<table style="width:95%">
-	<tr>
-		<th colspan="3">{{ LNG.pl_overview }}</th>
-		</tr>
-	<tr>
-		<td style="width:40%">{{ LNG.pl_name }}</td>
-		<td colspan="2">{{ name }}</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_homeplanet }}</td>
-		<td colspan="2">{{ homeplanet }} <a href="#" onclick="parent.location = 'game.php?page=galaxy&amp;galaxy={{ galaxy }}&amp;system={{ system }}';return false;">[{{ galaxy }}:{{ system }}:{{ planet }}]</a></td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_ally }}</td>
-		<td colspan="2">{% if allyname %}<a href="#" onclick="parent.location = 'game.php?page=alliance&amp;mode=info&amp;id={{ allyid }}';return false;">{{ allyname }}</a>{% else %}-{% endif %}</td>
-	</tr>
-	<tr>
-		<th> </th>
-		<th>{{ LNG.pl_points }}</th>
-		<th>{{ LNG.pl_range }}</th>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_builds }}</td>
-		<td>{{ build_points }}</td>
-		<td>{{ build_rank }}</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_tech }}</td>
-		<td>{{ tech_points }}</td>
-		<td>{{ tech_rank }}</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_fleet }}</td>
-		<td>{{ fleet_points }}</td>
-		<td>{{ fleet_rank }}</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_def }}</td>
-		<td>{{ defs_points }}</td>
-		<td>{{ defs_rank }}</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_total }}</td>
-		<td>{{ total_points }}</td>
-		<td>{{ total_rank }}</td>
-	</tr>
-	<tr>
-		<th colspan="3">{{ LNG.pl_fightstats }}</th>
-	</tr>
-	<tr>
-		<td> </td>
-		<td>{{ LNG.pl_fights }}</td>
-		<td>{{ LNG.pl_fprocent }}</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_fightwon }}</td>
-		<td>{{ wons }}</td>
-		<td>{{ siegprozent }} %</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_fightdraw }}</td>
-		<td>{{ draws }}</td>
-		<td>{{ drawsprozent }} %</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_fightlose }}</td>
-		<td>{{ loos }}</td>
-		<td>{{ loosprozent }} %</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_totalfight }}</td>
-		<td>{{ totalfights }}</td>
-		<td>100 %</td>
-	</tr>
-	<tr>
-		<th colspan="3">{{ playerdestory }}:</th>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_unitsshot }}</td>
-		<td colspan="2">{{ desunits }}</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_unitslose }}</td>
-		<td colspan="2">{{ lostunits }}</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_dermetal }}</td>
-		<td colspan="2">{{ kbmetal }}</td>
-	</tr>
-	<tr>
-		<td>{{ LNG.pl_dercrystal }}</td>
-		<td colspan="2">{{ kbcrystal }}</td>
-	</tr>
-{% if id == yourid %}
-	<tr>
-		<th colspan="3">{{ LNG.pl_etc }}</th>
-	</tr>
-	<tr>
-		<td><a href="#" onclick="return Dialog.Buddy({{ id }})">{{ LNG.pl_buddy }}</a></td><td colspan="2"><a href="#" onclick="return Dialog.PM({{ id }});" title="{{ LNG.pl_message }}">{{ LNG.pl_message }}</a></td>
-	</tr>
-{% endif %}
-</table>
+
+<div class="aerospace-popup">
+    
+    <div class="player-header">
+        <div class="avatar-circle">
+            <i class="fas fa-user-astronaut"></i>
+        </div>
+        <div class="player-info">
+            <h2 class="player-name">{{ name }}</h2>
+            <div class="player-meta">
+                {% if allyname %}
+                    <span class="meta-item">
+                        <i class="fas fa-users"></i> 
+                        <a href="#" onclick="window.opener.location.href = 'game.php?page=alliance&mode=info&id={{ allyid }}'; window.close(); return false;">
+                            {{ allyname }}
+                        </a>
+                    </span>
+                {% else %}
+                    <span class="meta-item text-muted"><i class="fas fa-users-slash"></i> -</span>
+                {% endif %}
+                
+                <span class="meta-item">
+                    <i class="fas fa-globe"></i> 
+                    <a href="#" onclick="window.opener.location.href = 'game.php?page=galaxy&galaxy={{ galaxy }}&system={{ system }}'; window.close(); return false;">
+                        {{ homeplanet }} [{{ galaxy }}:{{ system }}:{{ planet }}]
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="player-grid">
+        
+        <div class="glass-card">
+            <div class="card-title"><i class="fas fa-chart-line"></i> {{ LNG.pl_overview }}</div>
+            <div class="stats-list">
+                <div class="stat-row head">
+                    <span>{{ LNG.pl_points }}</span>
+                    <span class="text-right">{{ LNG.pl_range }}</span>
+                </div>
+                
+                <div class="stat-row">
+                    <span class="label">{{ LNG.pl_builds }}</span>
+                    <span class="val">{{ build_points }}</span>
+                    <span class="rank">#{{ build_rank }}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="label">{{ LNG.pl_tech }}</span>
+                    <span class="val">{{ tech_points }}</span>
+                    <span class="rank">#{{ tech_rank }}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="label">{{ LNG.pl_fleet }}</span>
+                    <span class="val">{{ fleet_points }}</span>
+                    <span class="rank">#{{ fleet_rank }}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="label">{{ LNG.pl_def }}</span>
+                    <span class="val">{{ defs_points }}</span>
+                    <span class="rank">#{{ defs_rank }}</span>
+                </div>
+                <div class="stat-row highlight">
+                    <span class="label">{{ LNG.pl_total }}</span>
+                    <span class="val">{{ total_points }}</span>
+                    <span class="rank">#{{ total_rank }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="card-title"><i class="fas fa-crosshairs"></i> {{ LNG.pl_fightstats }}</div>
+            <div class="combat-stats">
+                
+                <div class="combat-row">
+                    <div class="c-label">{{ LNG.pl_fightwon }} ({{ siegprozent }}%)</div>
+                    <div class="progress-bar">
+                        <div class="fill win" style="width: {{ siegprozent }}%"></div>
+                    </div>
+                    <div class="c-val">{{ wons }}</div>
+                </div>
+
+                <div class="combat-row">
+                    <div class="c-label">{{ LNG.pl_fightdraw }} ({{ drawsprozent }}%)</div>
+                    <div class="progress-bar">
+                        <div class="fill draw" style="width: {{ drawsprozent }}%"></div>
+                    </div>
+                    <div class="c-val">{{ draws }}</div>
+                </div>
+
+                <div class="combat-row">
+                    <div class="c-label">{{ LNG.pl_fightlose }} ({{ loosprozent }}%)</div>
+                    <div class="progress-bar">
+                        <div class="fill lose" style="width: {{ loosprozent }}%"></div>
+                    </div>
+                    <div class="c-val">{{ loos }}</div>
+                </div>
+
+                <div class="total-fights">
+                    {{ LNG.pl_totalfight }}: <span class="text-white">{{ totalfights }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card full-width">
+            <div class="card-title"><i class="fas fa-skull-crossbones"></i> {{ playerdestory }}</div>
+            <div class="destruct-grid">
+                <div class="destruct-item">
+                    <span class="d-label">{{ LNG.pl_unitsshot }}</span>
+                    <span class="d-val text-success">{{ desunits }}</span>
+                </div>
+                <div class="destruct-item">
+                    <span class="d-label">{{ LNG.pl_unitslose }}</span>
+                    <span class="d-val text-danger">{{ lostunits }}</span>
+                </div>
+                <div class="destruct-item">
+                    <span class="d-label">{{ LNG.pl_dermetal }}</span>
+                    <span class="d-val">{{ kbmetal }}</span>
+                </div>
+                <div class="destruct-item">
+                    <span class="d-label">{{ LNG.pl_dercrystal }}</span>
+                    <span class="d-val">{{ kbcrystal }}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+/* POPUP SPECIFIC STYLES */
+body {
+    background: #0d1117 url('{{ dpath }}img/bkd_page.jpg') fixed no-repeat center center;
+    background-size: cover;
+    color: #c9d1d9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 10px;
+}
+
+.aerospace-popup {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+a { color: #58a6ff; text-decoration: none; transition: 0.2s; }
+a:hover { color: #fff; text-shadow: 0 0 5px #58a6ff; }
+
+/* Header */
+.player-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(22, 27, 34, 0.8);
+    border: 1px solid rgba(48, 54, 61, 0.7);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.avatar-circle {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1f6feb, #238636);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; color: #fff;
+    box-shadow: 0 0 15px rgba(31, 111, 235, 0.3);
+}
+
+.player-name { margin: 0; font-size: 1.8rem; color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
+.player-meta { display: flex; gap: 15px; font-size: 0.9rem; margin-top: 5px; }
+.meta-item i { margin-right: 5px; color: #8b949e; }
+
+/* Grid Layout */
+.player-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.glass-card {
+    background: rgba(22, 27, 34, 0.8);
+    border: 1px solid rgba(48, 54, 61, 0.7);
+    border-radius: 8px;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.full-width { grid-column: 1 / -1; }
+
+.card-title {
+    border-bottom: 1px solid rgba(48, 54, 61, 0.7);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+.card-title i { color: #1f6feb; margin-right: 8px; }
+
+/* Stats List */
+.stats-list { display: flex; flex-direction: column; gap: 8px; }
+.stat-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.stat-row:last-child { border-bottom: none; }
+.stat-row.head { font-size: 0.75rem; color: #8b949e; text-transform: uppercase; }
+.stat-row .label { color: #c9d1d9; }
+.stat-row .val { font-weight: bold; color: #fff; margin-left: auto; margin-right: 15px; }
+.stat-row .rank { font-family: monospace; color: #1f6feb; width: 50px; text-align: right; }
+.stat-row.highlight { background: rgba(31, 111, 235, 0.1); padding: 8px 5px; border-radius: 4px; border: none; margin-top: 5px; }
+
+/* Combat Bars */
+.combat-stats { display: flex; flex-direction: column; gap: 12px; }
+.combat-row { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; }
+.c-label { width: 130px; color: #8b949e; }
+.progress-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+.fill { height: 100%; }
+.fill.win { background: #238636; }
+.fill.draw { background: #9e6a03; }
+.fill.lose { background: #da3633; }
+.c-val { width: 40px; text-align: right; font-weight: bold; }
+.total-fights { text-align: center; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: #8b949e; }
+
+/* Destruction Grid */
+.destruct-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
+.destruct-item { display: flex; flex-direction: column; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 4px; }
+.d-label { font-size: 0.75rem; color: #8b949e; margin-bottom: 5px; }
+.d-val { font-weight: bold; color: #fff; font-family: monospace; font-size: 1rem; }
+.text-success { color: #3fb950; }
+.text-danger { color: #f85149; }
+
+/* Responsive */
+@media (max-width: 600px) {
+    .player-grid { grid-template-columns: 1fr; }
+    .destruct-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
 {% endblock %}

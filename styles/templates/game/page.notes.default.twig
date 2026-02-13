@@ -1,53 +1,119 @@
 {% extends "layout.full.twig" %}
 
-{% block title %}{{ LNG.lm_notes }}{% endblock %}
+{% block title %}{{ LNG.lm_logout }}{% endblock %}
+
 {% block content %}
+<div class="logout-container">
+    <div class="logout-card glass-panel">
+        
+        <div class="logout-icon">
+            <i class="fas fa-power-off"></i>
+        </div>
 
-<div class="content_page" style="width: 95%;">
-	<div class="title">
-		{{ LNG.nt_notes }}
-	</div>
+        <h1 class="logout-title">{{ LNG.lo_title }}</h1>
+        <p class="logout-message">{{ LNG.lo_logout }}</p>
 
-	<div>
-		<form action="game.php?page=notes&amp;mode=delete" method="post">
-		<table style="width:100%;">
-			<tr>
-				<td colspan="4"><a href="game.php?page=notes&amp;mode=detail">{{ LNG.nt_create_new_note }}</a></td>
-			</tr>
-			<tr>
-				<th style="width:10%">{{ LNG.nt_dlte_note }}</th>
-				<th style="width:20%">{{ LNG.nt_date_note }}</th>
-				<th style="width:60%">{{ LNG.nt_subject_note }}</th>
-				<th style="width:10%">{{ LNG.nt_size_note }}</th>
-			</tr>
-			{% for notesID, notesRow in notesList %}
-			<tr>
-				<td style="width:20px;"><input name="delmes[{{ notesID }}]" type="checkbox"></td>
-				<td style="width:150px;">{{ notesRow.time }}</td>
-				<td><a href="game.php?page=notes&amp;mode=detail&amp;id={{ notesID }}">
-				{% if notesRow.priority == 0 %}
-				<span style="color:lime">{{ notesRow.title }}</span>
-				{% elseif notesRow.priority == 2 %}
-				<span style="color:red">{{ notesRow.title }}</span>
-				{% else %}
-				<span style="color:yellow">{{ notesRow.title }}</span>
-				{% endif %}
-				</a></td>
-				<td style="width:40px;">{{ notesRow.size|number_format }}</td>
-			</tr>
-			{% if loop.last %}
-			<tr>
-				<td colspan="4" class="right"><input value="{{ LNG.nt_dlte_note }}" type="submit"></td>
-			</tr>
-			{% endif %}
-			{% else %}
-			<tr>
-				<td colspan="4">{{ LNG.nt_you_dont_have_notes }}</td>
-			</tr>
-			{% endfor %}
-		</table>
-	</form>
-	</div>
+        <div class="redirect-box">
+            <div class="loader-ring"></div>
+            <p>{{ LNG.lo_notify }} <span id="seconds" class="countdown-text">5</span>s</p>
+        </div>
+
+        <a href="./index.php" class="btn-relogin">{{ LNG.lo_continue }}</a>
+
+    </div>
 </div>
+{% endblock %}
 
+{% block script %}
+<script type="text/javascript">
+    var second = 5;
+    function Countdown(){
+        if(second == 0) return;
+        second--;
+        $('#seconds').text(second);
+    }
+    window.setTimeout("window.location.href='./index.php'", 5000);
+    window.setInterval("Countdown()", 1000);
+</script>
+{% endblock %}
+
+{% block style %}
+<style>
+/* LOGOUT PAGE STYLES */
+.logout-container {
+    display: flex; justify-content: center; align-items: center;
+    min-height: 80vh; /* Zentriert es vertikal */
+}
+
+.logout-card {
+    background: rgba(16, 20, 28, 0.9);
+    border: 1px solid rgba(231, 76, 60, 0.3); /* Rötlicher Rand für Logout */
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Leuchtereffekt oben */
+.logout-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, #e74c3c, transparent);
+}
+
+.logout-icon {
+    font-size: 4rem; color: #e74c3c; margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(231, 76, 60, 0.4);
+    animation: pulse 2s infinite;
+}
+
+.logout-title {
+    color: #fff; font-size: 1.8rem; margin: 0 0 10px 0;
+    text-transform: uppercase; letter-spacing: 2px;
+}
+
+.logout-message { color: #aaa; margin-bottom: 30px; line-height: 1.5; }
+
+.redirect-box {
+    background: rgba(255,255,255,0.05);
+    padding: 15px; border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+}
+
+.countdown-text { color: #e74c3c; font-weight: bold; font-size: 1.2rem; font-family: monospace; }
+
+.btn-relogin {
+    display: inline-block;
+    padding: 10px 25px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; text-decoration: none; border-radius: 30px;
+    transition: 0.3s;
+    text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
+}
+.btn-relogin:hover {
+    background: #fff; color: #000;
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+/* Animation */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 30px rgba(231, 76, 60, 0.8); }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* Loader Ring */
+.loader-ring {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-top: 2px solid #e74c3c;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
 {% endblock %}

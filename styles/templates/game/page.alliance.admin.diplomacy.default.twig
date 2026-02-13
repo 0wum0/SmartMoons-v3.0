@@ -3,102 +3,100 @@
 {% block title %}{{ LNG.lm_alliance }}{% endblock %}
 {% block content %}
 
-<div class="content_page">
-	<div class="title">
-		{{ LNG.al_diplo_head }}
-	</div>
+<div class="aerospace-container">
+    <div class="glass-panel header-panel">
+        <h2 class="page-title"><i class="fas fa-handshake"></i> {{ LNG.al_manage_diplo }}</h2>
+        <a href="#" onclick="return Dialog.open('game.php?page=alliance&mode=admin&action=diplomacyCreate&ajax=1', 600, 400);" class="btn-action-glow small">
+            <i class="fas fa-plus"></i> {{ LNG.al_circular_send_ciruclar }}
+        </a>
+    </div>
 
-	<div>
-		<p>
-			<table style="width: 100%;">
-			<tr>
-				<td colspan="2">{{ LNG.al_diplo_info }}</th>
-			</tr>
-			{% for diploMode, diploAlliances in diploList.0 %}	
-			<tr>
-				<th colspan="2">{{ LNG.al_diplo_level[diploMode] }}</th>
-			</tr>
-				{% for diploID, diploName in diploAlliances %}
-				<tr>
-					<td style="width:90%">{{ diploName }}</td>
-					<td>
-						<a href="game.php?page=alliance&amp;mode=admin&amp;action=diplomacyDelete&amp;id={{ diploID }}" onclick="return confirm('{{ LNG.al_diplo_confirm_delete }}');"><img src="styles/resource/images/false.png" alt="" width="16" height="16"></a>
-					</td>
-				</tr>
-				{% else %}
-				<tr>
-					<td colspan="2">{{ LNG.al_diplo_no_entry }}</td>
-				</tr>
-				{% endfor %}
-			<tr>
-				<td colspan="2">
-					<a href="game.php?page=alliance&amp;mode=admin&amp;action=diplomacyCreate&amp;diploMode={{ diploMode }}" onclick="return Dialog.open(this.href, 650, 300);">{{ LNG.al_diplo_create }}</a>
-				</td>
-			</tr>
-			{% endfor %}
-			</table>
-		</p>
-		<p>
-			<table style="width: 100%;">
-			<tr>
-				<th colspan="2">{{ LNG.al_diplo_accept }}</th>
-			</tr>
-			{% if diploList.1|length > 0 %}
-				{% for diploMode, diploAlliances in diploList.1 %}	
-				{% if diploAlliances %}
-				<tr>
-					<th colspan="2">{{ LNG.al_diplo_level[diploMode] }}</th>
-				</tr>
-				{% for diploID, diploName in diploAlliances %}
-				<tr>
-					<td style="width:90%">{{ diploName }}</td>
-					<td>
-						<a href="game.php?page=alliance&amp;mode=admin&amp;action=diplomacyAccept&amp;id={{ diploID }}" onclick="return confirm('{{ LNG.al_diplo_accept_yes_confirm }}');"><img src="styles/resource/images/true.png" alt="" width="16" height="16"></a>
-						<a href="game.php?page=alliance&amp;mode=admin&amp;action=diplomacyDelete&amp;id={{ diploID }}" onclick="return confirm('{{ LNG.al_diplo_accept_no_confirm }}');"><img src="styles/resource/images/false.png" alt="" width="16" height="16"></a>
-					</td>
-				</tr>
-				{% endfor %}
-				{% endif %}
-				{% endfor %}
-			{% else %}
-			<tr>
-				<td colspan="2">{{ LNG.al_diplo_no_accept }}</td>
-			</tr>	
-			{% endif %}
-			</table>
-		</p>
-		<p>
-			<table style="width: 100%;">
-			<tr>
-				<th colspan="2">{{ LNG.al_diplo_accept_send }}</th>
-			</tr>
-			{% if diploList.2|length > 0 %}
-				{% for diploMode, diploAlliances in diploList.2 %}	
-				{% if diploAlliances %}
-				<tr>
-					<th colspan="2">{{ LNG.al_diplo_level[diploMode] }}</th>
-				</tr>
-				{% for diploID, diploName in diploAlliances %}
-				<tr>
-					<td style="width:90%">{{ diploName }}</td>
-					<td>
-						<a href="game.php?page=alliance&amp;mode=admin&amp;action=diplomacyDelete&amp;id={{ diploID }}" onclick="return confirm('{{ LNG.al_diplo_confirm_delete }}');"><img src="styles/resource/images/false.png" alt="" width="16" height="16"></a>
-					</td>
-				</tr>
-				{% endfor %}
-				{% endif %}
-				{% endfor %}
-			{% else %}
-			<tr>
-				<td colspan="2">{{ LNG.al_diplo_no_accept }}</td>
-			</tr>	
-			{% endif %}
-			<tr>
-				<th colspan="2"><a href="game.php?page=alliance&amp;mode=admin">{{ LNG.al_back }}</a></th>
-			</tr>
-			</table>
-		</p>
-	</div>
+    <div class="diplomacy-grid">
+        
+        <div class="glass-panel">
+            <div class="panel-header"><i class="fas fa-link"></i> {{ LNG.al_diplo_info }}</div>
+            {% for diploMode, diploAlliances in diploList.0 %}
+                <div class="diplo-group">
+                    <h4 class="diplo-type-title">{{ LNG.al_diplo_level[diploMode] }}</h4>
+                    {% if diploAlliances %}
+                        <div class="diplo-list">
+                        {% for diploID, diploName in diploAlliances %}
+                            <div class="diplo-tag">
+                                <span>{{ diploName }}</span>
+                                <a href="game.php?page=alliance&amp;mode=admin&amp;action=diplomacyDelete&amp;id={{ diploID }}" onclick="return confirm('{{ LNG.al_diplo_confirm_delete }}');" class="delete-x"><i class="fas fa-times"></i></a>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        <span class="text-muted small">- {{ LNG.al_diplo_no_entry }} -</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="glass-panel">
+            <div class="panel-header"><i class="fas fa-paper-plane"></i> {{ LNG.al_diplo_accept_send }}</div>
+            {% if diploList.1|length > 0 %}
+                {% for diploMode, diploAlliances in diploList.1 %}
+                   {% if diploAlliances %}
+                       <div class="diplo-group">
+                           <h4 class="diplo-type-title">{{ LNG.al_diplo_level[diploMode] }}</h4>
+                           <div class="diplo-list">
+                           {% for diploID, diploName in diploAlliances %}
+                               <div class="diplo-tag pending">
+                                   <span>{{ diploName }}</span>
+                                   <a href="game.php?page=alliance&amp;mode=admin&amp;action=diplomacyDelete&amp;id={{ diploID }}" class="delete-x"><i class="fas fa-times"></i></a>
+                               </div>
+                           {% endfor %}
+                           </div>
+                       </div>
+                   {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">{{ LNG.al_diplo_no_accept }}</div>
+            {% endif %}
+        </div>
+
+        <div class="glass-panel">
+            <div class="panel-header"><i class="fas fa-inbox"></i> {{ LNG.al_diplo_accept }}</div>
+            {% if diploList.2|length > 0 %}
+                {% for diploMode, diploAlliances in diploList.2 %}
+                    {% if diploAlliances %}
+                        <div class="diplo-group">
+                           <h4 class="diplo-type-title">{{ LNG.al_diplo_level[diploMode] }}</h4>
+                           <div class="diplo-list-requests">
+                           {% for diploID, diploName in diploAlliances %}
+                               <div class="diplo-request-card">
+                                   <span class="req-name">{{ diploName }}</span>
+                                   <div class="req-actions">
+                                       <a href="game.php?page=alliance&amp;mode=admin&amp;action=diplomacyAccept&amp;id={{ diploID }}" class="btn-icon-success"><i class="fas fa-check"></i></a>
+                                       <a href="game.php?page=alliance&amp;mode=admin&amp;action=diplomacyDelete&amp;id={{ diploID }}" class="btn-icon-danger"><i class="fas fa-times"></i></a>
+                                   </div>
+                               </div>
+                           {% endfor %}
+                           </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                 <div class="empty-state">{{ LNG.al_diplo_no_accept }}</div>
+            {% endif %}
+        </div>
+
+    </div>
 </div>
 
+<style>
+.diplomacy-grid { display: grid; gap: 1.5rem; }
+.diplo-group { margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem; }
+.diplo-type-title { font-size: 0.9rem; color: var(--primary); margin-bottom: 0.5rem; text-transform: uppercase; }
+.diplo-list { display: flex; flex-wrap: wrap; gap: 10px; }
+.diplo-tag { background: rgba(0,243,255,0.1); border: 1px solid var(--primary); padding: 5px 10px; border-radius: 4px; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
+.diplo-tag.pending { border-color: var(--warning); color: var(--text-muted); }
+.delete-x { color: var(--danger); cursor: pointer; }
+
+.diplo-list-requests { display: flex; flex-direction: column; gap: 10px; }
+.diplo-request-card { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 4px; }
+.btn-icon-success { color: var(--success); font-size: 1.1rem; margin-right: 10px; }
+</style>
 {% endblock %}

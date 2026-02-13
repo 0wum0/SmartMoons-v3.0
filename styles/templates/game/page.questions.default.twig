@@ -4,24 +4,98 @@
 {% block content %}
 
 <div class="content_page">
-	<div class="title">
-		{{ LNG.faq_overview }}
-	</div>
+    <div class="aerospace-wrapper">
+        
+        <div class="glass-panel header-panel">
+            <h2 class="page-title"><i class="far fa-question-circle"></i> {{ LNG.faq_overview }}</h2>
+        </div>
 
-	<div>
-		<table style="width: 100%;">
-			<tr>
-				<td class="left">{% for categoryID, categoryRow in LNG.questions %}<h2>{{ categoryRow.category }}</h2>
-				<ul>
-				{% for questionID, questionRow in categoryRow %}
-				{% if questionID matches '/^\\d+$/' %}
-					<li><a href="game.php?page=questions&amp;mode=single&amp;categoryID={{ categoryID }}&amp;questionID={{ questionID }}">{{ questionRow.title }}</a></li>
-				{% endif %}
-				{% endfor %}
-				</ul>
-				{% endfor %}</td>
-			</tr>
-		</table>
-	</div>
+        <div class="faq-grid">
+            {% for categoryID, categoryRow in LNG.questions %}
+            <div class="faq-card">
+                <div class="faq-header">
+                    <i class="fas fa-folder-open"></i> {{ categoryRow.category }}
+                </div>
+                <div class="faq-list custom-scroll">
+                    <ul>
+                    {% for questionID, questionRow in categoryRow %}
+                    {% if questionID matches '/^\\d+$/' %}
+                        <li>
+                            <a href="game.php?page=questions&amp;mode=single&amp;categoryID={{ categoryID }}&amp;questionID={{ questionID }}">
+                                <i class="fas fa-angle-right"></i> {{ questionRow.title }}
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
 </div>
+
+<style>
+/* FAQ OVERVIEW STYLES */
+.aerospace-wrapper { width: 100%; padding: 15px; box-sizing: border-box; }
+
+.header-panel { 
+    display: flex; align-items: center; 
+    padding: 20px; margin-bottom: 25px; 
+    background: rgba(16, 20, 28, 0.8); border: 1px solid rgba(0, 243, 255, 0.2); 
+    border-radius: 8px;
+}
+.page-title { margin: 0; color: #fff; font-size: 1.5rem; text-transform: uppercase; }
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.faq-card {
+    background: rgba(22, 27, 38, 0.9);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    height: 300px; /* Feste Höhe für Einheitlichkeit */
+    transition: 0.3s;
+}
+.faq-card:hover {
+    border-color: rgba(0, 243, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.faq-header {
+    background: rgba(0, 243, 255, 0.1);
+    padding: 15px;
+    font-weight: bold; color: #00f3ff; text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.faq-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.faq-list ul { list-style: none; padding: 0; margin: 0; }
+.faq-list li { margin-bottom: 8px; }
+
+.faq-list a {
+    display: block;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.02);
+    color: #ccc; text-decoration: none;
+    border-radius: 4px; transition: 0.2s;
+    font-size: 0.9rem;
+}
+.faq-list a:hover {
+    background: rgba(0, 243, 255, 0.1);
+    color: #fff; padding-left: 18px;
+}
+.faq-list i { margin-right: 5px; color: #00f3ff; font-size: 0.8rem; }
+</style>
 {% endblock %}

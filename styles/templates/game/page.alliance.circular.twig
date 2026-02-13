@@ -3,57 +3,68 @@
 {% block title %}{{ LNG.lm_alliance }}{% endblock %}
 {% block content %}
 
-<div class="content_page_popup">
-	<div class="title_popup">
-		{{ LNG.al_circular_send_ciruclar }}
-	</div>
+<div class="glass-panel popup-panel">
+    <div class="panel-header">
+        <i class="fas fa-mail-bulk"></i> {{ LNG.al_circular_send_ciruclar }}
+    </div>
 
-	<div class="content_popup">
-		<form name="message" id="message">
-			<table style="width:100%;">
-				<tr>
-					<td>{{ LNG.al_receiver }}</td>
-					<td>
-					<!-- TODO: Complex html_options - needs manual review -->
-					</td>
-				</tr><tr>
-				<td>{{ LNG.mg_subject }}</td>
-				<td><input type="text" name="subject" id="subject" size="40" maxlength="40" value="{{ LNG.mg_no_subject }}"></td>
-				</tr>
-				<tr>
-					<td>{{ LNG.al_message }} (<span id="cntChars">0</span> / 5000 {{ LNG.al_characters }})</td>
-					<td>
-						<textarea style="height: 169px;" name="text" cols="60" rows="10" onkeyup="$('#cntChars').text($(this).val().length);"></textarea>
-					</td>
-				</tr>
-				<tr>
-					<th colspan="2" style="text-align:center;">
-					<input type="reset" value="{{ LNG.al_circular_reset }}">
-					<input type="button" onClick="return check();" name="button" value="{{ LNG.al_circular_send_submit }}">
-					</th>
-				</tr>
-			</table>
-		</form>
-	</div>
+    <form name="message" id="message">
+        
+        <div class="form-group">
+            <label class="form-label">{{ LNG.al_receiver }}</label>
+            <div class="glass-select-wrapper">
+                <select name="rankID" class="glass-select full-width">
+                    {{ r_list|raw }}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">{{ LNG.mg_subject }}</label>
+            <input type="text" name="subject" id="subject" class="glass-input full-width" maxlength="40" value="{{ LNG.mg_no_subject }}">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">
+                {{ LNG.al_message }} 
+                <span class="char-count">(<span id="cntChars">0</span> / 5000)</span>
+            </label>
+            <textarea name="text" class="glass-textarea full-width" rows="10" onkeyup="$('#cntChars').text($(this).val().length);"></textarea>
+        </div>
+
+        <div class="modal-actions">
+            <button type="reset" class="btn-ghost">{{ LNG.al_circular_reset }}</button>
+            <button type="button" onClick="return check();" class="btn-action-glow">
+                <i class="fas fa-paper-plane"></i> {{ LNG.al_circular_send_submit }}
+            </button>
+        </div>
+
+    </form>
 </div>
 
-{% endblock %}
-{% block script %}
 <script type="text/javascript">
 function check(){
-	if(document.message.text.value == '') {
-		alert('{{ LNG.mg_empty_text }}');
-		return false;
-	} else {
-		$.post('game.php?page=alliance&mode=circular&action=send&ajax=1', $('#message').serialize(), function(data){
-			data = $.parseJSON(data);
-			alert(data.message);
-			if(!data.error) {
-				parent.$.fancybox.close();
-			}
-		});
-		return true;
-	}
+    if(document.message.text.value == '') {
+        alert('{{ LNG.mg_empty_text }}');
+        return false;
+    } else {
+        $.post('game.php?page=alliance&mode=circular&action=send&ajax=1', $('#message').serialize(), function(data){
+            alert(data.message);
+            if(!data.error) {
+                window.parent.location.reload(); 
+                window.close();
+            }
+        }, 'json');
+        return true;
+    }
 }
 </script>
+
+<style>
+/* Popup Specific Styles */
+.popup-panel { margin: 0; min-width: 100%; border: none; box-shadow: none; background: transparent; }
+.form-label { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px; }
+.char-count { color: var(--primary); font-size: 0.8rem; }
+.glass-select option { background: #000; color: #fff; }
+</style>
 {% endblock %}

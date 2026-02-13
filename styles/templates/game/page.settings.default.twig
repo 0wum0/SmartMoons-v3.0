@@ -5,271 +5,253 @@
 <form action="game.php?page=settings" method="post">
 <input type="hidden" name="mode" value="send">
 
-<div class="content_page settings-page-responsive">
-	<div class="title">
-		{{ LNG.lm_options }}
-	</div>
+<div class="content_page">
+    <div class="aerospace-wrapper">
+        
+        <div class="glass-panel header-panel">
+            <h2 class="page-title"><i class="fas fa-cogs"></i> {{ LNG.lm_options }}</h2>
+        </div>
 
-	<div class="settings-container">
-		{% if userAuthlevel > 0 %}
-		<!-- Admin Options Card -->
-		<div class="settings-card">
-			<div class="card-header">
-				<h3>{{ LNG.op_admin_title_options }}</h3>
-			</div>
-			<div class="card-body">
-				<div class="settings-group">
-					<label class="settings-label">
-						<span>{{ LNG.op_admin_planets_protection }}</span>
-						<input name="adminprotection" type="checkbox" value="1" {% if adminProtection > 0 %}checked="checked"{% endif %}>
-					</label>
-				</div>
-			</div>
-		</div>
-		{% endif %}
+        <div class="settings-grid">
+            
+            {% if userAuthlevel > 0 %}
+            <div class="settings-card glass-panel">
+                <div class="card-title">{{ LNG.op_admin_title_options }}</div>
+                <div class="setting-row">
+                    <label>{{ LNG.op_admin_planets_protection }}</label>
+                    <input name="adminprotection" type="checkbox" value="1" {% if adminProtection > 0 %}checked="checked"{% endif %}>
+                </div>
+            </div>
+            {% endif %}
 
-		<!-- User Data Card -->
-		<div class="settings-card">
-			<div class="card-header">
-				<h3>{{ LNG.op_user_data }}</h3>
-			</div>
-			<div class="card-body">
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_username }}</label>
-					<div class="settings-control">
-						{% if changeNickTime < 0 %}
-						<input name="username" size="20" value="{{ username }}" type="text" class="settings-input">
-						{% else %}
-						<span class="settings-value">{{ username }}</span>
-						{% endif %}
-					</div>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_old_pass }}</label>
-					<div class="settings-control">
-						<input name="password" size="20" type="password" class="settings-input autocomplete">
-					</div>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_new_pass }}</label>
-					<div class="settings-control">
-						<input name="newpassword" size="20" maxlength="40" type="password" class="settings-input autocomplete">
-					</div>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_repeat_new_pass }}</label>
-					<div class="settings-control">
-						<input name="newpassword2" size="20" maxlength="40" type="password" class="settings-input autocomplete">
-					</div>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label" title="{{ LNG.op_email_adress_descrip }}">{{ LNG.op_email_adress }}</label>
-					<div class="settings-control">
-						<input name="email" maxlength="64" size="20" value="{{ email }}" type="text" class="settings-input">
-					</div>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_permanent_email_adress }}</label>
-					<div class="settings-control">
-						<span class="settings-value">{{ permaEmail }}</span>
-					</div>
-				</div>
-			</div>
-		</div>
+            <div class="settings-card glass-panel">
+                <div class="card-title"><i class="fas fa-user"></i> {{ LNG.op_user_data }}</div>
+                
+                <div class="setting-row">
+                    <label>{{ LNG.op_username }}</label>
+                    {% if changeNickTime < 0 %}
+                    <input name="username" value="{{ username }}" type="text" class="glass-input">
+                    {% else %}
+                    <span class="value">{{ username }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="setting-row">
+                    <label>{{ LNG.op_old_pass }}</label>
+                    <input name="password" type="password" class="glass-input" autocomplete="off">
+                </div>
+                <div class="setting-row">
+                    <label>{{ LNG.op_new_pass }}</label>
+                    <input name="newpassword" maxlength="40" type="password" class="glass-input" autocomplete="new-password">
+                </div>
+                <div class="setting-row">
+                    <label>{{ LNG.op_repeat_new_pass }}</label>
+                    <input name="newpassword2" maxlength="40" type="password" class="glass-input" autocomplete="new-password">
+                </div>
+                <div class="setting-row">
+                    <label title="{{ LNG.op_email_adress_descrip }}">{{ LNG.op_email_adress }}</label>
+                    <input name="email" maxlength="64" value="{{ email }}" type="text" class="glass-input">
+                </div>
+                <div class="setting-row">
+                    <label>{{ LNG.op_permanent_email_adress }}</label>
+                    <span class="value">{{ permaEmail }}</span>
+                </div>
+            </div>
 
-		<!-- General Settings Card -->
-		<div class="settings-card">
-			<div class="card-header">
-				<h3>{{ LNG.op_general_settings }}</h3>
-			</div>
-			<div class="card-body">
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_timezone }}</label>
-					<div class="settings-control">
-						<select name="timezone" class="settings-select">
-							{{ Selectors.timezones|raw }}
-						</select>
-					</div>
-				</div>
-				
-				{% if Selectors.lang|length > 1 %}
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_lang }}</label>
-					<div class="settings-control">
-						<select name="language" class="settings-select">
-							{{ Selectors.language|raw }}
-						</select>
-					</div>
-				</div>
-				{% endif %}
-				
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_sort_planets_by }}</label>
-					<div class="settings-control">
-						<select name="planet_sort" class="settings-select">
-							{{ Selectors.Sort|raw }}
-						</select>
-					</div>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_sort_kind }}</label>
-					<div class="settings-control">
-						<select name="planet_sort_sequence" class="settings-select">
-							{{ Selectors.SortUpDown|raw }}
-						</select>
-					</div>
-				</div>
-				
-				{% if Selectors.Skins|length > 1 %}
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_skin_example }}</label>
-					<div class="settings-control">
-						<select name="theme" class="settings-select">
-							{{ Selectors.Skins|raw }}
-						</select>
-					</div>
-				</div>
-				{% endif %}
-				
-				<div class="settings-group">
-					<label class="settings-label settings-checkbox">
-						<input name="queueMessages" type="checkbox" value="1" {% if queueMessages == 1 %}checked="checked"{% endif %}>
-						<span>{{ LNG.op_active_build_messages }}</span>
-					</label>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label settings-checkbox">
-						<input name="spyMessagesMode" type="checkbox" value="1" {% if spyMessagesMode == 1 %}checked="checked"{% endif %}>
-						<span>{{ LNG.op_active_spy_messages_mode }}</span>
-					</label>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label settings-checkbox">
-						<input name="blockPM" type="checkbox" value="1" {% if blockPM == 1 %}checked="checked"{% endif %}>
-						<span>{{ LNG.op_block_pm }}</span>
-					</label>
-				</div>
-			</div>
-		</div>
+            <div class="settings-card glass-panel">
+                <div class="card-title"><i class="fas fa-sliders-h"></i> {{ LNG.op_general_settings }}</div>
+                
+                <div class="setting-row">
+                    <label>{{ LNG.op_timezone }}</label>
+                    <select name="timezone" class="glass-input">
+                        {% for key, val in Selectors.timezones %}
+                            {# SICHERHEITS-CHECK: Ist der Wert ein Array (Gruppe)? #}
+                            {% if val is iterable %}
+                                <optgroup label="{{ key }}">
+                                    {% for subKey, subVal in val %}
+                                        <option value="{{ subKey }}" {% if subKey == timezone %}selected{% endif %}>{{ subVal }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% else %}
+                                <option value="{{ key }}" {% if key == timezone %}selected{% endif %}>{{ val }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                {% if Selectors.lang|length > 1 %}
+                <div class="setting-row">
+                    <label>{{ LNG.op_lang }}</label>
+                    <select name="language" class="glass-input">
+                        {% for key, val in Selectors.lang %}
+                            <option value="{{ key }}" {% if key == userLang %}selected{% endif %}>{{ val }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+                
+                <div class="setting-row">
+                    <label>{{ LNG.op_sort_planets_by }}</label>
+                    <select name="planetSort" class="glass-input">
+                        {% for key, val in Selectors.Sort %}
+                            <option value="{{ key }}" {% if key == planetSort %}selected{% endif %}>{{ val }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <label>{{ LNG.op_sort_kind }}</label>
+                    <select name="planetOrder" class="glass-input">
+                        {% for key, val in Selectors.SortUpDown %}
+                            <option value="{{ key }}" {% if key == planetOrder %}selected{% endif %}>{{ val }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-		<!-- Galaxy Settings Card -->
-		<div class="settings-card">
-			<div class="card-header">
-				<h3>{{ LNG.op_galaxy_settings }}</h3>
-			</div>
-			<div class="card-body">
-				<div class="settings-group">
-					<label class="settings-label" title="{{ LNG.op_spy_probes_number_descrip }}">{{ LNG.op_spy_probes_number }}</label>
-					<div class="settings-control">
-                        <input name="spycount" size="{{ spycount|length + 3 }}" value="{{ spycount }}" type="number" class="settings-input">
-					</div>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label">{{ LNG.op_max_fleets_messages }}</label>
-					<div class="settings-control">
-                        <input name="fleetactions" maxlength="2" size="{{ fleetActions|length + 2 }}" value="{{ fleetActions }}" type="number" class="settings-input">
-					</div>
-				</div>
-				
-				<div class="settings-group-header">
-					<span>{{ LNG.op_shortcut }}</span>
-					<span>{{ LNG.op_show }}</span>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label settings-checkbox">
-						<input name="galaxySpy" type="checkbox" value="1" {% if galaxySpy == 1 %}checked="checked"{% endif %}>
-						<span><img src="{{ dpath }}img/e.gif" alt=""> {{ LNG.op_spy }}</span>
-					</label>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label settings-checkbox">
-						<input name="galaxyMessage" type="checkbox" value="1" {% if galaxyMessage == 1 %}checked="checked"{% endif %}>
-						<span><img src="{{ dpath }}img/m.gif" alt=""> {{ LNG.op_write_message }}</span>
-					</label>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label settings-checkbox">
-						<input name="galaxyBuddyList" type="checkbox" value="1" {% if galaxyBuddyList == 1 %}checked="checked"{% endif %}>
-						<span><img src="{{ dpath }}img/b.gif" alt=""> {{ LNG.op_add_to_buddy_list }}</span>
-					</label>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label settings-checkbox">
-						<input name="galaxyMissle" type="checkbox" value="1" {% if galaxyMissle == 1 %}checked="checked"{% endif %}>
-						<span><img src="{{ dpath }}img/r.gif" alt=""> {{ LNG.op_missile_attack }}</span>
-					</label>
-				</div>
-			</div>
-		</div>
+                {% if Selectors.Skins|length > 1 %}
+                <div class="setting-row">
+                    <label>{{ LNG.op_skin_example }}</label>
+                    <select name="theme" id="theme" class="glass-input">
+                        {% for key, val in Selectors.Skins %}
+                            {# SICHERHEITS-CHECK AUCH HIER #}
+                            {% if val is iterable %}
+                                <option value="{{ key }}" {% if key == theme %}selected{% endif %}>{{ val|first }}</option>
+                            {% else %}
+                                <option value="{{ key }}" {% if key == theme %}selected{% endif %}>{{ val }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
 
-		<!-- Vacation & Delete Mode Card -->
-		<div class="settings-card">
-			<div class="card-header">
-				<h3>{{ LNG.op_vacation_delete_mode }}</h3>
-			</div>
-			<div class="card-body">
-				<div class="settings-group">
-					<label class="settings-label settings-checkbox" title="{{ LNG.op_activate_vacation_mode_descrip }}">
-						<input name="vacation" type="checkbox" value="1">
-						<span>{{ LNG.op_activate_vacation_mode }}</span>
-					</label>
-				</div>
-				
-				<div class="settings-group">
-					<label class="settings-label settings-checkbox" title="{{ LNG.op_dlte_account_descrip }}">
-						<input name="delete" type="checkbox" value="1" {% if delete > 0 %}checked="checked"{% endif %}>
-						<span>{{ LNG.op_dlte_account }}</span>
-					</label>
-				</div>
-			</div>
-		</div>
+                <div class="setting-check">
+                    <input name="queueMessages" type="checkbox" value="1" {% if queueMessages == 1 %}checked="checked"{% endif %}>
+                    <span>{{ LNG.op_active_build_messages }}</span>
+                </div>
+                <div class="setting-check">
+                    <input name="spyMessagesMode" type="checkbox" value="1" {% if spyMessagesMode == 1 %}checked="checked"{% endif %}>
+                    <span>{{ LNG.op_active_spy_messages_mode }}</span>
+                </div>
+                <div class="setting-check">
+                    <input name="blockPM" type="checkbox" value="1" {% if blockPM == 1 %}checked="checked"{% endif %}>
+                    <span>{{ LNG.op_block_pm }}</span>
+                </div>
+            </div>
 
-		{% if constant('MODULE_BANNER') is defined and isModuleAvailable(constant('MODULE_BANNER')) %}
-		<!-- User Banner Card -->
-		<div class="settings-card full-width">
-			<div class="card-header">
-				<h3>{{ LNG.ov_userbanner }}</h3>
-			</div>
-			<div class="card-body">
-				<div class="banner-preview">
-					<img src="userpic.php?id={{ userid }}" alt="" width="590" height="95" id="userpic">
-				</div>
-				<div class="banner-codes">
-					<div class="settings-group">
-						<label class="settings-label">HTML:</label>
-						<div class="settings-control">
-							<input type="text" value='<a href="{{ SELF_URL }}{% if ref_active %}index.php?ref={{ userid }}{% endif %}"><img src="{{ SELF_URL }}userpic.php?id={{ userid }}"></a>' readonly="readonly" class="settings-input banner-code">
-						</div>
-					</div>
-					<div class="settings-group">
-						<label class="settings-label">BBCode:</label>
-						<div class="settings-control">
-							<input type="text" value="[url={{ SELF_URL }}{% if ref_active %}index.php?ref={{ userid }}{% endif %}][img]{{ SELF_URL }}userpic.php?id={{ userid }}[/img][/url]" readonly="readonly" class="settings-input banner-code">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endif %}
+            <div class="settings-card glass-panel">
+                <div class="card-title"><i class="fas fa-globe"></i> {{ LNG.op_galaxy_settings }}</div>
+                
+                <div class="setting-row">
+                    <label title="{{ LNG.op_spy_probes_number_descrip }}">{{ LNG.op_spy_probes_number }}</label>
+                    <input name="spycount" value="{{ spycount }}" type="number" class="glass-input">
+                </div>
+                <div class="setting-row">
+                    <label>{{ LNG.op_max_fleets_messages }}</label>
+                    <input name="fleetactions" value="{{ fleetActions }}" type="number" class="glass-input">
+                </div>
 
-		<!-- Submit Button -->
-		<div class="settings-submit">
-			<button type="submit" class="btn btn-primary">{{ LNG.op_save_changes }}</button>
-		</div>
-	</div>
+                <div class="shortcut-legend">
+                    <span>{{ LNG.op_shortcut }} / {{ LNG.op_show }}</span>
+                </div>
+                
+                <div class="setting-check">
+                    <input name="galaxySpy" type="checkbox" value="1" {% if galaxySpy == 1 %}checked="checked"{% endif %}>
+                    <span><i class="fas fa-eye"></i> {{ LNG.op_spy }}</span>
+                </div>
+                <div class="setting-check">
+                    <input name="galaxyMessage" type="checkbox" value="1" {% if galaxyMessage == 1 %}checked="checked"{% endif %}>
+                    <span><i class="fas fa-envelope"></i> {{ LNG.op_write_message }}</span>
+                </div>
+                <div class="setting-check">
+                    <input name="galaxyBuddyList" type="checkbox" value="1" {% if galaxyBuddyList == 1 %}checked="checked"{% endif %}>
+                    <span><i class="fas fa-user-friends"></i> {{ LNG.op_add_to_buddy_list }}</span>
+                </div>
+                <div class="setting-check">
+                    <input name="galaxyMissle" type="checkbox" value="1" {% if galaxyMissle == 1 %}checked="checked"{% endif %}>
+                    <span><i class="fas fa-rocket"></i> {{ LNG.op_missile_attack }}</span>
+                </div>
+            </div>
+
+            <div class="settings-card glass-panel danger-zone">
+                <div class="card-title"><i class="fas fa-exclamation-triangle"></i> {{ LNG.op_vacation_delete_mode }}</div>
+                
+                <div class="setting-check">
+                    <input name="vacation" type="checkbox" value="1">
+                    <span title="{{ LNG.op_activate_vacation_mode_descrip }}">{{ LNG.op_activate_vacation_mode }}</span>
+                </div>
+                <div class="setting-check">
+                    <input name="delete" type="checkbox" value="1" {% if delete > 0 %}checked="checked"{% endif %}>
+                    <span style="color: #e74c3c;" title="{{ LNG.op_dlte_account_descrip }}">{{ LNG.op_dlte_account }}</span>
+                </div>
+            </div>
+
+        </div>
+
+        {% if isModuleAvailable(constant('MODULE_BANNER')) %}
+        <div class="glass-panel banner-panel" style="margin-top: 20px; padding: 20px;">
+             <div class="card-title">{{ LNG.ov_userbanner }}</div>
+             <div style="text-align: center; margin-bottom: 15px;">
+                <img src="userpic.php?id={{ userid }}" alt="" style="max-width: 100%; border-radius: 4px;">
+             </div>
+             <div class="setting-row">
+                <label>HTML:</label>
+                <input type="text" value='<a href="{{ SELF_URL }}{% if ref_active %}index.php?ref={{ userid }}{% endif %}"><img src="{{ SELF_URL }}userpic.php?id={{ userid }}"></a>' readonly class="glass-input" style="width: 100%;">
+             </div>
+             <div class="setting-row" style="margin-top: 10px;">
+                <label>BBCode:</label>
+                <input type="text" value="[url={{ SELF_URL }}{% if ref_active %}index.php?ref={{ userid }}{% endif %}][img]{{ SELF_URL }}userpic.php?id={{ userid }}[/img][/url]" readonly class="glass-input" style="width: 100%;">
+             </div>
+        </div>
+        {% endif %}
+
+        <div class="settings-footer">
+            <button type="submit" class="btn-save-settings">{{ LNG.op_save_changes }}</button>
+        </div>
+
+    </div>
 </div>
 </form>
+
+<style>
+/* SETTINGS STYLES */
+.aerospace-wrapper { width: 100%; padding: 15px; box-sizing: border-box; }
+.header-panel { padding: 20px; margin-bottom: 25px; background: rgba(16, 20, 28, 0.8); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 8px; }
+.page-title { margin: 0; color: #fff; font-size: 1.5rem; text-transform: uppercase; }
+
+.settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+
+.settings-card { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+.glass-panel { background: rgba(22, 27, 38, 0.9); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; }
+
+.card-title { font-size: 1.1rem; color: #00f3ff; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; margin-bottom: 5px; text-transform: uppercase; }
+
+.setting-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.setting-row label { color: #ccc; font-size: 0.9rem; flex: 1; }
+.value { color: #fff; font-weight: bold; }
+
+.glass-input { 
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); 
+    color: #fff; padding: 6px 10px; border-radius: 4px; width: 180px; font-size: 0.9rem;
+}
+.glass-input:focus { border-color: #00f3ff; outline: none; }
+.glass-input option, .glass-input optgroup { background: #161b26; color: #fff; }
+
+.setting-check { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; }
+.setting-check span { color: #aaa; font-size: 0.9rem; }
+.setting-check i { width: 20px; text-align: center; color: #00f3ff; }
+
+.shortcut-legend { color: #00f3ff; font-size: 0.8rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; margin-top: 10px; }
+
+.danger-zone { border-color: rgba(231, 76, 60, 0.3); }
+.danger-zone .card-title { color: #e74c3c; }
+
+.settings-footer { margin-top: 30px; text-align: center; }
+.btn-save-settings {
+    background: linear-gradient(45deg, #00f3ff, #0072ff);
+    border: none; padding: 12px 40px; border-radius: 6px;
+    color: #000; font-weight: bold; font-size: 1.1rem;
+    cursor: pointer; box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+    transition: 0.2s;
+}
+.btn-save-settings:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(0, 243, 255, 0.5); }
+</style>
 {% endblock %}

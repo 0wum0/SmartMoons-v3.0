@@ -3,173 +3,173 @@
 {% block title %}{{ LNG.lm_fleet }}{% endblock %}
 {% block content %}
 
-<div class="content_page">
-	<div class="title">
-		{{ LNG.fl_send_fleet }}
-	</div>
+<div class="aerospace-container">
+    <div class="glass-panel header-panel">
+        <h2 class="page-title"><i class="fas fa-map-marker-alt"></i> {{ LNG.fl_destiny }}</h2>
+    </div>
 
-	<div>
-		<form action="game.php?page=fleetStep2" method="post" onsubmit="return CheckTarget()" id="form">
-		<input type="hidden" name="token" value="{{ token }}">
-		<input type="hidden" name="fleet_group" value="0">
-		<input type="hidden" name="target_mission" value="{{ mission }}">
-		<table style="table-layout: fixed; width: 100%;">
-			<tr style="height:20px;">
-				<td style="width:50%">{{ LNG.fl_destiny }}</td>
-				<td>
-					<input type="text" id="galaxy" name="galaxy" size="3" maxlength="2" onkeyup="updateVars()" value="{{ galaxy }}">
-					<input type="text" id="system" name="system" size="3" maxlength="3" onkeyup="updateVars()" value="{{ system }}">
-					<input type="text" id="planet" name="planet" size="3" maxlength="2" onkeyup="updateVars()" value="{{ planet }}">
-					<select id="type" name="type" onchange="updateVars()">
-						{% for key, value in typeSelect %}<option value="{{ key }}"{% if key == type %} selected{% endif %}>{{ value }}</option>{% endfor %}
-					</select>
-				</td>
-			</tr>
-			<tr style="height:20px;">
-				<td>{{ LNG.fl_fleet_speed }}</td>
-				<td>
-					<select id="speed" name="speed" onChange="updateVars()">
-						{% for key, value in speedSelect %}<option value="{{ key }}">{{ value }}</option>{% endfor %}
-					</select> %
-				</td>
-			</tr>
-			<tr style="height:20px;">
-				<td>{{ LNG.fl_distance }}</td>
-				<td id="distance">-</td>
-			</tr>
-			<tr style="height:20px;">
-				<td>{{ LNG.fl_flying_time }}</th>
-				<td id="duration">-</td>
-			</tr>
-			<tr style="height:20px;">
-				<td>{{ LNG.fl_flying_arrival }}</th>
-				<td id="arrival">-</td>
-			</tr>
-			<tr style="height:20px;">
-				<td>{{ LNG.fl_flying_return }}</th>
-				<td id="return">-</td>
-			</tr>
-			<tr style="height:20px;">
-				<td>{{ LNG.fl_fuel_consumption }}</td>
-				<td id="consumption">-</td>
-			</tr>
-			<tr style="height:20px;">
-				<td>{{ LNG.fl_max_speed }}</td>
-				<td id="maxspeed">-</td>
-			</tr>
-			<tr style="height:20px;">
-				<td>{{ LNG.fl_cargo_capacity }}</td>
-				<td id="storage">-</td>
-			</tr>
-		</table>
-		{% if constant('MODULE_SHORTCUTS') is defined and isModuleAvailable(constant('MODULE_SHORTCUTS')) %}
-		<table class="shortcut" style="table-layout: fixed; width: 100%;">
-			<tr style="height:20px;">
-				<th colspan="{{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}">{{ LNG.fl_shortcut }} (<a href="#" onclick="EditShortcuts();return false" class="shortcut-link-edit shortcut-link">{{ LNG.fl_shortcut_edition }}</a><a href="#" onclick="SaveShortcuts();return false" class="shortcut-edit">{{ LNG.fl_shortcut_save }}</a>)</th>
-			</tr>
-			{% for shortcutID, shortcutRow in shortcutList %}
-				{% if (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) == 1 %}<tr style="height:20px;" class="shortcut-row">{% endif %}			
-				<td style="width:{{ 100 / themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}%" class="shortcut-colum shortcut-isset">
-					<div class="shortcut-link">
-						<a href="javascript:setTarget({{ shortcutRow.galaxy }},{{ shortcutRow.system }},{{ shortcutRow.planet }},{{ shortcutRow.type }});updateVars();">{{ shortcutRow.name }}{% if shortcutRow.type == 1 %}{{ LNG.fl_planet_shortcut }}{% elseif shortcutRow.type == 2 %}{{ LNG.fl_debris_shortcut }}{% elseif shortcutRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ shortcutRow.galaxy }}:{{ shortcutRow.system }}:{{ shortcutRow.planet }}]</a>
-					</div>
-					<div class="shortcut-edit">
-						<input type="text" class="shortcut-input" name="shortcut[{{ shortcutID }}][name]" value="{{ shortcutRow.name }}">
-						<div class="shortcut-delete" title="{{ LNG.fl_dlte_shortcut }}"></div>
-					</div>
-					<div class="shortcut-edit">
-						<input type="text" class="shortcut-input" name="shortcut[{{ shortcutID }}][galaxy]" value="{{ shortcutRow.galaxy }}" size="3" maxlength="2">:<input type="text" class="shortcut-input" name="shortcut[{{ shortcutID }}][system]" value="{{ shortcutRow.system }}" size="3" maxlength="3">:<input type="text" class="shortcut-input" name="shortcut[{{ shortcutID }}][planet]" value="{{ shortcutRow.planet }}" size="3" maxlength="2">
-						<select class="shortcut-input" name="shortcut[{{ shortcutID }}][type]">
-							{% for key, value in typeSelect %}<option value="{{ key }}"{% if key == shortcutRow.type %} selected{% endif %}>{{ value }}</option>{% endfor %}
-						</select>
-					</div>
-				</td>
-				{% if loop.last and (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) != 0 %}
-				{% set to = themeSettings.SHORTCUT_ROWS_ON_FLEET1 - (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) %}
-				{% for foo in range(1, to + 1) %}
-				<td class="shortcut-colum" style="width:{{ 100 / themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}%"> </td>
-				{% endfor %}
-				{% endif %}
-				{% if (loop.index % themeSettings.SHORTCUT_ROWS_ON_FLEET1) == 0 %}</tr>{% endif %}
-			{% else %}
-			<tr style="height:20px;" class="shortcut-none">
-				<td colspan="{{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}">{{ LNG.fl_no_shortcuts }}</td>
-			</tr>
-			{% endfor %}
-			<tr style="height:20px;" class="shortcut-edit shortcut-new">
-				<td>
-					<div class="shortcut-link">
-						
-					</div>
-					<div class="shortcut-edit">
-						<input type="text" class="shortcut-input" name="shortcut[][name]" placeholder="{{ LNG.fl_shortcut_name }}">
-						<div class="shortcut-delete" title="{{ LNG.fl_dlte_shortcut }}"></div>
-					</div>
-					<div class="shortcut-edit">
-						<input type="text" class="shortcut-input" name="shortcut[][galaxy]" value="" size="3" maxlength="2" placeholder="G" pattern="[0-9]*">:<input type="text" class="shortcut-input" name="shortcut[][system]" value="" size="3" maxlength="3" placeholder="S" pattern="[0-9]*">:<input type="text" class="shortcut-input" name="shortcut[][planet]" value="" size="3" maxlength="2" placeholder="P" pattern="[0-9]*">
-						<select class="shortcut-input" name="shortcut[][type]">
-							{% for key, value in typeSelect %}<option value="{{ key }}">{{ value }}</option>{% endfor %}
-						</select>
-					</div>
-				</td>
-			</tr>
-			<tr style="height:20px;" class="shortcut-edit">
-				<td colspan="{{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}">
-					<a href="#" onclick="AddShortcuts();return false">{{ LNG.fl_shortcut_add }}</a>
-				</td>
-			</tr>		
-		</table>
-		{% endif %}
-		<table style="table-layout: fixed; width: 100%;">
-			<tr class="title" style="height:20px;">
-				<th colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}">{{ LNG.fl_my_planets }}</th>
-			</tr>
-			{% for ColonyRow in colonyList %}
-			{% if (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) == 1 %}<tr style="height:20px;">{% endif %}
-			<td>
-				<a href="javascript:setTarget({{ ColonyRow.galaxy }},{{ ColonyRow.system }},{{ ColonyRow.planet }},{{ ColonyRow.type }});updateVars();">{{ ColonyRow.name }}{% if ColonyRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ ColonyRow.galaxy }}:{{ ColonyRow.system }}:{{ ColonyRow.planet }}]</a>
-			</td>
-			{% if loop.last and (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) != 0 %}
-			{% set to = themeSettings.COLONY_ROWS_ON_FLEET1 - (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) %}
-			{% for foo in range(1, to + 1) %}<td> </td>{% endfor %}
-			{% endif %}
-			{% if (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) == 0 %}</tr>{% endif %}
-			{% else %}
-			<tr style="height:20px;">
-				<td colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}">{{ LNG.fl_no_colony }}</td>
-			</tr>
-			{% endfor %}	
-		</table>
-		{% if ACSList %}
-		<table class="table519" style="table-layout: fixed;">
-			<tr style="height:20px;">
-				<th colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}">{{ LNG.fl_acs_title }}</th>
-			</tr>
-			{% for ACSRow in ACSList %}
-			{% if (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) == 1 %}<tr style="height:20px;">{% endif %}
-			<tr style="height:20px;">
-				<td><a href="javascript:setACSTarget({{ ACSRow.galaxy }},{{ ACSRow.system }},{{ ACSRow.planet }},{{ ACSRow.planet_type }},{{ ACSRow.id }});">{{ ACSRow.name }} - [{{ ACSRow.galaxy }}:{{ ACSRow.system }}:{{ ACSRow.planet }}]</a></td>
-			</tr>
-			{% if loop.last and (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) != 0 %}
-			{% set to = themeSettings.ACS_ROWS_ON_FLEET1 - (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) %}
-			{% for foo in range(1, to + 1) %}<td> </td>{% endfor %}
-			{% endif %}
-			{% if (loop.index % themeSettings.ACS_ROWS_ON_FLEET1) == 0 %}</tr>{% endif %}
-			{% endfor %}
-		</table>
-		{% endif %}
-		<table class="table519" style="table-layout: fixed;">
-			<tr style="height:20px;">
-				<td><input type="submit" value="{{ LNG.fl_continue }}"></td>
-			</tr>
-		</table>
-	</form>
-	</div>
+    <form action="game.php?page=fleetStep2" method="post" onsubmit="return CheckTarget()" id="form">
+        <input type="hidden" name="token" value="{{ token }}">
+        <input type="hidden" name="fleet_group" value="0">
+        <input type="hidden" name="target_mission" value="{{ mission }}">
+
+        <div class="fleet-step-grid">
+            
+            <div class="glass-panel target-panel">
+                <div class="panel-header"><i class="fas fa-crosshairs"></i> {{ LNG.fl_coords }}</div>
+                
+                <div class="coords-input-group">
+                    <div class="coord-field">
+                        <label>{{ LNG.fl_galaxy }}</label>
+                        <input type="text" id="galaxy" name="galaxy" size="3" maxlength="2" onkeyup="updateVars()" value="{{ galaxy }}" class="glass-input text-center">
+                    </div>
+                    <div class="coord-field">
+                        <label>{{ LNG.fl_system }}</label>
+                        <input type="text" id="system" name="system" size="3" maxlength="3" onkeyup="updateVars()" value="{{ system }}" class="glass-input text-center">
+                    </div>
+                    <div class="coord-field">
+                        <label>{{ LNG.fl_planet }}</label>
+                        <input type="text" id="planet" name="planet" size="3" maxlength="2" onkeyup="updateVars()" value="{{ planet }}" class="glass-input text-center">
+                    </div>
+                </div>
+
+                <div class="target-type-selector">
+                    <label>{{ LNG.type_mission.3 }}</label>
+                    <div class="glass-select-wrapper">
+                        <select id="type" name="type" onchange="updateVars()" class="glass-select full-width">
+                            {% for key, value in typeSelect %}
+                                <option value="{{ key }}"{% if key == type %} selected{% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="fleet-status-info">
+                    <div class="info-row">
+                        <span>{{ LNG.fl_distance }}</span>
+                        <span id="distance" class="text-highlight">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span>{{ LNG.fl_duration }}</span>
+                        <span id="duration" class="text-highlight">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span>{{ LNG.fl_max_speed }}</span>
+                        <span id="maxspeed" class="text-highlight">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span>{{ LNG.fl_fuel_consumption }}</span>
+                        <span id="consumption" class="text-warning">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span>{{ LNG.fl_cargo_capacity }}</span>
+                        <span id="storage" class="text-success">-</span>
+                    </div>
+                </div>
+
+                <div class="speed-slider-box">
+                    <label>{{ LNG.fl_speed }}: <span id="speed-display">10</span>0%</label>
+                    <input type="range" min="1" max="10" step="1" value="10" name="speed" id="speed" onchange="updateVars()" oninput="document.getElementById('speed-display').innerHTML = this.value;" class="glass-range">
+                </div>
+
+            </div>
+
+            <div class="glass-panel shortcuts-panel">
+                <div class="panel-header"><i class="fas fa-bookmark"></i> {{ LNG.fl_shortcuts }}</div>
+                
+                <div class="shortcut-group">
+                    <h4>{{ LNG.fl_my_planets }}</h4>
+                    <div class="shortcut-grid">
+                        {% for ColonyRow in colonyList %}
+                        <div class="shortcut-chip" onclick="setTarget({{ ColonyRow.galaxy }},{{ ColonyRow.system }},{{ ColonyRow.planet }},{{ ColonyRow.type }}); updateVars();">
+                            <span class="chip-name">{{ ColonyRow.name }}</span>
+                            <span class="chip-coord">[{{ ColonyRow.galaxy }}:{{ ColonyRow.system }}:{{ ColonyRow.planet }}]</span>
+                        </div>
+                        {% else %}
+                        <div class="text-muted small">{{ LNG.fl_no_colony }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if ACSList %}
+                <div class="shortcut-group mt-3">
+                    <h4>{{ LNG.fl_acs_title }}</h4>
+                    <div class="shortcut-grid">
+                        {% for ACSRow in ACSList %}
+                        <div class="shortcut-chip acs" onclick="setACSTarget({{ ACSRow.galaxy }},{{ ACSRow.system }},{{ ACSRow.planet }},{{ ACSRow.planet_type }},{{ ACSRow.id }}); updateVars();">
+                            <span class="chip-name">{{ ACSRow.name }}</span>
+                            <span class="chip-coord">[{{ ACSRow.galaxy }}:{{ ACSRow.system }}:{{ ACSRow.planet }}]</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="action-bar-bottom mt-3">
+            <a href="game.php?page=fleetTable" class="btn-ghost">{{ LNG.fl_back }}</a>
+            <button type="submit" class="btn-action-glow">{{ LNG.fl_continue }} <i class="fas fa-arrow-right"></i></button>
+        </div>
+
+    </form>
 </div>
 
 <script type="text/javascript">
-data			= {{ fleetdata|json_encode }};
-shortCutRows	= {{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }};
-fl_no_shortcuts	= '{{ LNG.fl_no_shortcuts }}';
+var ships           = {{ fleetdata.ships|json_encode|raw }};
+var maxspeed        = {{ fleetdata.maxspeed }};
+var driveFactor     = {{ fleetdata.driveFactor }};
+var fleetroom       = {{ fleetdata.fleetroom }};
+var consumption     = {{ fleetdata.consumption }};
+var speedfactors    = {{ speedfactors|json_encode|raw }};
+
+$(document).ready(function() {
+    updateVars();
+});
 </script>
+
+<style>
+.fleet-step-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+.coords-input-group { display: flex; gap: 10px; justify-content: center; margin-bottom: 1.5rem; }
+.coord-field { display: flex; flex-direction: column; align-items: center; }
+.coord-field label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
+.coord-field input { width: 70px; font-size: 1.2rem; font-family: monospace; }
+
+.target-type-selector { margin-bottom: 1.5rem; }
+.fleet-status-info { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; margin-bottom: 1.5rem; }
+.info-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+.info-row:last-child { border-bottom: none; }
+
+.speed-slider-box { text-align: center; }
+.glass-range { width: 100%; margin-top: 10px; accent-color: var(--primary); }
+
+.shortcut-group h4 { font-size: 0.9rem; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; }
+.shortcut-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.shortcut-chip { 
+    background: rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    border-radius: 6px; 
+    padding: 8px; 
+    cursor: pointer; 
+    transition: 0.2s; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+}
+.shortcut-chip:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+.shortcut-chip.acs { border-color: var(--warning); }
+.shortcut-chip.acs:hover { background: var(--warning); }
+
+.chip-name { font-weight: bold; font-size: 0.85rem; margin-bottom: 2px; }
+.chip-coord { font-family: monospace; font-size: 0.75rem; opacity: 0.8; }
+
+.mt-3 { margin-top: 1.5rem; }
+
+@media (max-width: 900px) {
+    .fleet-step-grid { grid-template-columns: 1fr; }
+}
+</style>
 {% endblock %}

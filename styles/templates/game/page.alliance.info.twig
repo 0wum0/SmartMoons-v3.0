@@ -3,276 +3,93 @@
 {% block title %}{{ LNG.lm_alliance }}{% endblock %}
 {% block content %}
 
-<div class="content_page">
-	<!-- Alliance Header -->
-	<div class="alliance-header">
-		{% if ally_image %}
-		<img src="{{ ally_image }}" alt="{{ ally_tag }}" 
-			 style="max-width: 100%; height: auto; border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);">
-		{% endif %}
-		
-		<div class="alliance-tag">[{{ ally_tag }}]</div>
-		<div class="alliance-name">{{ ally_name }}</div>
-		
-		<div class="alliance-stats">
-			<div class="alliance-stat-item">
-				<span class="alliance-stat-value">{{ ally_member_scount }}</span>
-				<span class="alliance-stat-label">{{ LNG.al_members }}</span>
-			</div>
-			<div class="alliance-stat-item">
-				<span class="alliance-stat-value">{{ ally_max_members }}</span>
-				<span class="alliance-stat-label">{{ LNG.al_max_members }}</span>
-			</div>
-		</div>
-	</div>
+<div class="aerospace-container">
+    
+    <div class="glass-panel public-ally-header">
+        <div class="public-banner-content">
+            {% if ally_image %}
+                <img src="{{ ally_image }}" class="public-ally-logo">
+            {% else %}
+                <div class="public-logo-placeholder">{{ ally_tag }}</div>
+            {% endif %}
+            
+            <div class="public-ally-info">
+                <h1 class="public-name">{{ ally_name }} <span class="text-highlight">[{{ ally_tag }}]</span></h1>
+                <div class="public-stats">
+                    <span><i class="fas fa-users"></i> {{ ally_member_scount }} {{ LNG.al_members }}</span>
+                </div>
+                
+                <div class="public-actions">
+                     {% if ally_request %}
+                        <a href="game.php?page=alliance&amp;mode=apply&amp;id={{ ally_id }}" class="btn-action-glow">
+                            <i class="fas fa-pen-fancy"></i> {{ LNG.al_apply }}
+                        </a>
+                     {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Alliance Information -->
-	<div class="sci-card sci-card--elevated sci-mb-lg">
-		<div class="sci-card__header">
-			<h3 class="sci-card__title">
-				<i class="fas fa-info-circle"></i> {{ LNG.al_ally_information }}
-			</h3>
-		</div>
-		<div class="sci-card__body">
-			<div class="sci-grid sci-grid--2" style="gap: var(--spacing-md);">
-				<div class="sci-flex-between" style="padding: var(--spacing-md); background: rgba(0, 243, 255, 0.05); border-radius: var(--radius-md); border: 1px solid var(--color-border-primary);">
-					<span class="sci-text-secondary">{{ LNG.al_ally_info_tag }}</span>
-					<span class="sci-text-cyan" style="font-weight: 700; font-size: 1.25rem;">{{ ally_tag }}</span>
-				</div>
-				
-				<div class="sci-flex-between" style="padding: var(--spacing-md); background: rgba(0, 243, 255, 0.05); border-radius: var(--radius-md); border: 1px solid var(--color-border-primary);">
-					<span class="sci-text-secondary">{{ LNG.al_ally_info_name }}</span>
-					<span class="sci-text-primary" style="font-weight: 600;">{{ ally_name }}</span>
-				</div>
-			</div>
-			
-			{% if ally_request %}
-			<div class="sci-card sci-mt-md" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05)); border: 1px solid var(--color-accent-green);">
-				<div class="sci-flex-between">
-					<span class="sci-text-green" style="font-weight: 600;">
-						<i class="fas fa-user-plus"></i> {{ LNG.al_request }}
-					</span>
-					{% if ally_request_min_points %}
-					<a href="game.php?page=alliance&amp;mode=apply&amp;id={{ ally_id }}" class="sci-btn sci-btn--success">
-						<i class="fas fa-paper-plane"></i> {{ LNG.al_click_to_send_request }}
-					</a>
-					{% else %}
-					<span class="sci-text-red">{{ ally_request_min_points_info }}</span>
-					{% endif %}
-				</div>
-			</div>
-			{% endif %}
-			
-			<div class="sci-card sci-mt-md" style="padding: var(--spacing-lg); min-height: 150px; background: var(--color-bg-elevated); border: 1px solid var(--color-border-primary);">
-				<h4 class="sci-text-cyan sci-mb-md">
-					<i class="fas fa-file-alt"></i> {{ LNG.al_description }}
-				</h4>
-				<div class="sci-text-secondary" style="line-height: 1.8;">
-					{% if ally_description %}
-						{{ ally_description|nl2br|raw }}
-					{% else %}
-						<span class="sci-text-muted">{{ LNG.al_description_message }}</span>
-					{% endif %}
-				</div>
-			</div>
-			
-			{% if ally_web %}
-			<div class="sci-flex-between sci-mt-md" style="padding: var(--spacing-md); background: rgba(0, 243, 255, 0.05); border-radius: var(--radius-md); border: 1px solid var(--color-border-primary);">
-				<span class="sci-text-secondary">
-					<i class="fas fa-globe"></i> {{ LNG.al_web_text }}
-				</span>
-				<a href="{{ ally_web }}" target="_blank" class="sci-text-cyan" style="text-decoration: none;">
-					{{ ally_web }} <i class="fas fa-external-link-alt" style="font-size: 0.75rem;"></i>
-				</a>
-			</div>
-			{% endif %}
-		</div>
-	</div>
+    <div class="ally-grid">
+        
+        <div class="glass-panel">
+            <div class="panel-header"><i class="fas fa-quote-left"></i> {{ LNG.al_description }}</div>
+            <div class="ally-text-content public-desc">
+                {{ ally_description|raw }}
+            </div>
+        </div>
 
-	<!-- Diplomacy -->
-	{% if diplomaticData %}
-	<div class="sci-card sci-card--elevated sci-mb-lg">
-		<div class="sci-card__header">
-			<h3 class="sci-card__title">
-				<i class="fas fa-handshake"></i> {{ LNG.al_diplo }}
-			</h3>
-		</div>
-		<div class="sci-card__body">
-			{% if diplomaticData.0 or diplomaticData.1 or diplomaticData.2 or diplomaticData.3 or diplomaticData.4 %}
-			<div class="sci-grid sci-grid--2" style="gap: var(--spacing-lg);">
-				{% if diplomaticData.0 %}
-				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05)); border: 1px solid var(--color-accent-green); margin-bottom: 0;">
-					<h4 class="sci-text-green sci-mb-md">
-						<i class="fas fa-shield-alt"></i> {{ LNG.al_diplo_level.0 }}
-					</h4>
-					{% for PaktInfo in diplomaticData.0 %}
-					<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}" 
-					   class="sci-btn sci-btn--ghost sci-mb-sm" 
-					   style="width: 100%; justify-content: flex-start;">
-						<i class="fas fa-users"></i> {{ PaktInfo.0 }}
-					</a>
-					{% endfor %}
-				</div>
-				{% endif %}
-				
-				{% if diplomaticData.1 %}
-				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(0, 102, 255, 0.05)); border: 1px solid var(--color-accent-cyan); margin-bottom: 0;">
-					<h4 class="sci-text-cyan sci-mb-md">
-						<i class="fas fa-hands-helping"></i> {{ LNG.al_diplo_level.1 }}
-					</h4>
-					{% for PaktInfo in diplomaticData.1 %}
-					<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}" 
-					   class="sci-btn sci-btn--ghost sci-mb-sm" 
-					   style="width: 100%; justify-content: flex-start;">
-						<i class="fas fa-users"></i> {{ PaktInfo.0 }}
-					</a>
-					{% endfor %}
-				</div>
-				{% endif %}
-				
-				{% if diplomaticData.2 %}
-				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05)); border: 1px solid var(--color-accent-yellow); margin-bottom: 0;">
-					<h4 class="sci-text-yellow sci-mb-md">
-						<i class="fas fa-balance-scale"></i> {{ LNG.al_diplo_level.2 }}
-					</h4>
-					{% for PaktInfo in diplomaticData.2 %}
-					<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}" 
-					   class="sci-btn sci-btn--ghost sci-mb-sm" 
-					   style="width: 100%; justify-content: flex-start;">
-						<i class="fas fa-users"></i> {{ PaktInfo.0 }}
-					</a>
-					{% endfor %}
-				</div>
-				{% endif %}
-				
-				{% if diplomaticData.3 %}
-				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(247, 115, 22, 0.1), rgba(194, 65, 12, 0.05)); border: 1px solid var(--color-accent-orange); margin-bottom: 0;">
-					<h4 class="sci-text-orange sci-mb-md">
-						<i class="fas fa-user-slash"></i> {{ LNG.al_diplo_level.3 }}
-					</h4>
-					{% for PaktInfo in diplomaticData.3 %}
-					<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}" 
-					   class="sci-btn sci-btn--ghost sci-mb-sm" 
-					   style="width: 100%; justify-content: flex-start;">
-						<i class="fas fa-users"></i> {{ PaktInfo.0 }}
-					</a>
-					{% endfor %}
-				</div>
-				{% endif %}
-				
-				{% if diplomaticData.4 %}
-				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05)); border: 1px solid var(--color-accent-red); margin-bottom: 0;">
-					<h4 class="sci-text-red sci-mb-md">
-						<i class="fas fa-skull-crossbones"></i> {{ LNG.al_diplo_level.4 }}
-					</h4>
-					{% for PaktInfo in diplomaticData.4 %}
-					<a href="?page=alliance&mode=info&amp;id={{ PaktInfo.1 }}" 
-					   class="sci-btn sci-btn--ghost sci-mb-sm" 
-					   style="width: 100%; justify-content: flex-start;">
-						<i class="fas fa-users"></i> {{ PaktInfo.0 }}
-					</a>
-					{% endfor %}
-				</div>
-				{% endif %}
-			</div>
-			{% else %}
-			<div class="sci-text-center sci-text-muted" style="padding: var(--spacing-xl);">
-				<i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: var(--spacing-md); opacity: 0.3;"></i>
-				<div>{{ LNG.al_no_diplo }}</div>
-			</div>
-			{% endif %}
-		</div>
-	</div>
-	{% endif %}
+        <div class="ally-col-right">
+            
+            <div class="glass-panel">
+                <div class="panel-header">{{ LNG.pl_fightstats }}</div>
+                <div class="stats-list">
+                     <div class="stat-row">
+                         <span>{{ LNG.pl_totalfight }}</span>
+                         <span class="text-highlight">{{ statisticData.totalfight|number_format }}</span>
+                     </div>
+                     <div class="stat-row">
+                         <span>{{ LNG.pl_fightwon }}</span>
+                         <span class="text-success">{{ statisticData.fightwon|number_format }}</span>
+                     </div>
+                     <div class="stat-row">
+                         <span>{{ LNG.pl_fightlose }}</span>
+                         <span class="text-danger">{{ statisticData.fightlose|number_format }}</span>
+                     </div>
+                     <div class="stat-row">
+                         <span>{{ LNG.pl_fightdraw }}</span>
+                         <span class="text-warning">{{ statisticData.fightdraw|number_format }}</span>
+                     </div>
+                 </div>
+            </div>
 
-	<!-- Fight Statistics -->
-	{% if statisticData %}
-	<div class="sci-card sci-card--elevated">
-		<div class="sci-card__header">
-			<h3 class="sci-card__title">
-				<i class="fas fa-crosshairs"></i> {{ LNG.pl_fightstats }}
-			</h3>
-		</div>
-		<div class="sci-card__body">
-			<div class="sci-grid sci-grid--3" style="gap: var(--spacing-md);">
-				<div class="alliance-stat-item">
-					<span class="alliance-stat-value">{{ statisticData.totalfight|number_format }}</span>
-					<span class="alliance-stat-label">{{ LNG.pl_totalfight }}</span>
-				</div>
-				
-				<div class="alliance-stat-item" style="border-color: var(--color-accent-green);">
-					<span class="alliance-stat-value" style="color: var(--color-accent-green);">
-						{{ statisticData.fightwon|number_format }}
-					</span>
-					<span class="alliance-stat-label">
-						{{ LNG.pl_fightwon }}
-						{% if statisticData.totalfight %}
-						<br><span class="sci-text-green">({{ ((statisticData.fightwon / statisticData.totalfight * 100)|round(2)) }}%)</span>
-						{% endif %}
-					</span>
-				</div>
-				
-				<div class="alliance-stat-item" style="border-color: var(--color-accent-red);">
-					<span class="alliance-stat-value" style="color: var(--color-accent-red);">
-						{{ statisticData.fightlose|number_format }}
-					</span>
-					<span class="alliance-stat-label">
-						{{ LNG.pl_fightlose }}
-						{% if statisticData.totalfight %}
-						<br><span class="sci-text-red">({{ ((statisticData.fightlose / statisticData.totalfight * 100)|round(2)) }}%)</span>
-						{% endif %}
-					</span>
-				</div>
-				
-				<div class="alliance-stat-item" style="border-color: var(--color-accent-yellow);">
-					<span class="alliance-stat-value" style="color: var(--color-accent-yellow);">
-						{{ statisticData.fightdraw|number_format }}
-					</span>
-					<span class="alliance-stat-label">
-						{{ LNG.pl_fightdraw }}
-						{% if statisticData.totalfight %}
-						<br><span class="sci-text-yellow">({{ ((statisticData.fightdraw / statisticData.totalfight * 100)|round(2)) }}%)</span>
-						{% endif %}
-					</span>
-				</div>
-				
-				<div class="alliance-stat-item">
-					<span class="alliance-stat-value">{{ statisticData.unitsshot|number_format }}</span>
-					<span class="alliance-stat-label">{{ LNG.pl_unitsshot }}</span>
-				</div>
-				
-				<div class="alliance-stat-item">
-					<span class="alliance-stat-value">{{ statisticData.unitslose|number_format }}</span>
-					<span class="alliance-stat-label">{{ LNG.pl_unitslose }}</span>
-				</div>
-			</div>
-			
-			<div class="sci-grid sci-grid--2 sci-mt-lg" style="gap: var(--spacing-md);">
-				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(156, 163, 175, 0.1), rgba(107, 114, 128, 0.05)); border: 1px solid #9ca3af; margin-bottom: 0;">
-					<div class="sci-flex-between">
-						<span class="sci-text-secondary">
-							<i class="fas fa-database"></i> {{ LNG.pl_dermetal }}
-						</span>
-						<span class="sci-text-primary" style="font-weight: 700; font-size: 1.25rem;">
-							{{ statisticData.dermetal|number_format }}
-						</span>
-					</div>
-				</div>
-				
-				<div class="sci-card" style="padding: var(--spacing-md); background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05)); border: 1px solid #3b82f6; margin-bottom: 0;">
-					<div class="sci-flex-between">
-						<span class="sci-text-secondary">
-							<i class="fas fa-gem"></i> {{ LNG.pl_dercrystal }}
-						</span>
-						<span class="sci-text-primary" style="font-weight: 700; font-size: 1.25rem;">
-							{{ statisticData.dercrystal|number_format }}
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{% endif %}
+            <div class="glass-panel">
+                <div class="info-list">
+                    {% if ally_web %}
+                    <div class="info-row">
+                         <span>{{ LNG.al_web_site }}</span>
+                         <a href="{{ ally_web }}" target="_blank"><i class="fas fa-external-link-alt"></i> {{ LNG.al_goto_website }}</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
 
+<style>
+/* Public Ally Page */
+.public-ally-header { padding: 2rem; display: flex; align-items: center; gap: 2rem; background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3)); }
+.public-banner-content { display: flex; align-items: center; gap: 2rem; width: 100%; }
+
+.public-ally-logo { width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); }
+.public-logo-placeholder { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); font-size: 1.5rem; border-radius: 10px; color: var(--text-muted); }
+
+.public-ally-info { flex: 1; }
+.public-name { font-size: 2rem; font-family: var(--font-heading); margin: 0 0 10px; }
+.public-stats { color: var(--text-muted); margin-bottom: 1rem; }
+.public-desc { min-height: 200px; }
+</style>
 {% endblock %}

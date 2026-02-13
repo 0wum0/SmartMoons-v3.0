@@ -1,20 +1,38 @@
-{% extends "layout.full.twig" %}
+{% extends "layout.ajax.twig" %}
 
 {% block content %}
-<table style="width:100%;" id="resulttable">
-	<tr>
-		<th>{{ LNG.sh_tag }}</th>
-		<th>{{ LNG.sh_name }}</th>
-		<th>{{ LNG.sh_members }}</th>
-		<th>{{ LNG.sh_points }}</th>
-	</tr>
-	{% for searchRow in searchList %}
-	<tr>
-		<td><a href="game.php?page=alliance&amp;mode=info&amp;tag={{ searchRow.allytag }}">{{ searchRow.allytag }}</a></td>
-		<td>{{ searchRow.allyname }}</td>
-		<td>{{ searchRow.allymembers }}</td>
-		<td>{{ searchRow.allypoints }}</td>
-	</tr>
-	{% endfor %}
-</table>
+<div class="result-list">
+    <div class="result-header-row">
+        <div class="col tag">{{ LNG.sh_tag }}</div>
+        <div class="col name">{{ LNG.sh_name }}</div>
+        <div class="col members">{{ LNG.sh_members }}</div>
+        <div class="col points">{{ LNG.sh_points }}</div>
+    </div>
+
+    {% for searchRow in searchList %}
+    <div class="result-row">
+        <div class="col tag">
+            <a href="game.php?page=alliance&amp;mode=info&amp;tag={{ searchRow.allytag }}" class="ally-link">
+                [{{ searchRow.allytag }}]
+            </a>
+        </div>
+        <div class="col name">{{ searchRow.allyname }}</div>
+        <div class="col members">{{ searchRow.allymembers }}</div>
+        <div class="col points">{{ searchRow.allypoints }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+/* Nutzt dieselben Styles wie player result */
+.result-list { background: rgba(22, 27, 38, 0.9); border-radius: 8px; overflow: hidden; }
+.result-header-row { display: flex; background: rgba(0, 243, 255, 0.1); padding: 10px; font-weight: bold; color: #00f3ff; text-transform: uppercase; font-size: 0.85rem; }
+.result-row { display: flex; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; transition: 0.2s; }
+.result-row:hover { background: rgba(255,255,255,0.03); }
+
+.col { flex: 1; padding: 0 5px; }
+.col.tag { flex: 0.5; font-weight: bold; color: #00f3ff; }
+.col.name { flex: 2; }
+.ally-link { color: #00f3ff; text-decoration: none; }
+</style>
 {% endblock %}

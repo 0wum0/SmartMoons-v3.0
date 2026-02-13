@@ -2,48 +2,140 @@
 
 {% block title %}{{ LNG.lm_fleettrader }}{% endblock %}
 {% block content %}
-<form action="game.php?page=fleetDealer" method="post">
-	<input type="hidden" name="mode" value="send">
 
-	<div class="content_page">
-		<div class="title">
-			{{ LNG.ft_head }}
-		</div>
+<div class="aerospace-container">
+    <div class="glass-panel header-panel">
+        <h2 class="page-title"><i class="fas fa-hand-holding-usd"></i> {{ LNG.ft_head }}</h2>
+    </div>
 
-		<div>
-			<table style="width:100%;">
-		        <tr>
-					<td>
-						<div class="transparent" style="text-align:left;float:left;"><img id="img" alt="" data-src="{{ dpath }}gebaeude/"></div>
-						<div class="transparent" style="text-align:right;float:right;padding:5px">
-							<select name="shipID" id="shipID" onchange="updateVars()">
-								{% for shipID in shipIDs %}
-								<option value="{{ shipID }}">{{ LNG.tech[shipID] }}</option>
-								{% endfor %}
-							</select>
-						</div>
-						<div style="clear:right;margin-top:20px;margin-left:125px;">
-							<h2 id="traderHead"></h2>
-							<p>{{ LNG.ft_count }}: <input type="text" id="count" name="count" onkeyup="Total();"><button onclick="MaxShips();return false;">{{ LNG.ft_max }}</button></p>
-							<p>{{ LNG.tech.901 }}: <span class="res_901_text" id="metal" style="font-weight:800;"></span> &bull; {{ LNG.tech.902 }}: <span class="res_902_text" id="crystal" style="font-weight:800;"></span> &bull; {{ LNG.tech.903 }}: <span class="res_903_text" id="deuterium" style="font-weight:800;"></span> &bull; {{ LNG.tech.921 }}: <span class="res_921_text" id="darkmatter" style="font-weight:800;"></span></p>
-							<p>{{ LNG.ft_total }}: {{ LNG.tech.901 }}: <span class="res_901_text" id="total_metal" style="font-weight:800;"></span> &bull; {{ LNG.tech.902 }}: <span class="res_902_text" id="total_crystal" style="font-weight:800;"></span> &bull; {{ LNG.tech.903 }} <span class="res_903_text" id="total_deuterium" style="font-weight:800;"></span> &bull; {{ LNG.tech.921 }}: <span class="res_921_text" id="total_darkmatter" style="font-weight:800;"></span></�>
-							<p><input type="submit" value="{{ LNG.ft_absenden }}"></p>
-							<p>{{ LNG.ft_charge }}: {{ Charge }}%</p>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
-</form>
-{% endblock %}
-{% block script %}
-<script src="scripts/game/fleettrader.js"></script>
+    <form action="game.php?page=fleetDealer" method="post">
+        <input type="hidden" name="mode" value="send">
+
+        <div class="glass-panel dealer-grid">
+            
+            <div class="dealer-visual">
+                <div class="ship-preview-box">
+                    <img id="img" alt="" data-src="{{ dpath }}gebaeude/" class="ship-img">
+                </div>
+            </div>
+
+            <div class="dealer-controls">
+                
+                <div class="control-group">
+                    <label class="label-highlight">{{ LNG.ft_select_ship }}</label>
+                    <div class="glass-select-wrapper">
+                        <select name="shipID" id="shipID" onchange="updateVars()" class="glass-select full-width">
+                            {% for shipID in shipIDs %}
+                            <option value="{{ shipID }}">{{ LNG.tech[shipID] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3 id="traderHead" class="ship-title"></h3>
+                    <div class="input-action-row">
+                        <span class="label">{{ LNG.ft_count }}:</span>
+                        <input type="text" id="count" name="count" onkeyup="Total();" class="glass-input">
+                        <button onclick="MaxShips();return false;" class="btn-ghost small">{{ LNG.ft_max }}</button>
+                    </div>
+                </div>
+
+                <div class="resource-breakdown">
+                    <div class="res-row">
+                        <img src="{{ dpath }}images/901.gif" alt="Metal">
+                        <span class="res-name">{{ LNG.tech.901 }}:</span>
+                        <span class="res-value" id="metal">0</span>
+                    </div>
+                    <div class="res-row">
+                        <img src="{{ dpath }}images/902.gif" alt="Crystal">
+                        <span class="res-name">{{ LNG.tech.902 }}:</span>
+                        <span class="res-value" id="crystal">0</span>
+                    </div>
+                    <div class="res-row">
+                        <img src="{{ dpath }}images/903.gif" alt="Deuterium">
+                        <span class="res-name">{{ LNG.tech.903 }}:</span>
+                        <span class="res-value" id="deuterium">0</span>
+                    </div>
+                    <div class="res-row highlight">
+                        <img src="{{ dpath }}images/921.gif" alt="Darkmatter">
+                        <span class="res-name">{{ LNG.tech.921 }}:</span>
+                        <span class="res-value" id="darkmatter">0</span>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="total-result">
+                    <div class="total-label">{{ LNG.ft_total }}:</div>
+                    <div class="total-res-grid">
+                        <div class="total-item">
+                            <img src="{{ dpath }}images/901.gif"> <span id="total_metal" class="text-success">0</span>
+                        </div>
+                        <div class="total-item">
+                            <img src="{{ dpath }}images/902.gif"> <span id="total_crystal" class="text-success">0</span>
+                        </div>
+                        <div class="total-item">
+                            <img src="{{ dpath }}images/903.gif"> <span id="total_deuterium" class="text-success">0</span>
+                        </div>
+                        <div class="total-item">
+                            <img src="{{ dpath }}images/921.gif"> <span id="total_darkmatter" class="text-warning">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-area">
+                    <button type="submit" class="btn-action-glow full-width">
+                        <i class="fas fa-exchange-alt"></i> {{ LNG.ft_submit }}
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+/* Dealer Specific Styles */
+.dealer-grid { display: grid; grid-template-columns: 300px 1fr; gap: 2rem; align-items: start; }
+
+.dealer-visual { display: flex; justify-content: center; }
+.ship-preview-box { width: 100%; aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+.ship-img { width: 100%; height: 100%; object-fit: cover; }
+
+.dealer-controls { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.label-highlight { color: var(--primary); font-size: 0.9rem; margin-bottom: 5px; display: block; text-transform: uppercase; }
+.ship-title { font-family: var(--font-heading); font-size: 1.5rem; margin: 0 0 10px 0; color: #fff; }
+
+.input-action-row { display: flex; align-items: center; gap: 10px; }
+.input-action-row .glass-input { flex: 1; }
+
+.resource-breakdown { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; }
+.res-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.res-row:last-child { border-bottom: none; }
+.res-row img { width: 20px; height: 20px; }
+.res-name { color: var(--text-muted); flex: 1; }
+.res-value { font-family: monospace; font-size: 1rem; color: #fff; }
+.res-row.highlight .res-value { color: var(--warning); }
+
+.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); margin: 10px 0; }
+
+.total-label { text-transform: uppercase; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
+.total-res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.total-item { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; }
+.total-item span { font-family: monospace; font-weight: bold; }
+
+.full-width { width: 100%; }
+
+@media (max-width: 900px) {
+    .dealer-grid { grid-template-columns: 1fr; }
+    .ship-preview-box { max-width: 400px; margin: 0 auto; }
+}
+</style>
+
 <script>
-var CostInfo = {{ CostInfos|json_encode }};
-var Charge = {{ Charge }};
-$(function(){
-    updateVars();
-});
+// Integrate with existing game logic vars
+var CostInfo = {{ CostInfo|json_encode|raw }};
 </script>
 {% endblock %}

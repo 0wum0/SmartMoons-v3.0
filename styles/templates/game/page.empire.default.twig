@@ -1,106 +1,232 @@
 {% extends "layout.full.twig" %}
 
 {% block title %}{{ LNG.lm_empire }}{% endblock %}
+
 {% block content %}
+<div class="aerospace-container">
+    
+    <div class="glass-panel title-panel">
+        <h2 class="page-title"><i class="fas fa-sitemap"></i> {{ LNG.lv_imperium_title }}</h2>
+    </div>
 
-<div class="content_page">
-	<div class="title">
-		{{ LNG.lv_imperium_title }}
-	</div>
+    <div class="glass-panel empire-panel">
+        <div class="empire-scroll-wrapper">
+            <table class="empire-table">
+                
+                <thead>
+                    <tr>
+                        <th class="sticky-col sticky-corner">
+                            <div class="corner-box">
+                                <span class="corner-icon"><i class="fas fa-globe"></i></span>
+                            </div>
+                        </th>
+                        <th class="sum-col">
+                            <div class="sum-header">
+                                <span class="sum-symbol">&Sigma;</span>
+                                <span class="sum-label">{{ LNG.lv_total }}</span>
+                            </div>
+                        </th>
+                        {% for planetID, image in planetList.image %}
+                        <th class="planet-col">
+                            <a href="game.php?page=overview&amp;cp={{ planetID }}" class="planet-link">
+                                <img src="{{ dpath }}planeten/small/s_{{ image }}.jpg" alt="" class="planet-thumb">
+                                <div class="planet-overlay"></div>
+                            </a>
+                        </th>
+                        {% endfor %}
+                    </tr>
+                    
+                    <tr class="info-row">
+                        <td class="sticky-col label-cell">{{ LNG.lv_name }}</td>
+                        <td class="sum-cell">-</td>
+                        {% for name in planetList.name %}
+                        <td class="data-cell planet-name">{{ name }}</td>
+                        {% endfor %}
+                    </tr>
 
-	<div>
-		<table>
-			<tbody>
-				<tr>
-					<td style="width:100px">{{ LNG.lv_planet }}</td>
-					<td style="width:100px;font-size: 50px;">&Sigma;</td>
-					{% for planetID, image in planetList.image %}
-					<td style="width:100px"><a href="game.php?page=overview&amp;cp={{ planetID }}"><img width="80" height="80" border="0" src="{{ dpath }}planeten/small/s_{{ image }}.jpg"></a></td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<td>{{ LNG.lv_name }}</td>
-					<td>{{ LNG.lv_total }}</td>
-					{% for name in planetList.name %}
-						<td>{{ name }}</td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<td>{{ LNG.lv_coords }}</td>
-					<td>-</td>
-					{% for coords in planetList.coords %}
-						<td><a href="game.php?page=galaxy&amp;galaxy={{ coords.galaxy }}&amp;system={{ coords.system }}">[{{ coords.galaxy }}:{{ coords.system }}:{{ coords.planet }}]</a></td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<td>{{ LNG.lv_fields }}</td>
-					<td>-</td>
-					{% for field in planetList.field %}
-						<td>{{ field.current }} / {{ field.max }}</td>
-					{% endfor %}
-				</tr>
-				<tr>
-					<th class="title" colspan="{{ colspan }}">{{ LNG.lv_resources }}</th>
-				</tr>
-				{% for elementID, resourceArray in planetList.resource %}
-				<tr>
-					<td>{{ LNG.tech[elementID] }}</td>
-					<td class="res_{{ elementID }}_text">{array_sum(resourceArray)|number_format(0, '.', ',')}</td>
-					{% for planetID, resource in resourceArray %}
-						<td class="res_{{ elementID }}_text">{{ resource|number_format(0, '.', ',') }}</td>
-					{% endfor %}
-				</tr>
-				{% endfor %}
-				<tr>
-					<th class="title" colspan="{{ colspan }}">{{ LNG.lv_buildings }}</th>
-				</tr>
-				{% for elementID, buildArray in planetList.build %}
-				<tr>
-					<td>{{ LNG.tech[elementID] }}</td>
-					<td>{array_sum(buildArray)|number_format(0, '.', ',')}</td>
-					{% for planetID, build in buildArray %}
-						<td>{{ build|number_format(0, '.', ',') }}</td>
-					{% endfor %}
-				</tr>
-				{% endfor %}
-				<tr>
-					<th class="title" colspan="{{ colspan }}">{{ LNG.lv_technology }}</th>
-				</tr>
-				{% for elementID, tech in planetList.tech %}
-				<tr>
-					<td>{{ LNG.tech[elementID] }}</td>
-					<td>{{ tech|number_format(0, '.', ',') }}</td>
-					{% for name in planetList.name %}
-						<td>{{ tech|number_format(0, '.', ',') }}</td>
-					{% endfor %}
-				</tr>
-				{% endfor %}
-				<tr>
-					<th class="title" colspan="{{ colspan }}">{{ LNG.lv_ships }}</th>
-				</tr>
-				{% for elementID, fleetArray in planetList.fleet %}
-				<tr>
-					<td>{{ LNG.tech[elementID] }}</td>
-					<td>{array_sum(fleetArray)|number_format(0, '.', ',')}</td>
-					{% for planetID, fleet in fleetArray %}
-						<td>{{ fleet|number_format(0, '.', ',') }}</td>
-					{% endfor %}
-				</tr>
-				{% endfor %}
-				<tr>
-					<th class="title" colspan="{{ colspan }}">{{ LNG.lv_defenses }}</th>
-				</tr>
-				{% for elementID, fleetArray in planetList.defense %}
-				<tr>
-					<td>{{ LNG.tech[elementID] }}</td>
-					<td>{array_sum(fleetArray)|number_format(0, '.', ',')}</td>
-					{% for planetID, fleet in fleetArray %}
-						<td>{{ fleet|number_format(0, '.', ',') }}</td>
-					{% endfor %}
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
+                    <tr class="info-row">
+                        <td class="sticky-col label-cell">{{ LNG.lv_coords }}</td>
+                        <td class="sum-cell">-</td>
+                        {% for coords in planetList.coords %}
+                        <td class="data-cell">
+                            <a href="game.php?page=galaxy&amp;galaxy={{ coords.galaxy }}&amp;system={{ coords.system }}" class="coord-link">
+                                [{{ coords.galaxy }}:{{ coords.system }}:{{ coords.planet }}]
+                            </a>
+                        </td>
+                        {% endfor %}
+                    </tr>
+
+                    <tr class="info-row">
+                        <td class="sticky-col label-cell">{{ LNG.lv_fields }}</td>
+                        <td class="sum-cell">-</td>
+                        {% for field in planetList.field %}
+                        <td class="data-cell field-data">{{ field.current }} / {{ field.max }}</td>
+                        {% endfor %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="section-header">
+                        <td class="sticky-col section-title" colspan="2">{{ LNG.lv_resources }}</td>
+                        <td colspan="{{ planetList.image|length }}" class="section-spacer"></td>
+                    </tr>
+                    {% for elementID, resourceArray in planetList.resource %}
+                    <tr class="data-row">
+                        <td class="sticky-col row-header">
+                            <div class="tech-label">
+                                <img src="{{ dpath }}images/{{ elementID }}.gif" class="mini-icon">
+                                {{ LNG.tech[elementID] }}
+                            </div>
+                        </td>
+                        <td class="sum-cell text-highlight">{{ array_sum(resourceArray)|number_format(0, '.', ',') }}</td>
+                        {% for planetID, resource in resourceArray %}
+                        <td class="data-cell">{{ resource|number_format(0, '.', ',') }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+
+                    <tr class="section-header">
+                        <td class="sticky-col section-title" colspan="2">{{ LNG.lv_buildings }}</td>
+                        <td colspan="{{ planetList.image|length }}" class="section-spacer"></td>
+                    </tr>
+                    {% for elementID, buildArray in planetList.build %}
+                    <tr class="data-row">
+                        <td class="sticky-col row-header">
+                            <div class="tech-label">
+                                <img src="{{ dpath }}gebaeude/{{ elementID }}.gif" class="mini-icon-rect">
+                                {{ LNG.tech[elementID] }}
+                            </div>
+                        </td>
+                        <td class="sum-cell text-highlight">{{ array_sum(buildArray)|number_format(0, '.', ',') }}</td>
+                        {% for planetID, build in buildArray %}
+                        <td class="data-cell {% if build == 0 %}muted-val{% else %}active-val{% endif %}">
+                            {{ build|number_format(0, '.', ',') }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+
+                    <tr class="section-header">
+                        <td class="sticky-col section-title" colspan="2">{{ LNG.lv_technology }}</td>
+                        <td colspan="{{ planetList.image|length }}" class="section-spacer"></td>
+                    </tr>
+                    {% for elementID, tech in planetList.tech %}
+                    <tr class="data-row">
+                        <td class="sticky-col row-header">
+                            <div class="tech-label">
+                                <img src="{{ dpath }}gebaeude/{{ elementID }}.gif" class="mini-icon-rect">
+                                {{ LNG.tech[elementID] }}
+                            </div>
+                        </td>
+                        <td class="sum-cell text-highlight">{{ tech|number_format(0, '.', ',') }}</td>
+                        {% for name in planetList.name %}
+                        <td class="data-cell tech-global">{{ tech|number_format(0, '.', ',') }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+
+                    <tr class="section-header">
+                        <td class="sticky-col section-title" colspan="2">{{ LNG.lv_ships }}</td>
+                        <td colspan="{{ planetList.image|length }}" class="section-spacer"></td>
+                    </tr>
+                    {% for elementID, fleetArray in planetList.fleet %}
+                    {% if array_sum(fleetArray) > 0 %}
+                    <tr class="data-row">
+                        <td class="sticky-col row-header">
+                            <div class="tech-label">
+                                <img src="{{ dpath }}gebaeude/{{ elementID }}.gif" class="mini-icon-rect">
+                                {{ LNG.tech[elementID] }}
+                            </div>
+                        </td>
+                        <td class="sum-cell text-highlight">{{ array_sum(fleetArray)|number_format(0, '.', ',') }}</td>
+                        {% for planetID, fleet in fleetArray %}
+                        <td class="data-cell {% if fleet == 0 %}muted-val{% endif %}">
+                            {{ fleet|number_format(0, '.', ',') }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+
+                    <tr class="section-header">
+                        <td class="sticky-col section-title" colspan="2">{{ LNG.lv_defenses }}</td>
+                        <td colspan="{{ planetList.image|length }}" class="section-spacer"></td>
+                    </tr>
+                    {% for elementID, defenseArray in planetList.defense %}
+                    {% if array_sum(defenseArray) > 0 %}
+                    <tr class="data-row">
+                        <td class="sticky-col row-header">
+                            <div class="tech-label">
+                                <img src="{{ dpath }}gebaeude/{{ elementID }}.gif" class="mini-icon-rect">
+                                {{ LNG.tech[elementID] }}
+                            </div>
+                        </td>
+                        <td class="sum-cell text-highlight">{{ array_sum(defenseArray)|number_format(0, '.', ',') }}</td>
+                        {% for planetID, defense in defenseArray %}
+                        <td class="data-cell {% if defense == 0 %}muted-val{% endif %}">
+                            {{ defense|number_format(0, '.', ',') }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+<style>
+/* EMPIRE SPECIFIC STYLES */
+.empire-panel { padding: 0; overflow: hidden; }
+.empire-scroll-wrapper { overflow-x: auto; max-width: 100%; }
+
+.empire-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+
+/* Sticky Columns (Corner & Row Headers) */
+.sticky-col {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background: var(--bg-deep); /* Fallback */
+    background: rgba(5, 7, 10, 0.95);
+    backdrop-filter: blur(5px);
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+.sticky-corner { z-index: 20; top: 0; min-width: 200px; }
+
+/* Column Headers */
+.planet-col { min-width: 100px; padding: 10px; background: rgba(0,0,0,0.2); }
+.planet-thumb { width: 60px; height: 60px; border-radius: 50%; border: 2px solid transparent; transition: 0.3s; }
+.planet-col:hover .planet-thumb { border-color: var(--primary); transform: scale(1.1); box-shadow: 0 0 10px var(--primary); }
+
+.sum-col { min-width: 80px; background: rgba(0,243,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); }
+.sum-header { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--primary); }
+.sum-symbol { font-size: 1.5rem; }
+.sum-label { font-size: 0.7rem; text-transform: uppercase; }
+
+/* Rows */
+.info-row td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; color: var(--text-muted); text-align: center; }
+.label-cell { text-align: left; padding-left: 15px !important; font-weight: bold; color: #fff; }
+
+.section-header { background: linear-gradient(90deg, rgba(0,243,255,0.1), transparent); }
+.section-title { padding: 10px 15px !important; font-family: var(--font-heading); color: var(--primary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
+
+.data-row:hover { background: rgba(255,255,255,0.03); }
+.row-header { padding: 8px 15px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+.tech-label { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #eee; }
+.mini-icon { width: 20px; height: 20px; }
+.mini-icon-rect { width: 30px; height: 20px; object-fit: cover; border-radius: 2px; }
+
+.data-cell { text-align: center; padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.02); color: #fff; font-family: monospace; font-size: 0.9rem; }
+.sum-cell { text-align: center; font-weight: bold; color: var(--primary); border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.02); font-family: monospace; }
+
+.active-val { color: var(--success); }
+.muted-val { color: rgba(255,255,255,0.1); }
+.tech-global { color: var(--secondary); }
+
+.coord-link { color: var(--text-muted); text-decoration: none; }
+.coord-link:hover { color: #fff; }
+</style>
 {% endblock %}

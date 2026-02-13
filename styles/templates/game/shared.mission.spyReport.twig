@@ -1,21 +1,88 @@
-<div class="spyRaport">
-	<div class="spyRaportHead">
-		<a href="game.php?page=galaxy&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}">{{ title }}</a>
-	</div>
-	{% for Class, elementIDs in spyData %}
-	<div class="spyRaportContainer">
-	<div class="spyRaportContainerHead spyRaportContainerHeadClass{{ Class }}">{{ LNG.tech[Class] }}</div>
-	{% for elementID, amount in elementIDs %}
-	{% if (loop.index % 2) == 1 %}<div class="spyRaportContainerRow clearfix">{% endif %}
-		<div class="spyRaportContainerCell">{{ LNG.tech[elementID] }}</div>
-		<div class="spyRaportContainerCell">{{ amount|number_format }}</div>
-	{% if (loop.index % 2) == 0 %}</div>{% endif %}
-	{% endfor %}
-	</div>
-	{% endfor %}
-	<div class="spyRaportFooter">
-		<a href="game.php?page=fleetTable&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission=1">{{ LNG.type_mission_1 }}</a>
-		<br>{% if targetChance >= spyChance %}{{ LNG.sys_mess_spy_destroyed }}{% else %}{{ sprintf(LNG.sys_mess_spy_lostproba, targetChance) }}{% endif %}
-		{% if isBattleSim %}<br><a href="game.php?page=battleSimulator{% for Class, elementIDs in spyData %}{% for elementID, amount in elementIDs %}&amp;im[{{ elementID }}]={{ amount }}{% endfor %}{% endfor %}">{{ LNG.fl_simulate }}</a>{% endif %}
-	</div>
+<div class="aerospace-spy-report">
+    <div class="spy-header">
+        <i class="fas fa-user-secret"></i>
+        <a href="game.php?page=galaxy&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}">{{ title }}</a>
+    </div>
+
+    <div class="spy-content">
+        {% for Class, elementIDs in spyData %}
+        <div class="spy-section">
+            <div class="section-head">{{ LNG.tech[Class] }}</div>
+            <div class="section-grid">
+                {% for elementID, amount in elementIDs %}
+                <div class="spy-item">
+                    <span class="item-name">{{ LNG.tech[elementID] }}</span>
+                    <span class="item-amount">{{ amount|number_format }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="spy-footer">
+        <div class="action-links">
+            <a href="game.php?page=fleetTable&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission=1" class="btn-attack">
+                <i class="fas fa-crosshairs"></i> {{ LNG.type_mission_1 }}
+            </a>
+            {% if isBattleSim %}
+            <a href="game.php?page=battleSimulator{% for Class, elementIDs in spyData %}{% for elementID, amount in elementIDs %}&amp;im[{{ elementID }}]={{ amount }}{% endfor %}{% endfor %}" class="btn-sim">
+                <i class="fas fa-gamepad"></i> {{ LNG.fl_simulate }}
+            </a>
+            {% endif %}
+        </div>
+        <div class="spy-chance">
+            {% if targetChance >= spyChance %}
+                <span style="color: #e74c3c;">{{ LNG.sys_mess_spy_destroyed }}</span>
+            {% else %}
+                {{ sprintf(LNG.sys_mess_spy_lostproba, targetChance) }}
+            {% endif %}
+        </div>
+    </div>
 </div>
+
+<style>
+.aerospace-spy-report {
+    background: #0d111a; color: #ccc;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    padding: 15px; border: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.spy-header {
+    font-size: 1.2rem; font-weight: bold; color: #00f3ff;
+    border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 15px;
+    display: flex; align-items: center; gap: 10px;
+}
+.spy-header a { color: #00f3ff; text-decoration: none; }
+
+.spy-section { margin-bottom: 15px; background: rgba(255,255,255,0.03); border-radius: 4px; overflow: hidden; }
+.section-head {
+    background: rgba(0, 243, 255, 0.1); color: #fff; font-weight: bold;
+    padding: 8px 10px; font-size: 0.9rem; text-transform: uppercase;
+}
+
+.section-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.05);
+}
+.spy-item {
+    background: #0d111a; padding: 8px 10px; display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+}
+.item-name { color: #aaa; }
+.item-amount { color: #fff; font-weight: bold; font-family: monospace; }
+
+.spy-footer { margin-top: 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+
+.action-links { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+.btn-attack, .btn-sim {
+    padding: 6px 15px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.9rem;
+    display: inline-flex; align-items: center; gap: 5px;
+}
+.btn-attack { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
+.btn-attack:hover { background: #e74c3c; color: #fff; }
+
+.btn-sim { background: rgba(52, 152, 219, 0.2); color: #3498db; border: 1px solid #3498db; }
+.btn-sim:hover { background: #3498db; color: #fff; }
+
+.spy-chance { font-size: 0.8rem; color: #888; }
+</style>

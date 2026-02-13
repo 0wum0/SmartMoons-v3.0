@@ -4,32 +4,148 @@
 {% block content %}
 
 <div class="content_page">
-	<div class="title">
-		{{ LNG.st_statistics }} ({{ LNG.st_updated }}: {{ stat_date }})
-	</div>
+    <div class="aerospace-wrapper">
+        
+        <div class="glass-panel header-panel">
+            <h2 class="page-title"><i class="fas fa-chart-line"></i> {{ LNG.st_statistics }}</h2>
+            <div class="update-info">{{ LNG.st_updated }}: {{ stat_date }}</div>
+        </div>
 
-	<div>
-		<form name="stats" id="stats" method="post" action="">
-			<table style="width: 100%; text-align: center;">
-				<tr>
-					<td style="padding: 10px;">
-						<span style="margin-right: 10px;"><label for="who">{{ LNG.st_show }}</label> <select name="who" id="who" onchange="$('#stats').submit();"><!-- TODO: Complex html_options - needs manual review --></select></span>
-						<span style="margin-right: 10px;"><label for="type">{{ LNG.st_per }}</label> <select name="type" id="type" onchange="$('#stats').submit();"><!-- TODO: Complex html_options - needs manual review --></select></span>
-						<span><label for="range">{{ LNG.st_in_the_positions }}</label> <select name="range" id="range" onchange="$('#stats').submit();"><!-- TODO: Complex html_options - needs manual review --></select></span>
-					</td>
-				</tr>
-			</table>
-		</form>
-	</div>
+        <div class="glass-panel filter-panel">
+            <form name="stats" id="stats" method="post" action="">
+                <div class="filter-group">
+                    <label>{{ LNG.st_show }}</label>
+                    <select name="who" class="glass-select" onchange="$('#stats').submit();">
+                        {% for key, val in Selectors.who %}
+                            <option value="{{ key }}" {% if key == who %}selected{% endif %}>{{ val }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>{{ LNG.st_per }}</label>
+                    <select name="type" class="glass-select" onchange="$('#stats').submit();">
+                        {% for key, val in Selectors.type %}
+                            <option value="{{ key }}" {% if key == type %}selected{% endif %}>{{ val }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>{{ LNG.st_in_the_positions }}</label>
+                    <select name="range" class="glass-select" onchange="$('#stats').submit();">
+                        {% for key, val in Selectors.range %}
+                            <option value="{{ key }}" {% if key == range %}selected{% endif %}>{{ val }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
 
-	<div>
-		<table style="width: 100%;">
-			{% if who == 1 %}
-				{% include "shared.statistics.playerTable.twig" %}
-			{% elseif who == 2 %}
-				{% include "shared.statistics.allianceTable.twig" %}
-			{% endif %}
-		</table>
-	</div>
+        <div class="glass-panel list-container">
+            <table class="stat-table">
+                <thead>
+                    <tr>
+                        {% if who == 1 %}
+                            <th class="col-rank">#</th>
+                            <th class="col-name">{{ LNG.st_player }}</th>
+                            <th class="col-msg"></th>
+                            <th class="col-ally">{{ LNG.st_alliance }}</th>
+                            <th class="col-points">{{ LNG.st_points }}</th>
+                        {% elseif who == 2 %}
+                            <th class="col-rank">#</th>
+                            <th class="col-name">{{ LNG.st_alliance }}</th>
+                            <th class="col-members">{{ LNG.st_members }}</th>
+                            <th class="col-points">{{ LNG.st_points }}</th>
+                            <th class="col-avg">{{ LNG.st_per_member }}</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if who == 1 %}
+                        {% include "shared.statistics.playerTable.twig" %}
+                    {% elseif who == 2 %}
+                        {% include "shared.statistics.allianceTable.twig" %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    // Popup Links reparieren
+    $('.stat-table a').each(function() {
+        if($(this).attr('onclick')) return;
+        var href = $(this).attr('href');
+        if(href && href.includes('page=playerCard')) {
+            var id = href.match(/id=(\d+)/)[1];
+            $(this).attr('onclick', 'return Dialog.Playercard('+id+');').attr('href', '#');
+        }
+    });
+});
+</script>
+
+<style>
+.aerospace-wrapper { width: 100%; padding: 15px; box-sizing: border-box; }
+
+/* Header & Filter Style */
+.header-panel { display: flex; justify-content: space-between; align-items: center; padding: 20px; margin-bottom: 20px; background: rgba(16, 20, 28, 0.8); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 8px; }
+.page-title { margin: 0; color: #fff; font-size: 1.5rem; text-transform: uppercase; }
+.update-info { color: #888; font-size: 0.9rem; }
+
+.filter-panel { background: rgba(22, 27, 38, 0.9); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+#stats { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+.filter-group { display: flex; flex-direction: column; gap: 5px; min-width: 180px; }
+.filter-group label { font-size: 0.8rem; color: #00f3ff; font-weight: bold; }
+.glass-select { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px; border-radius: 4px; outline: none; }
+.glass-select option { background: #111; }
+
+/* LIST DESIGN (TABLE) */
+.list-container { background: rgba(22, 27, 38, 0.9); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden; }
+
+.stat-table { width: 100%; border-collapse: collapse; }
+
+.stat-table th { 
+    background: rgba(0, 243, 255, 0.1); 
+    color: #00f3ff; 
+    padding: 15px; 
+    text-align: left; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.stat-table td { 
+    padding: 12px 15px; 
+    border-bottom: 1px solid rgba(255,255,255,0.05); 
+    color: #ccc;
+    font-size: 0.95rem;
+}
+
+.stat-table tr:hover { background: rgba(0, 243, 255, 0.05); }
+
+/* Spaltenbreiten & Ausrichtung */
+.col-rank { width: 60px; text-align: center !important; font-weight: bold; color: #aaa; }
+.stat-table td:nth-child(1) { text-align: center; } /* Rang Daten */
+
+.col-name { width: 35%; color: #fff; font-weight: bold; }
+.col-msg { width: 40px; text-align: center; }
+.col-ally { width: 25%; }
+
+.col-points { width: 20%; text-align: right !important; }
+.stat-table td:last-child { text-align: right; font-family: monospace; color: #2ecc71; font-size: 1.1rem; }
+
+.col-members, .col-avg { text-align: center !important; }
+
+/* Links & Icons */
+.stat-table a { color: #fff; text-decoration: none; transition: 0.2s; }
+.stat-table a:hover { color: #00f3ff; }
+.fa-envelope { color: #666; font-size: 14px; transition: 0.2s; }
+.fa-envelope:hover { color: #fff; }
+
+/* Eigener Rang */
+.my-rank { background: rgba(0, 243, 255, 0.15) !important; border-left: 3px solid #00f3ff; }
+</style>
 {% endblock %}

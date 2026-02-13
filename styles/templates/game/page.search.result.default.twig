@@ -1,24 +1,61 @@
-{% extends "layout.full.twig" %}
+{% extends "layout.ajax.twig" %}
 
 {% block content %}
-<table style="width:100%;" id="resulttable">
-	<tr>
-		<th>{{ LNG.sh_name }}</th>
-		<th> </th>
-		<th>{{ LNG.sh_alliance }}</th>
-		<th>{{ LNG.sh_planet }}</th>
-		<th>{{ LNG.sh_coords }}</th>
-		<th>{{ LNG.sh_position }}</th>
-	</tr>
-	{% for searchRow in searchList %}
-	<tr>
-		<td><a href="#" onclick="return Dialog.Playercard({{ searchRow.userid }});">{{ searchRow.username }}</a></td>
-		<td><a href="#" onclick="return Dialog.PM({{ searchRow.userid }});" title="{{ LNG.sh_write_message }}"><i class="far fa-envelope" title="Message privé" style="font-size: 15px;"></i></a> <a href="#" onclick="return Dialog.Buddy({{ searchRow.userid }});" title="{{ LNG.sh_buddy_request }}"><i class="far fa-handshake" style="font-size: 15px;"></i></a></td>
-		<td>{% if searchRow.allyname %}<a href="game.php?page=alliance&amp;mode=info&amp;id={{ searchRow.allyid }}">{{ searchRow.allyname }}</a>{% else %}-{% endif %}</td>
-		<td>{{ searchRow.planetname }}</td>
-		<td><a href="game.php?page=galaxy&amp;galaxy={{ searchRow.galaxy }}&amp;system={{ searchRow.system }}">[{{ searchRow.galaxy }}:{{ searchRow.system }}:{{ searchRow.planet }}]</a></td>
-		<td>{{ searchRow.rank }}</td>
-	</tr>
-	{% endfor %}
-</table>
+<div class="result-list">
+    <div class="result-header-row">
+        <div class="col name">{{ LNG.sh_name }}</div>
+        <div class="col actions"></div>
+        <div class="col ally">{{ LNG.sh_alliance }}</div>
+        <div class="col planet">{{ LNG.sh_planet }}</div>
+        <div class="col coords">{{ LNG.sh_coords }}</div>
+        <div class="col rank">{{ LNG.sh_position }}</div>
+    </div>
+
+    {% for searchRow in searchList %}
+    <div class="result-row">
+        <div class="col name">
+            <a href="#" onclick="return Dialog.Playercard({{ searchRow.userid }});" class="user-link">{{ searchRow.username }}</a>
+        </div>
+        <div class="col actions">
+            <a href="#" onclick="return Dialog.PM({{ searchRow.userid }});" class="btn-icon" title="{{ LNG.sh_write_message }}">
+                <i class="far fa-envelope"></i>
+            </a>
+            <a href="#" onclick="return Dialog.Buddy({{ searchRow.userid }});" class="btn-icon" title="{{ LNG.sh_buddy_request }}">
+                <i class="far fa-handshake"></i>
+            </a>
+        </div>
+        <div class="col ally">
+            {% if searchRow.allyname %}
+                <a href="game.php?page=alliance&amp;mode=info&amp;id={{ searchRow.allyid }}">{{ searchRow.allyname }}</a>
+            {% else %}<span class="text-muted">-</span>{% endif %}
+        </div>
+        <div class="col planet">{{ searchRow.planetname }}</div>
+        <div class="col coords">
+            <a href="game.php?page=galaxy&amp;galaxy={{ searchRow.galaxy }}&amp;system={{ searchRow.system }}" class="coord-link">
+                [{{ searchRow.galaxy }}:{{ searchRow.system }}:{{ searchRow.planet }}]
+            </a>
+        </div>
+        <div class="col rank">#{{ searchRow.rank }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+.result-list { background: rgba(22, 27, 38, 0.9); border-radius: 8px; overflow: hidden; }
+.result-header-row { display: flex; background: rgba(0, 243, 255, 0.1); padding: 10px; font-weight: bold; color: #00f3ff; text-transform: uppercase; font-size: 0.85rem; }
+.result-row { display: flex; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; transition: 0.2s; }
+.result-row:hover { background: rgba(255,255,255,0.03); }
+
+.col { flex: 1; padding: 0 5px; }
+.col.name { flex: 1.5; font-weight: bold; }
+.col.actions { flex: 0.8; display: flex; gap: 5px; }
+.col.coords { font-family: monospace; }
+.col.rank { flex: 0.5; text-align: right; color: #aaa; }
+
+.user-link { color: #fff; text-decoration: none; }
+.btn-icon { color: #ccc; transition: 0.2s; }
+.btn-icon:hover { color: #00f3ff; }
+.coord-link { color: #3498db; text-decoration: none; }
+.text-muted { color: #555; }
+</style>
 {% endblock %}

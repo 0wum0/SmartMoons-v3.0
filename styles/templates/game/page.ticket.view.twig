@@ -3,55 +3,76 @@
 {% block title %}{{ LNG.ti_read }} - {{ LNG.lm_support }}{% endblock %}
 {% block content %}
 
-<form action="game.php?page=ticket&mode=send" method="post" id="form">
-<input type="hidden" name="id" value="{{ ticketID }}">
-	<div class="content_page">
-		{% for answerID, answerRow in answerList %}	
-		{% if loop.first %}
-		<div class="title">
-			{{ LNG.ti_read }} : {{ answerRow.subject }}
-		</div>
-		{% endif %}
-		{% endfor %}
+<div class="content_page">
+    <div class="aerospace-wrapper" style="max-width: 900px; margin: 0 auto;">
+        
+        <div class="glass-panel header-panel">
+            {% for answerID, answerRow in answerList %} 
+                {% if loop.first %}
+                <h2 class="page-title"><i class="fas fa-comment-alt"></i> {{ answerRow.subject }}</h2>
+                <div class="cat-badge">{{ categoryList[answerRow.categoryID] }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
 
-		<div>
-			<table style="width: 100%;">
-			{% for answerID, answerRow in answerList %}	
-			<tr>
-				<td class="left" colspan="2">
-					{{ LNG.ti_msgtime }} <b>{{ answerRow.time }}</b> {{ LNG.ti_from }} <b>{{ answerRow.ownerName }}</b>
-					{% if loop.first %}
-						<br>{{ LNG.ti_category }}: {{ categoryList[answerRow.categoryID] }}
-					{% endif %}
-					<hr>
-					<p>
-						{{ answerRow.message }}
-					</p>
-				</td>
-			</tr>
-			{% endfor %}
-			{% if status < 2 %}
-			<tr>
-				<th colspan="2">{{ LNG.ti_answer }}</th>
-			</tr>
-			<tr>
-				<td style="width:30%"><label for="message">{{ LNG.ti_message }}</label></td>
-				<td style="width:70%"><textarea class="validate[required]" id="message" name="message" rows="60" cols="8" style="height:100px;"></textarea></td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="submit" value="{{ LNG.ti_submit }}"></td>
-			</tr>
-			{% endif %}
-		</table>
-		</div>
-	</div>
-</form>
+        <div class="ticket-stream">
+            {% for answerID, answerRow in answerList %} 
+            <div class="ticket-msg glass-panel">
+                <div class="msg-meta">
+                    <span class="msg-user"><i class="fas fa-user"></i> {{ answerRow.ownerName }}</span>
+                    <span class="msg-time">{{ answerRow.time }}</span>
+                </div>
+                <div class="msg-body">
+                    {{ answerRow.message|nl2br }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if status < 2 %}
+        <div class="glass-panel reply-box">
+            <form action="game.php?page=ticket&mode=send" method="post" id="form">
+                <input type="hidden" name="id" value="{{ ticketID }}">
+                <h3>{{ LNG.ti_answer }}</h3>
+                <textarea class="glass-textarea validate[required]" id="message" name="message" rows="5"></textarea>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">{{ LNG.ti_submit }}</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<style>
+.aerospace-wrapper { width: 100%; padding: 15px; box-sizing: border-box; }
+.header-panel { display: flex; justify-content: space-between; align-items: center; padding: 20px; margin-bottom: 20px; background: rgba(16, 20, 28, 0.9); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 8px; }
+.page-title { margin: 0; color: #fff; font-size: 1.4rem; }
+.cat-badge { background: rgba(0, 243, 255, 0.2); color: #00f3ff; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; border: 1px solid rgba(0, 243, 255, 0.3); }
+
+.ticket-stream { display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px; }
+.ticket-msg { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; }
+
+.msg-meta { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; margin-bottom: 10px; font-size: 0.9rem; color: #aaa; }
+.msg-user { font-weight: bold; color: #fff; }
+.msg-body { line-height: 1.5; color: #ddd; }
+
+.reply-box { background: rgba(16, 20, 28, 0.95); padding: 20px; border-radius: 8px; border: 1px solid rgba(0, 243, 255, 0.2); }
+.reply-box h3 { color: #00f3ff; margin-top: 0; }
+
+.glass-textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px; border-radius: 4px; box-sizing: border-box; }
+.glass-textarea:focus { border-color: #00f3ff; outline: none; }
+
+.form-actions { margin-top: 15px; text-align: right; }
+.btn-submit { background: linear-gradient(45deg, #00f3ff, #0072ff); border: none; padding: 10px 30px; border-radius: 4px; color: #000; font-weight: bold; cursor: pointer; }
+</style>
 
 {% endblock %}
 {% block script %}
 <script>
 $(document).ready(function() {
-	$("#form").validationEngine('attach');
+    $("#form").validationEngine('attach');
 });
 </script>
 {% endblock %}

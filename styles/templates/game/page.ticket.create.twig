@@ -4,42 +4,72 @@
 {% block content %}
 
 <div class="content_page">
-	<div class="title">
-		{{ LNG.ti_create_head }}
-	</div>
+    <div class="aerospace-wrapper" style="max-width: 800px; margin: 0 auto;">
+        
+        <div class="glass-panel form-card">
+            <div class="form-header">
+                <h2>{{ LNG.ti_create_head }}</h2>
+                <p>{{ LNG.ti_create_info }}</p>
+            </div>
 
-	<div>
-		<form action="game.php?page=ticket&mode=send" method="post" id="form">
-		<input type="hidden" name="id" value="0">
-		<table style="width:100%;">
-			<tr>
-				<td colspan="2" class="left">{{ LNG.ti_create_info }}</td>
-			</tr>
-			<tr>
-				<td style="width:30%"><label for="category">{{ LNG.ti_category }}</label></td>
-				<td style="width:70%"><select id="category" name="category">{% for key, value in categoryList %}<option value="{{ key }}">{{ value }}</option>{% endfor %}</select></td>
-			</tr>
-			<tr>
-				<td><label for="subject">{{ LNG.ti_subject }}</label></td>
-				<td><input class="validate[required]" type="text" id="subject" name="subject" size="40" maxlength="255"></td>
-			</tr>
-			<tr>
-				<td><label for="message">{{ LNG.ti_message }}</label></td>
-				<td><textarea class="validate[required]" id="message" name="message" row="60" cols="8" style="height:100px;"></textarea></td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="submit" value="{{ LNG.ti_submit }}"></td>
-			</tr>
-		</table>
-		</form>
-	</div>
+            <form action="game.php?page=ticket&mode=send" method="post" id="form">
+                <input type="hidden" name="id" value="0">
+                
+                <div class="form-group">
+                    <label for="category">{{ LNG.ti_category }}</label>
+                    <select id="category" name="category" class="glass-input">
+                        {% for key, value in categoryList %}
+                            <option value="{{ key }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">{{ LNG.ti_subject }}</label>
+                    <input class="glass-input validate[required]" type="text" id="subject" name="subject" maxlength="255">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">{{ LNG.ti_message }}</label>
+                    <textarea class="glass-textarea validate[required]" id="message" name="message" rows="10"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">{{ LNG.ti_submit }}</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
 </div>
+
+<style>
+.form-card { background: rgba(16, 20, 28, 0.95); padding: 30px; border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 8px; margin-top: 20px; }
+.form-header { border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; padding-bottom: 10px; }
+.form-header h2 { color: #00f3ff; margin: 0 0 5px 0; text-transform: uppercase; }
+.form-header p { color: #aaa; font-size: 0.9rem; }
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; color: #fff; }
+
+.glass-input, .glass-textarea {
+    width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; padding: 10px; border-radius: 4px; box-sizing: border-box; font-family: inherit;
+}
+.glass-input:focus, .glass-textarea:focus { border-color: #00f3ff; outline: none; background: rgba(0,0,0,0.5); }
+.glass-input option { background: #111; }
+
+.btn-submit {
+    background: linear-gradient(45deg, #00f3ff, #0072ff); border: none; padding: 10px 30px;
+    border-radius: 4px; color: #000; font-weight: bold; cursor: pointer; float: right;
+}
+</style>
 
 {% endblock %}
 {% block script %}
 <script>
 $(document).ready(function() {
-$("#form").validationEngine('attach');
+    $("#form").validationEngine('attach');
 });
 </script>
 {% endblock %}

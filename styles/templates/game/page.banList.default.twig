@@ -1,47 +1,114 @@
 {% extends "layout.full.twig" %}
 
 {% block title %}{{ LNG.lm_banned }}{% endblock %}
+
 {% block content %}
+<div class="aerospace-container">
+    
+    <div class="glass-panel header-panel">
+        <h2 class="page-title"><i class="fas fa-ban"></i> {{ LNG.bn_players_banned_list }}</h2>
+    </div>
 
-<div class="content_page">
-	<div class="title">
-		{{ LNG.bn_players_banned_list }}
-	</div>
+    <div class="glass-panel table-panel">
+        
+        {% if banCount %}
+        <div class="pagination-wrapper">
+            <span class="page-label">{{ LNG.mg_page }}:</span>
+            <div class="pagination-controls">
+                {% if page != 1 %}
+                    <a href="game.php?page=banList&amp;side={{ page - 1 }}" class="page-btn"><i class="fas fa-chevron-left"></i></a> 
+                {% endif %}
+                
+                {% for site in range(1, maxPage + 1) %}
+                    <a href="game.php?page=banList&amp;side={{ site }}" class="page-btn {% if site == page %}active{% endif %}">
+                        {{ site }}
+                    </a>
+                {% endfor %}
+                
+                {% if page != maxPage %} 
+                    <a href="game.php?page=banList&amp;side={{ page + 1 }}" class="page-btn"><i class="fas fa-chevron-right"></i></a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
 
-	<div id="result_search" style="text-align: center;">
-		<table style="width:100%;">
-			<tr class="title">
-				<td>{{ LNG.bn_from }}</td>
-				<td>{{ LNG.bn_until }}</td>
-				<td>{{ LNG.bn_player }}</td>
-				<td>{{ LNG.bn_by }}</td>
-				<td>{{ LNG.bn_reason }}</td>
-			</tr>
-			{% if banCount %}
-			<tr>
-				<td class="right" colspan="5">{{ LNG.mg_page }}: {% if page != 1 %}<a href="game.php?page=banList&amp;side={{ page - 1 }}">&laquo;</a> {% endif %}{% for site in range(1, maxPage + 1) %}<a href="game.php?page=banList&amp;side={{ site }}">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %} {% endif %}{% endfor %}{% if page != maxPage %} <a href="game.php?page=banList&amp;side={{ page + 1 }}">&raquo;</a>{% endif %}</td>
-			</tr>
-			{% for banRow in banList %}
-			<tr>
-				<td>{{ banRow.from }}</td>
-				<td>{{ banRow.to }}</td>
-				<td>{{ banRow.player }}</td>
-				<td><a href="mailto:{{ banRow.mail }}" title="{{ banRow.info }}">{{ banRow.admin }}</a></td>
-				<td>{{ banRow.theme }}</td>
-			</tr>
-			{% endfor %}
-			<tr>
-				<td class="right" colspan="5">{{ LNG.mg_page }}: {% if page != 1 %}<a href="game.php?page=banList&amp;side={{ page - 1 }}">&laquo;</a> {% endif %}{% for site in range(1, maxPage + 1) %}<a href="game.php?page=banList&amp;side={{ site }}">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %} {% endif %}{% endfor %}{% if page != maxPage %} <a href="game.php?page=banList&amp;side={{ page + 1 }}">&raquo;</a>{% endif %}</td>
-			</tr>
-			<tr>
-				<td colspan="5">{{ LNG.bn_exists }}{{ banCount|number_format }}{{ LNG.bn_players_banned }}</td>
-			</tr>
-			{% else %}
-			<tr>
-				<td colspan="5">{{ LNG.bn_no_players_banned }}</td>
-			</tr>	
-			{% endif %}
-		</table>
-	</div>
+        <div class="table-responsive">
+            <table class="glass-table full-width">
+                <thead>
+                    <tr>
+                        <th>{{ LNG.bn_from }}</th>
+                        <th>{{ LNG.bn_until }}</th>
+                        <th>{{ LNG.bn_player }}</th>
+                        <th>{{ LNG.bn_by }}</th>
+                        <th>{{ LNG.bn_reason }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for banRow in banList %}
+                    <tr>
+                        <td class="text-muted">{{ banRow.from }}</td>
+                        <td class="text-muted">{{ banRow.to }}</td>
+                        <td class="text-highlight">{{ banRow.player }}</td>
+                        <td>
+                            <a href="mailto:{{ banRow.mail }}" class="admin-link" title="{{ banRow.info }}">
+                                <i class="fas fa-user-shield"></i> {{ banRow.admin }}
+                            </a>
+                        </td>
+                        <td class="text-danger">{{ banRow.theme }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">{{ LNG.bn_no_players_banned }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if banCount > 10 %} <div class="pagination-wrapper mt-3">
+            <div class="pagination-controls">
+                {% if page != 1 %}
+                    <a href="game.php?page=banList&amp;side={{ page - 1 }}" class="page-btn"><i class="fas fa-chevron-left"></i></a> 
+                {% endif %}
+                {% for site in range(1, maxPage + 1) %}
+                    <a href="game.php?page=banList&amp;side={{ site }}" class="page-btn {% if site == page %}active{% endif %}">{{ site }}</a>
+                {% endfor %}
+                {% if page != maxPage %} 
+                    <a href="game.php?page=banList&amp;side={{ page + 1 }}" class="page-btn"><i class="fas fa-chevron-right"></i></a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
 </div>
+
+<style>
+/* Table Styles */
+.glass-table { width: 100%; border-collapse: separate; border-spacing: 0 5px; }
+.glass-table th { text-align: left; padding: 15px; color: var(--primary); text-transform: uppercase; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.glass-table td { padding: 15px; background: rgba(255,255,255,0.02); color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.02); }
+.glass-table tr:hover td { background: rgba(0, 243, 255, 0.05); color: #fff; }
+.glass-table tr td:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+.glass-table tr td:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+
+/* Pagination */
+.pagination-wrapper { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-bottom: 1rem; padding: 0 10px; }
+.page-label { font-size: 0.8rem; color: var(--text-muted); }
+.pagination-controls { display: flex; gap: 5px; }
+.page-btn { 
+    display: flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; 
+    background: rgba(0,0,0,0.3); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    color: var(--text-muted); 
+    border-radius: 4px; 
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+.page-btn:hover, .page-btn.active { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 0 10px rgba(0,243,255,0.3); }
+
+.text-center { text-align: center !important; }
+.mt-3 { margin-top: 1rem; }
+</style>
 {% endblock %}

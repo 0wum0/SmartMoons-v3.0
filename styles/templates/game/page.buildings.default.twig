@@ -1,681 +1,256 @@
 {% extends "layout.full.twig" %}
 
 {% block title %}{{ LNG.lm_buildings }}{% endblock %}
+
 {% block content %}
+<div class="aerospace-container">
+    
+    <div class="glass-panel header-panel">
+        <div class="header-content">
+            <h2 class="page-title"><i class="fas fa-city"></i> {{ LNG.lm_buildings }}</h2>
+            <div class="planet-fields">
+                <span class="field-label">{{ LNG.bd_remaining }}</span>
+                <div class="field-bar-wrapper">
+                    {% set field_percent = (field_max > 0) ? (field_current / field_max * 100) : 100 %}
+                    <div class="field-bar" style="width: {{ (field_percent > 100) ? 100 : field_percent }}%"></div>
+                </div>
+                <span class="field-val {% if field_current >= field_max %}text-danger{% endif %}">
+                    {{ field_current }} / {{ field_max }}
+                </span>
+            </div>
+        </div>
+    </div>
 
-<div class="buildings-page">
-	<!-- Page Header -->
-	<div class="page-header-sci">
-		<div class="header-content">
-			<h1 class="header-title">
-				<i class="fas fa-city"></i> 
-				<span>{{ LNG.lm_buildings }}</span>
-			</h1>
-			<div class="header-stats">
-				<div class="stat-item">
-					<span class="stat-label">{{ LNG.bd_remaining }}</span>
-					<span class="stat-value">{{ field_current }} / {{ field_max }}</span>
-				</div>
-			</div>
-		</div>
-	</div>
+    {% if Queue %}
+    <div class="glass-panel queue-panel">
+        <div class="panel-header">
+            <i class="fas fa-tasks"></i> {{ LNG.bd_building_queue }} 
+            <span class="queue-badge">{{ Queue|length }}</span>
+        </div>
+        
+        <div class="queue-list-wrapper">
+            {% for List in Queue %}
+            <div class="queue-item {% if loop.first %}active-build{% endif %}">
+                
+                <div class="queue-visual">
+                    <span class="queue-pos">{{ loop.index }}</span>
+                    <img src="{{ dpath }}gebaeude/{{ List.element }}.gif" alt="{{ LNG.tech[List.element] }}" class="queue-img">
+                </div>
 
-	<!-- Build Queue -->
-	{% if Queue %}
-	<div class="build-queue">
-		<div class="queue-header">
-			<h3><i class="fas fa-tasks"></i> {{ LNG.bd_building_queue }}</h3>
-			<span class="queue-count">{{ Queue|length }}</span>
-		</div>
-		<div class="queue-list">
-			{% for List in Queue %}
-			{% set ID = List.element %}
-			<div class="queue-item{% if loop.first %} active{% endif %}">
-				<div class="queue-number">{{ loop.index }}</div>
-				<div class="queue-content">
-					<div class="queue-info">
-						<div class="queue-name">
-							{{ LNG.tech[ID] }} 
-							<span class="level-badge">{{ LNG.bd_lvl }} {{ List.level }}</span>
-							{% if List.destroy %}
-							<span class="demolish-badge">
-								<i class="fas fa-trash"></i> {{ LNG.bd_dismantle }}
-							</span>
-							{% endif %}
-						</div>
-						{% if loop.first %}
-						<div class="progress-container" data-progress data-end-time="{{ List.endtime }}" data-start-time="{{ List.time - List.resttime }}" data-progress-type="building">
-							<div class="progress-label">
-								<span>{{ LNG.bd_remaining }}</span>
-								<span class="timer" data-time="{{ List.endtime }}">{{ List.display }}</span>
-							</div>
-							<div class="progress-bar-wrapper">
-								<div class="progress-bar building"></div>
-								<span class="progress-text">0%</span>
-							</div>
-						</div>
-						{% else %}
-						<div class="queue-timer">
-							<i class="fas fa-clock"></i>
-							<span class="timer" data-time="{{ List.endtime }}">{{ List.display }}</span>
-						</div>
-						{% endif %}
-					</div>
-					<form action="game.php?page=buildings" method="post" class="queue-action">
-						<input type="hidden" name="cmd" value="{% if loop.first %}cancel{% else %}remove{% endif %}">
-						{% if not loop.first %}<input type="hidden" name="listid" value="{{ loop.index }}">{% endif %}
-						<button type="submit" class="btn btn-danger btn-sm" title="{{ LNG.bd_cancel }}">
-							<i class="fas fa-times"></i>
-						</button>
-					</form>
-				</div>
-			</div>
-			{% endfor %}
-		</div>
-	</div>
-	{% endif %}
+                <div class="queue-details">
+                    <div class="queue-title">
+                        {{ LNG.tech[List.element] }} 
+                        <span class="lvl-badge">{{ List.level }}</span>
+                    </div>
+                    
+                    {% if loop.first %}
+                        <div class="active-timer-box">
+                            <span class="timer" data-time="{{ List.endtime }}">{{ List.display }}</span>
+                        </div>
+                        <div class="queue-progress-track">
+                             <div class="queue-progress-bar" style="width: 100%;"></div> 
+                        </div>
+                    {% else %}
+                        <div class="waiting-timer">
+                            <i class="fas fa-clock"></i> <span class="timer" data-time="{{ List.endtime }}">{{ List.display }}</span>
+                        </div>
+                    {% endif %}
+                </div>
 
-	<!-- Buildings Grid -->
-	<div class="building-grid">
-		{% for ID, Element in BuildInfoList %}
-		<div class="building-card{% if Element.level > 0 %} built{% endif %}">
-			<!-- Building Header -->
-			<div class="building-header">
-				<div class="building-image">
-					<img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}">
-					{% if Element.level > 0 %}
-					<div class="level-indicator">{{ Element.level }}</div>
-					{% endif %}
-				</div>
-				<div class="building-info">
-					<h3 class="building-name">
-						<a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.tech[ID] }}</a>
-					</h3>
-					{% if Element.maxLevel != 255 %}
-					<div class="max-level">{{ LNG.bd_max_level }}: {{ Element.maxLevel }}</div>
-					{% endif %}
-				</div>
-			</div>
+                <div class="queue-action">
+                    <form action="game.php?page=buildings" method="post">
+                        <input type="hidden" name="cmd" value="{% if loop.first %}cancel{% else %}remove{% endif %}">
+                        {% if not loop.first %}<input type="hidden" name="listid" value="{{ loop.index }}">{% endif %}
+                        <button type="submit" class="btn-icon-danger" title="{{ LNG.bd_cancel }}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </form>
+                </div>
 
-			<!-- Building Body -->
-			<div class="building-body">
-				<!-- Resources Required -->
-				<div class="resource-requirements">
-					{% for RessID, RessAmount in Element.costResources %}
-					<div class="resource-item{% if Element.costOverflow[RessID] != 0 %} insufficient{% endif %}">
-						<img src="{{ dpath }}images/{{ RessID }}.gif" alt="{{ LNG.tech[RessID] }}" class="resource-icon">
-                        <span class="resource-amount">{{ RessAmount|number_format }}</span>
-					</div>
-					{% endfor %}
-				</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 
-				<!-- Build Time -->
-				<div class="build-time">
-					<i class="fas fa-clock"></i>
-					<span>{{ Element.elementTime|time }}</span>
-				</div>
+    <div class="tech-grid">
+        {% for ID, Element in BuildInfoList %}
+        <div class="glass-panel tech-card {% if not Element.buyable %}disabled{% endif %}">
+            
+            <div class="tech-visual">
+                <img src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}" class="tech-img">
+                {% if Element.level > 0 %}
+                <span class="level-tag">{{ Element.level }}</span>
+                {% endif %}
+            </div>
 
-				<!-- Energy Info -->
-				{% if Element.infoEnergy %}
-				<div class="energy-info">
-					<i class="fas fa-bolt"></i>
-					<span>{{ Element.infoEnergy }}</span>
-				</div>
-				{% endif %}
-			</div>
+            <div class="tech-content">
+                <div class="tech-header">
+                    <h3 class="tech-name">
+                        <a href="#" onclick="return Dialog.info({{ ID }});">{{ LNG.tech[ID] }}</a>
+                    </h3>
+                    {% if Element.maxLevel != 255 %}
+                    <span class="max-lvl">{{ LNG.bd_max_level }}: {{ Element.maxLevel }}</span>
+                    {% endif %}
+                </div>
 
-			<!-- Building Actions -->
-			<div class="building-actions">
-				{% if Element.maxLevel == Element.levelToBuild %}
-					<div class="action-disabled">
-						<i class="fas fa-check-circle"></i> {{ LNG.bd_maxlevel }}
-					</div>
-				{% elseif (isBusy.research and (ID == 6 or ID == 31)) or (isBusy.shipyard and (ID == 15 or ID == 21)) %}
-					<div class="action-disabled">
-						<i class="fas fa-cog fa-spin"></i> {{ LNG.bd_working }}
-					</div>
-				{% elseif not RoomIsOk %}
-					<div class="action-disabled">
-						<i class="fas fa-th"></i> {{ LNG.bd_no_more_fields }}
-					</div>
-				{% elseif not CanBuildElement or not Element.buyable %}
-					<div class="action-disabled">
-						<i class="fas fa-lock"></i> {{ LNG.bd_notres }}
-					</div>
-				{% else %}
-					<form action="game.php?page=buildings" method="post" class="build-form">
-						<input type="hidden" name="cmd" value="insert">
-						<input type="hidden" name="building" value="{{ ID }}">
-						<button type="submit" class="btn btn-primary btn-build">
-							<i class="fas fa-hammer"></i>
-							{% if Element.level == 0 %}
-								{{ LNG.bd_build }}
-							{% else %}
-								{{ LNG.bd_build_next_level }} {{ Element.levelToBuild + 1 }}
-							{% endif %}
-						</button>
-					</form>
-				{% endif %}
+                <div class="tech-price">
+                    {% for RessID, RessAmount in Element.costResources %}
+                    <div class="price-item {% if Element.costOverflow[RessID] != 0 %}missing-res{% endif %}">
+                        <img src="{{ dpath }}images/{{ RessID }}.gif" alt="" class="res-icon-sm">
+                        <span class="res-val">{{ RessAmount|number_format }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="tech-meta">
+                    <span class="meta-item"><i class="far fa-clock"></i> {{ Element.elementTime|time }}</span>
+                    
+                    {% if Element.infoEnergy %}
+                    <span class="meta-item energy">
+                        <i class="fas fa-bolt"></i> {{ Element.infoEnergy|raw }}
+                    </span>
+                    {% endif %}
+                </div>
 
-				{% if Element.level > 0 %}
-					{% if ID == 43 %}
-					<button onclick="return Dialog.info({{ ID }})" class="btn btn-secondary btn-sm">
-						<i class="fas fa-portal-enter"></i> {{ LNG.bd_jump_gate_action }}
-					</button>
-					{% endif %}
-					{% if (ID == 44 and not HaveMissiles) or ID != 44 %}
-					<button class="btn btn-danger btn-sm btn-demolish" 
-						data-building-id="{{ ID }}"
-						data-building-name="{{ LNG.tech[ID] }}"
-						data-building-level="{{ Element.level }}"
-						data-destroy-time="{{ Element.destroyTime|time }}"
-						data-destroy-resources='{{ Element.destroyResources|json_encode }}'>
-						<i class="fas fa-trash"></i>
-					</button>
-					{% endif %}
-				{% endif %}
-			</div>
-		</div>
-		{% endfor %}
-	</div>
-</div>
+                <div class="tech-actions">
+                    {% if Element.maxLevel == Element.levelToBuild %}
+                        <div class="btn-disabled"><i class="fas fa-check"></i> {{ LNG.bd_maxlevel }}</div>
+                    {% elseif (isBusy.research and (ID == 6 or ID == 31)) or (isBusy.shipyard and (ID == 15 or ID == 21)) %}
+                        <div class="btn-disabled"><i class="fas fa-cog fa-spin"></i> {{ LNG.bd_working }}</div>
+                    {% elseif not RoomIsOk %}
+                        <div class="btn-disabled text-danger"><i class="fas fa-ban"></i> {{ LNG.bd_no_more_fields }}</div>
+                    {% elseif not CanBuildElement or not Element.buyable %}
+                        <div class="btn-disabled text-danger"><i class="fas fa-lock"></i> {{ LNG.bd_notres }}</div>
+                    {% else %}
+                        <form action="game.php?page=buildings" method="post" class="full-width-form">
+                            <input type="hidden" name="cmd" value="insert">
+                            <input type="hidden" name="building" value="{{ ID }}">
+                            <button type="submit" class="btn-action-glow">
+                                {% if Element.level == 0 %}
+                                    {{ LNG.bd_build }}
+                                {% else %}
+                                    {{ LNG.bd_build_next_level }} {{ Element.levelToBuild + 1 }}
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                
+                {% if Element.level > 0 %}
+                <div class="tech-extras">
+                    {% if ID == 43 %}
+                        <a href="#" onclick="return Dialog.info({{ ID }})" class="extra-link">{{ LNG.bd_jump_gate_action }}</a>
+                    {% endif %}
+                    
+                    {% if (ID == 44 and not HaveMissiles) or ID != 44 %}
+                    <a class="demolish-link" onclick="confirmDemolish('{{ ID }}', '{{ LNG.tech[ID] }}', '{{ Element.destroyTime|time }}');">
+                       <i class="fas fa-trash-alt"></i>
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
 
-<!-- Demolish Modal (will be handled by JS) -->
-<div id="demolish-modal" class="modal-overlay">
-	<div class="modal">
-		<div class="modal-header">
-			<h3 class="modal-title">
-				<i class="fas fa-exclamation-triangle text-red"></i> 
-				<span id="demolish-title">{{ LNG.bd_price_for_destroy }}</span>
-			</h3>
-			<button class="modal-close" onclick="closeDemolishModal()">
-				<i class="fas fa-times"></i>
-			</button>
-		</div>
-		<div class="modal-body">
-			<div class="demolish-info">
-				<div class="info-grid">
-					<div id="demolish-resources"></div>
-					<div class="info-item">
-						<span class="info-label">{{ LNG.bd_destroy_time }}:</span>
-						<span id="demolish-time" class="info-value text-yellow"></span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<button class="btn btn-secondary" onclick="closeDemolishModal()">
-				{{ LNG.bd_cancel }}
-			</button>
-			<form id="demolish-form" action="game.php?page=buildings" method="post" style="display: inline;">
-				<input type="hidden" name="cmd" value="destroy">
-				<input type="hidden" name="building" id="demolish-building-id">
-				<button type="submit" class="btn btn-danger">
-					<i class="fas fa-trash"></i> {{ LNG.bd_dismantle }}
-				</button>
-			</form>
-		</div>
-	</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
 </div>
 
 <style>
-/* Buildings Page Styles */
-.buildings-page {
-	max-width: 1400px;
-	margin: 0 auto;
-}
+.aerospace-container { padding: 0 1rem; }
+.header-panel { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; }
+.page-title { margin: 0; font-family: var(--font-heading); color: var(--primary); font-size: 1.8rem; }
 
-/* Page Header */
-.page-header-sci {
-	background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(168, 85, 247, 0.05));
-	border: 1px solid var(--color-border-accent);
-	border-radius: var(--radius-lg);
-	padding: var(--spacing-xl);
-	margin-bottom: var(--spacing-xl);
-	position: relative;
-	overflow: hidden;
-}
+.planet-fields { display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.3); padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+.field-bar-wrapper { width: 100px; height: 6px; background: #000; border-radius: 3px; overflow: hidden; }
+.field-bar { height: 100%; background: var(--success); box-shadow: 0 0 5px var(--success); }
+.field-val { font-family: monospace; font-size: 0.9rem; color: #fff; }
 
-.page-header-sci::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 2px;
-	background: linear-gradient(90deg, transparent, var(--color-accent-cyan), transparent);
-	animation: scan 3s linear infinite;
-}
+/* Queue */
+.queue-panel { padding: 0; overflow: hidden; }
+.panel-header { background: rgba(0,0,0,0.2); padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-family: var(--font-heading); display: flex; align-items: center; gap: 10px; }
+.queue-badge { background: var(--primary); color: #000; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; }
 
-@keyframes scan {
-	0% { transform: translateX(-100%); }
-	100% { transform: translateX(100%); }
-}
+.queue-list-wrapper { padding: 1rem; }
+.queue-item { display: flex; align-items: center; background: rgba(255,255,255,0.02); margin-bottom: 8px; border-radius: 8px; padding: 10px; border: 1px solid transparent; }
+.queue-item.active-build { border-color: var(--primary); background: rgba(0, 243, 255, 0.05); }
 
-.header-content {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--spacing-xl);
-}
+.queue-visual { position: relative; width: 50px; height: 50px; margin-right: 15px; }
+.queue-img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
+.queue-pos { position: absolute; top: -5px; left: -5px; background: #000; border: 1px solid var(--text-muted); width: 20px; height: 20px; display: flex; justify-content: center; align-items: center; font-size: 0.7rem; border-radius: 50%; }
 
-.header-title {
-	font-size: 2rem;
-	font-weight: 700;
-	color: var(--color-accent-cyan);
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-md);
-	margin: 0;
-}
+.queue-details { flex: 1; }
+.queue-title { font-weight: bold; color: #fff; margin-bottom: 4px; }
+.lvl-badge { color: var(--primary); font-size: 0.8rem; }
+.timer { font-family: monospace; color: var(--text-muted); }
 
-.header-stats {
-	display: flex;
-	gap: var(--spacing-lg);
-}
+.btn-icon-danger { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1.1rem; transition: 0.2s; }
+.btn-icon-danger:hover { text-shadow: 0 0 10px var(--danger); transform: scale(1.1); }
 
-.stat-item {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: var(--spacing-md);
-	background: var(--color-bg-card);
-	border-radius: var(--radius-md);
-	border: 1px solid var(--color-border-primary);
-}
+/* Tech Grid */
+.tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+.tech-card { padding: 0; display: flex; flex-direction: column; transition: transform 0.3s; }
+.tech-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+.tech-card.disabled { opacity: 0.7; filter: grayscale(0.8); }
+.tech-card.disabled:hover { filter: grayscale(0); opacity: 1; }
 
-.stat-label {
-	font-size: 0.75rem;
-	color: var(--color-text-muted);
-	text-transform: uppercase;
-}
+.tech-visual { height: 120px; position: relative; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.tech-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+.tech-card:hover .tech-img { transform: scale(1.1); }
+.level-tag { position: absolute; bottom: 10px; right: 10px; background: var(--primary); color: #000; font-weight: bold; padding: 2px 8px; border-radius: 4px; box-shadow: 0 0 10px rgba(0,243,255,0.5); }
 
-.stat-value {
-	font-size: 1.25rem;
-	font-weight: 700;
-	color: var(--color-accent-cyan);
-}
+.tech-content { padding: 1.2rem; display: flex; flex-direction: column; flex: 1; }
+.tech-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+.tech-name a { color: #fff; font-family: var(--font-heading); font-size: 1.1rem; text-decoration: none; }
+.tech-name a:hover { color: var(--primary); }
+.max-lvl { font-size: 0.7rem; color: var(--text-muted); }
 
-/* Build Queue */
-.build-queue {
-	background: var(--color-bg-card);
-	border: 1px solid var(--color-border-accent);
-	border-radius: var(--radius-lg);
-	padding: var(--spacing-lg);
-	margin-bottom: var(--spacing-xl);
-}
+.tech-price { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; }
+.price-item { display: flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; color: #ccc; border: 1px solid transparent; }
+.price-item.missing-res { border-color: var(--danger); color: var(--danger); }
+.res-icon-sm { width: 16px; height: 16px; }
 
-.queue-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: var(--spacing-lg);
-}
+.tech-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; }
+.tech-meta .energy { color: var(--warning); }
 
-.queue-header h3 {
-	color: var(--color-accent-cyan);
-	margin: 0;
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-sm);
-}
+.tech-actions { margin-top: auto; }
+.full-width-form { width: 100%; }
+.btn-action-glow { width: 100%; background: linear-gradient(90deg, rgba(0,243,255,0.1), rgba(0,243,255,0.2)); border: 1px solid var(--primary); color: var(--primary); padding: 10px; border-radius: 6px; font-family: var(--font-heading); cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+.btn-action-glow:hover { background: var(--primary); color: #000; box-shadow: 0 0 15px rgba(0,243,255,0.6); }
 
-.queue-count {
-	background: var(--color-accent-cyan);
-	color: var(--color-bg-primary);
-	padding: var(--spacing-xs) var(--spacing-sm);
-	border-radius: var(--radius-full);
-	font-weight: 700;
-}
+.btn-disabled { width: 100%; text-align: center; padding: 10px; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: var(--text-muted); font-size: 0.85rem; cursor: not-allowed; background: rgba(0,0,0,0.2); }
+.text-danger { color: var(--danger) !important; border-color: var(--danger); }
 
-.queue-list {
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacing-md);
-}
-
-.queue-item {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-md);
-	padding: var(--spacing-md);
-	background: var(--color-bg-elevated);
-	border-radius: var(--radius-md);
-	border: 1px solid var(--color-border-primary);
-	transition: var(--transition-normal);
-}
-
-.queue-item.active {
-	border-color: var(--color-accent-cyan);
-	box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.1);
-}
-
-.queue-number {
-	width: 32px;
-	height: 32px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: var(--color-accent-cyan);
-	color: var(--color-bg-primary);
-	border-radius: var(--radius-full);
-	font-weight: 700;
-	flex-shrink: 0;
-}
-
-.queue-content {
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--spacing-md);
-}
-
-.queue-info {
-	flex: 1;
-}
-
-.queue-name {
-	font-weight: 600;
-	color: var(--color-text-primary);
-	margin-bottom: var(--spacing-sm);
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-sm);
-}
-
-.level-badge {
-	background: var(--color-accent-blue);
-	color: white;
-	padding: 2px 8px;
-	border-radius: var(--radius-md);
-	font-size: 0.75rem;
-}
-
-.demolish-badge {
-	background: var(--color-accent-red);
-	color: white;
-	padding: 2px 8px;
-	border-radius: var(--radius-md);
-	font-size: 0.75rem;
-}
-
-.queue-timer {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-sm);
-	color: var(--color-accent-green);
-}
-
-.queue-action button {
-	padding: var(--spacing-xs) var(--spacing-sm);
-}
-
-/* Buildings Grid */
-.building-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-	gap: var(--spacing-lg);
-}
-
-.building-card {
-	background: var(--color-bg-card);
-	border: 1px solid var(--color-border-primary);
-	border-radius: var(--radius-lg);
-	overflow: hidden;
-	transition: var(--transition-normal);
-	position: relative;
-}
-
-.building-card:hover {
-	transform: translateY(-4px);
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-	border-color: var(--color-border-accent);
-}
-
-.building-card.built {
-	border-color: rgba(0, 243, 255, 0.3);
-}
-
-.building-header {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-md);
-	padding: var(--spacing-md);
-	background: var(--color-bg-elevated);
-	border-bottom: 1px solid var(--color-border-primary);
-}
-
-.building-image {
-	width: 60px;
-	height: 60px;
-	position: relative;
-	flex-shrink: 0;
-}
-
-.building-image img {
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
-	border-radius: var(--radius-md);
-	border: 2px solid var(--color-border-accent);
-	background: var(--color-bg-secondary);
-}
-
-.level-indicator {
-	position: absolute;
-	bottom: -4px;
-	right: -4px;
-	background: var(--color-accent-cyan);
-	color: var(--color-bg-primary);
-	width: 24px;
-	height: 24px;
-	border-radius: var(--radius-full);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-weight: 700;
-	font-size: 0.875rem;
-	border: 2px solid var(--color-bg-card);
-}
-
-.building-info {
-	flex: 1;
-}
-
-.building-name {
-	margin: 0 0 var(--spacing-xs) 0;
-}
-
-.building-name a {
-	color: var(--color-accent-cyan);
-	text-decoration: none;
-	font-size: 1.1rem;
-	font-weight: 600;
-}
-
-.max-level {
-	font-size: 0.75rem;
-	color: var(--color-text-muted);
-}
-
-.building-body {
-	padding: var(--spacing-md);
-}
-
-.resource-requirements {
-	display: flex;
-	gap: var(--spacing-md);
-	margin-bottom: var(--spacing-md);
-}
-
-.resource-item {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-xs);
-	padding: var(--spacing-xs) var(--spacing-sm);
-	background: var(--color-bg-elevated);
-	border-radius: var(--radius-md);
-	border: 1px solid var(--color-border-primary);
-}
-
-.resource-item.insufficient {
-	border-color: var(--color-accent-red);
-	background: rgba(239, 68, 68, 0.1);
-}
-
-.resource-item.insufficient .resource-amount {
-	color: var(--color-accent-red);
-}
-
-.resource-icon {
-	width: 20px;
-	height: 20px;
-}
-
-.resource-amount {
-	font-size: 0.875rem;
-	font-weight: 600;
-	color: var(--color-text-primary);
-}
-
-.build-time,
-.energy-info {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-sm);
-	padding: var(--spacing-sm);
-	background: var(--color-bg-elevated);
-	border-radius: var(--radius-md);
-	margin-bottom: var(--spacing-sm);
-}
-
-.build-time i {
-	color: var(--color-accent-yellow);
-}
-
-.energy-info i {
-	color: var(--color-accent-cyan);
-}
-
-.building-actions {
-	padding: var(--spacing-md);
-	background: var(--color-bg-elevated);
-	border-top: 1px solid var(--color-border-primary);
-	display: flex;
-	gap: var(--spacing-sm);
-	align-items: center;
-	justify-content: space-between;
-}
-
-.build-form {
-	flex: 1;
-}
-
-.btn-build {
-	width: 100%;
-}
-
-.btn-demolish {
-	flex-shrink: 0;
-}
-
-.action-disabled {
-	width: 100%;
-	text-align: center;
-	padding: var(--spacing-sm) var(--spacing-md);
-	background: var(--color-bg-secondary);
-	border: 1px solid var(--color-border-primary);
-	border-radius: var(--radius-md);
-	color: var(--color-text-muted);
-	font-size: 0.875rem;
-}
-
-/* Demolish Modal */
-.demolish-info {
-	padding: var(--spacing-md);
-}
-
-.info-grid {
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacing-md);
-}
-
-.info-item {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.info-label {
-	color: var(--color-text-secondary);
-}
-
-.info-value {
-	font-weight: 600;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-	.header-content {
-		flex-direction: column;
-		text-align: center;
-	}
-	
-	.building-grid {
-		grid-template-columns: 1fr;
-	}
-	
-	.resource-requirements {
-		flex-wrap: wrap;
-	}
-}
+.tech-extras { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.8rem; align-items: center; }
+.extra-link { color: var(--secondary); text-decoration: underline; }
+.demolish-link { color: var(--text-muted); cursor: pointer; padding: 5px; }
+.demolish-link:hover { color: var(--danger); }
 </style>
 
 <script>
-// Demolish Modal Handler
-document.querySelectorAll('.btn-demolish').forEach(btn => {
-	btn.addEventListener('click', function() {
-		const buildingId = this.dataset.buildingId;
-		const buildingName = this.dataset.buildingName;
-		const buildingLevel = this.dataset.buildingLevel;
-		const destroyTime = this.dataset.destroyTime;
-		const resources = JSON.parse(this.dataset.destroyResources);
-		
-		// Update modal content
-		document.getElementById('demolish-title').textContent = 
-			`{{ LNG.bd_price_for_destroy }} ${buildingName} ${buildingLevel}`;
-		document.getElementById('demolish-building-id').value = buildingId;
-		document.getElementById('demolish-time').textContent = destroyTime;
-		
-		// Build resources HTML
-		let resourcesHTML = '';
-		for (const [resType, resAmount] of Object.entries(resources)) {
-			resourcesHTML += `
-				<div class="info-item">
-					<span class="info-label">${resType}:</span>
-					<span class="info-value text-green">${resAmount}</span>
-				</div>
-			`;
-		}
-		document.getElementById('demolish-resources').innerHTML = resourcesHTML;
-		
-		// Show modal
-		document.getElementById('demolish-modal').classList.add('active');
-	});
-});
+function confirmDemolish(id, name, time) {
+    if(confirm("{{ LNG.bd_dismantle }} " + name + "?\n{{ LNG.bd_duration }}: " + time)) {
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = 'game.php?page=buildings';
+        
+        var inputCmd = document.createElement('input');
+        inputCmd.type = 'hidden';
+        inputCmd.name = 'cmd';
+        inputCmd.value = 'destroy';
+        
+        var inputId = document.createElement('input');
+        inputId.type = 'hidden';
+        inputId.name = 'building';
+        inputId.value = id;
 
-function closeDemolishModal() {
-	document.getElementById('demolish-modal').classList.remove('active');
+        form.appendChild(inputCmd);
+        form.appendChild(inputId);
+        document.body.appendChild(form);
+        form.submit();
+    }
 }
-
-// Close modal on outside click
-document.getElementById('demolish-modal').addEventListener('click', function(e) {
-	if (e.target === this) {
-		closeDemolishModal();
-	}
-});
 </script>
-
 {% endblock %}

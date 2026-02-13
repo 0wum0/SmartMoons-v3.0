@@ -1,35 +1,35 @@
-{% set count = productionTable.usedResource|length %}
-
-<table style="width:100%;">
-	<tbody>
-		<tr>
-			<td colspan="2">
-				<table>
-				<tr>
-					<th>{{ LNG.in_level }}</th>
-					{% for resourceID in productionTable.usedResource %}
-					<th colspan="2">{{ LNG.tech[resourceID] }}</th>
-					{% endfor %}
-				</tr>
-				<tr>
-					<th> </th>
-					{% for resourceID in productionTable.usedResource %}
-					<th>{{ LNG.in_prod_p_hour }}</th>
-					<th>{{ LNG.in_difference }}</th>
-					{% endfor %}
-				</tr>
-				{% for elementLevel, productionData in productionTable.production %}
-				<tr>
-					<td><span{% if CurrentLevel == elementLevel %} style="color:#ff0000"{% endif %}>{{ elementLevel }}</span></td>
-					{% for resourceID, production in productionData %}
-					{% set productionDiff = production - productionTable.production[CurrentLevel][resourceID] %}
-					<td><span style="color:{% if production > 0 %}lime{% elseif production < 0 %}red{% else %}white{% endif %}">{{ production|number_format }}</span></td>
-					<td><span style="color:{% if productionDiff > 0 %}lime{% elseif productionDiff < 0 %}red{% else %}white{% endif %}">{{ productionDiff|number_format }}</span></td>
-					{% endfor %}
-				</tr>
-				{% endfor %}
-				</table>
-			</td>
-		</tr>
-	</tbody>
-</table>
+<div class="aerospace-info-table">
+    <table class="glass-table">
+        <thead>
+            <tr>
+                <th>{{ LNG.in_level }}</th>
+                {% for resourceID in productionTable.usedResource %}
+                <th>{{ LNG.tech[resourceID] }}</th>
+                <th>Diff</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for elementLevel, productionData in productionTable.production %}
+            <tr {% if CurrentLevel == elementLevel %}class="current-level"{% endif %}>
+                <td class="lvl">{{ elementLevel }}</td>
+                {% for resourceID, production in productionData %}
+                {% set productionDiff = production - productionTable.production[CurrentLevel][resourceID] %}
+                <td class="{% if production > 0 %}pos{% elseif production < 0 %}neg{% endif %}">{{ production|number_format }}</td>
+                <td class="diff {% if productionDiff > 0 %}pos{% elseif productionDiff < 0 %}neg{% endif %}">{{ productionDiff|number_format }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<style>
+.aerospace-info-table { padding: 10px; background: #0d111a; }
+.glass-table { width: 100%; border-collapse: collapse; color: #ccc; font-size: 0.9rem; }
+.glass-table th { text-align: left; padding: 10px; border-bottom: 1px solid rgba(0, 243, 255, 0.2); color: #00f3ff; }
+.glass-table td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.current-level { background: rgba(0, 243, 255, 0.1); border-left: 3px solid #00f3ff; font-weight: bold; color: #fff; }
+.pos { color: #2ecc71; }
+.neg { color: #e74c3c; }
+.diff { font-size: 0.8rem; opacity: 0.8; }
+</style>

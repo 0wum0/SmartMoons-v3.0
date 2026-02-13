@@ -3,44 +3,54 @@
 {% block title %}{{ LNG.lm_alliance }}{% endblock %}
 {% block content %}
 
-<div class="content_page">
-	<div class="title">
-		{{ LNG.lm_alliance }}
-	</div>
+<div class="aerospace-container">
+    
+    <div class="glass-panel center-panel">
+        <div class="panel-header"><i class="fas fa-search"></i> {{ LNG.al_find_alliances }}</div>
+        
+        <form action="game.php?page=alliance&amp;mode=search" method="post" class="search-form">
+            <div class="search-wrapper">
+                <input type="text" name="searchtext" value="{{ searchText }}" class="glass-input search-input" placeholder="{{ LNG.al_find_text }}">
+                <button type="submit" class="btn-action-glow search-btn"><i class="fas fa-search"></i> {{ LNG.al_find_submit }}</button>
+            </div>
+        </form>
+    </div>
 
-	<div>
-		<form action="game.php?page=alliance&amp;mode=search" method="post">
-			<table style="width: 100%;">
-				<tr>
-					<th colspan="2">{{ LNG.al_find_alliances }}</th>
-				</tr>
-				<tr>
-					<td>{{ LNG.al_find_text }}</td>
-					<td><input type="text" name="searchtext" value="{{ searchText }}"> <input type="submit" value="{{ LNG.al_find_submit }}"></td>
-				</tr>
-			</table>
-		</form>
-		{% if searchList %}
-		<table style="width: 100%;">
-			<tr>
-				<th>{{ LNG.al_ally_info_tag }}</th>
-				<th>{{ LNG.al_ally_info_name }}</th>
-				<th>{{ LNG.al_ally_info_members }}</th>
-			</tr>
-			{% for seachRow in searchList %}
-			<tr>
-				<td><a href="game.php?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.tag }}</a></td>
-				<td><a href="game.php?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.name }}</a></td>
-				<td><a href="game.php?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.members }}</a></td>
-			</tr>
-			{% else %}
-			<tr>
-				<td colspan="3">{{ LNG.al_find_no_alliances }}</td>
-			</tr>
-			{% endfor %}
-		</table>
-		{% endif %}
-	</div>
+    {% if searchList %}
+    <div class="glass-panel table-panel mt-3">
+        <table class="glass-table full-width">
+            <thead>
+                <tr>
+                    <th>{{ LNG.al_ally_info_tag }}</th>
+                    <th>{{ LNG.al_ally_info_name }}</th>
+                    <th>{{ LNG.al_ally_info_members }}</th>
+                    <th>{{ LNG.al_actions }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for seachRow in searchList %}
+                <tr>
+                    <td><span class="text-highlight">[{{ seachRow.tag }}]</span></td>
+                    <td>{{ seachRow.name }}</td>
+                    <td>{{ seachRow.members }}</td>
+                    <td>
+                         <a href="game.php?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}" class="btn-ghost small">
+                            {{ LNG.al_apply }} <i class="fas fa-arrow-right"></i>
+                         </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
 </div>
 
+<style>
+.center-panel { max-width: 600px; margin: 0 auto; }
+.search-wrapper { display: flex; gap: 10px; }
+.search-input { flex: 1; }
+.mt-3 { margin-top: 2rem; }
+</style>
 {% endblock %}

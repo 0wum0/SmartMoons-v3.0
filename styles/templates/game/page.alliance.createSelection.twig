@@ -3,18 +3,75 @@
 {% block title %}{{ LNG.lm_alliance }}{% endblock %}
 {% block content %}
 
-<div class="content_page">
-	<div class="title">
-		{{ LNG.al_alliance }}
-	</div>
+<div class="aerospace-container">
+    <div class="selection-grid">
+        
+        <a href="game.php?page=alliance&amp;mode=create" class="selection-card create-card">
+            <div class="card-icon"><i class="fas fa-plus-circle"></i></div>
+            <div class="card-title">{{ LNG.al_alliance_make }}</div>
+            <div class="card-desc">{{ LNG.al_make_ally_text_r }}</div>
+        </a>
 
-	<div>
-		<table style="width: 100%;">
-	        <tr>
-				<td style="width:50%"><a href="game.php?page=alliance&amp;mode=create">{{ LNG.al_alliance_make }}</a></td>
-				<td style="width:50%"><a href="game.php?page=alliance&amp;mode=search">{{ LNG.al_alliance_search }}</a></td>
-	        </tr>
-	    </table>
-	</div>
+        <a href="game.php?page=alliance&amp;mode=search" class="selection-card search-card">
+            <div class="card-icon"><i class="fas fa-search"></i></div>
+            <div class="card-title">{{ LNG.al_alliance_search }}</div>
+            <div class="card-desc">{{ LNG.al_find_ally_text_r }}</div>
+        </a>
+
+    </div>
 </div>
+
+<style>
+.selection-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 2rem; 
+    max-width: 1000px; 
+    margin: 5rem auto; 
+    padding: 0 1rem;
+}
+
+.selection-card { 
+    background: rgba(255,255,255,0.03); 
+    border: 1px solid rgba(255,255,255,0.05); 
+    padding: 3rem 2rem; 
+    text-align: center; 
+    border-radius: 12px; 
+    transition: 0.3s; 
+    text-decoration: none; 
+    position: relative; 
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.selection-card:hover { transform: translateY(-10px); }
+
+/* Create Style */
+.create-card:hover { 
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), transparent); 
+    border-color: var(--primary); 
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.2); 
+}
+.create-card .card-icon { color: var(--primary); }
+.create-card .card-title { color: #fff; }
+
+/* Search Style */
+.search-card:hover { 
+    background: linear-gradient(135deg, rgba(112, 0, 255, 0.1), transparent); 
+    border-color: var(--secondary); 
+    box-shadow: 0 0 30px rgba(112, 0, 255, 0.2); 
+}
+.search-card .card-icon { color: var(--secondary); }
+.search-card .card-title { color: #fff; }
+
+.card-icon { font-size: 4rem; margin-bottom: 1.5rem; transition: 0.3s; }
+.selection-card:hover .card-icon { transform: scale(1.1); }
+
+.card-title { font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+.card-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+
+@media (max-width: 768px) {
+    .selection-grid { grid-template-columns: 1fr; margin: 2rem auto; }
+}
+</style>
 {% endblock %}

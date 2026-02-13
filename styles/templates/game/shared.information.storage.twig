@@ -1,37 +1,59 @@
-{% set count = productionTable.usedResource %}
+<div class="aerospace-info-table">
+    <div class="info-header">{{ LNG.in_storage }}</div>
+    
+    <div class="table-scroll-wrapper custom-scroll">
+        <table class="glass-table">
+            <thead>
+                <tr>
+                    <th>{{ LNG.in_level }}</th>
+                    {% for resourceID in productionTable.usedResource %}
+                    <th colspan="2">{{ LNG.tech[resourceID] }}</th>
+                    {% endfor %}
+                </tr>
+                <tr class="sub-header">
+                    <th></th>
+                    {% for resourceID in productionTable.usedResource %}
+                    <th>{{ LNG.in_storage }}</th>
+                    <th>Diff</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for elementLevel, productionData in productionTable.storage %}
+                <tr {% if CurrentLevel == elementLevel %}class="current-level"{% endif %}>
+                    <td class="lvl">{{ elementLevel }}</td>
+                    {% for resourceID, storage in productionData %}
+                    {% set storageDiff = storage - productionTable.storage[CurrentLevel][resourceID] %}
+                    
+                    <td class="val">{{ storage|number_format }}</td>
+                    <td class="diff {% if storageDiff > 0 %}pos{% elseif storageDiff < 0 %}neg{% endif %}">
+                        {{ storageDiff|number_format }}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<table style="width:100%;">
-	<tbody>
-		<tr>
-			<td colspan="2">
-				<table>
-				<tr>
-					<th>{{ LNG.in_level }}</th>
-				{% if count > 1 %}
-					{% for resourceID in productionTable.usedResource %}
-					<th colspan="2">{{ LNG.tech[resourceID] }}</th>
-					{% endfor %}
-				</tr>
-				<tr>
-					<th> </th>
-				{% endif %}
-					{% for resourceID in productionTable.usedResource %}
-					<th>{{ LNG.in_storage }}</th>
-					<th>{{ LNG.in_difference }}</th>
-					{% endfor %}
-				</tr>
-				{% for elementLevel, productionData in productionTable.storage %}
-				<tr>
-					<td><span{% if CurrentLevel == elementLevel %} style="color:#ff0000"{% endif %}>{{ elementLevel }}</span></td>
-					{% for resourceID, storage in productionData %}
-					{% set storageDiff = storage - productionTable.storage[CurrentLevel][resourceID] %}
-					<td><span style="color:{% if storage > 0 %}lime{% elseif storage < 0 %}red{% else %}white{% endif %}">{{ storage|number_format }}</span></td>
-					<td><span style="color:{% if storageDiff > 0 %}lime{% elseif storageDiff < 0 %}red{% else %}white{% endif %}">{{ storageDiff|number_format }}</span></td>
-					{% endfor %}
-				</tr>
-				{% endfor %}
-				</table>
-			</td>
-		</tr>
-	</tbody>
-</table>
+<style>
+.aerospace-info-table { padding: 15px; background: #0d111a; color: #ccc; font-family: 'Segoe UI', Tahoma, sans-serif; }
+.info-header { font-size: 1.2rem; color: #00f3ff; margin-bottom: 15px; font-weight: bold; text-align: center; text-transform: uppercase; }
+
+.table-scroll-wrapper { max-height: 400px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; }
+
+.glass-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.glass-table th { background: rgba(0, 243, 255, 0.1); padding: 10px; color: #00f3ff; position: sticky; top: 0; }
+.sub-header th { background: rgba(0, 243, 255, 0.05); color: #aaa; font-size: 0.8rem; top: 35px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+.glass-table td { padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,0.03); text-align: center; }
+.glass-table tr:hover { background: rgba(255,255,255,0.02); }
+
+.current-level { background: rgba(0, 243, 255, 0.15) !important; border-left: 3px solid #00f3ff; }
+.lvl { font-weight: bold; color: #fff; }
+.val { color: #ddd; }
+.pos { color: #2ecc71; }
+.neg { color: #e74c3c; }
+.diff { font-size: 0.8rem; opacity: 0.8; }
+</style>

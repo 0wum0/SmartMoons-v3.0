@@ -4,20 +4,111 @@
 {% block content %}
 
 <div class="content_page">
-	<div class="title">
-		{{ LNG.sh_search_in_the_universe }} <span id="loading" style="display:none;">{{ LNG.sh_loading }}</span>
-	</div>
+    <div class="aerospace-wrapper search-wrapper-centered">
+        
+        <div class="search-box-large">
+            <h1 class="search-title"><i class="fas fa-search"></i> {{ LNG.sh_search_in_the_universe }}</h1>
+            
+            <div class="search-input-container">
+                <div class="input-group">
+                    <select name="type" id="type" class="search-select">
+                        <option value="playername">{{ LNG.sh_player_name }}</option>
+                        <option value="planetname">{{ LNG.sh_planet_name }}</option>
+                        <option value="tag">{{ LNG.sh_tag }}</option>
+                        <option value="allyname">{{ LNG.sh_ally_name }}</option>
+                    </select>
+                    <input type="text" name="searchtext" id="searchtext" class="search-field" placeholder="Suchbegriff...">
+                </div>
+                
+                <button type="button" id="search-btn" class="btn-search-large">
+                    {{ LNG.sh_search }}
+                </button>
+            </div>
+            
+            <span id="loading" class="loading-indicator" style="display:none;">
+                <i class="fas fa-spinner fa-spin"></i> {{ LNG.sh_loading }}
+            </span>
+        </div>
 
-	<div id="result_search" style="text-align: center;">
-		<table style="width:100%;">
-			<tr>
-				<td>
-					<!-- TODO: Complex html_options - needs manual review -->
-					<input type="text" name="searchtext" id="searchtext">
-					<input type="button" value="{{ LNG.sh_search }}">
-				</td>
-			</tr>
-		</table>
-	</div>
+        <div id="result_search" class="search-results-container"></div>
+
+    </div>
 </div>
+
+<script type="text/javascript">
+    // Simple JS connector for the button
+    $(document).ready(function(){
+        $('#search-btn').click(function(){
+            // Trigger 2Moons search logic manually if needed, or assume existing JS handles #type and #searchtext
+            // Usually 2Moons binds to the inputs. We just ensure the ID matches.
+             var type = $('#type').val();
+             var text = $('#searchtext').val();
+             if(text) {
+                 $('#loading').show();
+                 $.post('game.php?page=search&mode=search&ajax=1', {type: type, searchtext: text}, function(data){
+                     $('#loading').hide();
+                     $('#result_search').html(data);
+                 });
+             }
+        });
+        
+        // Enter key support
+        $('#searchtext').keypress(function(e){
+            if(e.which == 13){
+                $('#search-btn').click();
+            }
+        });
+    });
+</script>
+
+<style>
+/* SEARCH STYLES */
+.search-wrapper-centered {
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 80vh; padding-top: 50px;
+    width: 100%;
+}
+
+.search-box-large {
+    background: rgba(16, 20, 28, 0.9);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 12px;
+    padding: 40px;
+    width: 100%; max-width: 600px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.search-title { color: #fff; margin-bottom: 30px; text-transform: uppercase; font-size: 1.5rem; }
+
+.input-group {
+    display: flex; gap: 10px; margin-bottom: 20px;
+}
+
+.search-select {
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; padding: 10px; border-radius: 4px; outline: none;
+    flex: 1;
+}
+.search-field {
+    flex: 2;
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; padding: 10px; border-radius: 4px; font-size: 1.1rem;
+}
+.search-field:focus { border-color: #00f3ff; box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
+
+.btn-search-large {
+    width: 100%; padding: 12px;
+    background: linear-gradient(45deg, #00f3ff, #0072ff);
+    border: none; border-radius: 6px;
+    color: #000; font-weight: bold; font-size: 1.1rem; text-transform: uppercase;
+    cursor: pointer; transition: 0.2s;
+}
+.btn-search-large:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 243, 255, 0.4); }
+
+.loading-indicator { color: #00f3ff; margin-top: 15px; display: block; font-weight: bold; }
+
+.search-results-container { width: 100%; max-width: 900px; }
+</style>
 {% endblock %}

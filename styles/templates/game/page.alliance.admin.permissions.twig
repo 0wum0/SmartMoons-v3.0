@@ -2,77 +2,138 @@
 
 {% block title %}{{ LNG.lm_alliance }}{% endblock %}
 {% block content %}
-{% set countRank = availableRanks|length %}
 
-<div class="content_page">
-	<div class="title" style="text-align: left;">
-		{{ LNG.al_configura_ranks }} <span style="float:right;"><button id="create_new_alliance_rank">+</button></span>
-	</div>
+<div class="aerospace-container">
+    <div class="glass-panel header-panel">
+        <h2 class="page-title"><i class="fas fa-user-lock"></i> {{ LNG.al_configura_ranks }}</h2>
+        <button id="create_new_alliance_rank" class="btn-action-glow small"><i class="fas fa-plus"></i> {{ LNG.al_create_new_rank }}</button>
+    </div>
 
-	<div>
-		<form action="game.php?page=alliance&amp;mode=admin&amp;action=permissionsSend" method="post">
-		<input type="hidden" value="1" name="send">
-			<table style="width:100%;">
-			<tr>
-				<td>{{ LNG.al_dlte }}</td>
-				<td>{{ LNG.al_rank_name }}</td>
-				{% for rankName in availableRanks %}
-				<td><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="" width="16" height="16"></td>
-				{% endfor %}
-			</tr>
-			{% for rowId, rankRow in rankList %}
-			<tr>
-				<td><a href="game.php?page=alliance&amp;mode=admin&amp;action=permissionsSend&amp;deleteRank={{ rowId }}"><img src="styles/resource/images/alliance/CLOSE.png" alt="" width="16" height="16"></a></td>
-				<td><input type="text" name="rank[{{ rowId }}][rankName]" value="{{ rankRow.rankName }}"></td>
-				{% for rankId, rankName in availableRanks %}
-				<td><input type="checkbox" name="rank[{{ rowId }}][{{ rankId }}]" value="1"{% if rankRow[rankName] %} checked{% endif %}{% if not ownRights[rankName] %} disabled{% endif %}></td>
-				{% endfor %}
-			</tr>
-			{% else %}
-			<tr>
-				<td colspan="{{ countRank + 2 }}">{{ LNG.al_no_ranks_defined }}</td>
-			</tr>
-			{% endfor %}
-			<tr>
-				<td colspan="{{ countRank + 2 }}"><input type="submit" value="{{ LNG.al_save }}"></td>
-			</tr>
-			<tr class="title">
-					<th colspan="{{ countRank + 2 }}">{{ LNG.gl_legend }}</th>
-			</tr>
-				{% for rankName in availableRanks %}
-			<tr>
-					<td><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="" width="16" height="16"></td>
-					<td colspan="{{ countRank + 1 }}">{{ LNG.al_rank_desc[rankName] }}</td>
-			</tr>
-				{% endfor %}
-			<tr>
-					<th colspan="{{ countRank + 2 }}"><a href="game.php?page=alliance&amp;mode=admin">{{ LNG.al_back }}</a></th>
-			</tr>
-			</table>
-		</form>
-	</div>
+    <div class="glass-panel table-panel">
+        <form action="game.php?page=alliance&amp;mode=admin&amp;action=permissionsSend" method="post">
+        <input type="hidden" value="1" name="send">
+        
+        <div class="table-responsive custom-scrollbar">
+            <table class="glass-table permission-table">
+                <thead>
+                    <tr>
+                        <th class="sticky-col action-col">{{ LNG.al_dlte }}</th>
+                        <th class="sticky-col name-col">{{ LNG.al_rank_name }}</th>
+                        {% for rankName in availableRanks %}
+                        <th class="rotate-header">
+                            <div><span><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="" width="16" height="16"></span></div>
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rowId, rankRow in rankList %}
+                    <tr>
+                        <td class="sticky-col action-col">
+                            <a href="game.php?page=alliance&amp;mode=admin&amp;action=permissionsSend&amp;deleteRank={{ rowId }}" class="btn-icon-danger">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </td>
+                        <td class="sticky-col name-col">
+                            <input type="text" name="rank[{{ rowId }}][rankName]" value="{{ rankRow.rankName }}" class="glass-input compact">
+                        </td>
+                        {% for rankId, rankName in availableRanks %}
+                        <td class="check-col">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="rank[{{ rowId }}][{{ rankId }}]" value="1" {% if rankRow[rankId] %}checked{% endif %}>
+                                <span class="checkmark"></span>
+                            </label>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="action-bar-bottom">
+            <a href="game.php?page=alliance&amp;mode=admin" class="btn-ghost">{{ LNG.al_back }}</a>
+            <button type="submit" class="btn-action-glow">{{ LNG.al_save }}</button>
+        </div>
+        </form>
+    </div>
+
+    <div class="glass-panel info-panel mt-3">
+        <div class="panel-header small">{{ LNG.gl_legend }}</div>
+        <div class="legend-grid">
+            {% for rankName in availableRanks %}
+            <div class="legend-item">
+                <img src="styles/resource/images/alliance/{{ rankName }}.png" alt="">
+                <span>{{ LNG.al_rank_desc[rankName] }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
 </div>
 
 <div id="new_alliance_rank" title="{{ LNG.al_create_new_rank }}" style="display:none;">
-	<form action="game.php?page=alliance&amp;mode=admin&amp;action=permissionsSend" method="post">
-		<table style="width:100%;">
-	<tr>
-				<td><label for="rankName">{{ LNG.al_rank_name }}</label></td>
-				<td><input type="text" name="newrank[rankName]" size="20" maxlength="32" id="rankName" required></td>
-	</tr>
-			<tr>
-				<th colspan="{{ countRank + 2 }}"> </th>
-			</tr>
-	{% for rankId, rankName in availableRanks %}
-	<tr>
-		<td><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="{{ rankName }}" width="16" height="16"> <label for="rank_{{ rankId }}">{{ LNG.al_rank_desc[rankName] }}</label></td>
-		<td><input type="checkbox" name="newrank[{{ rankId }}]" value="1" id="rank_{{ rankId }}" title="{{ LNG.al_rank_desc[rankName] }}"></td>
-	</tr>
-	{% endfor %}
-	<tr>
-		<td colspan="{{ countRank + 2 }}"><input type="submit" value="{{ LNG.al_create }}"></td>
-	</tr>
-	</table>
-</form>
+    <form action="game.php?page=alliance&amp;mode=admin&amp;action=permissionsSend" method="post">
+        <div class="form-group">
+            <label>{{ LNG.al_rank_name }}</label>
+            <input type="text" name="newrank[rankName]" class="glass-input full-width" maxlength="32" required>
+        </div>
+        <div class="rank-grid-modal">
+            {% for rankId, rankName in availableRanks %}
+            <label class="rank-option">
+                <input type="checkbox" name="newrank[{{ rankId }}]" value="1">
+                <span class="rank-label">
+                    <img src="styles/resource/images/alliance/{{ rankName }}.png" width="16" height="16"> {{ LNG.al_rank_desc[rankName] }}
+                </span>
+            </label>
+            {% endfor %}
+        </div>
+        <div class="modal-actions">
+            <button type="submit" class="btn-action-glow">{{ LNG.al_create }}</button>
+        </div>
+    </form>
 </div>
+
+<style>
+/* Permissions Table Specifics */
+.permission-table { border-collapse: separate; border-spacing: 0; }
+.sticky-col { position: sticky; left: 0; background: #0b1021; z-index: 10; border-right: 1px solid rgba(255,255,255,0.1); }
+.name-col { left: 40px; min-width: 150px; z-index: 9; }
+.action-col { width: 40px; z-index: 11; text-align: center; }
+
+.rotate-header { height: 100px; white-space: nowrap; vertical-align: bottom; padding: 0 5px; }
+.rotate-header > div { transform: translate(0, 0px) rotate(-45deg); width: 20px; }
+.rotate-header > div > span { border-bottom: 1px solid rgba(255,255,255,0.2); padding: 5px 10px; }
+
+.check-col { text-align: center; background: rgba(255,255,255,0.02); }
+.check-col:hover { background: rgba(255,255,255,0.05); }
+
+.legend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; padding: 10px; }
+.legend-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-muted); }
+
+/* Custom Checkbox */
+.custom-checkbox { position: relative; display: inline-block; width: 20px; height: 20px; }
+.custom-checkbox input { opacity: 0; width: 0; height: 0; }
+.checkmark { position: absolute; top: 0; left: 0; height: 20px; width: 20px; background-color: rgba(255,255,255,0.1); border-radius: 4px; }
+.custom-checkbox input:checked ~ .checkmark { background-color: var(--primary); }
+.checkmark:after { content: ""; position: absolute; display: none; left: 7px; top: 3px; width: 5px; height: 10px; border: solid black; border-width: 0 3px 3px 0; transform: rotate(45deg); }
+.custom-checkbox input:checked ~ .checkmark:after { display: block; }
+</style>
+
+<script>
+$(function() {
+    $('#create_new_alliance_rank').click(function() {
+        $('#new_alliance_rank').dialog({
+            draggable: false,
+            resizable: false,
+            modal: true,
+            width: 400,
+            classes: {
+                "ui-dialog": "aerospace-dialog"
+            }
+        });
+        return false;
+    });
+});
+</script>
 {% endblock %}

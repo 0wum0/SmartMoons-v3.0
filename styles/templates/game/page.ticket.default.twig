@@ -4,33 +4,73 @@
 {% block content %}
 
 <div class="content_page">
-	<div class="title">
-		{{ LNG.ti_header }}
-	</div>
+    <div class="aerospace-wrapper">
+        
+        <div class="glass-panel header-panel">
+            <h2 class="page-title"><i class="fas fa-headset"></i> {{ LNG.ti_header }}</h2>
+            <a href="game.php?page=ticket&amp;mode=create" class="btn-new-ticket">
+                <i class="fas fa-plus"></i> {{ LNG.ti_new }}
+            </a>
+        </div>
 
-	<div>
-		<table style="width:100%;">
-			<tr style="height:20px;">
-				<td colspan="5" style="text-align: center;"><a href="game.php?page=ticket&amp;mode=create">{{ LNG.ti_new }}</a></td>
-			</tr>
-			<tr>
-				<th style="width:10%">{{ LNG.ti_id }}</td>
-				<th style="width:45%">{{ LNG.ti_subject }}</td>
-				<th style="width:15%">{{ LNG.ti_answers }}</td>
-				<th style="width:15%">{{ LNG.ti_date }}</td>
-				<th style="width:15%">{{ LNG.ti_status }}</td>
-			</tr>
-			{% for TicketID, TicketInfo in ticketList %}	
-			<tr>
-				<td><a href="game.php?page=ticket&amp;mode=view&amp;id={{ TicketID }}">#{{ TicketID }}</a></td>
-				<td><a href="game.php?page=ticket&amp;mode=view&amp;id={{ TicketID }}">{{ TicketInfo.subject }}</a></td>
-				<td>{{ TicketInfo.answer - 1 }}</td>
-				<td>{{ TicketInfo.time }}</td>
-				<td>{% if TicketInfo.status == 0 %}<span style="color:green">{{ LNG.ti_status_open }}</span>{% elseif TicketInfo.status == 1 %}<span style="color:orange">{{ LNG.ti_status_answer }}</span>{% else %}<span style="color:red">{{ LNG.ti_status_closed }}</span>{% endif %}</td>
-			</tr>
-			{% endfor %}
-		</table>
-	</div>
+        <div class="ticket-list">
+            <div class="ticket-head-row">
+                <div class="col id">ID</div>
+                <div class="col sub">{{ LNG.ti_subject }}</div>
+                <div class="col ans">{{ LNG.ti_answers }}</div>
+                <div class="col date">{{ LNG.ti_date }}</div>
+                <div class="col stat">{{ LNG.ti_status }}</div>
+            </div>
+
+            {% for TicketID, TicketInfo in ticketList %}    
+            <div class="ticket-row" onclick="window.location.href='game.php?page=ticket&amp;mode=view&amp;id={{ TicketID }}'">
+                <div class="col id">#{{ TicketID }}</div>
+                <div class="col sub">{{ TicketInfo.subject }}</div>
+                <div class="col ans">{{ TicketInfo.answer - 1 }}</div>
+                <div class="col date">{{ TicketInfo.time }}</div>
+                <div class="col stat">
+                    {% if TicketInfo.status == 0 %}
+                        <span class="badge open">{{ LNG.ti_status_open }}</span>
+                    {% elseif TicketInfo.status == 1 %}
+                        <span class="badge answer">{{ LNG.ti_status_answer }}</span>
+                    {% else %}
+                        <span class="badge closed">{{ LNG.ti_status_closed }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
 </div>
 
+<style>
+.aerospace-wrapper { width: 100%; padding: 15px; box-sizing: border-box; }
+.header-panel { display: flex; justify-content: space-between; align-items: center; padding: 20px; margin-bottom: 20px; background: rgba(16, 20, 28, 0.8); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 8px; }
+.page-title { margin: 0; color: #fff; font-size: 1.5rem; text-transform: uppercase; }
+
+.btn-new-ticket {
+    background: linear-gradient(45deg, #2ecc71, #27ae60);
+    color: #fff; padding: 10px 20px; border-radius: 4px; text-decoration: none; font-weight: bold;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.3); transition: 0.2s;
+}
+.btn-new-ticket:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(46, 204, 113, 0.5); }
+
+.ticket-list { background: rgba(22, 27, 38, 0.9); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+.ticket-head-row { display: flex; background: rgba(0, 243, 255, 0.1); padding: 15px; font-weight: bold; color: #00f3ff; text-transform: uppercase; font-size: 0.9rem; }
+.ticket-row { display: flex; padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; transition: 0.2s; cursor: pointer; }
+.ticket-row:hover { background: rgba(255,255,255,0.03); padding-left: 20px; }
+
+.col { padding: 0 5px; }
+.col.id { flex: 0.5; color: #888; font-family: monospace; }
+.col.sub { flex: 3; font-weight: bold; color: #fff; }
+.col.ans { flex: 0.5; text-align: center; }
+.col.date { flex: 1; color: #aaa; font-size: 0.9rem; }
+.col.stat { flex: 1; text-align: right; }
+
+.badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+.badge.open { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
+.badge.answer { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; }
+.badge.closed { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
+</style>
 {% endblock %}

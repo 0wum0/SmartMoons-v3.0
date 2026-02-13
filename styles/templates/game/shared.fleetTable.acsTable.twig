@@ -1,48 +1,117 @@
-<form action="?page=fleetTable&amp;action=acs" method="post">
+<form action="?page=fleetTable&amp;action=acs" method="post" class="acs-form">
 <input name="fleetID" value="{{ acsData.mainFleetID }}" type="hidden">
-	<table class="table519">
-		<tr style="height:20px;">
-			<th colspan="2">{{ LNG.fl_sac_of_fleet }}</th>
-		</tr>
-		<tr style="height:20px;">
-			<th colspan="2">{{ LNG.fl_modify_sac_name }} (<a href="javascript:Rename();">{{ LNG.fl_acs_change }}</a>)</th>
-		</tr>
-		<tr>
-			<td colspan="2" id="acsName">{{ acsData.acsName }}</td>
-		</tr>
-		<tr style="height:20px;">
-			<th style="width:50%;">{{ LNG.fl_members_invited }}</th>
-            <th style="width:50%;">{{ LNG.fl_invite_members }}</th>
-		</tr>
-		{% if acsData.statusMessage %}
-		<tr>
-			<td colspan="2">
-				{{ acsData.statusMessage }}
-			</td>
-		</tr>
-		{% endif %}
-		<tr>
-			<td>
-				<select size="5" style="width:80%;">
-					<!-- TODO: Complex html_options - needs manual review -->
+
+<div class="aerospace-acs-card">
+    <div class="acs-header">
+        <i class="fas fa-users-cog"></i>
+        <span>{{ LNG.fl_sac_of_fleet }}</span>
+    </div>
+
+    <div class="acs-body">
+        
+        <div class="acs-section">
+            <div class="section-label">
+                {{ LNG.fl_modify_sac_name }}
+                <a href="javascript:Rename();" class="btn-icon-small" title="{{ LNG.fl_acs_change }}">
+                    <i class="fas fa-pen"></i>
+                </a>
+            </div>
+            <div class="acs-name-display" id="acsName">{{ acsData.acsName }}</div>
+        </div>
+
+        <div class="acs-section">
+            <div class="section-title">{{ LNG.fl_members_invited }}</div>
+            
+            <div class="invite-box">
+                {% if acsData.statusMessage %}
+                    <div class="status-msg">{{ acsData.statusMessage }}</div>
+                {% endif %}
+
+                <select size="5" class="glass-select-multi">
+                    {% for key, val in acsData.inviteUsers %}
+                        <option value="{{ key }}">{{ val }}</option>
+                    {% endfor %}
                 </select>
-			</td>
-			<td>
-				<p><input name="username" type="text"></p>
-				<p><input type="submit" value="{{ LNG.fl_continue }}"></p>
-			</td>
-		</tr>
-	</table>
+            </div>
+        </div>
+
+        <div class="acs-section">
+            <div class="section-title">{{ LNG.fl_invite_members }}</div>
+            <div class="invite-input-group">
+                <input name="username" type="text" class="glass-input" placeholder="Spielername...">
+                <button type="submit" class="btn-invite">{{ LNG.fl_continue }}</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 </form>
+
 <script type="text/javascript">
 function Rename(){
-	var Name = prompt("{{ LNG.fl_acs_change_name }}", "{{ acsData.acsName }}");
-	$.getJSON('?page=fleetTable&action=acs&fleetID={{ acsData.mainFleetID }}&acsName='+Name, function(data) {
-		if(data != "") {
-			alert(data);
-			return;
-		}
-		$('#acsName').text(Name);
-	});
+    var Name = prompt('{{ LNG.fl_acs_change_name }}', $('#acsName').text());
+    if(Name == null || Name == "") { return; }
+    
+    $.getJSON('game.php?page=fleetTable&action=acs&mode=name&fleetID={{ acsData.mainFleetID }}&acsName='+Name, function(data){
+        $('#acsName').text(data);
+    });
 }
 </script>
+
+<style>
+/* ACS CARD STYLES */
+.aerospace-acs-card {
+    background: rgba(16, 20, 28, 0.95);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    color: #ccc;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.acs-header {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px; margin-bottom: 15px;
+    font-size: 1.2rem; font-weight: bold; color: #00f3ff;
+    display: flex; align-items: center; gap: 10px;
+}
+
+.acs-section { margin-bottom: 20px; }
+
+.section-label { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; color: #aaa; margin-bottom: 5px; }
+.btn-icon-small { color: #00f3ff; text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
+.btn-icon-small:hover { color: #fff; }
+
+.acs-name-display {
+    background: rgba(255,255,255,0.05); padding: 10px; border-radius: 4px;
+    font-weight: bold; color: #fff; text-align: center; border: 1px solid rgba(255,255,255,0.1);
+}
+
+.section-title { font-weight: bold; color: #fff; margin-bottom: 8px; border-left: 3px solid #00f3ff; padding-left: 10px; }
+
+.glass-select-multi {
+    width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; padding: 5px; border-radius: 4px; font-family: inherit;
+    min-height: 100px;
+}
+.glass-select-multi option { padding: 3px 5px; background: #111; }
+
+.status-msg { color: #2ecc71; font-size: 0.9rem; margin-bottom: 5px; text-align: center; }
+
+.invite-input-group { display: flex; gap: 10px; }
+.glass-input {
+    flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; padding: 8px; border-radius: 4px;
+}
+.glass-input:focus { border-color: #00f3ff; outline: none; }
+
+.btn-invite {
+    background: linear-gradient(45deg, #00f3ff, #0072ff);
+    border: none; padding: 8px 20px; border-radius: 4px;
+    color: #000; font-weight: bold; cursor: pointer; transition: 0.2s;
+}
+.btn-invite:hover { box-shadow: 0 0 10px rgba(0, 243, 255, 0.4); }
+</style>

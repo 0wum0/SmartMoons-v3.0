@@ -1,18 +1,45 @@
 {% extends "layout.full.twig" %}
 
 {% block title %}{{ LNG.lm_changelog }}{% endblock %}
-{% block content %}
-<div class="content_page">
-	<div class="title">
-		{{ LNG.lm_changelog }}
-	</div>
 
-	<div>
-		<table style="width: 100%;">
-			<tr>
-				<td class="left" style="padding: 0 10px">{{ ChangelogList }}</td>
-			</tr>
-		</table>
-	</div>
+{% block content %}
+<div class="aerospace-container">
+    
+    <div class="glass-panel header-panel">
+        <h2 class="page-title"><i class="fas fa-history"></i> {{ LNG.lm_changelog }}</h2>
+    </div>
+
+    <div class="glass-panel content-panel">
+        <div class="changelog-wrapper">
+            <table class="glass-table full-width">
+                {{ ChangelogList|raw }}
+            </table>
+        </div>
+    </div>
+
 </div>
+
+<style>
+/* Changelog Specific Overrides */
+.changelog-wrapper { padding: 1rem; }
+
+/* Force styles on the injected HTML */
+.glass-table td { 
+    padding: 12px 15px; 
+    border-bottom: 1px solid rgba(255,255,255,0.05); 
+    color: var(--text-muted);
+    vertical-align: top;
+}
+
+/* Assuming the first cell is version/date and second is description */
+.glass-table td:first-child {
+    font-family: monospace;
+    color: var(--primary);
+    width: 150px;
+    font-weight: bold;
+    border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+.glass-table tr:last-child td { border-bottom: none; }
+</style>
 {% endblock %}

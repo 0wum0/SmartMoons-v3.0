@@ -3,59 +3,109 @@
 {% block title %}{{ LNG.lm_fleet }}{% endblock %}
 {% block content %}
 
-<div class="content_page">
-    <div class="title">
-        {{ LNG.lm_fleet }}
+<div class="aerospace-container">
+    
+    <div class="glass-panel success-panel text-center">
+        <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+        <h2 class="page-title">{{ LNG.fl_fleet_sended }}</h2>
     </div>
 
-    <div>
-        <table style="width: 100%;">
-            <tr style="height:20px; text-align: center;">
-                <th colspan="2" class="success">{{ LNG.fl_fleet_sended }}</span></th>
-            </tr>
-            <tr style="height:20px">
-                <td>{{ LNG.fl_mission }}</td>
-                <td>{{ LNG["\1_" ~ targetMission] }}</td>
-            </tr>
-            <tr style="height:20px">
-                <td>{{ LNG.fl_distance }}</td>
-                <td>{{ distance|number_format }}</td>
-            </tr>
-            <tr style="height:20px">
-                <td>{{ LNG.fl_fleet_speed }}</td>
-                <td>{{ MaxFleetSpeed|number_format }}</td>
-            </tr>
-            <tr style="height:20px">
-                <td>{{ LNG.fl_fuel_consumption }}</td>
-                <td>{{ consumption|number_format }}</td>
-            </tr>
-            <tr style="height:20px">
-                <td>{{ LNG.fl_from }}</td>
-                <td>{{ from }}</td>
-            </tr>
-            <tr style="height:20px">
-                <td>{{ LNG.fl_destiny }}</td>
-                <td>{{ destination }}</td>
-            </tr>
-            <tr style="height:20px">
-                <td>{{ LNG.fl_arrival_time }}</td>
-                <td>{{ fleetStartTime }}</td>
-            </tr>
-            <tr style="height:20px">
-                <td>{{ LNG.fl_return_time }}</td>
-                <td>{{ fleetEndTime }}</td>
-            </tr>
-            <tr style="height:20px">
-                <th colspan="2">{{ LNG.fl_fleet }}</th>
-            </tr>
-            {% for ShipID, ShipCount in FleetList %}
-            <tr>
-                <td>{{ LNG.tech[ShipID] }}</td>
-                <td>{{ ShipCount|number_format }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+    <div class="glass-panel report-panel">
+        <div class="panel-header"><i class="fas fa-file-contract"></i> {{ LNG.fl_mission }} {{ LNG["type_mission_" ~ targetMission] }}</div>
+        
+        <div class="report-grid">
+            
+            <div class="route-box">
+                <div class="route-point">
+                    <span class="route-label">{{ LNG.fl_from }}</span>
+                    <span class="route-coord">{{ from }}</span>
+                </div>
+                <div class="route-arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                    <span class="route-dist">{{ distance|number_format }}</span>
+                </div>
+                <div class="route-point">
+                    <span class="route-label">{{ LNG.fl_destiny }}</span>
+                    <span class="route-coord">{{ destination }}</span>
+                </div>
+            </div>
+
+            <div class="data-grid">
+                <div class="data-item">
+                    <span class="label">{{ LNG.fl_fleet_speed }}</span>
+                    <span class="value">{{ MaxFleetSpeed|number_format }}</span>
+                </div>
+                <div class="data-item">
+                    <span class="label">{{ LNG.fl_fuel_consumption }}</span>
+                    <span class="value text-warning">{{ consumption|number_format }}</span>
+                </div>
+                <div class="data-item">
+                    <span class="label">{{ LNG.fl_arrival_time }}</span>
+                    <span class="value text-highlight">{{ fleetStartTime }}</span>
+                </div>
+                <div class="data-item">
+                    <span class="label">{{ LNG.fl_return_time }}</span>
+                    <span class="value text-muted">{{ fleetEndTime }}</span>
+                </div>
+            </div>
+
+            <div class="fleet-manifest">
+                <h4 class="manifest-title">{{ LNG.fl_fleet }}</h4>
+                <div class="manifest-list">
+                    {% for ShipID, ShipCount in FleetList %}
+                    <div class="manifest-item">
+                        <span class="ship-name">{{ LNG.tech[ShipID] }}</span>
+                        <span class="ship-count">{{ ShipCount|number_format }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="action-bar-bottom">
+            <a href="game.php?page=fleetTable" class="btn-action-glow">{{ LNG.lm_fleet }}</a>
+        </div>
     </div>
+
 </div>
 
+<style>
+/* Success Panel */
+.success-panel { border-color: var(--success); background: rgba(0, 255, 128, 0.05); margin-bottom: 20px; padding: 2rem; }
+.success-icon { font-size: 3rem; color: var(--success); margin-bottom: 10px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.page-title { margin: 0; color: #fff; }
+
+/* Route Box */
+.route-box { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 15px 30px; border-radius: 8px; margin-bottom: 20px; }
+.route-point { display: flex; flex-direction: column; align-items: center; }
+.route-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
+.route-coord { font-family: monospace; font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+.route-arrow { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); flex: 1; padding: 0 20px; }
+.route-arrow i { font-size: 1.5rem; margin-bottom: 5px; color: var(--primary); }
+.route-dist { font-size: 0.8rem; }
+
+/* Data Grid */
+.data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+.data-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 8px 0; }
+.data-item .label { color: var(--text-muted); }
+.data-item .value { font-weight: bold; }
+
+/* Fleet Manifest */
+.manifest-title { font-size: 1rem; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 10px; text-transform: uppercase; }
+.manifest-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.manifest-item { display: flex; justify-content: space-between; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 4px; }
+.ship-count { color: var(--text-highlight); font-family: monospace; }
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 600px) {
+    .route-box { flex-direction: column; gap: 15px; }
+    .route-arrow { transform: rotate(90deg); margin: 10px 0; }
+    .data-grid { grid-template-columns: 1fr; }
+}
+</style>
 {% endblock %}

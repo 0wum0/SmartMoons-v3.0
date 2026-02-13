@@ -1,187 +1,138 @@
-{% block title %}{{ pageTitle }}{% endblock %}
 {% block content %}
-{% if Info is defined %}
-<table style="width:100%">
-	<tr>
-		<td class="transparent" style="width:40%;font-size:22px;font-weight:bold;padding:10px 0 30px;color:{% if Raport.result == "a" %}lime{% elseif Raport.result == "r" %}red{% else %}white{% endif %}">{{ Info.0 }}</td>
-		<td class="transparent" style="font-size:22px;font-weight:bold;padding:10px 0 30px;">VS</td>
-		<td class="transparent" style="width:40%;font-size:22px;font-weight:bold;padding:10px 0 30px;color:{% if Raport.result == "r" %}lime{% elseif Raport.result == "a" %}red{% else %}white{% endif %}">{{ Info.1 }}</td>
-	</tr>
-</table>
-{% endif %}
-<div style="width:100%;text-align:center">
-{% if Raport.mode == 1 %}{{ LNG.sys_destruc_title }}{% else %}{{ LNG.sys_attack_title }}{% endif %} 
-{{ Raport.time }}:<br><br>
-{% for Round, RoundInfo in Raport.rounds %}
-<table>
-	<tr>
-		{% for Player in RoundInfo.attacker %}
-		{% set PlayerInfo = Raport.players[Player.userID] %}
-		<td class="transparent">
-			<table>
-				<tr>
-					<td>
-						{{ LNG.sys_attack_attacker_pos }} {{ PlayerInfo.name }} {% if Info is defined %}([XX:XX:XX]){% else %}([{{ PlayerInfo.koords[0] }}:{{ PlayerInfo.koords[1] }}:{{ PlayerInfo.koords[2] }}]{% if PlayerInfo.koords[3] is defined %} ({{ LNG.type_planet_short[PlayerInfo.koords[3]] }}){% endif %}){% endif %}<br>
-						{{ LNG.sys_ship_weapon }} {{ PlayerInfo.tech[0] }}% - {{ LNG.sys_ship_shield }} {{ PlayerInfo.tech[1] }}% - {{ LNG.sys_ship_armour }} {{ PlayerInfo.tech[2] }}%
-						<table width="100%">
-						{% if Player.ships %}
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_type }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ LNG.shortNames[ShipID] }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_count }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[0]|number_format(0, '.', ',') }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_weapon }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[1]|number_format(0, '.', ',') }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_shield }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[2]|number_format(0, '.', ',') }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_armour }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[3]|number_format(0, '.', ',') }}</td>
-								{% endfor %}
-							</tr>
-						{% else %}
-							<tr>
-								<td class="transparent">
-									<br>{{ LNG.sys_destroyed }}<br><br>
-								</td>
-							</tr>
-						{% endif %}
-						</table>
-					</td>
-				</tr>
-			</table>
-		</td>
-		{% endfor %}
-	</tr>
-</table>
-<br><br>
-<table>
-	<tr>
-		{% for Player in RoundInfo.defender %}
-		{% set PlayerInfo = Raport.players[Player.userID] %}
-		<td class="transparent">
-			<table>
-				<tr>
-					<td>
-						{{ LNG.sys_attack_defender_pos }} {{ PlayerInfo.name }} {% if Info is defined %}([XX:XX:XX]){% else %}([{{ PlayerInfo.koords[0] }}:{{ PlayerInfo.koords[1] }}:{{ PlayerInfo.koords[2] }}]{% if PlayerInfo.koords[3] is defined %} ({{ LNG.type_planet_short[PlayerInfo.koords[3]] }}){% endif %}){% endif %}<br>
-						{{ LNG.sys_ship_weapon }} {{ PlayerInfo.tech[0] }}% - {{ LNG.sys_ship_shield }} {{ PlayerInfo.tech[1] }}% - {{ LNG.sys_ship_armour }} {{ PlayerInfo.tech[2] }}%
-						<table width="100%">
-						{% if Player.ships %}
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_type }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ LNG.shortNames[ShipID] }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_count }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[0]|number_format(0, '.', ',') }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_weapon }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[1]|number_format(0, '.', ',') }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_shield }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[2]|number_format(0, '.', ',') }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_armour }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent">{{ ShipData[3]|number_format(0, '.', ',') }}</td>
-								{% endfor %}
-							</tr>
-						{% else %}
-							<tr>
-								<td class="transparent">
-									<br>{{ LNG.sys_destroyed }}<br><br>
-								</td>
-							</tr>
-						{% endif %}
-						</table>
-					</td>
-				</tr>
-			</table>
-		</td>
-		{% endfor %}
-	</tr>
-</table>
-{% if loop.last %}
-{{ LNG.fleet_attack_1 }} {{ RoundInfo.info[0]|number_format(0, '.', ',')}} {{ LNG.fleet_attack_2 }} {{ RoundInfo.info[3]|number_format(0, '.', ',')}} {{ LNG.damage }}<br>
-{{ LNG.fleet_defs_1 }} {{ RoundInfo.info[2]|number_format(0, '.', ',')}} {{ LNG.fleet_defs_2 }} {{ RoundInfo.info[1]|number_format(0, '.', ',')}} {{ LNG.damage }}<br><br>
-{% endif %}
-{% endfor %}
-<br><br>
-{% if Raport.result == "a" %}
-{{ LNG.sys_attacker_won }}<br>
-{{ LNG.sys_stealed_ressources }} {% for elementID, amount in Raport.steal %}{{ amount|number_format(0, '.', ',')}} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2 == Raport.steal|length) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}
-{% elseif Raport.result == "r" %}
-{{ LNG.sys_defender_won }}
-{% else %}
-{{ LNG.sys_both_won }}
-{% endif %}
-<br><br>
-{{ LNG.sys_attacker_lostunits }} {{ Raport['units'][0]|number_format(0, '.', ',')}} {{ LNG.sys_units }}<br>
-{{ LNG.sys_defender_lostunits }} {{ Raport['units'][1]|number_format(0, '.', ',')}} {{ LNG.sys_units }}<br>
-{{ LNG.debree_field_1 }} {% for elementID, amount in Raport.debris %}{{ amount|number_format(0, '.', ',')}} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2 == Raport.debris|length) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
-{% if Raport.mode == 1 %}
-	{#  Destruction  #}
-	{% if Raport.moon.moonDestroySuccess == -1 %}
-		{#  Attack not win  #}
-		{{ LNG.sys_destruc_stop }}<br>
-	{% else %}
-		{#  Attack win  #}
-		{{ sprintf(LNG.sys_destruc_lune, Raport.moon.moonDestroyChance) }}<br>{{ LNG.sys_destruc_mess1 }}
-		{% if Raport.moon.moonDestroySuccess == 1 %}
-			{#  Destroy success  #}
-			{{ LNG.sys_destruc_reussi }}
-		{% elseif Raport.moon.moonDestroySuccess == 0 %}
-			{#  Destroy failed  #}
-			{{ LNG.sys_destruc_null }}			
-		{% endif %}
-		<br>
-		{{ sprintf(LNG.sys_destruc_rip, Raport.moon.fleetDestroyChance) }}
-		{% if Raport.moon.fleetDestroySuccess == 1 %}
-			{#  Fleet destroyed  #}
-			<br>{{ LNG.sys_destruc_echec }}
-		{% endif %}			
-	{% endif %}
-{% else %}
-	{#  Normal Attack  #}
-	{{ LNG.sys_moonproba }} {{ Raport.moon.moonChance }}%<br>
-	{% if Raport.moon.moonName %}
-		{% if Info is defined %}
-			{#  Moon created (HoF Mode)  #}
-			{{ sprintf(LNG.sys_moonbuilt, Raport.moon.moonName, "XX", "XX", "XX") }}
-		{% else %}
-			{#  Moon created  #}
-			{{ sprintf(LNG.sys_moonbuilt, Raport.moon.moonName, Raport.koords[0], Raport.koords[1], Raport.koords[2]) }}
-		{% endif %}
-	{% endif %}
-{% endif %}
+<div class="aerospace-battle-log">
+    
+    <div class="battle-result {% if Raport.result == "a" %}win{% elseif Raport.result == "r" %}lose{% else %}draw{% endif %}">
+        <div class="result-title">
+            {% if Raport.result == "a" %}{{ LNG.sys_attacker_won }}
+            {% elseif Raport.result == "r" %}{{ LNG.sys_defender_won }}
+            {% else %}{{ LNG.sys_both_won }}{% endif %}
+        </div>
+        <div class="result-time">{{ Raport.time }}</div>
+    </div>
 
-{{ Raport.additionalInfo }}
+    {% for Round, RoundInfo in Raport.rounds %}
+    <div class="battle-round">
+        <div class="round-header">Runde {{ Round }}</div>
+        
+        <div class="fleet-block attacker">
+            {% for Player in RoundInfo.attacker %}
+            {% set PlayerInfo = Raport.players[Player.userID] %}
+            <div class="player-fleet">
+                <div class="player-name">{{ PlayerInfo.name }} <span class="coords">[{{ PlayerInfo.koords[0] }}:{{ PlayerInfo.koords[1] }}:{{ PlayerInfo.koords[2] }}]</span></div>
+                <div class="player-tech">Weap: {{ PlayerInfo.tech[0] }}% | Shld: {{ PlayerInfo.tech[1] }}% | Armr: {{ PlayerInfo.tech[2] }}%</div>
+                
+                {% if Player.ships %}
+                <table class="fleet-table">
+                    <tr><th>Typ</th><th>Anzahl</th><th>Waffen</th><th>Schild</th><th>Hülle</th></tr>
+                    {% for ShipID, ShipData in Player.ships %}
+                    <tr>
+                        <td>{{ LNG.shortNames[ShipID] }}</td>
+                        <td>{{ ShipData[0]|number_format }}</td>
+                        <td>{{ ShipData[1]|number_format }}</td>
+                        <td>{{ ShipData[2]|number_format }}</td>
+                        <td>{{ ShipData[3]|number_format }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <div class="destroyed">{{ LNG.sys_destroyed }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="vs-divider">VS</div>
+
+        <div class="fleet-block defender">
+            {% for Player in RoundInfo.defender %}
+            {% set PlayerInfo = Raport.players[Player.userID] %}
+            <div class="player-fleet">
+                <div class="player-name">{{ PlayerInfo.name }} <span class="coords">[{{ PlayerInfo.koords[0] }}:{{ PlayerInfo.koords[1] }}:{{ PlayerInfo.koords[2] }}]</span></div>
+                <div class="player-tech">Weap: {{ PlayerInfo.tech[0] }}% | Shld: {{ PlayerInfo.tech[1] }}% | Armr: {{ PlayerInfo.tech[2] }}%</div>
+                
+                {% if Player.ships %}
+                <table class="fleet-table">
+                    <tr><th>Typ</th><th>Anzahl</th><th>Waffen</th><th>Schild</th><th>Hülle</th></tr>
+                    {% for ShipID, ShipData in Player.ships %}
+                    <tr>
+                        <td>{{ LNG.shortNames[ShipID] }}</td>
+                        <td>{{ ShipData[0]|number_format }}</td>
+                        <td>{{ ShipData[1]|number_format }}</td>
+                        <td>{{ ShipData[2]|number_format }}</td>
+                        <td>{{ ShipData[3]|number_format }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <div class="destroyed">{{ LNG.sys_destroyed }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="battle-footer glass-panel">
+        {% if Raport.result == "a" %}
+        <div class="loot-section">
+            <h4>{{ LNG.sys_stealed_ressources }}</h4>
+            <div class="res-list">
+                {% for elementID, amount in Raport.steal %}
+                <span class="res-loot"><img src="{{ dpath }}images/{{ elementID }}.gif" width="20"> {{ amount|number_format }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="debris-section">
+            <h4>{{ LNG.debree_field_1 }}</h4>
+            <div class="res-list">
+                {% for elementID, amount in Raport.debris %}
+                <span class="res-loot"><img src="{{ dpath }}images/{{ elementID }}.gif" width="20"> {{ amount|number_format }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="losses-section">
+            <div>{{ LNG.sys_attacker_lostunits }}: <span class="red">{{ Raport['units'][0]|number_format }}</span></div>
+            <div>{{ LNG.sys_defender_lostunits }}: <span class="red">{{ Raport['units'][1]|number_format }}</span></div>
+        </div>
+    </div>
+
 </div>
-{% endblock %} 
+
+<style>
+.aerospace-battle-log { color: #ccc; padding: 20px; font-family: 'Segoe UI', Tahoma, sans-serif; background: #05080e; min-height: 100vh; }
+
+.battle-result { text-align: center; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
+.battle-result.win { background: rgba(46, 204, 113, 0.1); border-color: #2ecc71; }
+.battle-result.lose { background: rgba(231, 76, 60, 0.1); border-color: #e74c3c; }
+.battle-result.draw { background: rgba(241, 196, 15, 0.1); border-color: #f1c40f; }
+.result-title { font-size: 1.5rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; color: #fff; }
+
+.battle-round { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; border-radius: 8px; overflow: hidden; }
+.round-header { background: rgba(0, 243, 255, 0.1); color: #00f3ff; padding: 10px; text-align: center; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+
+.fleet-block { padding: 15px; }
+.fleet-block.attacker { border-left: 3px solid #e74c3c; }
+.fleet-block.defender { border-left: 3px solid #3498db; }
+
+.player-fleet { margin-bottom: 15px; }
+.player-name { color: #fff; font-weight: bold; font-size: 1.1rem; }
+.coords { color: #888; font-size: 0.9rem; }
+.player-tech { font-size: 0.8rem; color: #aaa; margin-bottom: 5px; }
+
+.fleet-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.fleet-table th { text-align: left; color: #888; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 5px; }
+.fleet-table td { border-bottom: 1px solid rgba(255,255,255,0.03); padding: 5px; color: #ccc; }
+
+.vs-divider { text-align: center; font-weight: bold; color: #555; font-style: italic; letter-spacing: 5px; padding: 5px; background: #000; }
+.destroyed { color: #e74c3c; font-weight: bold; padding: 10px; font-style: italic; }
+
+.battle-footer { padding: 20px; background: rgba(255,255,255,0.03); border-radius: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.res-list { display: flex; gap: 15px; flex-wrap: wrap; }
+.res-loot { display: flex; align-items: center; gap: 5px; color: #fff; font-weight: bold; }
+.red { color: #e74c3c; }
+h4 { color: #00f3ff; margin: 0 0 10px 0; text-transform: uppercase; font-size: 0.9rem; }
+</style>
+{% endblock %}

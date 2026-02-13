@@ -3,46 +3,101 @@
 {% block title %}{{ LNG.write_message }}{% endblock %}
 {% block content %}
 
-<div class="content_page_popup">
-	<div class="title_popup">
-		{{ LNG.mg_send_new }}
-	</div>
+<div class="aerospace-popup">
+    
+    <div class="popup-header">
+        <i class="far fa-edit"></i> {{ LNG.mg_send_new }}
+    </div>
 
-	<div class="content_popup">
-		<form name="message" id="message" action="">
-			<table style="width:100%;">
-				<tr>
-					<td style="width:30%">{{ LNG.mg_send_to }}</td>
-					<td style="width:70%"><input type="text" name="to" size="40" value="{{ OwnerRecord.username }} [{{ OwnerRecord.galaxy }}:{{ OwnerRecord.system }}:{{ OwnerRecord.planet }}]"></td>
-				</tr><tr>
-					<td style="width:30%">{{ LNG.mg_subject }}</td>
-					<td style="width:70%"><input type="text" name="subject" id="subject" size="40" maxlength="40" value="{% if subject %}{{ subject }}{% else %}{{ LNG.mg_no_subject }}{% endif %}"></td>
-				</tr><tr>
-					<td style="width:30%">{{ LNG.mg_message }}<br>(<span id="cntChars">0</span> / 5.000 {{ LNG.mg_characters }})</th>
-					<td style="width:70%"><textarea style="height: 103px;" name="text" id="text" cols="40" rows="10" onkeyup="$('#cntChars').text($(this).val().length);"></textarea></td>
-				</tr><tr>
-					<td colspan="2"><input id="submit" type="button" onClick="check();" name="button" value="{{ LNG.mg_send }}"></td>
-				</tr>
-			</table>
-		</form>
-	</div>
+    <form name="message" id="message" action="">
+        <div class="form-group">
+            <label>{{ LNG.mg_send_to }}</label>
+            <input type="text" name="to" class="glass-input" value="{{ OwnerRecord.username }} [{{ OwnerRecord.galaxy }}:{{ OwnerRecord.system }}:{{ OwnerRecord.planet }}]" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>{{ LNG.mg_subject }}</label>
+            <input type="text" name="subject" id="subject" class="glass-input" maxlength="40" value="{% if subject %}{{ subject }}{% else %}{{ LNG.mg_no_subject }}{% endif %}">
+        </div>
+
+        <div class="form-group">
+            <label>
+                {{ LNG.mg_message }} 
+                <span class="char-count">(<span id="cntChars">0</span> / 5.000)</span>
+            </label>
+            <textarea name="text" id="text" class="glass-textarea" rows="10" onkeyup="$('#cntChars').text($(this).val().length);"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <input id="submit" type="button" onClick="check();" class="btn-send" value="{{ LNG.mg_send }}">
+        </div>
+    </form>
+
 </div>
 
-{% endblock %}
-{% block script %}
 <script type="text/javascript">
 function check(){
-	if($('#text').val().length == 0) {
-		alert('{{ LNG.mg_empty_text }}');
-		return false;
-	} else {
-		$('submit').attr('disabled','disabled');
-		$.post('game.php?page=messages&mode=send&id={{ id }}&ajax=1', $('#message').serialize(), function(data) {
-			alert(data);
-			parent.$.fancybox.close();
-			return true;
-		}, 'json');
-	}
+    if($('#text').val().length == 0) {
+        alert('{{ LNG.mg_empty_text }}');
+        return false;
+    } else {
+        $('submit').attr('disabled','disabled');
+        $.post("game.php?page=messages&mode=send&ajax=1", $('#message').serialize(), function(data){
+            alert(data);
+            window.close();
+        });
+        return true;
+    }
 }
 </script>
+
+<style>
+/* POPUP STYLES */
+body {
+    background: #0d1117 url('{{ dpath }}img/bkd_page.jpg') fixed no-repeat center center;
+    background-size: cover;
+    color: #ccc; font-family: sans-serif; padding: 20px;
+}
+
+.aerospace-popup {
+    max-width: 600px; margin: 0 auto;
+    background: rgba(16, 20, 28, 0.9);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+}
+
+.popup-header {
+    font-size: 1.5rem; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 15px; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+}
+.popup-header i { color: var(--primary, #00f3ff); }
+
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; color: #888; font-size: 0.9rem; }
+.char-count { float: right; font-size: 0.8rem; color: #555; }
+
+.glass-input, .glass-textarea {
+    width: 100%; box-sizing: border-box;
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; padding: 10px; border-radius: 4px;
+    font-family: inherit;
+}
+.glass-input:focus, .glass-textarea:focus {
+    border-color: var(--primary, #00f3ff); outline: none;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+}
+
+.btn-send {
+    background: linear-gradient(45deg, var(--primary, #00f3ff), #0072ff);
+    color: #000; border: none; padding: 10px 30px;
+    border-radius: 4px; font-weight: bold; cursor: pointer;
+    font-size: 1rem; transition: 0.3s;
+    float: right;
+}
+.btn-send:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4); }
+</style>
 {% endblock %}

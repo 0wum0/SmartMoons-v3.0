@@ -2,49 +2,79 @@
 
 {% block title %}{{ LNG.lm_trader }}{% endblock %}
 {% block content %}
-{% if requiredDarkMatter %}
-<table style="width:519px;">
-<tr>
-	<th>{{ LNG.fcm_info }}</th>
-</tr>
-<tr>
-	<td><span style="color:red;">{{ requiredDarkMatter }}</span></td>
-</tr>
-</table>
-<br>
-<br>
-{% endif %}
-<table style="width:519px;">
-<tr>
-	<th>{{ LNG.tr_call_trader }}</th>
-</tr>
-<tr>
-	<td>
-		<div>{{ LNG.tr_call_trader_who_buys }}</div>
-		<div id="traderContainer" class="centerContainer">
-			<div class="outer">
-				<div class="inner">
-					{% for resourceID, chageData in charge %}
-					<div class="trader_col">
-						{% if not requiredDarkMatter %}<form action="game.php?page=trader" method="post">
-						<input type="hidden" name="mode" value="trade">
-						<input type="hidden" name="resource" value="{{ resourceID }}">
-						<input type="image" id="trader_metal" src="{{ dpath }}images/{{ resource[resourceID] }}.gif" title="{{ LNG.tech[resourceID] }}" border="0" height="32" width="52"><br>
-						<label for="trader_metal">{{ LNG.tech[resourceID] }}</label>
-						</form>
-						{% else %}<img src="{{ dpath }}images/{{ resource[resourceID] }}.gif" title="{{ LNG.tech[resourceID] }}" border="0" height="32" width="52" style="margin: 3px;"><br>{{ LNG.tech[resourceID] }}{% endif %}
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-			<div class="clear"></div>
-		</div>
-		</div>
-		<div>
-			<p>{{ tr_cost_dm_trader }}</p>
-			<p>{{ LNG.tr_exchange_quota }}: {{ charge.901.903 }}/{{ charge.902.903 }}/{{ charge.903.903 }}</p>
-		</div>
-	</td>
-</tr>
-</table>
+
+<div class="content_page">
+    <div class="aerospace-wrapper centered-view">
+        
+        <div class="trader-terminal glass-panel">
+            <div class="terminal-header">
+                <h2><i class="fas fa-exchange-alt"></i> {{ LNG.tr_call_trader }}</h2>
+                <p>{{ LNG.tr_call_trader_who_buys }}</p>
+            </div>
+
+            {% if requiredDarkMatter %}
+            <div class="cost-alert">
+                <i class="fas fa-exclamation-circle"></i> {{ requiredDarkMatter }}
+            </div>
+            {% endif %}
+
+            <div class="resource-selection">
+                {% for resourceID, chageData in charge %}
+                <form action="game.php?page=trader" method="post" class="res-option-form">
+                    <input type="hidden" name="mode" value="trade">
+                    <input type="hidden" name="resource" value="{{ resourceID }}">
+                    
+                    <button type="submit" class="res-btn-card">
+                        <img src="{{ dpath }}images/{{ resource[resourceID] }}.gif" alt="{{ LNG.tech[resourceID] }}">
+                        <span class="res-name">{{ LNG.tech[resourceID] }}</span>
+                    </button>
+                </form>
+                {% endfor %}
+            </div>
+
+            <div class="terminal-footer">
+                <div class="dm-info">{{ tr_cost_dm_trader }}</div>
+                <div class="quota-info">{{ LNG.tr_exchange_quota }}: {{ charge.901.903 }}/{{ charge.902.903 }}/{{ charge.903.903 }}</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.centered-view { display: flex; justify-content: center; align-items: center; min-height: 80vh; width: 100%; padding: 20px; box-sizing: border-box; }
+
+.trader-terminal {
+    background: rgba(16, 20, 28, 0.95);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 800px; width: 100%;
+    box-shadow: 0 0 50px rgba(0,0,0,0.6);
+    text-align: center;
+}
+
+.terminal-header h2 { color: #00f3ff; margin-bottom: 10px; text-transform: uppercase; font-size: 1.8rem; }
+.terminal-header p { color: #aaa; margin-bottom: 30px; }
+
+.cost-alert { background: rgba(231, 76, 60, 0.1); color: #e74c3c; padding: 10px; border-radius: 4px; margin-bottom: 20px; border: 1px solid rgba(231, 76, 60, 0.3); }
+
+.resource-selection { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; }
+
+.res-btn-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    min-width: 120px;
+}
+.res-btn-card:hover { transform: translateY(-5px); border-color: #00f3ff; background: rgba(0, 243, 255, 0.1); box-shadow: 0 0 20px rgba(0, 243, 255, 0.2); }
+.res-btn-card img { width: 48px; height: 48px; }
+.res-name { color: #fff; font-weight: bold; font-size: 1.1rem; }
+
+.terminal-footer { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; color: #888; font-size: 0.9rem; }
+</style>
 {% endblock %}

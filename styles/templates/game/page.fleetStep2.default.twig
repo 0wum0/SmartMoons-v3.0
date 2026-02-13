@@ -3,82 +3,221 @@
 {% block title %}{{ LNG.lm_fleet }}{% endblock %}
 {% block content %}
 
-<div class="content_page">
-    <div class="title">
-        {{ galaxy }}:{{ system }}:{{ planet }} - {{ LNG["\1_" ~ type] }}
+<div class="aerospace-container">
+    <div class="glass-panel header-panel">
+        <h2 class="page-title"><i class="fas fa-tasks"></i> {{ LNG.fl_mission }} & {{ LNG.fl_resources }}</h2>
+        <div class="header-subtitle">{{ galaxy }}:{{ system }}:{{ planet }} - {{ LNG["type_mission_" ~ type] }}</div>
     </div>
 
-    <div>
-        <form action="game.php?page=fleetStep3" method="post">
+    <form action="game.php?page=fleetStep3" method="post" id="form">
         <input type="hidden" name="token" value="{{ token }}">
-            <table style="width: 100;">
-                <tr class="title">
-                    <th>{{ LNG.fl_mission }}</th>
-                    <th>{{ LNG.fl_resources }}</th>
-                </tr>
-                <tr>
-                    <td class="left top" style="width:50%;margin:0;padding:0;"{% if StaySelector %} rowspan="3"{% endif %}>
-                        <table border="0" cellpadding="0" cellspacing="0" width="259" style="margin:0;padding:0;">
-                            {% for MissionID in MissionSelector %} 
-                            <tr style="height:20px;">
-                                <td class="transparent left">
-                                <input id="radio_{{ MissionID }}" type="radio" name="mission" value="{{ MissionID }}" {% if mission == MissionID %}checked="checked"{% endif %} style="width:60px;"><label for="radio_{{ MissionID }}">{{ LNG["\1_" ~ MissionID] }}</label><br>
-                                    {% if MissionID == 15 %}<br><div style="color:red;padding-left:13px;">{{ LNG.fl_expedition_alert_message }}</div><br>{% endif %}
-                                    {% if MissionID == 11 %}<br><div style="color:red;padding-left:13px;">{{ fl_dm_alert_message }}</div><br>{% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </table>
-                    </td>
-                    <td class="top">
-                        <table border="0" cellpadding="0" cellspacing="0" width="259">
-                            <tr style="height:20px;">
-                                <td class="transparent">{{ LNG.tech.901 }}</td>
-                                <td class="transparent"><a href="javascript:maxResource('metal');">{{ LNG.fl_max }}</a></th>
-                                <td class="transparent"><input name="metal" size="10" onchange="calculateTransportCapacity();" type="text"></td>
-                            </tr>
-                            <tr style="height:20px;">
-                                <td class="transparent">{{ LNG.tech.902 }}</td>
-                                <td class="transparent"><a href="javascript:maxResource('crystal');">{{ LNG.fl_max }}</a></th>
-                                <td class="transparent"><input name="crystal" size="10" onchange="calculateTransportCapacity();" type="text"></td>
-                            </tr>
-                            <tr style="height:20px;">
-                                <td class="transparent">{{ LNG.tech.903 }}</td>
-                                <td class="transparent"><a href="javascript:maxResource('deuterium');">{{ LNG.fl_max }}</a></td>
-                                <td class="transparent"><input name="deuterium" size="10" onchange="calculateTransportCapacity();" type="text"></td>
-                            </tr>
-                            <tr style="height:20px;">
-                                <td class="transparent">{{ LNG.fl_resources_left }}</td>
-                                <td class="transparent" colspan="2" id="remainingresources">-</td>
-                            </tr>
-                            <tr style="height:20px;">
-                                <td class="transparent" colspan="3"><a href="javascript:maxResources()">{{ LNG.fl_all_resources }}</a></td>
-                            </tr>
-                            <tr style="height:20px;">
-                                <td class="transparent" colspan="3">{{ LNG.fl_fuel_consumption }}: <span id="consumption" class="consumption">{{ consumption }}</span></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+        
+        <div class="fleet-step2-grid">
+            
+            <div class="step2-main">
+                
+                <div class="glass-panel mission-panel">
+                    <div class="panel-header"><i class="fas fa-crosshairs"></i> {{ LNG.fl_mission }}</div>
+                    
+                    <div class="mission-grid">
+                        {% for MissionID in MissionSelector %}
+                        <label class="mission-card">
+                            <input type="radio" name="mission" value="{{ MissionID }}" {% if mission == MissionID %}checked{% endif %}>
+                            <div class="mission-content">
+                                <div class="mission-icon">
+                                    {% if MissionID == 1 %}<i class="fas fa-fist-raised"></i>
+                                    {% elseif MissionID == 2 %}<i class="fas fa-users"></i>
+                                    {% elseif MissionID == 3 %}<i class="fas fa-truck-loading"></i>
+                                    {% elseif MissionID == 4 %}<i class="fas fa-trash-alt"></i>
+                                    {% elseif MissionID == 5 %}<i class="fas fa-shield-alt"></i>
+                                    {% elseif MissionID == 6 %}<i class="fas fa-binoculars"></i>
+                                    {% elseif MissionID == 7 %}<i class="fas fa-globe"></i>
+                                    {% elseif MissionID == 8 %}<i class="fas fa-recycle"></i>
+                                    {% elseif MissionID == 9 %}<i class="fas fa-bomb"></i>
+                                    {% elseif MissionID == 15 %}<i class="fas fa-compass"></i>
+                                    {% else %}<i class="fas fa-rocket"></i>{% endif %}
+                                </div>
+                                <span class="mission-name">{{ LNG["type_mission_" ~ MissionID] }}</span>
+                            </div>
+                        </label>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if MissionID == 15 %}
+                    <div class="alert-box warning mt-2">
+                        <i class="fas fa-exclamation-triangle"></i> {{ LNG.fl_expedition_alert_message }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="glass-panel resource-panel">
+                    <div class="panel-header">
+                        <i class="fas fa-box-open"></i> {{ LNG.fl_resources }}
+                        <span class="storage-info">{{ LNG.fl_resources_left }}: <span id="remainingresources" class="text-highlight">-</span></span>
+                    </div>
+
+                    <div class="res-load-group">
+                        <div class="res-load-item">
+                            <div class="res-icon-label">
+                                <img src="{{ dpath }}images/901.gif" alt="Metal">
+                                <span>{{ LNG.tech.901 }}</span>
+                            </div>
+                            <div class="res-input-wrapper">
+                                <input type="text" name="metal" id="metal" class="glass-input" size="10" onchange="calculateTransportCapacity();" value="0">
+                                <a href="javascript:maxResource('metal');" class="btn-ghost tiny">Max</a>
+                            </div>
+                        </div>
+
+                        <div class="res-load-item">
+                            <div class="res-icon-label">
+                                <img src="{{ dpath }}images/902.gif" alt="Crystal">
+                                <span>{{ LNG.tech.902 }}</span>
+                            </div>
+                            <div class="res-input-wrapper">
+                                <input type="text" name="crystal" id="crystal" class="glass-input" size="10" onchange="calculateTransportCapacity();" value="0">
+                                <a href="javascript:maxResource('crystal');" class="btn-ghost tiny">Max</a>
+                            </div>
+                        </div>
+
+                        <div class="res-load-item">
+                            <div class="res-icon-label">
+                                <img src="{{ dpath }}images/903.gif" alt="Deuterium">
+                                <span>{{ LNG.tech.903 }}</span>
+                            </div>
+                            <div class="res-input-wrapper">
+                                <input type="text" name="deuterium" id="deuterium" class="glass-input" size="10" onchange="calculateTransportCapacity();" value="0">
+                                <a href="javascript:maxResource('deuterium');" class="btn-ghost tiny">Max</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="res-actions">
+                        <a href="javascript:maxResources()" class="btn-ghost small"><i class="fas fa-check-double"></i> {{ LNG.fl_all_resources }}</a>
+                        <span class="consumption-info">{{ LNG.fl_fuel_consumption }}: <span id="consumption" class="text-warning">{{ consumption }}</span></span>
+                    </div>
+                </div>
+
                 {% if StaySelector %}
-                <tr style="height:20px;">
-                    <th>{{ LNG.fl_hold_time }}</th>
-                </tr>
-                <tr style="height:20px;">
-                    <td>
-                    <!-- TODO: Complex html_options - needs manual review --> {{ LNG.fl_hours }}
-                    </td>
-                </tr>
+                <div class="glass-panel hold-panel">
+                    <div class="panel-header"><i class="fas fa-clock"></i> {{ LNG.fl_hold_time }}</div>
+                    <div class="glass-select-wrapper">
+                        {% if StaySelector %}
+                        <select name="staytime" class="glass-select">
+                            {% for stayTime in StaySelector %}
+                            <option value="{{ stayTime }}">{{ stayTime }} {{ LNG.fl_hours }}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                    </div>
+                </div>
                 {% endif %}
-                <tr style="height:20px;">
-                    <td colspan="2"><input value="{{ LNG.fl_continue }}" type="submit" /></td>
-                </tr>
-            </table>
-        </form>
-    </div>
+
+            </div>
+
+            <div class="step2-sidebar">
+                <div class="glass-panel briefing-panel">
+                    <div class="panel-header"><i class="fas fa-info-circle"></i> {{ LNG.fl_briefing }}</div>
+                    
+                    <div class="briefing-list">
+                        <div class="briefing-item">
+                            <span>{{ LNG.fl_destiny }}</span>
+                            <span class="text-highlight">[{{ galaxy }}:{{ system }}:{{ planet }}]</span>
+                        </div>
+                        <div class="briefing-item">
+                            <span>{{ LNG.fl_distance }}</span>
+                            <span>{{ distance|number_format }}</span>
+                        </div>
+                        <div class="briefing-item">
+                            <span>{{ LNG.fl_fleet_speed }}</span>
+                            <span>{{ maxspeed|number_format }}</span>
+                        </div>
+                        <div class="briefing-item">
+                            <span>{{ LNG.fl_duration }}</span>
+                            <span>{{ duration|time }}</span>
+                        </div>
+                        <div class="briefing-item">
+                            <span>{{ LNG.fl_arrival_time }}</span>
+                            <span>{{ arrivalTime }}</span>
+                        </div>
+                        <div class="briefing-item">
+                            <span>{{ LNG.fl_return_time }}</span>
+                            <span>{{ returnTime }}</span>
+                        </div>
+                        <div class="briefing-item">
+                            <span>{{ LNG.fl_cargo_capacity }}</span>
+                            <span id="storage" class="text-success">{{ fleetroom|number_format }}</span>
+                        </div>
+                    </div>
+
+                    <div class="action-area">
+                         <button type="submit" class="btn-action-glow full-width">
+                            {{ LNG.fl_continue }} <i class="fas fa-paper-plane"></i>
+                         </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
 </div>
 
 <script type="text/javascript">
-data	= {{ fleetdata|json_encode }};
+var data = {{ fleetdata|json_encode|raw }};
 </script>
+
+<style>
+.fleet-step2-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+
+/* Mission Cards */
+.mission-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.mission-card { cursor: pointer; position: relative; }
+.mission-card input { position: absolute; opacity: 0; }
+.mission-content { 
+    background: rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    border-radius: 8px; 
+    padding: 15px; 
+    text-align: center; 
+    transition: 0.2s; 
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.mission-card input:checked + .mission-content { 
+    background: rgba(0, 243, 255, 0.1); 
+    border-color: var(--primary); 
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); 
+    color: #fff;
+}
+.mission-icon { font-size: 1.5rem; margin-bottom: 8px; color: var(--text-muted); }
+.mission-card input:checked + .mission-content .mission-icon { color: var(--primary); }
+.mission-name { font-size: 0.85rem; font-weight: bold; }
+
+/* Resource Loading */
+.res-load-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+.res-load-item { display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; }
+.res-icon-label { display: flex; align-items: center; gap: 10px; width: 120px; }
+.res-icon-label img { width: 24px; height: 24px; }
+.res-input-wrapper { flex: 1; display: flex; gap: 5px; }
+.res-input-wrapper input { flex: 1; text-align: right; }
+
+.res-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
+
+/* Briefing Sidebar */
+.briefing-panel { position: sticky; top: 20px; }
+.briefing-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.briefing-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; font-size: 0.9rem; }
+.briefing-item:last-child { border-bottom: none; }
+.briefing-item span:first-child { color: var(--text-muted); }
+
+.alert-box { padding: 10px; border-radius: 4px; background: rgba(255, 200, 0, 0.1); color: var(--warning); border: 1px solid var(--warning); text-align: center; font-size: 0.9rem; }
+.mt-2 { margin-top: 10px; }
+
+@media (max-width: 900px) {
+    .fleet-step2-grid { grid-template-columns: 1fr; }
+    .briefing-panel { position: static; }
+}
+</style>
 {% endblock %}

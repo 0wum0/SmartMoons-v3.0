@@ -4,33 +4,96 @@
 {% block content %}
 
 <div class="content_page">
-	<div class="title">
-		{{ LNG.lm_technology }}
-	</div>
+    <div class="aerospace-wrapper">
+        
+        <div class="glass-panel header-panel">
+            <h2 class="page-title"><i class="fas fa-sitemap"></i> {{ LNG.lm_technology }}</h2>
+        </div>
 
-	<div id="result_search" style="text-align: center;">
-		<table style="min-width:100%;width:100%;">
-			{% for elementID, requireList in TechTreeList %}
-			{% if requireList is not iterable %}
-			<tr class="title">
-				<th colspan="2">{{ LNG.tech[requireList] }}</th>
-				<th>{{ LNG.tt_requirements }}</th>
-			</tr>
-			{% else %}
-			<tr>
-				<td><a href="#" onclick="return Dialog.info({{ elementID }})"><img src="{{ dpath }}gebaeude/{{ elementID }}.{% if elementID >=600 and elementID <= 699 %}jpg{% else %}gif{% endif %}" width="50" height="50"></a></td>
-				<td><a href="#" onclick="return Dialog.info({{ elementID }})">{{ LNG.tech[elementID] }}</a></td>
-				<td>
-				{% if requireList %}
-					{% for requireID, NeedLevel in requireList %}
-						<a href="#" onclick="return Dialog.info({{ elementID }})"><span style="color:{% if NeedLevel.own < NeedLevel.count %}red{% else %}lime{% endif %};">{{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ min(NeedLevel.count, NeedLevel.own) }}/{{ NeedLevel.count }})</span></a>{% if not loop.last %}<br>{% endif %}
-					{% endfor %}
-				{% endif %}
-				</td>
-			</tr>
-			{% endif %}
-			{% endfor %}
-		</table>
-	</div>
+        <div class="techtree-container">
+            {% for elementID, requireList in TechTreeList %}
+            <div class="tech-node glass-panel">
+                
+                <div class="node-head" onclick="return Dialog.info({{ elementID }})">
+                    <img src="{{ dpath }}gebaeude/{{ elementID }}.{% if elementID >=600 and elementID <= 699 %}jpg{% else %}gif{% endif %}" class="node-img">
+                    <span class="node-title">{{ LNG.tech[elementID] }}</span>
+                </div>
+
+                <div class="node-requirements">
+                    {% if requireList is iterable %}
+                        {% for requireID, NeedLevel in requireList %}
+                        <div class="req-item" onclick="return Dialog.info({{ requireID }})">
+                            <div class="req-status {% if NeedLevel.own >= NeedLevel.count %}met{% else %}unmet{% endif %}">
+                                <i class="fas {% if NeedLevel.own >= NeedLevel.count %}fa-check{% else %}fa-times{% endif %}"></i>
+                            </div>
+                            <div class="req-info">
+                                <span class="req-name">{{ LNG.tech[requireID] }}</span>
+                                <span class="req-lvl">Lvl {{ NeedLevel.own }} / {{ NeedLevel.count }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="req-none">{{ LNG.tt_requirements }}</div>
+                    {% endif %}
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
 </div>
+
+<style>
+/* TECHTREE STYLES */
+.aerospace-wrapper { width: 100%; padding: 15px; box-sizing: border-box; }
+.header-panel { padding: 20px; margin-bottom: 25px; background: rgba(16, 20, 28, 0.8); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 8px; }
+.page-title { margin: 0; color: #fff; font-size: 1.5rem; text-transform: uppercase; }
+
+.techtree-container {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;
+}
+
+.tech-node {
+    background: rgba(22, 27, 38, 0.9);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+}
+
+.node-head {
+    display: flex; align-items: center; gap: 15px;
+    padding: 15px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: 0.2s;
+}
+.node-head:hover { background: rgba(0, 243, 255, 0.1); }
+
+.node-img { width: 50px; height: 50px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2); }
+.node-title { font-weight: bold; color: #00f3ff; font-size: 1.1rem; text-transform: uppercase; }
+
+.node-requirements { padding: 10px; flex: 1; }
+
+.req-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px; margin-bottom: 5px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+    cursor: pointer;
+}
+.req-item:hover { background: rgba(255,255,255,0.05); }
+
+.req-status { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.8rem; }
+.req-status.met { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+.req-status.unmet { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+.req-info { display: flex; flex-direction: column; }
+.req-name { font-size: 0.9rem; color: #ccc; }
+.req-lvl { font-size: 0.8rem; color: #888; }
+
+.req-none { color: #555; font-style: italic; padding: 10px; text-align: center; }
+</style>
 {% endblock %}
