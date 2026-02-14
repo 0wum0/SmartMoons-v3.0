@@ -79,6 +79,13 @@
 				<span>{{ LNG.lm_galaxy }}</span>
 			</a>
 			{% endif %}
+
+			{% if isModuleAvailable(constant('MODULE_MESSAGES')) %}
+			<a href="game.php?page=messages" class="sidebar-link{% if GET.page|default('') == 'messages' %} active{% endif %}">
+				<i class="fas fa-envelope"></i>
+				<span>{{ LNG.lm_messages }}</span>
+			</a>
+			{% endif %}
 			
 			{% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}
 			<a href="game.php?page=alliance" class="sidebar-link{% if GET.page|default('') == 'alliance' %} active{% endif %}">
