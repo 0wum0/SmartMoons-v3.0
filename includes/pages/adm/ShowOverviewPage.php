@@ -2,62 +2,121 @@
 
 declare(strict_types=1);
 /**
- *  2Moons 
- *   by Jan-Otto Kröpke 2009-2016
+ * SmartMoons Admin Dashboard - ShowOverviewPage
+ * 
+ * Lädt alle Dashboard-Daten via AdminStatsService und rendert die Übersicht.
+ * Unterstützt AJAX-Requests für Zeitraum-Wechsel.
  *
- * For the full copyright and license information, please view the LICENSE
- *
- * @package 2Moons
- * @author Jan-Otto Kröpke <slaver7@gmail.com>
- * @copyright 2009 Lucky
- * @copyright 2016 Jan-Otto Kröpke <slaver7@gmail.com>
- * @licence MIT
- * @version 1.8.0
- * @link https://github.com/jkroepke/2Moons
+ * @package SmartMoons
+ * @version 3.1.0
  */
+
+require_once 'includes/pages/adm/AdminStatsService.php';
 
 function ShowOverviewPage()
 {
-	global $LNG, $USER;
-	
-	$Message	= array();
+    global $LNG, $USER;
 
-	if ($USER['authlevel'] >= AUTH_ADM)
-	{
-		if(file_exists(ROOT_PATH.'update.php'))
-			$Message[]	= sprintf($LNG['ow_file_detected'], 'update.php');
-			
-		if(file_exists(ROOT_PATH.'webinstall.php'))
-			$Message[]	= sprintf($LNG['ow_file_detected'], 'webinstall.php');
-			
-		if(file_exists('includes/ENABLE_INSTALL_TOOL'))
-			$Message[]	= sprintf($LNG['ow_file_detected'], 'includes/ENABLE_INSTALL_TOOL');
-					
-		if(!is_writable(ROOT_PATH.'cache'))
-			$Message[]	= sprintf($LNG['ow_dir_not_writable'], 'cache');
-			
-		if(!is_writable('includes'))
-			$Message[]	= sprintf($LNG['ow_dir_not_writable'], 'includes');
-	}
-	
-	$template	= new template();
+    $period = HTTP::_GP('period', 'day');
+    if (!in_array($period, ['day', 'week', 'month', 'year'])) {
+        $period = 'day';
+    }
 
+    $stats = AdminStatsService::getInstance();
 
-	$template->assign_vars(array(	
-		'ow_none'			=> $LNG['ow_none'],
-		'ow_overview'		=> $LNG['ow_overview'],
-		'ow_welcome_text'	=> $LNG['ow_welcome_text'],
-		'ow_credits'		=> $LNG['ow_credits'],
-		'ow_special_thanks'	=> $LNG['ow_special_thanks'],
-		'ow_translator'		=> $LNG['ow_translator'],
-		'ow_proyect_leader'	=> $LNG['ow_proyect_leader'],
-		'ow_support'		=> $LNG['ow_support'],
-		'ow_title'			=> $LNG['ow_title'],
-		'ow_forum'			=> $LNG['ow_forum'],
-		'ow_donate'			=> $LNG['ow_donate'],
-		'Messages'			=> $Message,
-		'date'				=> date('m\_Y', TIMESTAMP),
-	));
-	
-	$template->show('OverviewBody.tpl');
+    // Vollständiger Report
+    $report = $stats->getFullReport($period);
+
+    // Chart-Daten
+    $chartData = $stats->getFullChartData($period);
+
+    // AJAX Request - nur JSON zurückgeben
+    $isAjax = AJAX_REQUEST || (int)HTTP::_GP('ajax', 0) === 1;
+    if ($isAjax) {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'report' => $report,
+            'charts' => $chartData,
+            'period' => $period,
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    // Zeitraum-Labels
+    $periodLabels = [
+        'day' => 'Heute (24h)',
+        'week' => 'Diese Woche (7 Tage)',
+        'month' => 'Dieser Monat (30 Tage)',
+        'year' => 'Dieses Jahr (365 Tage)',
+    ];
+
+    // System Warnings (behalten aus Original)
+    $Message = [];
+    if ($USER['authlevel'] >= AUTH_ADM) {
+        if (file_exists(ROOT_PATH . 'update.php'))
+            $Message[] = sprintf($LNG['ow_file_detected'], 'update.php');
+
+        if (file_exists(ROOT_PATH . 'webinstall.php'))
+            $Message[] = sprintf($LNG['ow_file_detected'], 'webinstall.php');
+
+        if (file_exists('includes/ENABLE_INSTALL_TOOL'))
+            $Message[] = sprintf($LNG['ow_file_detected'], 'includes/ENABLE_INSTALL_TOOL');
+
+        if (!is_writable(ROOT_PATH . 'cache'))
+            $Message[] = sprintf($LNG['ow_dir_not_writable'], 'cache');
+
+        if (!is_writable('includes'))
+            $Message[] = sprintf($LNG['ow_dir_not_writable'], 'includes');
+    }
+
+    // Universe Info für Topbar
+    $universeSelect = [];
+    foreach (Universe::availableUniverses() as $uniId) {
+        $config = Config::get($uniId);
+        $universeSelect[$uniId] = sprintf('%s (ID: %d)', $config->uni_name, $uniId);
+    }
+    ksort($universeSelect);
+
+    $config = Config::get();
+
+    // Support Ticket Count für Sidebar Badge
+    $supportTicketCount = 0;
+    try {
+        $ticketResult = $GLOBALS['DATABASE']->getFirstCell(
+            "SELECT COUNT(*) FROM " . TICKETS . " WHERE universe = " . Universe::getEmulated() . " AND status = 0;"
+        );
+        $supportTicketCount = (int)$ticketResult;
+    } catch (\Exception $e) {
+        $supportTicketCount = 0;
+    }
+
+    $template = new template();
+
+    $template->assign_vars([
+        // Dashboard Data
+        'report'             => $report,
+        'chartData'          => $chartData,
+        'period'             => $period,
+        'periodLabel'        => $periodLabels[$period] ?? 'Heute',
+        'Messages'           => $Message,
+
+        // Layout Data
+        'uniName'            => $config->uni_name ?? 'Universe',
+        'currentUser'        => $USER,
+        'authlevel'          => $USER['authlevel'],
+        'AvailableUnis'      => $universeSelect,
+        'UNI'                => Universe::getEmulated(),
+        'sid'                => session_id(),
+
+        // Sidebar
+        'supportTicketCount' => $supportTicketCount,
+
+        // Legacy vars
+        'ow_none'            => $LNG['ow_none'],
+        'ow_overview'        => $LNG['ow_overview'],
+        'ow_title'           => $LNG['ow_title'],
+        'date'               => date('m\_Y', TIMESTAMP),
+    ]);
+
+    $template->show('OverviewBody.tpl');
 }

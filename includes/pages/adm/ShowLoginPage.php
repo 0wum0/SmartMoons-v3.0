@@ -47,5 +47,7 @@ function ShowLoginPage()
 		'bodyclass'	=> 'standalone',
 		'username'	=> $USER['username']
 	));
-	$template->show('LoginPage.tpl');
+	
+	// Use display() for the standalone login page (complete HTML, no admin layout wrapper)
+	$template->display('adm/LoginPage.twig');
 }
