@@ -47,8 +47,10 @@ class HTTP {
 		setcookie($name, $value, $toTime);
 	}
 	
-	static public function _GP(string $name, mixed $default, bool $multibyte = false, bool $highnum = false): mixed
+	static public function _GP(string $name, mixed $default, bool|int|float $multibyte = false, bool $highnum = false): mixed
 	{
+		$multibyte	= (bool) $multibyte;
+
 		if(!isset($_REQUEST[$name]))
 		{
 			return $default;
