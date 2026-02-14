@@ -41,10 +41,17 @@
 			</a>
 			{% endif %}
 			
-			{% if isModuleAvailable(constant('MODULE_OFFICIER')) %}
+			{% if isModuleAvailable(constant('MODULE_OFFICIER')) or isModuleAvailable(constant('MODULE_DMEXTRAS')) %}
 			<a href="game.php?page=officier" class="sidebar-link">
 				<i class="fas fa-user-tie"></i>
 				<span>{{ LNG.lm_officiers }}</span>
+			</a>
+			{% endif %}
+
+			{% if isModuleAvailable(constant('MODULE_RESSOURCE_LIST')) %}
+			<a href="game.php?page=resources" class="sidebar-link{% if GET.page|default('') == 'resources' %} active{% endif %}">
+				<i class="fas fa-industry"></i>
+				<span>{{ LNG.lm_resources }}</span>
 			</a>
 			{% endif %}
 		</div>
@@ -53,6 +60,13 @@
 			<div class="nav-section-title">{{ LNG.lm_navigation }}</div>
 			
 			{% if isModuleAvailable(constant('MODULE_FLEET_TRADER')) %}
+			<a href="game.php?page=fleetDealer" class="sidebar-link{% if GET.page|default('') == 'fleetDealer' %} active{% endif %}">
+				<i class="fas fa-recycle"></i>
+				<span>{{ LNG.lm_fleettrader }}</span>
+			</a>
+			{% endif %}
+
+			{% if isModuleAvailable(constant('MODULE_FLEET_TABLE')) %}
 			<a href="game.php?page=fleetTable" class="sidebar-link{% if GET.page|default('') == 'fleetTable' %} active{% endif %}">
 				<i class="fas fa-space-shuttle"></i>
 				<span>{{ LNG.lm_fleet }}</span>
@@ -72,9 +86,37 @@
 				<span>{{ LNG.lm_alliance }}</span>
 			</a>
 			{% endif %}
+
+			{% if isModuleAvailable(constant('MODULE_SUPPORT')) %}
+			<a href="game.php?page=ticket" class="sidebar-link{% if GET.page|default('') == 'ticket' %} active{% endif %}">
+				<i class="fas fa-life-ring"></i>
+				<span>{{ LNG.lm_support }}</span>
+			</a>
+			{% endif %}
 		</div>
 
-		{# Tools and extra links removed from sidebar; available in header user dropdown #}
+		<div class="nav-section">
+			<div class="nav-section-title">{{ LNG.lm_tools|default('Tools') }}</div>
+
+			<a href="index.php?page=rules" target="rules" class="sidebar-link">
+				<i class="fas fa-gavel"></i>
+				<span>{{ LNG.lm_rules }}</span>
+			</a>
+
+			{% if isModuleAvailable(constant('MODULE_SIMULATOR')) %}
+			<a href="game.php?page=battleSimulator" class="sidebar-link{% if GET.page|default('') == 'battleSimulator' %} active{% endif %}">
+				<i class="fas fa-chess-knight"></i>
+				<span>{{ LNG.lm_battlesim }}</span>
+			</a>
+			{% endif %}
+
+			{% if isModuleAvailable(constant('MODULE_NOTICE')) %}
+			<a href="javascript:OpenPopup('?page=notes', 'notes', 720, 300);" class="sidebar-link">
+				<i class="fas fa-sticky-note"></i>
+				<span>{{ LNG.lm_notes }}</span>
+			</a>
+			{% endif %}
+		</div>
 
 		<!-- Admin Section -->
 		{% if authlevel > 0 %}

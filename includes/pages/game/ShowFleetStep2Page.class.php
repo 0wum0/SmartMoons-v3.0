@@ -110,7 +110,7 @@ class ShowFleetStep2Page extends AbstractGamePage
 		$_SESSION['fleet'][$token]['fleetGroup']	= $fleetGroup;
 		$_SESSION['fleet'][$token]['fleetSpeed']	= $fleetSpeed;
 		
-		if(!empty($fleet_group))
+		if(!empty($fleetGroup))
 			$targetMission	= 2;
 
 		$fleetData	= array(
@@ -123,10 +123,16 @@ class ShowFleetStep2Page extends AbstractGamePage
 			'fleetdata'						=> $fleetData,
 			'consumption'					=> floatToString($consumption),
 			'mission'						=> $targetMission,
+			'distance'						=> $distance,
+			'maxspeed'						=> $MaxFleetSpeed,
+			'duration'						=> $duration,
+			'arrivalTime'					=> _date($LNG['php_tdformat'], TIMESTAMP + $duration, $USER['timezone']),
+			'returnTime'					=> _date($LNG['php_tdformat'], TIMESTAMP + ($duration * 2), $USER['timezone']),
+			'fleetroom'						=> $_SESSION['fleet'][$token]['fleetRoom'],
 			'galaxy'			 			=> $PLANET['galaxy'],
 			'system'			 			=> $PLANET['system'],
 			'planet'			 			=> $PLANET['planet'],
-			'type'			 				=> $PLANET['planet_type'],
+			'type'			 				=> $targetType,
 			'MissionSelector' 				=> $MissionOutput['MissionSelector'],
 			'StaySelector' 					=> $MissionOutput['StayBlock'],
 			'fl_dm_alert_message'			=> sprintf($LNG['fl_dm_alert_message'], $LNG['type_mission_11'], $LNG['tech'][921]),

@@ -84,11 +84,20 @@
                             {% if FlyingFleetRow.mission == 15 or FlyingFleetRow.state == 1 %}
                                 <span class="text-muted">-</span>
                             {% else %}
-                            <form action="game.php?page=fleetTable&amp;action=recall&amp;fleetID={{ FlyingFleetRow.id }}" method="post">
-                                <button type="submit" class="btn-icon-danger" title="{{ LNG.fl_recall }}">
+                            <form action="game.php?page=fleetTable&amp;action=sendfleetback" method="post">
+                                <input type="hidden" name="fleetID" value="{{ FlyingFleetRow.id }}">
+                                <button type="submit" class="btn-icon-danger" title="{{ LNG.fl_send_back }}">
                                     <i class="fas fa-ban"></i>
                                 </button>
                             </form>
+                            {% if FlyingFleetRow.mission == 1 %}
+                            <form action="game.php?page=fleetTable&amp;action=acs" method="post" class="mt-2">
+                                <input type="hidden" name="fleetID" value="{{ FlyingFleetRow.id }}">
+                                <button type="submit" class="btn-ghost small" title="{{ LNG.fl_acs }}">
+                                    <i class="fas fa-users"></i> {{ LNG.fl_acs }}
+                                </button>
+                            </form>
+                            {% endif %}
                             {% endif %}
                         </td>
                     </tr>
@@ -100,6 +109,72 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    {% if acsData %}
+    <div class="mt-3">
+        {% include "shared.fleetTable.acsTable.twig" %}
+    </div>
+    {% endif %}
+
+    <div class="glass-panel table-panel mt-3">
+        <div class="panel-header"><i class="fas fa-plus-circle"></i> {{ LNG.fl_new_mission_title }}</div>
+
+        {% if maxFleetSlots == activeFleetSlots %}
+        <div class="p-3 text-center text-muted">{{ LNG.fl_no_more_slots }}</div>
+        {% else %}
+        <form action="game.php?page=fleetStep1" method="post" class="p-3">
+            <input type="hidden" name="galaxy" value="{{ targetGalaxy }}">
+            <input type="hidden" name="system" value="{{ targetSystem }}">
+            <input type="hidden" name="planet" value="{{ targetPlanet }}">
+            <input type="hidden" name="type" value="{{ targetType }}">
+            <input type="hidden" name="target_mission" value="{{ targetMission }}">
+
+            <div class="small text-muted mb-3">
+                {{ LNG.fl_destiny }}: [{{ targetGalaxy }}:{{ targetSystem }}:{{ targetPlanet }}] ({{ LNG["type_planet_" ~ targetType] }})
+            </div>
+
+            <div class="table-responsive">
+                <table class="glass-table full-width">
+                    <thead>
+                        <tr>
+                            <th>{{ LNG.fl_ship_type }}</th>
+                            <th>{{ LNG.fl_ship_available }}</th>
+                            <th>{{ LNG.fl_max }}</th>
+                            <th>{{ LNG.fl_ammount }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for FleetRow in FleetsOnPlanet %}
+                        <tr>
+                            <td>{{ LNG.tech[FleetRow.id] }}</td>
+                            <td id="ship{{ FleetRow.id }}_value">{{ FleetRow.count|number_format }}</td>
+                            {% if FleetRow.speed != 0 %}
+                            <td><a href="javascript:maxShip('ship{{ FleetRow.id }}');">{{ LNG.fl_max }}</a></td>
+                            <td><input name="ship{{ FleetRow.id }}" id="ship{{ FleetRow.id }}_input" class="glass-input" size="10" value="0"></td>
+                            {% else %}
+                            <td>-</td>
+                            <td>-</td>
+                            {% endif %}
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">{{ LNG.fl_no_ships }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if FleetsOnPlanet|length > 0 %}
+            <div class="action-bar-bottom mt-3">
+                <a href="javascript:noShips();" class="btn-ghost">{{ LNG.fl_remove_all_ships }}</a>
+                <a href="javascript:maxShips();" class="btn-ghost">{{ LNG.fl_select_all_ships }}</a>
+                <button type="submit" class="btn-action-glow">{{ LNG.fl_continue }}</button>
+            </div>
+            {% endif %}
+        </form>
+        {% endif %}
     </div>
 
     <div class="glass-panel info-panel mt-3">
@@ -122,3 +197,4 @@
 
 </div>
 {% endblock %}
+{% block script %}<script src="scripts/game/fleetTable.js"></script>{% endblock %}
