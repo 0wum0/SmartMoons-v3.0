@@ -2,12 +2,13 @@
 
 {# Dashboard content rendered inside legacy-content wrapper with dashboard-specific styling #}
 <style>
-/* Override legacy-content for dashboard page */
+/* Override legacy-content for dashboard page – keep overflow-x:hidden for safety */
 .admin-content > .legacy-content.is-dashboard {
     background: transparent;
     border: none;
     padding: 0;
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 </style>
 <script>document.querySelector('.legacy-content').classList.add('is-dashboard');</script>
