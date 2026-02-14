@@ -306,15 +306,42 @@ class ShowMessagesPage extends AbstractGamePage
     {
         global $USER, $LNG;
         $receiverID	= HTTP::_GP('id', 0);
+        $receiverName = trim(HTTP::_GP('to', '', UTF8_SUPPORT));
         $subject 	= HTTP::_GP('subject', $LNG['mg_no_subject'], true);
 		$text		= HTTP::_GP('text', '', true);
 		$senderName	= $USER['username'].' ['.$USER['galaxy'].':'.$USER['system'].':'.$USER['planet'].']';
 
 		$text		= makebr($text);
 
+		$db			= Database::get();
 		$session	= Session::load();
+		if (empty($receiverID) && !empty($receiverName))
+		{
+			$sql = "SELECT id, settings_blockPM FROM %%USERS%% WHERE universe = :universe AND username = :username;";
+			$receiverData = $db->selectSingle($sql, array(
+				':universe'	=> Universe::current(),
+				':username'	=> $receiverName
+			));
 
-        if (empty($receiverID) || empty($text) || !isset($session->messageToken) || $session->messageToken != md5($USER['id'].'|'.$receiverID))
+			if (empty($receiverData))
+			{
+				$this->sendJSON($LNG['mg_error']);
+			}
+
+			if ((int) $receiverData['settings_blockPM'] === 1)
+			{
+				$this->sendJSON($LNG['mg_receiver_block_pm']);
+			}
+
+			$receiverID = (int) $receiverData['id'];
+		}
+
+		$validToken = isset($session->messageToken) && in_array($session->messageToken, array(
+			md5($USER['id'].'|'.$receiverID),
+			md5($USER['id'].'|0')
+		), true);
+
+        if (empty($receiverID) || empty($text) || !$validToken)
         {
             $this->sendJSON($LNG['mg_error']);
         }
@@ -334,31 +361,48 @@ class ShowMessagesPage extends AbstractGamePage
         $db = Database::get();
 
         $receiverID       	= HTTP::_GP('id', 0);
+        $receiverName		= trim(HTTP::_GP('to', '', UTF8_SUPPORT));
         $Subject 			= HTTP::_GP('subject', $LNG['mg_no_subject'], true);
 
-        $sql = "SELECT a.galaxy, a.system, a.planet, b.username, b.id_planet, b.settings_blockPM
-        FROM %%PLANETS%% as a, %%USERS%% as b WHERE b.id = :receiverId AND a.id = b.id_planet;";
+		$allowFreeRecipient	= empty($receiverID);
+		if ($allowFreeRecipient)
+		{
+			$receiverRecord = array(
+				'username'			=> $receiverName,
+				'galaxy'			=> '',
+				'system'			=> '',
+				'planet'			=> '',
+				'settings_blockPM'	=> 0,
+			);
+			Session::load()->messageToken = md5($USER['id'].'|0');
+		}
+		else
+		{
+			$sql = "SELECT a.galaxy, a.system, a.planet, b.username, b.id_planet, b.settings_blockPM
+			FROM %%PLANETS%% as a, %%USERS%% as b WHERE b.id = :receiverId AND a.id = b.id_planet;";
 
-        $receiverRecord = $db->selectSingle($sql, array(
-            ':receiverId'   => $receiverID
-        ));
+			$receiverRecord = $db->selectSingle($sql, array(
+				':receiverId'   => $receiverID
+			));
 
-        if (!$receiverRecord)
-        {
-            $this->printMessage($LNG['mg_error']);
-        }
+			if (!$receiverRecord)
+			{
+				$this->printMessage($LNG['mg_error']);
+			}
 
-        if ($receiverRecord['settings_blockPM'] == 1)
-        {
-            $this->printMessage($LNG['mg_receiver_block_pm']);
-        }
+			if ($receiverRecord['settings_blockPM'] == 1)
+			{
+				$this->printMessage($LNG['mg_receiver_block_pm']);
+			}
 
-        Session::load()->messageToken = md5($USER['id'].'|'.$receiverID);
+			Session::load()->messageToken = md5($USER['id'].'|'.$receiverID);
+		}
 
         $this->assign(array(
             'subject'		=> $Subject,
             'id'			=> $receiverID,
             'OwnerRecord'	=> $receiverRecord,
+			'allowFreeRecipient' => $allowFreeRecipient,
         ));
 
         $this->display('page.messages.write.twig');
@@ -368,7 +412,7 @@ class ShowMessagesPage extends AbstractGamePage
     {
         global $USER;
 
-        $category      	= HTTP::_GP('category', 0);
+        $category      	= HTTP::_GP('category', 100);
         $side			= HTTP::_GP('side', 1);
 
         $db = Database::get();

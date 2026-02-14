@@ -150,6 +150,7 @@ abstract class AbstractGamePage
 
 		$this->assign(array(
 			'PlanetSelect'		=> $PlanetSelect,
+			'globalFleetMovements' => $this->getGlobalFleetMovements(),
 			'new_message' 		=> $USER['messages'],
 			'vacation'			=> $USER['urlaubs_modus'] ? _date($LNG['php_tdformat'], $USER['urlaubs_until'], $USER['timezone']) : false,
 			'delete'			=> $USER['db_deaktjava'] ? sprintf($LNG['tn_delete_mode'], _date($LNG['php_tdformat'], $USER['db_deaktjava'] + ($config->del_user_manually * 86400)), $USER['timezone']) : false,
@@ -166,6 +167,24 @@ abstract class AbstractGamePage
 			'previousPlanet'	=> (!empty($previousPlanet))?$previousPlanet['id']:$PLANET['id'],
 			'nextPlanet'		=> (!empty($nextPlanet))?$nextPlanet['id']:$PLANET['id'],
 		));
+	}
+
+	protected function getGlobalFleetMovements(): array
+	{
+		global $USER, $PLANET;
+
+		if(!isModuleAvailable(MODULE_FLEET_TABLE) || empty($USER['id']) || empty($PLANET['id']))
+		{
+			return array();
+		}
+
+		require_once 'includes/classes/class.FlyingFleetsTable.php';
+
+		$fleetTableObj = new FlyingFleetsTable;
+		$fleetTableObj->setUser((int) $USER['id']);
+		$fleetTableObj->setPlanet((int) $PLANET['id']);
+
+		return $fleetTableObj->renderTable();
 	}
 
 	/**

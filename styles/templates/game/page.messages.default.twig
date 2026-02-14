@@ -4,8 +4,7 @@
 {% block content %}
 
 <div class="content_page">
-    <div class="aerospace-wrapper">
-        
+    <div class="aerospace-wrapper messages-page">
         <div class="glass-panel header-panel">
             <h2 class="page-title"><i class="fas fa-satellite-dish"></i> {{ LNG.mg_overview }}</h2>
             <span id="loading" style="display:none; color: var(--primary); font-weight: bold;">
@@ -13,50 +12,78 @@
             </span>
         </div>
 
-        <div class="msg-category-grid">
-            {% for CategoryID, CategoryRow in CategoryList %}
-            <div class="msg-cat-card" onclick="Message.getMessages({{ CategoryID }});return false;" style="border-color: {{ CategoryRow.color }};">
-                
-                <div class="cat-icon" style="color: {{ CategoryRow.color }};">
-                    {% if CategoryID == 0 %}<i class="fas fa-eye"></i>
-                    {% elseif CategoryID == 1 %}<i class="fas fa-crosshairs"></i>
-                    {% elseif CategoryID == 2 %}<i class="fas fa-users"></i>
-                    {% elseif CategoryID == 3 %}<i class="fas fa-exclamation-triangle"></i>
-                    {% elseif CategoryID == 4 %}<i class="fas fa-cogs"></i>
-                    {% elseif CategoryID == 5 %}<i class="fas fa-truck"></i>
-                    {% else %}<i class="fas fa-envelope"></i>{% endif %}
+        <div class="glass-panel msg-inbox-shell">
+            <div class="msg-inbox-topbar">
+                <div class="msg-filter-box">
+                    <label for="message-category-select">{{ LNG.mg_message_type }}</label>
+                    <select id="message-category-select" class="glass-select">
+                        {% for CategoryID, CategoryRow in CategoryList %}
+                        <option value="{{ CategoryID }}"{% if category == CategoryID %} selected{% endif %}>
+                            {{ LNG.mg_type[CategoryID] }} ({{ CategoryRow.total }}){% if CategoryRow.unread > 0 %} - {{ LNG.mg_unread }} {{ CategoryRow.unread }}{% endif %}
+                        </option>
+                        {% endfor %}
+                    </select>
                 </div>
 
-                <div class="cat-info">
-                    <h3 class="cat-title" style="color: {{ CategoryRow.color }};">{{ LNG.mg_type[CategoryID] }}</h3>
-                    <div class="cat-stats">
-                        <span class="total">{{ LNG.mg_total }}: {{ CategoryRow.total }}</span>
-                        {% if CategoryRow.unread > 0 %}
-                        <span class="unread pulse">
-                            {{ LNG.mg_unread }}: <b>{{ CategoryRow.unread }}</b>
-                        </span>
-                        {% else %}
-                        <span class="read">-</span>
-                        {% endif %}
-                    </div>
-                </div>
-
-            </div>
-            {% endfor %}
-        </div>
-        
-        {% if viewList %}
-        <div class="glass-panel" style="margin-top: 20px;">
-            <div class="panel-title">{{ LNG.mg_game_operators }}</div>
-            <div class="operator-list">
-                {% for OperatorName, OperatorEmail in viewList %}
-                <div class="operator-item">
-                    <i class="fas fa-user-shield"></i>
-                    <span class="op-name">{{ OperatorName }}</span>
-                    <a href="mailto:{{ OperatorEmail }}" class="op-mail" title="{{ LNG.mg_write_mail_to_ops }} {{ OperatorName }}">
-                        <i class="fas fa-envelope"></i>
+                <div class="msg-top-actions">
+                    <a href="#" id="message-refresh" class="btn-ghost">
+                        <i class="fas fa-sync-alt"></i> {{ LNG.lm_refresh|default('Aktualisieren') }}
+                    </a>
+                    <a href="#" class="btn-action-glow" onclick="return Message.openCompose();">
+                        <i class="fas fa-pen"></i> {{ LNG.mg_send_new }}
                     </a>
                 </div>
+            </div>
+
+            <input type="hidden" id="message-current-page" value="{{ side|default(1) }}">
+
+            <div class="msg-category-grid compact">
+                {% for CategoryID, CategoryRow in CategoryList %}
+                <a
+                    href="game.php?page=messages&category={{ CategoryID }}"
+                    class="msg-cat-card js-message-category{% if category == CategoryID %} active{% endif %}"
+                    data-category="{{ CategoryID }}"
+                    style="border-color: {{ CategoryRow.color }};"
+                >
+                    <div class="cat-icon" style="color: {{ CategoryRow.color }};">
+                        {% if CategoryID == 0 %}<i class="fas fa-eye"></i>
+                        {% elseif CategoryID == 1 %}<i class="fas fa-crosshairs"></i>
+                        {% elseif CategoryID == 2 %}<i class="fas fa-users"></i>
+                        {% elseif CategoryID == 3 %}<i class="fas fa-exclamation-triangle"></i>
+                        {% elseif CategoryID == 4 %}<i class="fas fa-cogs"></i>
+                        {% elseif CategoryID == 5 %}<i class="fas fa-truck"></i>
+                        {% else %}<i class="fas fa-envelope"></i>{% endif %}
+                    </div>
+                    <div class="cat-info">
+                        <h3 class="cat-title" style="color: {{ CategoryRow.color }};">{{ LNG.mg_type[CategoryID] }}</h3>
+                        <div class="cat-stats">
+                            <span class="total">{{ CategoryRow.total }}</span>
+                            {% if CategoryRow.unread > 0 %}
+                            <span class="unread pulse">{{ CategoryRow.unread }}</span>
+                            {% else %}
+                            <span class="read">0</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+
+            <div id="messages-view" class="msg-inbox-list-host"></div>
+        </div>
+
+        {% if OperatorList %}
+        <div class="glass-panel mt-3">
+            <div class="panel-title">{{ LNG.mg_game_operators }}</div>
+            <div class="operator-list">
+                {% for OperatorName, OperatorEmail in OperatorList %}
+                    <div class="operator-item">
+                        <i class="fas fa-user-shield"></i>
+                        <span class="op-name">{{ OperatorName }}</span>
+                        <a href="mailto:{{ OperatorEmail }}" class="op-mail" title="{{ LNG.mg_write_mail_to_ops }} {{ OperatorName }}">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
                 {% endfor %}
             </div>
         </div>

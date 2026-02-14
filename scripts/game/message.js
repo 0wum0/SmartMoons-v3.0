@@ -1,72 +1,95 @@
-Message	= {
-	MessID : 0,
+Message = {
+	MessID: 100,
+	Page: 1,
 
-	MessageCount: function() {
-		if(Message.MessID == 100) {
-			$('#unread_0').text('0');
-			$('#unread_1').text('0');
-			$('#unread_2').text('0');
-			$('#unread_3').text('0');
-			$('#unread_4').text('0');
-			$('#unread_5').text('0');
-			$('#unread_15').text('0');
-			$('#unread_99').text('0');
-			$('#unread_100').text('0');
-			$('#newmes').text('');
-		} else {
-			var count = parseInt($('#unread_'+Message.MessID).text());
-			var lmnew = parseInt($('#newmesnum').text());
-				
-			$('#unread_'+Message.MessID).text(Math.max(0, $('#unread_100').text() - 10));
-			if(Message.MessID != 999) {
-				$('#unread_100').text($('#unread_100').text() - count);
-			}
-			
-			if(lmnew - count <= 0)
-				$('#newmes').text('');
-			else
-				$('#newmesnum').text(lmnew - count);
-		}
-	},
-
-	getMessages: function (MessID, page) {
-		if (typeof page === "undefined") {
+	getMessages: function(MessID, page) {
+		if (typeof page === 'undefined') {
 			page = 1;
 		}
-		Message.MessID	= MessID;
-		Message.MessageCount(MessID);
-		
+
+		Message.MessID = parseInt(MessID, 10) || 100;
+		Message.Page = parseInt(page, 10) || 1;
+
 		$('#loading').show();
-		
-		$.get('game.php?page=messages&mode=view&messcat='+MessID+'&site='+page+'&ajax=1', function(data) {
+
+		$.get('game.php?page=messages&mode=view&messcat=' + Message.MessID + '&site=' + Message.Page + '&ajax=1', function(data) {
+			$('#messages-view').html(data);
 			$('#loading').hide();
-			$('#messagestable').remove();
-			$('#content table:eq(0)').after(data);
+			$('#message-category-select').val(String(Message.MessID));
+			Message.highlightActiveCategory();
+
+			if (window.history && window.history.replaceState) {
+				window.history.replaceState(null, '', 'game.php?page=messages&category=' + Message.MessID + '&side=' + Message.Page);
+			}
+		}).fail(function() {
+			$('#messages-view').html('<div class="glass-panel msg-error">Nachrichten konnten nicht geladen werden.</div>');
+			$('#loading').hide();
 		});
 	},
 
-	stripHTML: function (string) { 
-		return string.replace(/<(.|\n)*?>/g, ''); 
+	highlightActiveCategory: function() {
+		$('.js-message-category').removeClass('active');
+		$('.js-message-category[data-category="' + Message.MessID + '"]').addClass('active');
 	},
 
-	CreateAnswer: function (Answer) {
-		var Answer	= Message.stripHTML(Answer);
-		if(Answer.substr(0, 3) == "Re:") {
-			return 'Re[2]:'+Answer.substr(3);
-		} else if(Answer.substr(0, 3) == "Re[") {
-			var re = Answer.replace(/Re\[(\d+)\]:.*/, '$1');
-			return 'Re['+(parseInt(re)+1)+']:'+Answer.substr(5+parseInt(re.length))
-		} else {
-			return 'Re:'+Answer
+	deleteMessage: function(messageId, messCat, page) {
+		var currentCategory = parseInt(messCat, 10) || Message.MessID;
+		var currentPage = parseInt(page, 10) || Message.Page;
+
+		if (!window.confirm('Nachricht wirklich loeschen?')) {
+			return false;
 		}
+
+		var $form = $('<form>', {
+			method: 'post',
+			action: 'game.php?page=messages'
+		});
+
+		$form.append($('<input>', { type: 'hidden', name: 'mode', value: 'action' }));
+		$form.append($('<input>', { type: 'hidden', name: 'messcat', value: currentCategory }));
+		$form.append($('<input>', { type: 'hidden', name: 'page', value: currentPage }));
+		$form.append($('<input>', { type: 'hidden', name: 'actionTop', value: 'deletemarked' }));
+		$form.append($('<input>', { type: 'hidden', name: 'submitTop', value: '1' }));
+		$form.append($('<input>', { type: 'hidden', name: 'messageID[' + messageId + ']', value: String(messageId) }));
+
+		$('body').append($form);
+		$form.trigger('submit');
+		return false;
 	},
-	
-	getMessagesIDs: function(Infos) {
-		var IDs = [];
-		$.each(Infos, function(index, mess) {
-			if(mess.value == 'on')
-				IDs.push(mess.name.replace(/delmes\[(\d+)\]/, '$1'));
-		});	
-		return IDs;
+
+	openCompose: function() {
+		return Dialog.open('game.php?page=messages&mode=write', 700, 430);
+	},
+
+	init: function() {
+		var initialCategory = parseInt($('#message-category-select').val(), 10);
+		var initialPage = parseInt($('#message-current-page').val(), 10);
+
+		if (!initialCategory || isNaN(initialCategory)) {
+			initialCategory = 100;
+		}
+		if (!initialPage || isNaN(initialPage)) {
+			initialPage = 1;
+		}
+
+		$('#message-category-select').on('change', function() {
+			Message.getMessages($(this).val(), 1);
+		});
+
+		$('.js-message-category').on('click', function(event) {
+			event.preventDefault();
+			Message.getMessages($(this).data('category'), 1);
+		});
+
+		$('#message-refresh').on('click', function(event) {
+			event.preventDefault();
+			Message.getMessages(Message.MessID, Message.Page);
+		});
+
+		Message.getMessages(initialCategory, initialPage);
 	}
-}
+};
+
+$(function() {
+	Message.init();
+});
