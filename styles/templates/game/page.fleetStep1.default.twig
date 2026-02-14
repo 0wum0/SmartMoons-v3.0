@@ -54,6 +54,14 @@
                         <span id="duration" class="text-highlight">-</span>
                     </div>
                     <div class="info-row">
+                        <span>{{ LNG.fl_flying_arrival }}</span>
+                        <span id="arrival" class="text-highlight">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span>{{ LNG.fl_flying_return }}</span>
+                        <span id="return" class="text-muted">-</span>
+                    </div>
+                    <div class="info-row">
                         <span>{{ LNG.fl_max_speed }}</span>
                         <span id="maxspeed" class="text-highlight">-</span>
                     </div>
@@ -118,15 +126,12 @@
 </div>
 
 <script type="text/javascript">
-var ships           = {{ fleetdata.ships|json_encode|raw }};
-var maxspeed        = {{ fleetdata.maxspeed }};
-var driveFactor     = {{ fleetdata.driveFactor }};
-var fleetroom       = {{ fleetdata.fleetroom }};
-var consumption     = {{ fleetdata.consumption }};
-var speedfactors    = {{ speedfactors|json_encode|raw }};
+var data = {{ fleetdata|json_encode|raw }};
 
 $(document).ready(function() {
-    updateVars();
+    if (typeof updateVars === 'function') {
+        updateVars();
+    }
 });
 </script>
 {% endblock %}
