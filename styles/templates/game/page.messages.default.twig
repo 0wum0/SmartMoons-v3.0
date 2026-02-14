@@ -6,7 +6,7 @@
 <div class="content_page">
     <div class="aerospace-wrapper messages-page">
         <div class="glass-panel header-panel">
-            <h2 class="page-title"><i class="fas fa-satellite-dish"></i> {{ LNG.mg_overview }}</h2>
+            <h2 class="page-title"><i class="fas fa-envelope-open-text"></i> {{ LNG.lm_messages }}</h2>
             <span id="loading" style="display:none; color: var(--primary); font-weight: bold;">
                 <i class="fas fa-spinner fa-spin"></i> {{ LNG.loading }}
             </span>
@@ -14,15 +14,17 @@
 
         <div class="glass-panel msg-inbox-shell">
             <div class="msg-inbox-topbar">
-                <div class="msg-filter-box">
+                <div class="msg-filter-row">
                     <label for="message-category-select">{{ LNG.mg_message_type }}</label>
-                    <select id="message-category-select" class="glass-select">
+                    <select id="message-category-select" name="category" class="glass-select">
                         {% for CategoryID, CategoryRow in CategoryList %}
                         <option value="{{ CategoryID }}"{% if category == CategoryID %} selected{% endif %}>
                             {{ LNG.mg_type[CategoryID] }} ({{ CategoryRow.total }}){% if CategoryRow.unread > 0 %} - {{ LNG.mg_unread }} {{ CategoryRow.unread }}{% endif %}
                         </option>
                         {% endfor %}
                     </select>
+
+                    <input type="search" id="message-search" class="glass-input msg-search" placeholder="{{ LNG.mg_subject }} / {{ LNG.mg_from }}">
                 </div>
 
                 <div class="msg-top-actions">
@@ -36,39 +38,6 @@
             </div>
 
             <input type="hidden" id="message-current-page" value="{{ side|default(1) }}">
-
-            <div class="msg-category-grid compact">
-                {% for CategoryID, CategoryRow in CategoryList %}
-                <a
-                    href="game.php?page=messages&category={{ CategoryID }}"
-                    class="msg-cat-card js-message-category{% if category == CategoryID %} active{% endif %}"
-                    data-category="{{ CategoryID }}"
-                    style="border-color: {{ CategoryRow.color }};"
-                >
-                    <div class="cat-icon" style="color: {{ CategoryRow.color }};">
-                        {% if CategoryID == 0 %}<i class="fas fa-eye"></i>
-                        {% elseif CategoryID == 1 %}<i class="fas fa-crosshairs"></i>
-                        {% elseif CategoryID == 2 %}<i class="fas fa-users"></i>
-                        {% elseif CategoryID == 3 %}<i class="fas fa-exclamation-triangle"></i>
-                        {% elseif CategoryID == 4 %}<i class="fas fa-cogs"></i>
-                        {% elseif CategoryID == 5 %}<i class="fas fa-truck"></i>
-                        {% else %}<i class="fas fa-envelope"></i>{% endif %}
-                    </div>
-                    <div class="cat-info">
-                        <h3 class="cat-title" style="color: {{ CategoryRow.color }};">{{ LNG.mg_type[CategoryID] }}</h3>
-                        <div class="cat-stats">
-                            <span class="total">{{ CategoryRow.total }}</span>
-                            {% if CategoryRow.unread > 0 %}
-                            <span class="unread pulse">{{ CategoryRow.unread }}</span>
-                            {% else %}
-                            <span class="read">0</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </a>
-                {% endfor %}
-            </div>
-
             <div id="messages-view" class="msg-inbox-list-host"></div>
         </div>
 

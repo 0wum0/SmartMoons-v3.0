@@ -363,6 +363,7 @@ class ShowMessagesPage extends AbstractGamePage
         $receiverID       	= HTTP::_GP('id', 0);
         $receiverName		= trim(HTTP::_GP('to', '', UTF8_SUPPORT));
         $Subject 			= HTTP::_GP('subject', $LNG['mg_no_subject'], true);
+        $MessageBody		= HTTP::_GP('message', '', true);
 
 		$allowFreeRecipient	= empty($receiverID);
 		if ($allowFreeRecipient)
@@ -400,6 +401,7 @@ class ShowMessagesPage extends AbstractGamePage
 
         $this->assign(array(
             'subject'		=> $Subject,
+            'message'		=> $MessageBody,
             'id'			=> $receiverID,
             'OwnerRecord'	=> $receiverRecord,
 			'allowFreeRecipient' => $allowFreeRecipient,

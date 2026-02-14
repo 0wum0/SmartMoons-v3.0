@@ -3369,8 +3369,7 @@ select.form-control {
     .tech-desc { max-height: 150px; }
 }
 
-/* Styles from page.messages.default.twig */
-/* MESSAGE OVERVIEW STYLES */
+/* Messaging Inbox UI (SM-3.1.0) */
 .aerospace-wrapper { width: 100%; padding: 15px; box-sizing: border-box; }
 
 .header-panel { 
@@ -3400,24 +3399,31 @@ select.form-control {
 
 .msg-inbox-topbar {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
 }
 
-.msg-filter-box {
+.msg-filter-row {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 280px;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-width: 420px;
 }
 
-.msg-filter-box label {
+.msg-filter-row label {
     color: #9fb0c7;
     font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+}
+
+.msg-search {
+    width: 240px;
+    max-width: 100%;
+    padding: 6px 10px;
 }
 
 .msg-top-actions {
@@ -3486,8 +3492,9 @@ select.form-control {
 
 @media (max-width: 600px) {
     .msg-category-grid { grid-template-columns: 1fr; }
-    .msg-filter-box { min-width: 100%; }
+    .msg-filter-row { min-width: 100%; }
     .msg-top-actions { width: 100%; justify-content: space-between; }
+    .msg-search { width: 100%; }
 }
 
 /* Styles from page.messages.view.twig */
@@ -3570,6 +3577,18 @@ select.form-control {
 .btn-icon.delete:hover { color: #e74c3c; }
 
 .msg-body { padding: 20px; line-height: 1.5; font-size: 0.9rem; color: #ddd; word-wrap: break-word; }
+
+.msg-body-meta {
+    margin-bottom: 12px;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.03);
+    color: #9fb0c7;
+    font-size: 0.82rem;
+    display: grid;
+    gap: 4px;
+}
 
 /* Pagination */
 .msg-pagination { display: flex; align-items: center; justify-content: center; gap: 10px; }

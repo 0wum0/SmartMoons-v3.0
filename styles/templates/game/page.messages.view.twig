@@ -70,6 +70,11 @@
                         </a>
                         {% endif %}
                         {% if MessID != 999 %}
+                        <a href="#" onclick="event.preventDefault();event.stopPropagation();return Message.forwardMessage('{{ (Message.subject|default(LNG.mg_no_subject)|striptags)|e('js') }}');" class="btn-icon" title="Weiterleiten">
+                            <i class="fas fa-share"></i>
+                        </a>
+                        {% endif %}
+                        {% if MessID != 999 %}
                         <a href="#" onclick="event.preventDefault();event.stopPropagation();return Message.deleteMessage({{ Message.id }}, {{ MessID }}, {{ page }});" class="btn-icon delete" title="{{ LNG.mg_delete_marked }}">
                             <i class="fas fa-trash-alt"></i>
                         </a>
@@ -78,6 +83,11 @@
                 </summary>
 
                 <div class="msg-body">
+                    <div class="msg-body-meta">
+                        <div><strong>{{ LNG.mg_subject }}:</strong> {% if Message.subject %}{{ Message.subject|raw }}{% else %}{{ LNG.mg_no_subject }}{% endif %}</div>
+                        <div><strong>{% if MessID == 999 %}{{ LNG.mg_to }}{% else %}{{ LNG.mg_from }}{% endif %}:</strong> {% if Message.sender == -1 %}{{ LNG.mg_system }}{% else %}{{ Message.from }}{% endif %}</div>
+                        <div><strong>{{ LNG.mg_date }}:</strong> {{ Message.time }}</div>
+                    </div>
                     {{ Message.text|raw }}
                 </div>
             </details>

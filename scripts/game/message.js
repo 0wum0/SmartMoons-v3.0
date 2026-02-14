@@ -16,7 +16,7 @@ Message = {
 			$('#messages-view').html(data);
 			$('#loading').hide();
 			$('#message-category-select').val(String(Message.MessID));
-			Message.highlightActiveCategory();
+			Message.applySearchFilter();
 
 			if (window.history && window.history.replaceState) {
 				window.history.replaceState(null, '', 'game.php?page=messages&category=' + Message.MessID + '&side=' + Message.Page);
@@ -25,11 +25,6 @@ Message = {
 			$('#messages-view').html('<div class="glass-panel msg-error">Nachrichten konnten nicht geladen werden.</div>');
 			$('#loading').hide();
 		});
-	},
-
-	highlightActiveCategory: function() {
-		$('.js-message-category').removeClass('active');
-		$('.js-message-category[data-category="' + Message.MessID + '"]').addClass('active');
 	},
 
 	deleteMessage: function(messageId, messCat, page) {
@@ -57,8 +52,31 @@ Message = {
 		return false;
 	},
 
+	forwardMessage: function(subject) {
+		var cleanSubject = String(subject || '').trim();
+		if (cleanSubject.length === 0) {
+			cleanSubject = 'Nachricht';
+		}
+		return Dialog.open('game.php?page=messages&mode=write&subject=' + encodeURIComponent('Fwd: ' + cleanSubject), 700, 430);
+	},
+
 	openCompose: function() {
 		return Dialog.open('game.php?page=messages&mode=write', 700, 430);
+	},
+
+	applySearchFilter: function() {
+		var query = String($('#message-search').val() || '').toLowerCase().trim();
+		var $items = $('#messages-view .msg-item');
+
+		if (!query.length) {
+			$items.show();
+			return;
+		}
+
+		$items.each(function() {
+			var text = $(this).text().toLowerCase();
+			$(this).toggle(text.indexOf(query) !== -1);
+		});
 	},
 
 	init: function() {
@@ -76,14 +94,13 @@ Message = {
 			Message.getMessages($(this).val(), 1);
 		});
 
-		$('.js-message-category').on('click', function(event) {
-			event.preventDefault();
-			Message.getMessages($(this).data('category'), 1);
-		});
-
 		$('#message-refresh').on('click', function(event) {
 			event.preventDefault();
 			Message.getMessages(Message.MessID, Message.Page);
+		});
+
+		$('#message-search').on('input', function() {
+			Message.applySearchFilter();
 		});
 
 		Message.getMessages(initialCategory, initialPage);

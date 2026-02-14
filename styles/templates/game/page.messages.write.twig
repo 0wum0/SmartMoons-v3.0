@@ -31,7 +31,7 @@
                 {{ LNG.mg_message }} 
                 <span class="char-count">(<span id="cntChars">0</span> / 5.000)</span>
             </label>
-            <textarea name="text" id="text" class="glass-textarea" rows="10" onkeyup="$('#cntChars').text($(this).val().length);"></textarea>
+            <textarea name="text" id="text" class="glass-textarea" rows="10" onkeyup="$('#cntChars').text($(this).val().length);">{{ message|default('') }}</textarea>
         </div>
 
         <div class="form-actions">
@@ -80,5 +80,10 @@ function check(){
         return true;
     }
 }
+</script>
+<script type="text/javascript">
+$(function() {
+    $('#cntChars').text($('#text').val().length);
+});
 </script>
 {% endblock %}
