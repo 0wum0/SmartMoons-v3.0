@@ -1,7 +1,7 @@
 <header class="game-header">
     <button
         id="sidebar-toggle"
-        class="sidebar-menu-toggle burger-menu mobile-menu-toggle"
+        class="sidebar-menu-toggle burger-menu mobile-menu-toggle topbar-menu-slot"
         type="button"
         aria-label="{{ LNG.lm_navigation|default('Menu') }}"
         aria-controls="leftmenu"
@@ -11,7 +11,7 @@
         <span class="burger-line"></span>
     </button>
     
-    <div class="res-bar-container">
+    <div class="res-bar-container topbar-resources-slot">
         <div class="res-bar">
             {% for resourceID, resourceData in resourceTable %}
             <div class="res-item tooltip" data-tooltip-content="{{ LNG.tech[resourceID] }}<br>{{ resourceData.current|default(0)|number_format }} / {{ resourceData.max|default(0)|number_format }}">
@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <div class="planet-select-wrapper desktop-only">
+    <div class="planet-select-wrapper topbar-planet-slot desktop-only">
         <div class="sci-select-container">
             <i class="fas fa-globe-americas select-icon"></i>
             <select id="planetSelector" class="sci-select" onchange="window.location.href='?cp='+this.value;">
@@ -69,6 +69,9 @@
     }
 
     toggle.dataset.sidebarBound = '1';
+    document.documentElement.classList.remove('sidebar-open');
+    document.body.classList.remove('sidebar-open');
+    document.body.style.overflow = '';
 
     function setSidebarState(isOpen) {
         sidebar.classList.toggle('active', isOpen);
@@ -77,6 +80,7 @@
         toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         document.documentElement.classList.toggle('sidebar-open', isOpen);
         document.body.classList.toggle('sidebar-open', isOpen);
+        document.body.style.overflow = (isOpen && window.matchMedia('(max-width: 992px)').matches) ? 'hidden' : '';
 
         if (overlay) {
             overlay.classList.toggle('active', isOpen);
