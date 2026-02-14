@@ -1,28 +1,11 @@
-{% include "overall_header.twig" %}
-<br><div style="font-size:22px;font-weight:bolder;font-variant:small-caps;text-align:center;width:100%;">{{ adm_cp_title }}</div><br>
-<div align="right">
-{% if authlevel == constant('AUTH_ADM') %}
-<select id="universe">
-{% for key, value in AvailableUnis %}<option value="{{ key }}"{% if key == UNI %} selected{% endif %}>{{ value }}</option>{% endfor %}
-</select>
-{% endif %}
-<a href="admin.php?page=overview" target="Hauptframe" class="topn"> {{ adm_cp_index }} </a>
-{% if authlevel == constant('AUTH_ADM') %}
-<a href="?page=universe&amp;sid={{ sid }}" target="Hauptframe" class="topn"> {{ mu_universe }} </a>
-<a href="?page=rights&amp;mode=rights&amp;sid={{ sid }}" target="Hauptframe" class="topn"> {{ mu_moderation_page }} </a>
-<a href="?page=rights&amp;mode=users&amp;sid={{ sid }}" target="Hauptframe" class="topn"> {{ ad_authlevel_title }} </a>
-{% endif %}
-{% if id == 1 %}
-<a href="?page=reset&amp;sid={{ sid }}" target="Hauptframe" class="topn"> {{ re_reset_universe }} </a>
-{% endif %}
-<a href="javascript:top.location.href='game.php';" target="_top" class="out"> {{ adm_cp_logout }} </a>
-</div>
-<script>
-$(function() {
-	$('#universe').on('change', function(e) {
-		parent.frames['Hauptframe'].location.href = parent.frames['Hauptframe'].location.href+'&uni='+$(this).val();
-		parent.frames['rightFrame'].location.reload();
-	});
-});
-</script>
-{% include "overall_footer.twig" %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="0;URL=admin.php?page=overview">
+<script>window.location.href = 'admin.php?page=overview';</script>
+</head>
+<body style="background:#0a0e17;">
+<p style="color:#e2e8f0;">Weiterleitung...</p>
+</body>
+</html>

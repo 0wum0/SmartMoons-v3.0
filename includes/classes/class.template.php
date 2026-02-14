@@ -259,6 +259,31 @@ class template
 			$dateTimeUser = $dateTimeServer;
 		}
 
+		// Build universe select for topbar
+		$universeSelect = [];
+		foreach (Universe::availableUniverses() as $uniId) {
+			try {
+				$uniConfig = Config::get($uniId);
+				$universeSelect[$uniId] = sprintf('%s (ID: %d)', $uniConfig->uni_name, $uniId);
+			} catch (\Throwable $e) {
+				$universeSelect[$uniId] = sprintf('Universe %d', $uniId);
+			}
+		}
+		ksort($universeSelect);
+
+		// Support ticket count for sidebar badge
+		$supportTicketCount = 0;
+		try {
+			if (defined('TICKETS') && isset($GLOBALS['DATABASE'])) {
+				$ticketResult = $GLOBALS['DATABASE']->getFirstCell(
+					"SELECT COUNT(*) FROM " . TICKETS . " WHERE universe = " . Universe::getEmulated() . " AND status = 0;"
+				);
+				$supportTicketCount = (int)$ticketResult;
+			}
+		} catch (\Throwable $e) {
+			$supportTicketCount = 0;
+		}
+
 		$this->assign_vars(array(
 			'scripts'			=> $this->script,
 			'title'				=> $config->game_name.' - '.$LNG['adm_cp_title'],
@@ -269,7 +294,15 @@ class template
 			'Offset'			=> $dateTimeUser->getOffset() - $dateTimeServer->getOffset(),
 			'VERSION'			=> $config->VERSION,
 			'dpath'				=> 'styles/theme/gow/',
-			'bodyclass'			=> 'full'
+			'bodyclass'			=> 'full',
+			// New admin layout vars
+			'GET'				=> ['page' => $_GET['page'] ?? ''],
+			'currentUser'		=> $USER,
+			'authlevel'			=> $USER['authlevel'] ?? 0,
+			'AvailableUnis'		=> $universeSelect,
+			'UNI'				=> Universe::getEmulated(),
+			'sid'				=> session_id(),
+			'supportTicketCount'=> $supportTicketCount,
 		));
 	}
 	
