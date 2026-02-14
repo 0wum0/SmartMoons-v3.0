@@ -42,22 +42,44 @@
 /* ---- Reset & Base ---- */
 *, *::before, *::after { box-sizing: border-box; }
 
-/* FIX-1: guardrail on BOTH html and body – prevents ANY horizontal scroll */
+/*
+ * OVERRIDE ingame/main.css globals that bleed into admin:
+ *   ingame sets  html,body { min-width:100% }  -> can cause h-scroll
+ *   ingame sets  body::before with a fixed animated overlay
+ *   scifi-framework sets :root vars that conflict with admin palette
+ * We override them all with body.admin-dashboard specificity.
+ */
+
+/* Guardrail on html – :has() for modern browsers, fallback below */
 html:has(body.admin-dashboard) {
     overflow-x: hidden;
+    min-width: 0;           /* kill ingame min-width:100% */
 }
 
 body.admin-dashboard {
     margin: 0;
     padding: 0;
     font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--adm-bg);
-    color: var(--adm-text);
+    background: var(--adm-bg) !important;
+    color: var(--adm-text) !important;
     min-height: 100vh;
+    min-width: 0 !important;        /* kill ingame min-width:100% */
     overflow-x: hidden;
     line-height: 1.5;
     font-size: 14px;
+    position: relative;             /* reset ingame position:relative context */
 }
+
+/* Kill the ingame animated space-background overlay on admin pages */
+body.admin-dashboard::before {
+    display: none !important;
+}
+
+/* Fallback for browsers without :has() – plain html overflow guard */
+html {
+    /* only applies when our admin body class is present (via JS below) */
+}
+
 
 body.admin-dashboard a { color: var(--adm-accent); text-decoration: none; transition: color var(--adm-transition); }
 body.admin-dashboard a:hover { color: #7dd3fc; }

@@ -1,10 +1,16 @@
 /**
  * SmartMoons Admin Dashboard JS - SM-3.1.0
- * Handles: Sidebar toggle, Period tabs, Flipcards, Charts
+ * Handles: Sidebar toggle, Period tabs, Flipcards, Charts, overflow guard
  */
 
 (function() {
     'use strict';
+
+    // ---- :has() fallback — set overflow-x:hidden on <html> for all browsers ----
+    if (document.body && document.body.classList.contains('admin-dashboard')) {
+        document.documentElement.style.overflowX = 'hidden';
+        document.documentElement.style.minWidth  = '0';
+    }
 
     // ---- Sidebar Toggle ----
     const sidebar = document.getElementById('adminSidebar');

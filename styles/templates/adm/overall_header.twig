@@ -9,19 +9,42 @@
     <meta http-equiv="refresh" content="{{ gotoinsec|default(3) }};URL={{ goto }}">
     {% endif %}
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./styles/resource/css/admin/main.css?v={{ REV|default('3100') }}">
-    <style>
-        /* Inline critical styles to prevent FOUC */
-        body { background: #0a0e17; color: #e2e8f0; margin: 0; }
-    </style>
+    {#
+      CSS LOAD ORDER — critical for admin styles to apply:
+      1. Base / vendor CSS (boilerplate, jQuery UI, fancybox, validationEngine)
+      2. Ingame base + theme (needed by legacy admin table/form styles)
+      3. Admin main.css LAST → highest specificity, overrides everything above
+      Cache-bust: hardcoded build token so browser always fetches after deploy.
+    #}
+    {% set cb = 'v=3.1.0-b14' %}
+    <link rel="stylesheet" href="./styles/resource/css/base/boilerplate.css?{{ cb }}">
+    <link rel="stylesheet" href="./styles/resource/css/ingame/main.css?{{ cb }}">
+    <link rel="stylesheet" href="./styles/resource/css/base/jquery.css?{{ cb }}">
+    <link rel="stylesheet" href="./styles/resource/css/base/jquery.fancybox.css?{{ cb }}">
+    <link rel="stylesheet" href="./styles/resource/css/base/validationEngine.jquery.css?{{ cb }}">
+    <link rel="stylesheet" href="./styles/theme/gow/ingame.css?{{ cb }}">
+    <!-- Admin dashboard — loaded LAST so it wins on specificity -->
+    <link rel="stylesheet" href="./styles/resource/css/admin/main.css?{{ cb }}">
+    <script>
+    var ServerTimezoneOffset = {{ Offset|default(0) }};
+    var serverTime = new Date({{ date.0|default(2025) }}, {{ (date.1|default(1)) - 1 }}, {{ date.2|default(1) }}, {{ date.3|default(0) }}, {{ date.4|default(0) }}, {{ date.5|default(0) }});
+    var Ready       = "{{ LNG.ready|default('') }}";
+    var Skin        = "{{ dpath|default('styles/theme/gow/') }}";
+    var Lang        = "{{ lang|default('de') }}";
+    var head_info   = "{{ LNG.fcm_info|default('') }}";
+    </script>
+    <script src="./scripts/base/jquery.js?{{ cb }}"></script>
+    <script src="./scripts/base/jquery.ui.js?{{ cb }}"></script>
+    <script src="./scripts/base/tooltip.js?{{ cb }}"></script>
+    <script src="./scripts/game/base.js?{{ cb }}"></script>
     {% if scripts is defined %}
     {% for scriptname in scripts %}
-    <script src="./scripts/game/{{ scriptname }}.js?v={{ REV|default('3100') }}"></script>
+    <script src="./scripts/game/{{ scriptname }}.js?{{ cb }}"></script>
     {% endfor %}
     {% endif %}
     {% if execscript is defined and execscript %}
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    $(function() {
         {{ execscript|raw }}
     });
     </script>
