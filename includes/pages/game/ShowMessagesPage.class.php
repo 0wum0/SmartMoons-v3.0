@@ -30,6 +30,7 @@ class ShowMessagesPage extends AbstractGamePage
         global $LNG, $USER;
         $MessCategory  	= HTTP::_GP('messcat', 100);
         $page  			= HTTP::_GP('site', 1);
+        $messageDeletedWhere = '(message_deleted IS NULL OR message_deleted = 0)';
 
         $db = Database::get();
 
@@ -41,7 +42,7 @@ class ShowMessagesPage extends AbstractGamePage
 
         if($MessCategory == 999)  {
 
-            $sql = "SELECT COUNT(*) as state FROM %%MESSAGES%% WHERE message_sender = :userId AND message_type != 50 AND message_deleted IS NULL;";
+            $sql = "SELECT COUNT(*) as state FROM %%MESSAGES%% WHERE message_sender = :userId AND message_type != 50 AND ".$messageDeletedWhere.";";
             $MessageCount = $db->selectSingle($sql, array(
                 ':userId'   => $USER['id'],
             ), 'state');
@@ -51,7 +52,7 @@ class ShowMessagesPage extends AbstractGamePage
 
             $sql = "SELECT message_id, message_time, CONCAT(username, ' [',galaxy, ':', system, ':', planet,']') as message_from, message_subject, message_sender, message_type, message_unread, message_text
 			FROM %%MESSAGES%% INNER JOIN %%USERS%% ON id = message_owner
-			WHERE message_sender = :userId AND message_type != 50 AND message_deleted IS NULL
+			WHERE message_sender = :userId AND message_type != 50 AND ".$messageDeletedWhere."
 			ORDER BY message_time DESC
 			LIMIT :offset, :limit;";
 
@@ -65,7 +66,7 @@ class ShowMessagesPage extends AbstractGamePage
 		{
             if ($MessCategory == 100)
 			{
-                $sql = "SELECT COUNT(*) as state FROM %%MESSAGES%% WHERE message_owner = :userId AND message_deleted IS NULL;";
+                $sql = "SELECT COUNT(*) as state FROM %%MESSAGES%% WHERE message_owner = :userId AND ".$messageDeletedWhere.";";
                 $MessageCount = $db->selectSingle($sql, array(
                     ':userId'   => $USER['id'],
                 ), 'state');
@@ -75,7 +76,7 @@ class ShowMessagesPage extends AbstractGamePage
 
                 $sql = "SELECT message_id, message_time, message_from, message_subject, message_sender, message_type, message_unread, message_text
                            FROM %%MESSAGES%%
-                           WHERE message_owner = :userId AND message_deleted IS NULL
+                           WHERE message_owner = :userId AND ".$messageDeletedWhere."
                            ORDER BY message_time DESC
                            LIMIT :offset, :limit";
 
@@ -87,7 +88,7 @@ class ShowMessagesPage extends AbstractGamePage
             }
 			else
 			{
-                $sql = "SELECT COUNT(*) as state FROM %%MESSAGES%% WHERE message_owner = :userId AND message_type = :messCategory AND message_deleted IS NULL;";
+                $sql = "SELECT COUNT(*) as state FROM %%MESSAGES%% WHERE message_owner = :userId AND message_type = :messCategory AND ".$messageDeletedWhere.";";
 
                 $MessageCount = $db->selectSingle($sql, array(
                     ':userId'       => $USER['id'],
@@ -96,7 +97,7 @@ class ShowMessagesPage extends AbstractGamePage
 
                 $sql = "SELECT message_id, message_time, message_from, message_subject, message_sender, message_type, message_unread, message_text
                            FROM %%MESSAGES%%
-                           WHERE message_owner = :userId AND message_type = :messCategory AND message_deleted IS NULL
+                           WHERE message_owner = :userId AND message_type = :messCategory AND ".$messageDeletedWhere."
                            ORDER BY message_time DESC
                            LIMIT :offset, :limit";
 
@@ -416,6 +417,7 @@ class ShowMessagesPage extends AbstractGamePage
 
         $category      	= HTTP::_GP('category', 100);
         $side			= HTTP::_GP('side', 1);
+        $messageDeletedWhere = '(message_deleted IS NULL OR message_deleted = 0)';
 
         $db = Database::get();
 
@@ -441,7 +443,7 @@ class ShowMessagesPage extends AbstractGamePage
             $OperatorList[$OperatorRow['username']]	= $OperatorRow['email'];
         }
 
-        $sql = "SELECT message_type, SUM(message_unread) as message_unread, COUNT(*) as count FROM %%MESSAGES%% WHERE message_owner = :userID AND message_deleted IS NULL GROUP BY message_type;";
+        $sql = "SELECT message_type, SUM(message_unread) as message_unread, COUNT(*) as count FROM %%MESSAGES%% WHERE message_owner = :userID AND ".$messageDeletedWhere." GROUP BY message_type;";
         $CategoryResult = $db->select($sql, array(
             ':userID'   => $USER['id']
         ));
