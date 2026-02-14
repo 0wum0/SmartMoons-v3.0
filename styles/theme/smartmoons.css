@@ -3604,6 +3604,13 @@ select.form-control {
     text-align: center;
 }
 
+.msg-debug {
+    font-family: monospace;
+    font-size: 0.78rem;
+    color: #8dd3ff;
+    word-break: break-word;
+}
+
 /* Global fleet movements */
 .global-fleet-bar {
     margin: 10px 12px 0;

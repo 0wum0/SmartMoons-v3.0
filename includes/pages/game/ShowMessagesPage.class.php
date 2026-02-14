@@ -28,17 +28,39 @@ class ShowMessagesPage extends AbstractGamePage
     function view()
     {
         global $LNG, $USER;
+        $validCategories	= array(0, 1, 2, 3, 4, 5, 15, 50, 99, 100, 999);
         $MessCategory  	= HTTP::_GP('messcat', 100);
         $page  			= HTTP::_GP('site', 1);
+        if(!in_array($MessCategory, $validCategories, true))
+        {
+            $MessCategory = 100;
+        }
+
         $messageDeletedWhere = '(message_deleted IS NULL OR message_deleted = 0)';
 
         $db = Database::get();
+        $config = Config::get();
+        $isDebugMessages = !empty($config->debug) || (isset($USER['authlevel']) && $USER['authlevel'] > AUTH_USR);
+
+        $messageTableName	= '%%MESSAGES%%';
+        $dbTableNames		= $db->getDbTableNames();
+        if(isset($dbTableNames['keys'], $dbTableNames['names']))
+        {
+            $tableIndex = array_search('%%MESSAGES%%', $dbTableNames['keys'], true);
+            if($tableIndex !== false && isset($dbTableNames['names'][$tableIndex]))
+            {
+                $messageTableName = $dbTableNames['names'][$tableIndex];
+            }
+        }
 
         $this->initTemplate();
         $this->setWindow('ajax');
 
         $MessageList	= array();
         $MessagesID		= array();
+        $MessageResult	= array();
+        $legacyCount	= 0;
+        $activeCount	= 0;
 
         if($MessCategory == 999)  {
 
@@ -61,6 +83,13 @@ class ShowMessagesPage extends AbstractGamePage
                 ':offset'   => (($page - 1) * MESSAGES_PER_PAGE),
                 ':limit'    => MESSAGES_PER_PAGE
             ));
+
+            if($isDebugMessages)
+            {
+                $legacySql = "SELECT COUNT(*) as state FROM %%MESSAGES%% WHERE message_sender = :userId AND message_type != 50 AND message_deleted IS NULL;";
+                $legacyCount = (int) $db->selectSingle($legacySql, array(':userId' => $USER['id']), 'state');
+                $activeCount = (int) $MessageCount;
+            }
         }
 		else
 		{
@@ -85,6 +114,13 @@ class ShowMessagesPage extends AbstractGamePage
                     ':offset'       => (($page - 1) * MESSAGES_PER_PAGE),
                     ':limit'        => MESSAGES_PER_PAGE
                 ));
+
+                if($isDebugMessages)
+                {
+                    $legacySql = "SELECT COUNT(*) as state FROM %%MESSAGES%% WHERE message_owner = :userId AND message_deleted IS NULL;";
+                    $legacyCount = (int) $db->selectSingle($legacySql, array(':userId' => $USER['id']), 'state');
+                    $activeCount = (int) $MessageCount;
+                }
             }
 			else
 			{
@@ -110,6 +146,16 @@ class ShowMessagesPage extends AbstractGamePage
                     ':offset'       => (($page - 1) * MESSAGES_PER_PAGE),
                     ':limit'        => MESSAGES_PER_PAGE
                 ));
+
+                if($isDebugMessages)
+                {
+                    $legacySql = "SELECT COUNT(*) as state FROM %%MESSAGES%% WHERE message_owner = :userId AND message_type = :messCategory AND message_deleted IS NULL;";
+                    $legacyCount = (int) $db->selectSingle($legacySql, array(
+                        ':userId'       => $USER['id'],
+                        ':messCategory' => $MessCategory
+                    ), 'state');
+                    $activeCount = (int) $MessageCount;
+                }
             }
         }
 
@@ -142,6 +188,18 @@ class ShowMessagesPage extends AbstractGamePage
             'MessageList'	=> $MessageList,
             'page'			=> $page,
             'maxPage'		=> $maxPage,
+            'messagesDebug'	=> array(
+                'enabled'		=> $isDebugMessages,
+                'table'			=> $messageTableName,
+                'category'		=> $MessCategory,
+                'rawCategory'	=> $_REQUEST['messcat'] ?? null,
+                'page'			=> $page,
+                'dbRows'		=> count($MessageResult),
+                'twigCount'		=> count($MessageList),
+                'legacyCount'	=> $legacyCount,
+                'activeCount'	=> $activeCount,
+                'filter'		=> $messageDeletedWhere,
+            ),
         ));
 
         $this->display('page.messages.view.twig');
@@ -415,7 +473,13 @@ class ShowMessagesPage extends AbstractGamePage
     {
         global $USER;
 
+        $validCategories	= array(0, 1, 2, 3, 4, 5, 15, 50, 99, 100, 999);
         $category      	= HTTP::_GP('category', 100);
+        if(!in_array($category, $validCategories, true))
+        {
+            $category = 100;
+        }
+
         $side			= HTTP::_GP('side', 1);
         $messageDeletedWhere = '(message_deleted IS NULL OR message_deleted = 0)';
 

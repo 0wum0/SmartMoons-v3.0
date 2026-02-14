@@ -8,6 +8,12 @@
     <input type="hidden" name="page" value="{{ page }}">
 
     <div class="msg-viewer">
+        {% if messagesDebug is defined and messagesDebug.enabled %}
+        <div class="glass-panel msg-debug">
+            DEBUG messages: table={{ messagesDebug.table }}, rawFilter={{ messagesDebug.rawCategory|default('null') }}, category={{ messagesDebug.category }}, page={{ messagesDebug.page }}, dbRows={{ messagesDebug.dbRows }}, twigCount={{ messagesDebug.twigCount }}, legacyDeletedNullCount={{ messagesDebug.legacyCount }}, activeCount={{ messagesDebug.activeCount }}
+        </div>
+        {% endif %}
+
         {% if MessID != 999 %}
         <div class="msg-toolbar glass-panel">
             <div class="toolbar-title">{{ LNG.mg_message_title }}</div>
