@@ -1,6 +1,8 @@
 Message = {
 	MessID: 100,
 	Page: 1,
+	SearchTerm: '',
+	HasActiveSearch: false,
 
 	getMessages: function(MessID, page) {
 		if (typeof page === 'undefined') {
@@ -16,7 +18,9 @@ Message = {
 			$('#messages-view').html(data);
 			$('#loading').hide();
 			$('#message-category-select').val(String(Message.MessID));
-			Message.applySearchFilter();
+			if (Message.HasActiveSearch) {
+				Message.applySearchFilter();
+			}
 
 			if (window.history && window.history.replaceState) {
 				window.history.replaceState(null, '', 'game.php?page=messages&category=' + Message.MessID + '&side=' + Message.Page);
@@ -65,10 +69,10 @@ Message = {
 	},
 
 	applySearchFilter: function() {
-		var query = String($('#message-search').val() || '').toLowerCase().trim();
+		var query = Message.SearchTerm;
 		var $items = $('#messages-view .msg-item');
 
-		if (!query.length) {
+		if (!query.length || !Message.HasActiveSearch) {
 			$items.show();
 			return;
 		}
@@ -90,6 +94,11 @@ Message = {
 			initialPage = 1;
 		}
 
+		// Avoid browser-restored stale query hiding all rows after reload.
+		$('#message-search').val('');
+		Message.SearchTerm = '';
+		Message.HasActiveSearch = false;
+
 		$('#message-category-select').on('change', function() {
 			Message.getMessages($(this).val(), 1);
 		});
@@ -100,6 +109,8 @@ Message = {
 		});
 
 		$('#message-search').on('input', function() {
+			Message.SearchTerm = String($(this).val() || '').toLowerCase().trim();
+			Message.HasActiveSearch = Message.SearchTerm.length > 0;
 			Message.applySearchFilter();
 		});
 

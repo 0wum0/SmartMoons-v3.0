@@ -3590,6 +3590,74 @@ select.form-control {
     gap: 4px;
 }
 
+/* SM-3.1.0 Messaging responsive fixes */
+@media (max-width: 768px) {
+    .msg-header {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .msg-checkbox {
+        flex: 0 0 auto;
+        order: 1;
+    }
+
+    .msg-subject-wrap {
+        flex: 1 1 calc(100% - 32px);
+        min-width: 160px;
+        order: 2;
+    }
+
+    .msg-meta {
+        order: 3;
+        min-width: 0;
+        flex: 1 1 100%;
+    }
+
+    .msg-controls {
+        order: 4;
+        margin-left: auto;
+        flex: 0 0 auto;
+        gap: 10px;
+    }
+
+    .msg-subject,
+    .msg-preview {
+        white-space: normal;
+        word-break: break-word;
+    }
+}
+
+@media (max-width: 480px) {
+    .msg-header {
+        display: grid;
+        grid-template-columns: 24px minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 8px;
+    }
+
+    .msg-checkbox {
+        grid-column: 1;
+    }
+
+    .msg-controls {
+        grid-column: 3;
+        justify-self: end;
+        margin-left: 0;
+    }
+
+    .msg-subject-wrap,
+    .msg-meta {
+        grid-column: 2 / 4;
+        min-width: 0;
+    }
+
+    .msg-body {
+        padding: 14px;
+    }
+}
+
 /* Pagination */
 .msg-pagination { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .page-link { 

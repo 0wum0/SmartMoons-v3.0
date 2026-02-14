@@ -25,22 +25,32 @@ class ShowMessagesPage extends AbstractGamePage
         parent::__construct();
     }
 
+    private function normalizeCategory(mixed $rawCategory): int
+    {
+        $validCategories = array(0, 1, 2, 3, 4, 5, 15, 50, 99, 100, 999);
+
+        if (is_string($rawCategory)) {
+            $rawCategory = trim($rawCategory);
+            if ($rawCategory === '' || strtolower($rawCategory) === 'all') {
+                return 100;
+            }
+        }
+
+        $category = (int) $rawCategory;
+        return in_array($category, $validCategories, true) ? $category : 100;
+    }
+
     function view()
     {
         global $LNG, $USER;
-        $validCategories	= array(0, 1, 2, 3, 4, 5, 15, 50, 99, 100, 999);
-        $MessCategory  	= HTTP::_GP('messcat', 100);
+        $rawMessCategory = HTTP::_GP('messcat', '100', true);
+        $MessCategory  	= $this->normalizeCategory($rawMessCategory);
         $page  			= HTTP::_GP('site', 1);
-        if(!in_array($MessCategory, $validCategories, true))
-        {
-            $MessCategory = 100;
-        }
-
         $messageDeletedWhere = '(message_deleted IS NULL OR message_deleted = 0)';
 
         $db = Database::get();
         $config = Config::get();
-        $isDebugMessages = !empty($config->debug) || (isset($USER['authlevel']) && $USER['authlevel'] > AUTH_USR);
+        $isDebugMessages = !empty($config->debug);
 
         $messageTableName	= '%%MESSAGES%%';
         $dbTableNames		= $db->getDbTableNames();
@@ -192,7 +202,7 @@ class ShowMessagesPage extends AbstractGamePage
                 'enabled'		=> $isDebugMessages,
                 'table'			=> $messageTableName,
                 'category'		=> $MessCategory,
-                'rawCategory'	=> $_REQUEST['messcat'] ?? null,
+                'rawCategory'	=> $rawMessCategory,
                 'page'			=> $page,
                 'dbRows'		=> count($MessageResult),
                 'twigCount'		=> count($MessageList),
@@ -473,12 +483,8 @@ class ShowMessagesPage extends AbstractGamePage
     {
         global $USER;
 
-        $validCategories	= array(0, 1, 2, 3, 4, 5, 15, 50, 99, 100, 999);
-        $category      	= HTTP::_GP('category', 100);
-        if(!in_array($category, $validCategories, true))
-        {
-            $category = 100;
-        }
+        $rawCategory    	= HTTP::_GP('category', '100', true);
+        $category      	= $this->normalizeCategory($rawCategory);
 
         $side			= HTTP::_GP('side', 1);
         $messageDeletedWhere = '(message_deleted IS NULL OR message_deleted = 0)';
