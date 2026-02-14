@@ -378,7 +378,13 @@ body.admin-dashboard a:hover { color: #7dd3fc; }
     transform-style: preserve-3d;
 }
 
-.flipcard:hover .flipcard-inner,
+/* On desktop, flip on hover. On touch devices, use .flipped class via JS */
+@media (hover: hover) {
+    .flipcard:hover .flipcard-inner {
+        transform: rotateY(180deg);
+    }
+}
+
 .flipcard.flipped .flipcard-inner {
     transform: rotateY(180deg);
 }
@@ -922,6 +928,24 @@ body.admin-dashboard pre {
         padding: 12px;
     }
 }
+
+/* ---- Chart No-Data State ---- */
+.chart-no-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 220px;
+    color: var(--adm-text-dim);
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* ---- Utility Classes ---- */
+.text-success { color: var(--adm-success) !important; }
+.text-warning { color: var(--adm-warning) !important; }
+.text-danger { color: var(--adm-danger) !important; }
+.text-accent { color: var(--adm-accent) !important; }
+.text-muted { color: var(--adm-text-muted) !important; }
 
 /* ---- Animations ---- */
 @keyframes fadeIn {

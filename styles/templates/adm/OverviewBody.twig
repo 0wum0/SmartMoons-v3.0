@@ -297,7 +297,7 @@
                     <div class="top-player-item">
                         <div class="top-player-rank{% if loop.index == 1 %} gold{% elseif loop.index == 2 %} silver{% elseif loop.index == 3 %} bronze{% endif %}">{{ loop.index }}</div>
                         <div class="top-player-name">{{ player.username|default('Unknown') }}</div>
-                        <div class="top-player-points">{{ player.points|default(0)|number_format(0, ',', '.') }} Pkt</div>
+                        <div class="top-player-points">{{ player.points|default(0)|number }} Pkt</div>
                     </div>
                     {% endfor %}
                 {% else %}

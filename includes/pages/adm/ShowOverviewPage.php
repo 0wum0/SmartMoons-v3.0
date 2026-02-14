@@ -31,7 +31,8 @@ function ShowOverviewPage()
     $chartData = $stats->getFullChartData($period);
 
     // AJAX Request - nur JSON zurückgeben
-    if (AJAX_REQUEST || HTTP::_GP('ajax', 0) === 1) {
+    $isAjax = AJAX_REQUEST || (int)HTTP::_GP('ajax', 0) === 1;
+    if ($isAjax) {
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode([
             'report' => $report,

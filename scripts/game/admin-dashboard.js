@@ -33,6 +33,16 @@
         });
     });
 
+    // ---- Flipcard Touch Toggle ----
+    document.querySelectorAll('.flipcard').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+            // On touch devices, toggle flipped class
+            if (window.matchMedia('(hover: none)').matches) {
+                this.classList.toggle('flipped');
+            }
+        });
+    });
+
     // ---- Period Tabs ----
     const periodTabs = document.querySelectorAll('.period-tab');
 

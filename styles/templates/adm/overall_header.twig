@@ -111,6 +111,16 @@
             </a>
             {% endif %}
 
+            <div class="sidebar-section-label">Administration</div>
+            {% if authlevel is defined and authlevel == constant('AUTH_ADM') %}
+            <a href="admin.php?page=universe" class="sidebar-link{% if GET.page is defined and GET.page == 'universe' %} active{% endif %}">
+                <span class="sidebar-link-icon">&#127760;</span> Universen
+            </a>
+            <a href="admin.php?page=rights&amp;mode=rights" class="sidebar-link{% if GET.page is defined and GET.page == 'rights' %} active{% endif %}">
+                <span class="sidebar-link-icon">&#128274;</span> Rechte
+            </a>
+            {% endif %}
+
             <div class="sidebar-section-label">Konfiguration</div>
             {% if allowedTo('ShowConfigBasicPage') %}
             <a href="admin.php?page=config" class="sidebar-link{% if GET.page is defined and GET.page == 'config' %} active{% endif %}">
@@ -164,6 +174,16 @@
                 <span class="sidebar-link-icon">&#128190;</span> DB Backup
             </a>
             {% endif %}
+            {% if allowedTo('ShowPassEncripterPage') %}
+            <a href="admin.php?page=password" class="sidebar-link{% if GET.page is defined and GET.page == 'password' %} active{% endif %}">
+                <span class="sidebar-link-icon">&#128273;</span> PW Generator
+            </a>
+            {% endif %}
+            {% if allowedTo('ShowStatUpdatePage') %}
+            <a href="admin.php?page=statsupdate" class="sidebar-link{% if GET.page is defined and GET.page == 'statsupdate' %} active{% endif %}" onclick="return confirm('{{ LNG.mu_mpu_confirmation|default('Stats manuell aktualisieren?') }}');">
+                <span class="sidebar-link-icon">&#128200;</span> Stats Update
+            </a>
+            {% endif %}
             {% if allowedTo('ShowClearCachePage') %}
             <a href="admin.php?page=clearcache" class="sidebar-link{% if GET.page is defined and GET.page == 'clearcache' %} active{% endif %}">
                 <span class="sidebar-link-icon">&#128465;</span> Cache leeren
@@ -172,6 +192,11 @@
             {% if allowedTo('ShowGiveawayPage') %}
             <a href="admin.php?page=giveaway" class="sidebar-link{% if GET.page is defined and GET.page == 'giveaway' %} active{% endif %}">
                 <span class="sidebar-link-icon">&#127873;</span> Giveaway
+            </a>
+            {% endif %}
+            {% if authlevel is defined and authlevel == constant('AUTH_ADM') and currentUser is defined and currentUser.id == 1 %}
+            <a href="admin.php?page=reset" class="sidebar-link{% if GET.page is defined and GET.page == 'reset' %} active{% endif %}" style="color:var(--adm-neon-red);">
+                <span class="sidebar-link-icon">&#9888;</span> Reset Universe
             </a>
             {% endif %}
 
