@@ -733,6 +733,97 @@ body.admin-dashboard .legacy-content a {
     color: var(--adm-accent);
 }
 
+body.admin-dashboard .legacy-content center {
+    text-align: left;
+}
+
+body.admin-dashboard .legacy-content .transparent {
+    background: transparent;
+}
+
+body.admin-dashboard .legacy-content .left {
+    text-align: left;
+}
+
+body.admin-dashboard .legacy-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+body.admin-dashboard .legacy-content .tooltip {
+    cursor: help;
+}
+
+body.admin-dashboard .legacy-content form {
+    width: 100%;
+}
+
+body.admin-dashboard .legacy-content table table {
+    width: auto;
+}
+
+body.admin-dashboard .legacy-content #leftmenu {
+    display: none; /* Hide old sidebar if it appears */
+}
+
+/* Override old frame-specific styles */
+body.admin-dashboard #menu {
+    display: none;
+}
+
+body.admin-dashboard #content {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Old button style override */
+body.admin-dashboard .button {
+    background: linear-gradient(135deg, var(--adm-accent), #0ea5e9) !important;
+    color: #0a0e17 !important;
+    border: none !important;
+    padding: 8px 20px !important;
+    border-radius: var(--adm-radius-sm) !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+}
+
+/* Override scrollbar for whole page */
+body.admin-dashboard::-webkit-scrollbar {
+    width: 8px;
+}
+body.admin-dashboard::-webkit-scrollbar-track {
+    background: var(--adm-bg);
+}
+body.admin-dashboard::-webkit-scrollbar-thumb {
+    background: var(--adm-border);
+    border-radius: 4px;
+}
+body.admin-dashboard::-webkit-scrollbar-thumb:hover {
+    background: var(--adm-text-dim);
+}
+
+/* Table overflow on mobile */
+body.admin-dashboard .legacy-content {
+    overflow-x: auto;
+}
+
+/* Status colors */
+body.admin-dashboard .yes { color: var(--adm-success); }
+body.admin-dashboard .ok { color: var(--adm-warning); }
+body.admin-dashboard .no { color: var(--adm-danger); }
+
+/* Pre-formatted text */
+body.admin-dashboard pre {
+    background: var(--adm-bg-secondary);
+    border: 1px solid var(--adm-border);
+    border-radius: var(--adm-radius-sm);
+    padding: 12px;
+    color: var(--adm-text-muted);
+    font-size: 12px;
+    overflow-x: auto;
+}
+
 /* ---- Responsive ---- */
 
 /* Tablet */

@@ -1,7 +1,16 @@
 {% include "overall_header.twig" %}
 
-{# Dashboard replaces legacy-content wrapper - close it and render dashboard directly #}
-</div><!-- close legacy-content for dashboard -->
+{# Dashboard content rendered inside legacy-content wrapper with dashboard-specific styling #}
+<style>
+/* Override legacy-content for dashboard page */
+.admin-content > .legacy-content.is-dashboard {
+    background: transparent;
+    border: none;
+    padding: 0;
+    overflow: visible;
+}
+</style>
+<script>document.querySelector('.legacy-content').classList.add('is-dashboard');</script>
 
 <!-- Dashboard Header -->
 <div class="dash-header">

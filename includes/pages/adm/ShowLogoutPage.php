@@ -25,5 +25,6 @@ function ShowLogoutPage()
 {
 	$session	= Session::create();
 	$session->adminAccess	= 0;
+	HTTP::redirectTo('game.php');
 }
 
