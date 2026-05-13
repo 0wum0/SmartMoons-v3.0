@@ -5,6 +5,8 @@
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
 - [ ] `public/assets/game/` Struktur anlegen
 - [ ] `public/js/game/` Struktur anlegen
 - [ ] Asset-Manifest definieren (`assets-manifest.json`)
@@ -19,6 +21,10 @@
 - [ ] Session/Auth Middleware für API
 - [ ] Read-Endpoints game_state/planet_state/resources/buildings
 =======
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
 =======
 >>>>>>> theirs
 =======
@@ -49,6 +55,12 @@
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
 >>>>>>> theirs
 =======
 >>>>>>> theirs

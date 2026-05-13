@@ -5,8 +5,23 @@
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
 - Kein zentraler `/api.php` Endpoint.
 - JSON-Antworten werden aktuell punktuell in einzelnen Page-Controllern ausgegeben.
+=======
+- Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
+- JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
+>>>>>>> theirs
+=======
+- Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
+- JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
+>>>>>>> theirs
+=======
+- Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
+- JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
+>>>>>>> theirs
 =======
 - Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
 - JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
