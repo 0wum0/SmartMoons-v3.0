@@ -152,3 +152,7 @@ Project: [github.com/0wum0/2MoonsCE](https://github.com/0wum0/2MoonsCE)
 
 - Initial project setup based on 2Moons / SmartMoons — by 0wum0
 - Big initial update: PHP 8.3 compatibility pass, PDO migration, strict types — by 0wum0
+# v3.1.1
+
+- Route root requests away from the old static demo page and back to the PHP login front controller.
+- Add a visible 3.1.1 version marker and cache-busted ingame assets.
