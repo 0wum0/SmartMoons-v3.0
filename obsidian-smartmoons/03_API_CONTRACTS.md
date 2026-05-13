@@ -1,45 +1,11 @@
-# API Contracts (Planung)
+# API Contracts
 
 ## Ist-Zustand
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-- Kein zentraler `/api.php` Endpoint.
-- JSON-Antworten werden aktuell punktuell in einzelnen Page-Controllern ausgegeben.
-=======
 - Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
-- JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
->>>>>>> theirs
-=======
-- Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
-- JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
->>>>>>> theirs
-=======
-- Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
-- JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
->>>>>>> theirs
-=======
-- Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
-- JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
->>>>>>> theirs
-=======
-- Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
-- JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
->>>>>>> theirs
-=======
-- Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
-- JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
->>>>>>> theirs
-=======
-- Zentraler `/api.php` Endpoint ist implementiert (v1-Action-Routing).
-- JSON-Antworten laufen für neue Spiel-Endpoints über standardisierte `ApiResponse`-Envelope.
->>>>>>> theirs
+- JSON-Antworten laufen fuer neue Spiel-Endpoints ueber standardisierte `ApiResponse`-Envelope.
+- Session- und Planet-Kontext werden zentral ueber `ApiAuth` geprueft.
 
-## Geplante Basisstruktur
+## Basisstruktur
 ```json
 {
   "success": true,
@@ -49,26 +15,28 @@
 }
 ```
 
-## Priorisierte Endpoints
+## Read Endpoints
 - GET `api.php?action=game_state`
 - GET `api.php?action=planet_state`
 - GET `api.php?action=resources`
 - GET `api.php?action=buildings`
-- POST `api.php?action=build_building`
 - GET `api.php?action=research`
-- POST `api.php?action=start_research`
 - GET `api.php?action=shipyard`
-- POST `api.php?action=build_ships`
 - GET `api.php?action=defense`
-- POST `api.php?action=build_defense`
 - GET `api.php?action=galaxy`
 - GET `api.php?action=fleets`
-- POST `api.php?action=send_fleet`
 - GET `api.php?action=messages`
 - GET `api.php?action=ranking`
 
+## Write Endpoints
+- POST `api.php?action=build_building`
+- POST `api.php?action=start_research`
+- POST `api.php?action=build_ships`
+- POST `api.php?action=build_defense`
+- POST `api.php?action=send_fleet`
+
 ## Security-Regeln
-- Session/Auth serverseitig prüfen.
+- Session/Auth serverseitig pruefen.
 - Rechte-/Feature-Checks zentralisieren.
 - Eingaben strikt validieren (Typ, Range, Ownership).
 - Niemals spielrelevante Berechnungen clientseitig autoritativ akzeptieren.

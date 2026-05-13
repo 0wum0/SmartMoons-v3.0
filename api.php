@@ -47,6 +47,124 @@ function boundedIntParam(string $key, int $default, int $min, int $max): int
     return max($min, min($max, (int)HTTP::_GP($key, $default)));
 }
 
+function normalizedQueue(?string $serializedQueue): array
+{
+    if (empty($serializedQueue)) {
+        return [];
+    }
+
+    $queue = @unserialize($serializedQueue);
+    return is_array($queue) ? $queue : [];
+}
+
+function assertShipyardCanQueue(array $USER, array $PLANET): void
+{
+    global $resource;
+
+    if ((int)$USER['urlaubs_modus'] !== 0) {
+        ApiResponse::fail('VACATION_MODE', 'Shipyard queue is locked while vacation mode is active.', 409);
+    }
+
+    if ((int)($PLANET[$resource[21]] ?? 0) <= 0) {
+        ApiResponse::fail('SHIPYARD_REQUIRED', 'A shipyard is required before queueing ships or defense.', 409);
+    }
+
+    foreach (normalizedQueue($PLANET['b_building_id'] ?? '') as $queuedElement) {
+        if (isset($queuedElement[0]) && in_array((int)$queuedElement[0], [15, 21], true)) {
+            ApiResponse::fail('SHIPYARD_BUSY', 'Shipyard queue is locked while robotics factory or shipyard is upgrading.', 409);
+        }
+    }
+}
+
+function queueShipyardElement(array &$USER, array &$PLANET, int $elementId, int $requestedCount, array $allowedElements): array
+{
+    global $resource, $reslist;
+
+    if (!in_array($elementId, $allowedElements, true)) {
+        ApiResponse::fail('INVALID_ELEMENT', 'Unknown or unsupported shipyard element.', 422, [
+            'element' => $elementId,
+        ]);
+    }
+
+    if (!BuildFunctions::isTechnologieAccessible($USER, $PLANET, $elementId)) {
+        ApiResponse::fail('TECH_REQUIREMENTS_NOT_MET', 'Technology requirements are not met.', 409);
+    }
+
+    assertShipyardCanQueue($USER, $PLANET);
+
+    $queue = normalizedQueue($PLANET['b_hangar_id'] ?? '');
+    $maxBuildQueue = (int)Config::get()->max_elements_ships;
+    if ($maxBuildQueue !== 0 && count($queue) >= $maxBuildQueue) {
+        ApiResponse::fail('SHIPYARD_QUEUE_FULL', 'Shipyard queue is full.', 409, [
+            'max_queue' => $maxBuildQueue,
+        ]);
+    }
+
+    $count = max(0, min($requestedCount, (int)Config::get()->max_fleet_per_build));
+    $maxBuildable = (int)BuildFunctions::getMaxConstructibleElements($USER, $PLANET, $elementId);
+
+    if (in_array($elementId, $reslist['missile'] ?? [], true)) {
+        $missiles = [
+            502 => (int)($PLANET[$resource[502]] ?? 0),
+            503 => (int)($PLANET[$resource[503]] ?? 0),
+        ];
+        foreach ($queue as $queuedElement) {
+            if (isset($missiles[(int)$queuedElement[0]])) {
+                $missiles[(int)$queuedElement[0]] += (int)$queuedElement[1];
+            }
+        }
+        $maxMissiles = BuildFunctions::getMaxConstructibleRockets($USER, $PLANET, $missiles);
+        $maxBuildable = min($maxBuildable, (int)($maxMissiles[$elementId] ?? 0));
+    }
+
+    if (in_array($elementId, $reslist['one'] ?? [], true)) {
+        foreach ($queue as $queuedElement) {
+            if ((int)($queuedElement[0] ?? 0) === $elementId) {
+                ApiResponse::fail('ELEMENT_ALREADY_QUEUED', 'This element can only be queued once.', 409);
+            }
+        }
+        if ((int)($PLANET[$resource[$elementId]] ?? 0) > 0) {
+            ApiResponse::fail('ELEMENT_ALREADY_BUILT', 'This element already exists on the current planet.', 409);
+        }
+        $count = min($count, 1);
+    }
+
+    $count = min($count, $maxBuildable);
+    if ($count <= 0) {
+        ApiResponse::fail('NOT_ENOUGH_RESOURCES', 'Not enough resources or capacity to queue this element.', 409, [
+            'max_buildable' => max(0, $maxBuildable),
+        ]);
+    }
+
+    $price = BuildFunctions::getElementPrice($USER, $PLANET, $elementId, false, $count);
+    if (!BuildFunctions::isElementBuyable($USER, $PLANET, $elementId, $price, false, $count)) {
+        ApiResponse::fail('NOT_ENOUGH_RESOURCES', 'Not enough resources to queue this element.', 409);
+    }
+
+    foreach ([901, 902, 903] as $resourceId) {
+        if (isset($price[$resourceId])) {
+            $PLANET[$resource[$resourceId]] -= $price[$resourceId];
+        }
+    }
+    if (isset($price[921])) {
+        $USER[$resource[921]] -= $price[921];
+    }
+
+    $queue[] = [$elementId, $count];
+    $PLANET['b_hangar_id'] = serialize($queue);
+
+    $resourceUpdate = new ResourceUpdate(false, false);
+    $resourceUpdate->SavePlanetToDB($USER, $PLANET);
+
+    return [
+        'id' => $elementId,
+        'count' => $count,
+        'build_time_seconds' => (int)BuildFunctions::getBuildingTime($USER, $PLANET, $elementId),
+        'price' => $price,
+        'queue_length' => count($queue),
+    ];
+}
+
 try {
     switch ($action) {
         case 'game_state':
@@ -285,10 +403,32 @@ try {
             break;
 
         case 'build_ships':
+            requireMethod(['POST']);
+            $elementId = requiredPositiveInt('element');
+            $count = requiredPositiveInt('count');
+            $queued = queueShipyardElement($USER, $PLANET, $elementId, $count, $reslist['fleet'] ?? []);
+            ApiResponse::ok([
+                'accepted' => true,
+                'mode' => 'queued',
+                'ship' => $queued,
+            ], 201);
+            break;
+
         case 'build_defense':
+            requireMethod(['POST']);
+            $elementId = requiredPositiveInt('element');
+            $count = requiredPositiveInt('count');
+            $queued = queueShipyardElement($USER, $PLANET, $elementId, $count, array_merge($reslist['defense'] ?? [], $reslist['missile'] ?? []));
+            ApiResponse::ok([
+                'accepted' => true,
+                'mode' => 'queued',
+                'defense' => $queued,
+            ], 201);
+            break;
+
         case 'send_fleet':
             requireMethod(['POST']);
-            ApiResponse::fail('NOT_IMPLEMENTED', 'Endpoint contract reserved; execution wiring in progress.', 501, [
+            ApiResponse::fail('NOT_IMPLEMENTED', 'Endpoint contract reserved; fleet mission execution wiring in progress.', 501, [
                 'action' => $action,
             ]);
             break;
