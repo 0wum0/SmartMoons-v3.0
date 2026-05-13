@@ -145,7 +145,7 @@ switch ($mode) {
 			'header'        => $LNG['menu_upgrade']
 		));
 
-		$template->show('ins_update.tpl');
+		$template->show('ins_upgrade.twig');
 		break;
 	case 'doupgrade':
 		// TODO:Need a rewrite!
@@ -263,7 +263,7 @@ switch ($mode) {
 			'revision' => $revision,
 			'header'   => $LNG['menu_upgrade'],
         ));
-		$template->show('ins_doupdate.tpl');
+		$template->show('ins_doupdate.twig');
         unlink($enableInstallToolFile);
 		break;
 	case 'install':
