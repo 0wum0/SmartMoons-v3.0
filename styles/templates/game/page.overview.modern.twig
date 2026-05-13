@@ -87,9 +87,7 @@
 			<div class="card-body">
 				<!-- Planet Visual -->
 				<div class="planet-visual">
-					<div class="planet-image" style="background-image: url({{ dpath }}planeten/{{ planetimage }}.jpg);">
-						<div class="planet-glow"></div>
-					</div>
+					<div id="smartmoons-planet-scene" class="sm-overview-planet-scene"></div>
 				</div>
 				
 				<!-- Planet Stats -->
@@ -277,4 +275,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+{% endblock %}
+
+{% block script %}
+{{ parent() }}
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+<script src="public/js/game/api.js"></script>
+<script src="public/js/game/scenes/BootScene.js"></script>
+<script src="public/js/game/scenes/PreloadScene.js"></script>
+<script src="public/js/game/scenes/PlanetScene.js"></script>
+<script src="public/js/game/planet-main.js"></script>
 {% endblock %}

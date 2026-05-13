@@ -31,6 +31,15 @@
 	<script src="scripts/base/jquery.cookie.js"></script>
 	<script src="scripts/base/jquery.fancybox.js?v={{ REV }}"></script>
 	<script src="scripts/login/main.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+	<script src="public/js/game/config.js"></script>
+	<script src="public/js/game/api.js"></script>
+	<script src="public/js/game/scenes/BootScene.js"></script>
+	<script src="public/js/game/scenes/PreloadScene.js"></script>
+	<script src="public/js/game/scenes/LoginBackgroundScene.js"></script>
+	<script src="public/js/game/scenes/PlanetScene.js"></script>
+	<script src="public/js/game/main.js"></script>
 	<script>{% if code is defined %}var loginError = {{ code|json_encode|raw }};{% endif %}</script>
 	{% block script %}{% endblock %}	
 </head>

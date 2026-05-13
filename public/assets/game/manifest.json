@@ -1,0 +1,16 @@
+{
+  "version": "2026.05.13-phase2",
+  "backgrounds": {
+    "starfieldDeep": "public/assets/game/backgrounds/starfield_deep.png"
+  },
+  "sprites": {
+    "planetTerra01": "public/assets/game/sprites/planet_terra_01.png",
+    "droneShip01": "public/assets/game/sprites/drone_ship_01.png"
+  },
+  "ui": {
+    "orbitRing01": "public/assets/game/ui/orbit_ring_01.png"
+  },
+  "particles": {
+    "glowParticle01": "public/assets/game/particles/glow_particle_01.png"
+  }
+}

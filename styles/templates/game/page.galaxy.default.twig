@@ -31,6 +31,10 @@
     
     <div class="aerospace-wrapper">
 
+        <div class="glass-panel mb-3">
+            <div id="smartmoons-galaxy-scene" class="sm-galaxy-scene"></div>
+        </div>
+
         <div class="glass-panel nav-deck">
             <form action="game.php?page=galaxy" method="post" id="galaxy_form">
                 <input type="hidden" id="auto" value="dr">
@@ -269,4 +273,15 @@
 
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+{{ parent() }}
+<script>window.SmartMoonsGalaxyCoords = { galaxy: {{ galaxy }}, system: {{ system }} };</script>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+<script src="public/js/game/api.js"></script>
+<script src="public/js/game/scenes/BootScene.js"></script>
+<script src="public/js/game/scenes/PreloadScene.js"></script>
+<script src="public/js/game/scenes/GalaxyScene.js"></script>
+<script src="public/js/game/galaxy-main.js"></script>
 {% endblock %}

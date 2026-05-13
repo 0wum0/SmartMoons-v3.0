@@ -6336,3 +6336,41 @@ legend {
         margin-top: 80px;
     }
 }
+/* --- Phaser Login Stage --- */
+.sm-login-stage {
+  position: relative;
+  margin: 14px auto 18px;
+  border: 1px solid rgba(109, 220, 255, 0.35);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), inset 0 0 40px rgba(33, 123, 176, 0.18);
+  background: radial-gradient(circle at 20% 20%, #0f2d46 0%, #08111f 55%, #04070f 100%);
+}
+
+.sm-login-game-canvas {
+  width: 100%;
+  min-height: 420px;
+}
+
+.sm-login-stage-overlay {
+  pointer-events: none;
+  position: absolute;
+  left: 24px;
+  top: 20px;
+  color: #d6f3ff;
+  text-shadow: 0 0 12px rgba(83, 209, 255, 0.75);
+  z-index: 5;
+}
+
+.sm-login-stage-overlay h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sm-login-stage-overlay p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.85;
+}

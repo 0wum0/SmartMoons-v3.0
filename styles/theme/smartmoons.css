@@ -7241,3 +7241,23 @@ body.sidebar-open {
 /* ==========================================================================
    END OF AEROSPACE THEME
    ========================================================================== */
+
+/* Phaser Planet Scene (Overview) */
+.sm-overview-planet-scene {
+  width: 100%;
+  min-height: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(109, 220, 255, 0.28);
+  box-shadow: inset 0 0 30px rgba(12, 35, 58, 0.75), 0 12px 35px rgba(0, 0, 0, 0.45);
+  background: radial-gradient(circle at 40% 30%, #0a2033 0%, #060d18 65%, #040810 100%);
+}
+
+.sm-galaxy-scene {
+  width: 100%;
+  min-height: 360px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(103, 214, 255, 0.28);
+  background: radial-gradient(circle at 30% 20%, #0d2238 0%, #060d19 62%, #04070f 100%);
+}
