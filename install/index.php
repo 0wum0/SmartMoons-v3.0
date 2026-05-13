@@ -29,6 +29,12 @@ $LNG->includeData(array('L18N', 'INGAME', 'INSTALL', 'CUSTOM'));
 
 $mode = HTTP::_GP('mode', '');
 
+if (!defined('DB_PREFIX') && file_exists('includes/config.php') && filesize('includes/config.php') !== 0) {
+	$databaseConfig = array();
+	require 'includes/config.php';
+	define('DB_PREFIX', (string)($databaseConfig['prefix'] ?? ''));
+}
+
 $template = new template();
 // Twig caching is handled automatically in class.template.php
 $template->assign_vars(array(
