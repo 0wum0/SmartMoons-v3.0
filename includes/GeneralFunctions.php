@@ -509,12 +509,13 @@ function exceptionHandler(\Throwable $exception): void
 	
 	if(MODE !== 'INSTALL')
 	{
-		try
-		{
-			$config		= Config::get();
-			$gameName	= $config->game_name;
-			$VERSION	= $config->VERSION;
-		} catch(ErrorException $e) {
+		try {
+			if (class_exists('Config')) {
+				$config		= Config::get();
+				$gameName	= $config->game_name;
+				$VERSION	= $config->VERSION;
+			}
+		} catch(Throwable $e) {
 		}
 	}
 	
