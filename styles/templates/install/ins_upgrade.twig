@@ -1,4 +1,4 @@
-{% include "ins_header.twig" %}
+{% include "@install/ins_header.twig" %}
 <tr>
 	<td colspan="2">
 		<div id="lang" align="right">{{ LNG.intro_lang }}: <select id="lang" name="lang" onchange="document.location = '?lang='+$(this).val();"><!-- TODO: Complex html_options - needs manual review --></select></div>
@@ -21,4 +21,4 @@
 	</td>
 </tr>
 {% endif %}
-{% include "ins_footer.twig" %}
+{% include "@install/ins_footer.twig" %}
