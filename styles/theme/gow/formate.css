@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+    padding: 20px;
+    background: #0b1020;
+    color: #e5eef8;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    color: #6fd3ff;
+}
+
+table {
+    border-collapse: collapse;
+}
