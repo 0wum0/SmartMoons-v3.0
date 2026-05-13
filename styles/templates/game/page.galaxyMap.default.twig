@@ -1,0 +1,2188 @@
+{#
+	SmartMoons / 2Moons Community Edition (2MoonsCE)
+
+	Based on the original 2Moons project:
+
+	@copyright 2009 Lucky
+	@copyright 2016 Jan-Otto Kröpke <slaver7@gmail.com>
+	@licence MIT
+	@version 1.8.0
+	@link https://github.com/jkroepke/2Moons
+	 2Moons
+	  by Jan-Otto Kröpke 2009-2016
+
+	Modernization, PHP 8.3/8.4 compatibility, Twig Migration (Smarty removed)
+	Refactoring and feature extensions:
+	@copyright 2024-2026 Florian Engelhardt (0wum0)
+	@link https://github.com/0wum0/2MoonsCE
+	@eMail info.browsergame@gmail.com
+
+	Licensed under the MIT License.
+	See LICENSE for details.
+	@visit http://makeit.uno/
+#}
+{% extends "layout.full.twig" %}
+
+{% block title %}Galaxy Map{% endblock %}
+
+{% block content %}
+{% autoescape false %}
+<script>
+  window.SM = {
+    userId:  {{ USER.id|default(0) }},
+    allyId:  {{ USER.ally_id|default(0) }},
+    galaxy:  {{ PLANET.galaxy|default(1) }},
+    system:  {{ PLANET.system|default(1) }},
+    planet:  {{ PLANET.planet|default(1) }},
+    planetName: {{ USER.current_planet|default('Home Planet')|json_encode }},
+    apiBase: 'game.php?page=galaxyMap&mode='
+  };
+</script>
+{% endautoescape %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600&display=swap');
+
+/* ── Root: covers full viewport over game UI ──────────────────────── */
+#gm-root {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 8000;
+  background: #020510;
+  font-family: 'Rajdhani', sans-serif;
+  color: #c8e6ff;
+  overflow: hidden;
+  /* Footer height injected by JS as --ingameFooterH */
+  --ingameFooterH: 0px;
+}
+
+/* Canvas wrapper: pointer-events:none so panel edges don't block canvas pan */
+.galaxy-wrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#gm-canvas {
+  position: absolute;
+  inset: 0;
+  /* 100dvh respects mobile browser chrome (address bar) */
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  cursor: grab;
+  pointer-events: all;
+  z-index: 1;
+  touch-action: none;
+}
+#gm-canvas:active { cursor: grabbing; }
+
+/* HUD and panels sit above canvas */
+#gm-hud, #gm-side, #gm-action, #gm-card, #gm-tip, #gm-load, #gm-hint {
+  z-index: 100;
+  pointer-events: all;
+}
+
+/* ── CSS Variables ───────────────────────────────────────────────── */
+#gm-root {
+  --cyan:   #00d4ff;
+  --gold:   #ffd700;
+  --red:    #e8304a;
+  --green:  #00e87a;
+  --purple: #a855f7;
+  --dim:    #4a6a8a;
+  --text:   #c8e6ff;
+  --panel:  rgba(4,14,38,0.90);
+  --border: rgba(0,200,255,0.18);
+}
+
+/* ── HUD top bar ─────────────────────────────────────────────────── */
+#gm-hud {
+  position: absolute; top: 0; left: 0; right: 0;
+  min-height: 50px;
+  background: linear-gradient(180deg,rgba(2,5,16,.97) 55%,transparent);
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 12px; z-index: 100; pointer-events: none;
+  flex-wrap: wrap;
+}
+.hud-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 12px; font-weight: 900;
+  color: var(--cyan); letter-spacing: 4px;
+  text-shadow: 0 0 20px var(--cyan);
+}
+.hud-sep { width: 1px; height: 18px; background: var(--border); }
+.hud-pill {
+  padding: 2px 8px; border-radius: 20px;
+  font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 1px;
+  white-space: nowrap;
+}
+.hud-pill.c { border:1px solid rgba(0,212,255,.3);  color:var(--cyan);   background:rgba(0,212,255,.07); }
+.hud-pill.g { border:1px solid rgba(0,255,136,.3);  color:var(--green);  background:rgba(0,255,136,.07); }
+.hud-pill.r { border:1px solid rgba(255,48,96,.35); color:var(--red);    background:rgba(255,48,96,.09); }
+
+/* Close button to go back to game */
+#gm-close {
+  margin-left: auto;
+  flex-shrink: 0;
+  pointer-events: all;
+  background: rgba(255,48,96,.1);
+  border: 1px solid rgba(255,48,96,.3);
+  color: var(--red);
+  padding: 4px 10px; border-radius: 6px;
+  font-family: 'Orbitron', monospace; font-size: 9px; letter-spacing: 1px;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+#gm-close:hover { background: rgba(255,48,96,.25); }
+
+/* ── Side panel ──────────────────────────────────────────────────── */
+#gm-side {
+  position: absolute; top: 58px; left: 12px;
+  width: 236px;
+  /* Bottom guard: never overlap footer – use ingameFooterH + action panel height + padding */
+  max-height: calc(100vh - 58px - var(--ingameFooterH) - 80px);
+  overflow-y: auto;
+  background: var(--panel); backdrop-filter: blur(18px);
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 13px 14px; z-index: 100;
+  box-shadow: 0 8px 30px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.04);
+  pointer-events: all;
+}
+
+/* ── Mobile: FAB + collapsible side panel ────────────────────────── */
+#gm-panel-toggle {
+  display: none; /* hidden on desktop */
+}
+
+/* FAB rendered OUTSIDE #gm-root so it is never clipped by overflow */
+#gm-fab-outer {
+  display: none;
+  position: fixed;
+  bottom: 72px;
+  right: 14px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(0,212,255,.18);
+  border: 2px solid rgba(0,212,255,.55);
+  color: #00d4ff;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 9100;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 20px rgba(0,0,0,.65), 0 0 18px rgba(0,212,255,.18);
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, transform .15s;
+  pointer-events: all;
+}
+#gm-fab-outer:hover, #gm-fab-outer.active {
+  background: rgba(0,212,255,.32);
+  transform: scale(1.08);
+}
+
+/* ── Mobile: hide 3D view button, only 2D available ─────────────── */
+@media (max-width: 768px) {
+  #vb-3d { display: none !important; }
+  #gm-view-row .vw-btn:only-child,
+  #vb-2d { flex: 1 1 100%; }
+}
+
+@media (max-width: 768px) {
+  /* Canvas fills the full 100dvh (mobile browser bars excluded) */
+  .galaxy-wrapper, #gm-canvas {
+    height: 100dvh !important;
+  }
+
+  /* HUD: compact on mobile so pills don't overflow */
+  #gm-hud {
+    gap: 5px;
+    padding: 5px 8px;
+  }
+  .hud-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+  .hud-pill {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+  .hud-sep { display: none; }
+
+  /* Side panel: slides up from bottom */
+  #gm-side {
+    position: fixed;
+    top: auto;
+    bottom: calc(var(--ingameFooterH) + 68px);
+    left: auto;
+    right: 12px;
+    width: calc(100vw - 24px);
+    max-width: 340px;
+    max-height: 52dvh;
+    overflow-y: auto;
+    transform: translateY(110%);
+    transition: transform .28s cubic-bezier(.4,0,.2,1);
+    border-radius: 14px 14px 6px 6px;
+    z-index: 8100;
+  }
+  #gm-side.panel-open {
+    transform: translateY(0);
+  }
+
+  /* Old inner FAB: hide (replaced by outer FAB) */
+  #gm-panel-toggle {
+    display: none !important;
+  }
+
+  /* Outer FAB visible on mobile */
+  #gm-fab-outer {
+    display: flex;
+  }
+
+  /* Action panel: full width, sits above FAB, never overflows viewport */
+  #gm-action {
+    min-width: unset !important;
+    width: calc(100vw - 20px) !important;
+    max-width: calc(100vw - 20px) !important;
+    bottom: calc(var(--ingameFooterH) + 68px);
+    left: 10px;
+    transform: none;
+    z-index: 8200;
+    animation: none;
+  }
+  /* ap-meta grid: 2 cols on mobile */
+  .ap-meta {
+    grid-template-columns: 1fr 1fr;
+  }
+  @keyframes slideUp {
+    from{opacity:0;transform:translateY(14px)}
+    to  {opacity:1;transform:translateY(0)}
+  }
+}
+.sp-h { font-family:'Orbitron',monospace; font-size:8px; letter-spacing:2px; color:var(--dim); margin-bottom:8px; display:flex; align-items:center; gap:5px; }
+.sp-h i { color:var(--cyan); opacity:.7; }
+.sp-row { display:flex; gap:7px; margin-bottom:7px; }
+.sp-col { flex:1; }
+.sp-lbl { font-size:10px; color:var(--dim); font-family:'Orbitron',monospace; letter-spacing:1px; margin-bottom:3px; }
+.sp-inp {
+  width:100%; background:rgba(0,0,0,.5);
+  border:1px solid rgba(0,212,255,.2); border-radius:6px;
+  padding:5px 7px; color:#fff;
+  font-family:'Orbitron',monospace; font-size:12px; outline:none; box-sizing:border-box;
+  transition:border-color .2s;
+}
+.sp-inp:focus { border-color:var(--cyan); }
+.sp-btn {
+  width:100%; padding:7px; border-radius:7px; border:none;
+  cursor:pointer; font-family:'Orbitron',monospace; font-size:9px;
+  letter-spacing:1.5px; transition:all .2s; margin-top:4px;
+}
+.sp-btn.c { background:rgba(0,212,255,.09);  border:1px solid rgba(0,212,255,.28);  color:var(--cyan); }
+.sp-btn.g { background:rgba(0,232,122,.07);  border:1px solid rgba(0,232,122,.26);  color:var(--green); }
+.sp-btn:disabled { opacity:.35; cursor:not-allowed; }
+.sp-btn.c:not(:disabled):hover { background:rgba(0,212,255,.2); }
+.sp-btn.g:not(:disabled):hover { background:rgba(0,232,122,.16); }
+.sp-sep { border:none; border-top:1px solid rgba(0,212,255,.09); margin:9px 0; }
+.leg { display:flex; align-items:center; gap:7px; margin-bottom:4px; font-size:11px; color:#8aaccc; }
+.leg-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.leg-line { width:18px; height:2px; flex-shrink:0; }
+.leg-dash { width:18px; height:0; flex-shrink:0; border-top:2px dashed currentColor; opacity:.7; }
+.vw-row { display:flex; gap:6px; }
+.vw-btn {
+  flex:1; padding:6px; text-align:center; border-radius:7px;
+  cursor:pointer; font-size:9px; font-family:'Orbitron',monospace; letter-spacing:1px;
+  background:rgba(0,0,0,.3); border:1px solid rgba(0,212,255,.1); color:var(--dim);
+  transition:all .2s;
+}
+.vw-btn.on { background:rgba(0,212,255,.14); border-color:var(--cyan); color:var(--cyan); }
+.st-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-size:11px; }
+.sk { color:var(--dim); }
+.sv { font-family:'Orbitron',monospace; font-size:10px; }
+.sv.c { color:var(--cyan); }
+.sv.g { color:var(--green); }
+.sv.r { color:var(--red); }
+#jump-hint { font-size:9px; color:var(--green); font-family:'Orbitron',monospace; letter-spacing:1px; margin-top:4px; min-height:13px; text-align:center; transition:opacity .3s; }
+
+/* ── Action panel ────────────────────────────────────────────────── */
+#gm-action {
+  position:absolute; bottom:calc(var(--ingameFooterH) + 12px); left:50%; transform:translateX(-50%);
+  min-width:min(430px, calc(100vw - 24px)); max-width:min(590px, calc(100vw - 24px));
+  width: max-content;
+  background:var(--panel); backdrop-filter:blur(22px);
+  border:1px solid var(--border); border-radius:13px;
+  padding:15px 17px 13px; z-index:200; display:none;
+  box-shadow:0 16px 50px rgba(0,0,0,.85);
+  animation:slideUp .2s ease;
+}
+@keyframes slideUp {
+  from{opacity:0;transform:translateX(-50%) translateY(14px)}
+  to  {opacity:1;transform:translateX(-50%) translateY(0)}
+}
+.ap-x { position:absolute;top:8px;right:12px;background:none;border:none;color:var(--dim);font-size:17px;cursor:pointer; }
+.ap-x:hover { color:var(--red); }
+.ap-name { font-family:'Orbitron',monospace;font-size:13px;color:var(--cyan);letter-spacing:2px;margin-bottom:2px; }
+.ap-coord { font-size:11px;color:var(--dim);font-family:'Orbitron',monospace;margin-bottom:10px; }
+.ap-meta { display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:11px; }
+.ap-box { background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.05);border-radius:7px;padding:7px 9px;text-align:center; }
+.ap-box-lbl { font-size:9px;color:var(--dim);font-family:'Orbitron',monospace;letter-spacing:1px; }
+.ap-box-val { font-size:12px;margin-top:2px; }
+.ap-btns { display:flex;flex-wrap:wrap;gap:7px;justify-content:center; }
+.ap-btn {
+  padding:7px 13px;border-radius:7px;border:none;cursor:pointer;
+  font-family:'Orbitron',monospace;font-size:9px;letter-spacing:1px;
+  display:inline-flex;align-items:center;gap:5px;
+  transition:all .2s;text-decoration:none;line-height:1;
+}
+.ap-btn:hover { filter:brightness(1.45);transform:translateY(-1px); }
+.ab-spy  { background:rgba(255,255,0,.09);  border:1px solid rgba(255,255,0,.28);  color:#ffee00; }
+.ab-atk  { background:rgba(255,48,96,.1);   border:1px solid rgba(255,48,96,.35);  color:var(--red); }
+.ab-flt  { background:rgba(0,212,255,.09);  border:1px solid rgba(0,212,255,.28);  color:var(--cyan); }
+.ab-msg  { background:rgba(168,85,247,.09); border:1px solid rgba(168,85,247,.3);  color:var(--purple); }
+.ab-card { background:rgba(255,215,0,.07);  border:1px solid rgba(255,215,0,.25);  color:var(--gold); }
+.ab-rec  { background:rgba(255,153,0,.09);  border:1px solid rgba(255,153,0,.28);  color:#ff9900; }
+.ap-own  { text-align:center;padding:7px;font-size:11px;color:var(--green);font-family:'Orbitron',monospace;letter-spacing:1px; }
+
+/* ── Player card ─────────────────────────────────────────────────── */
+#gm-card {
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:420px;max-width:calc(100vw - 24px);
+  background:rgba(4,10,28,0.97);backdrop-filter:blur(28px);
+  border:1px solid rgba(168,85,247,.38);border-radius:16px;
+  overflow:hidden;z-index:300;display:none;
+  box-shadow:0 24px 70px rgba(0,0,0,.95),0 0 60px rgba(168,85,247,.12),inset 0 1px 0 rgba(255,255,255,.06);
+  animation:fadeScale .25s ease;
+}
+@keyframes fadeScale {
+  from{opacity:0;transform:translate(-50%,-50%) scale(.88)}
+  to  {opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+.pc-banner {
+  height:72px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(0,212,255,.18) 0%,rgba(168,85,247,.22) 50%,rgba(0,0,0,.4) 100%);
+}
+.pc-banner::after {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 30%,rgba(4,10,28,.9) 100%);
+}
+.pc-banner-grid {
+  position:absolute;inset:0;opacity:.12;
+  background-image:linear-gradient(rgba(0,212,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.4) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.pc-av-wrap { position:absolute;left:18px;bottom:-20px;z-index:2; }
+.pc-av {
+  width:56px;height:56px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:700;color:#fff;font-family:'Orbitron',monospace;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  border:3px solid rgba(4,10,28,.9);box-shadow:0 0 20px rgba(168,85,247,.4);
+}
+.pc-x { position:absolute;top:10px;right:14px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);color:var(--dim);font-size:15px;cursor:pointer;width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;z-index:10;transition:all .2s; }
+.pc-x:hover { color:var(--red);background:rgba(255,48,96,.18);border-color:rgba(255,48,96,.35); }
+.pc-body-inner { padding:28px 18px 16px; }
+.pc-hdr { display:flex;align-items:flex-end;gap:12px;margin-bottom:12px; }
+.pc-hdr-info { flex:1; }
+.pc-nm { font-family:'Orbitron',monospace;font-size:15px;color:#fff;font-weight:700; }
+.pc-al { font-size:11px;color:var(--purple);margin-top:2px;letter-spacing:.5px; }
+.pc-on { font-size:10px;color:var(--dim);margin-top:3px;display:flex;align-items:center;gap:5px; }
+.dot { display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0; }
+.dot-on  { background:var(--green);box-shadow:0 0 6px var(--green); }
+.dot-off { background:var(--dim); }
+.pc-divider { height:1px;background:rgba(255,255,255,.06);margin:10px 0; }
+.pc-grid { display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px; }
+.pc-st {
+  background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:8px 10px;
+  transition:border-color .2s;
+}
+.pc-st:hover { border-color:rgba(0,212,255,.2); }
+.pc-st-lbl { font-size:9px;color:var(--dim);font-family:'Orbitron',monospace;letter-spacing:1px;text-transform:uppercase; }
+.pc-st-val { font-size:13px;color:#fff;margin-top:2px;font-family:'Orbitron',monospace; }
+.pc-st-rnk { font-size:9px;color:var(--cyan);margin-top:1px; }
+.pc-fights { display:flex;justify-content:space-around;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.04);border-radius:8px;padding:10px 8px;margin-bottom:10px; }
+.pcf { text-align:center; }
+.pcf-n { font-family:'Orbitron',monospace;font-size:15px;font-weight:700; }
+.pcf-l { font-size:9px;color:var(--dim);margin-top:3px;letter-spacing:.8px; }
+.pc-winbar-wrap { margin-bottom:10px; }
+.pc-winbar-lbl { display:flex;justify-content:space-between;font-size:9px;color:var(--dim);font-family:'Orbitron',monospace;letter-spacing:1px;margin-bottom:4px; }
+.pc-winbar-track { height:6px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;display:flex; }
+.pc-winbar-w { height:100%;background:var(--green);transition:width .6s cubic-bezier(.4,0,.2,1); }
+.pc-winbar-d { height:100%;background:rgba(168,200,232,.35); }
+.pc-winbar-l { height:100%;background:var(--red); }
+.pc-acts { display:flex;gap:7px;flex-wrap:wrap;justify-content:center; }
+
+/* ── Player search results ──────────────────────────────────────── */
+.gm-sr-item {
+  display:flex;align-items:center;gap:8px;
+  padding:7px 9px;border-radius:7px;cursor:pointer;
+  border:1px solid transparent;transition:all .15s;
+  font-size:11px;
+}
+.gm-sr-item:hover { background:rgba(0,212,255,.07);border-color:rgba(0,212,255,.15); }
+.gm-sr-av {
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;font-family:'Orbitron',monospace;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+}
+.gm-sr-name { color:var(--text);font-family:'Orbitron',monospace;letter-spacing:.5px;flex:1; }
+.gm-sr-coord { font-size:9px;color:var(--dim); }
+.gm-sr-pts { font-size:9px;color:var(--cyan);font-family:'Orbitron',monospace; }
+.gm-sr-none { text-align:center;padding:10px;font-size:10px;color:var(--dim);font-family:'Orbitron',monospace;letter-spacing:1px; }
+
+/* ── Tooltip ─────────────────────────────────────────────────────── */
+#gm-tip {
+  position:fixed;
+  background:rgba(2,5,16,.96);backdrop-filter:blur(10px);
+  border:1px solid rgba(0,212,255,.2);border-radius:8px;
+  padding:9px 12px;font-size:12px;color:var(--text);
+  pointer-events:none;display:none;
+  min-width:140px;z-index:600;
+  box-shadow:0 6px 20px rgba(0,0,0,.7);
+}
+.tt-h { font-family:'Orbitron',monospace;font-size:10px;letter-spacing:1.5px;margin-bottom:4px; }
+.tt-l { margin:2px 0;color:var(--dim); }
+.tt-l span { color:var(--text); }
+
+/* ── Loader ──────────────────────────────────────────────────────── */
+#gm-load {
+  position:absolute;inset:0;background:#020510;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:2000;transition:opacity .45s;
+}
+.ld-ring {
+  width:52px;height:52px;
+  border:2px solid rgba(0,212,255,.12);
+  border-top:2px solid var(--cyan);
+  border-radius:50%;animation:spin 1s linear infinite;margin-bottom:16px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ld-txt { font-family:'Orbitron',monospace;font-size:10px;letter-spacing:3px;color:var(--cyan); }
+
+#gm-hint {
+  position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+  font-family:'Orbitron',monospace;font-size:8px;letter-spacing:1.5px;
+  color:rgba(255,255,255,.22);pointer-events:none;white-space:nowrap;
+  background:rgba(2,5,16,.55);backdrop-filter:blur(6px);
+  padding:4px 14px;border-radius:20px;
+  border:1px solid rgba(0,212,255,.07);
+}
+</style>
+
+<!-- The map root: position:fixed so it sits OVER the game layout -->
+<div id="gm-root">
+  <!-- Loader -->
+  <div id="gm-load">
+    <div class="ld-ring"></div>
+    <div class="ld-txt" id="ld-txt">SCANNING UNIVERSE…</div>
+  </div>
+
+  <!-- Canvas wrapper -->
+  <div class="galaxy-wrapper">
+    <canvas id="gm-canvas"></canvas>
+  </div>
+
+  <!-- HUD -->
+  <div id="gm-hud">
+    <span class="hud-title"><i class="fas fa-meteor" style="margin-right:8px"></i>GALAXY MAP</span>
+    <div class="hud-sep"></div>
+    <span class="hud-pill c" id="h-planets">– PLANETS</span>
+    <span class="hud-pill g" id="h-fleets">– FLEETS</span>
+    <span class="hud-pill r" id="h-hostile">– HOSTILE</span>
+    <button id="gm-close" onclick="window.history.back()"><i class="fas fa-times" style="margin-right:5px"></i>CLOSE MAP</button>
+  </div>
+
+  <!-- Mobile FAB (inner stub, hidden on mobile – real FAB is #gm-fab-outer outside #gm-root) -->
+  <button id="gm-panel-toggle" title="Map Controls"><i class="fas fa-sliders-h"></i></button>
+
+  <!-- Side panel -->
+  <div id="gm-side" class="galaxy-viewPanel">
+    <div style="margin-bottom:11px">
+      <div class="sp-h"><i class="fas fa-sliders-h" style="margin-right:5px"></i>VIEW MODE</div>
+      <div class="vw-row" id="gm-view-row">
+        <div class="vw-btn on" id="vb-3d" onclick="GM.setView('3d')">3D</div>
+        <div class="vw-btn"   id="vb-2d" onclick="GM.setView('2d')">2D</div>
+      </div>
+    </div>
+    <hr class="sp-sep">
+    <div style="margin-bottom:11px">
+      <div class="sp-h"><i class="fas fa-location-arrow" style="margin-right:5px"></i>NAVIGATION</div>
+      <div class="sp-row">
+        <div class="sp-col">
+          <div class="sp-lbl">GALAXY</div>
+          <input type="number" id="nav-g" class="sp-inp" value="{{ PLANET.galaxy|default(1) }}" min="1" max="9">
+        </div>
+        <div class="sp-col">
+          <div class="sp-lbl">SYSTEM</div>
+          <input type="number" id="nav-s" class="sp-inp" value="{{ PLANET.system|default(1) }}" min="1" max="499">
+        </div>
+      </div>
+      <button class="sp-btn c" id="btn-jump" onclick="GM.navJump()"><i class="fas fa-arrow-right"></i>JUMP TO SYSTEM</button>
+      <button class="sp-btn g" id="btn-home" onclick="GM.navHome()"><i class="fas fa-home"></i>MY HOME PLANET</button>
+      <div id="jump-hint"></div>
+    </div>
+    <hr class="sp-sep">
+    <div style="margin-bottom:11px">
+      <div class="sp-h"><i class="fas fa-circle-info" style="margin-right:5px"></i>LEGEND</div>
+      <div class="leg"><div class="leg-dot" style="background:#00e87a"></div>Your Planets</div>
+      <div class="leg"><div class="leg-dot" style="background:#a855f7"></div>Alliance Members</div>
+      <div class="leg"><div class="leg-dot" style="background:#00d4ff"></div>Other Players</div>
+      <div class="leg"><div class="leg-dot" style="background:#aaa"></div>Moon</div>
+      <div class="leg"><div class="leg-dot" style="background:#ff9900;border-radius:0"></div>Debris Field</div>
+      <hr class="sp-sep" style="margin:5px 0">
+      <div class="leg"><div class="leg-line" style="background:#00e87a;opacity:.9"></div>Your Fleet</div>
+      <div class="leg"><div class="leg-dash" style="color:#a855f7"></div>Alliance Fleet</div>
+      <div class="leg"><div class="leg-dash" style="color:#ddeeff;opacity:.7"></div>Neutral Fleet</div>
+      <div class="leg"><div class="leg-dash" style="color:#ff3355"></div>Combat Fleet</div>
+      <div class="leg"><div class="leg-dash" style="color:#ff0033"></div>Attacking Me!</div>
+    </div>
+    <hr class="sp-sep">
+    <div style="margin-bottom:11px">
+      <div class="sp-h"><i class="fas fa-search" style="margin-right:5px"></i>PLAYER SEARCH</div>
+      <div style="position:relative">
+        <input type="text" id="gm-search-inp" class="sp-inp" placeholder="Spielername…" autocomplete="off" style="padding-right:32px">
+        <button id="gm-search-clear" style="position:absolute;right:7px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);cursor:pointer;font-size:12px;display:none;" title="Löschen"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="gm-search-results" style="margin-top:5px;max-height:140px;overflow-y:auto;"></div>
+    </div>
+    <hr class="sp-sep">
+    <div style="margin-bottom:10px">
+      <div class="sp-h"><i class="fas fa-chart-bar" style="margin-right:5px"></i>UNIVERSE STATS</div>
+      <div class="st-row"><span class="sk">Planets</span><span class="sv c" id="st-p">–</span></div>
+      <div class="st-row"><span class="sk">Active Fleets</span><span class="sv g" id="st-f">–</span></div>
+      <div class="st-row"><span class="sk">Hostile</span><span class="sv r" id="st-h">–</span></div>
+      <div class="st-row"><span class="sk">Alliances</span><span class="sv c" id="st-a">–</span></div>
+      <div class="st-row"><span class="sk">Debris Fields</span><span class="sv" id="st-d" style="color:#ff9900">–</span></div>
+      <div class="st-row"><span class="sk">Selected</span><span class="sv" id="st-sel" style="color:var(--dim)">–</span></div>
+    </div>
+    <button class="sp-btn c" id="gm-reload-fleets" onclick="GM.reloadFleets()" style="font-size:9px"><i class="fas fa-sync-alt" style="margin-right:5px"></i>REFRESH FLEETS</button>
+    <div style="text-align:center;font-size:9px;color:var(--dim);margin-top:5px;font-family:'Orbitron',monospace" id="upd-time">Auto-refresh aktiv</div>
+  </div>
+
+  <!-- Action panel -->
+  <div id="gm-action">
+    <button class="ap-x" onclick="GM.closeAction()"><i class="fas fa-times"></i></button>
+    <div class="ap-name" id="ap-name">–</div>
+    <div class="ap-coord" id="ap-coord">–</div>
+    <div class="ap-meta" id="ap-meta"></div>
+    <div class="ap-btns" id="ap-btns"></div>
+  </div>
+
+  <!-- Player card -->
+  <div id="gm-card">
+    <button class="pc-x" onclick="GM.closeCard()"><i class="fas fa-times"></i></button>
+    <div class="pc-banner">
+      <div class="pc-banner-grid"></div>
+      <div class="pc-av-wrap"><div id="pc-av-letter" class="pc-av">?</div></div>
+    </div>
+    <div class="pc-body-inner" id="pc-body"></div>
+  </div>
+
+  <!-- Tooltip -->
+  <div id="gm-tip"></div>
+
+  <div id="gm-hint">SCROLL = ZOOM  •  DRAG = ROTATE / PAN  •  CLICK PLANET = ACTIONS</div>
+</div>
+<!-- Outer FAB: lives outside #gm-root so it is never clipped -->
+<button id="gm-fab-outer" title="Map Controls" aria-label="Map Controls öffnen"><i class="fas fa-sliders-h"></i></button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+{% autoescape false %}
+<script>
+/* ============================================================
+   SmartMoons Galaxy Map v3
+   Planeten = THREE.Sprite mit Canvas-Kreis-Textur → immer rund
+   ============================================================ */
+const GM = (() => {
+'use strict';
+
+// ── State ──────────────────────────────────────────────────
+let scene, camera, renderer;
+let is3D  = true;
+let frame = 0;
+
+let orb = { theta: 0.4, phi: 1.05, r: 3000, tx: 0, ty: 0, tz: 0 };
+let pan = { x: 0, z: 0 };
+let selectedPlanet = null;
+let selRing = null; // THREE.Mesh highlight ring
+let drag = { down:false, startX:0, startY:0, moved:0,
+             snapTheta:0, snapPhi:0, snapPanX:0, snapPanZ:0 };
+
+let starField    = null;
+let planetGroup  = null;
+let sunGroup     = null;  // suns + orbit rings
+let fleetGroup   = null;
+let planetMeshes = [];   // sprite refs for raycasting
+let posMap       = {};   // "g:s:p" → THREE.Vector3
+let orbitData    = [];   // {mesh, sunPos, radius, speed, angle, heightOff} for animate loop
+
+let galaxyData       = null;
+let fleetData        = null;
+let serverTimeOffset = 0;
+const fleetAnimState = {};
+
+// ── DOM ────────────────────────────────────────────────────
+const canvas   = document.getElementById('gm-canvas');
+const loadEl   = document.getElementById('gm-load');
+const ldTxt    = document.getElementById('ld-txt');
+const actionEl = document.getElementById('gm-action');
+const cardEl   = document.getElementById('gm-card');
+const tipEl    = document.getElementById('gm-tip');
+
+// ── Raycaster & dispose ─────────────────────────────────
+const RC = new THREE.Raycaster();
+const MV = new THREE.Vector2();
+function disposeGroup(g) {
+  while (g.children.length) {
+    const o = g.children[0]; g.remove(o);
+    if (o.geometry) o.geometry.dispose();
+    if (o.material) {
+      if (Array.isArray(o.material)) {
+        o.material.forEach(m => { if (m.map) m.map.dispose(); m.dispose(); });
+      } else {
+        if (o.material.map) o.material.map.dispose();
+        o.material.dispose();
+      }
+    }
+    // PointLight and other non-mesh objects: no geometry/material, just removed above
+  }
+}
+
+// ── Sprite texture factory ─────────────────────────────────
+// Off-screen canvas → perfekter Kreis → CanvasTexture
+// THREE.Sprite dreht sich immer zur Kamera → immer rund!
+const texCache = {};
+function circleTex(hex) {
+  if (texCache[hex]) return texCache[hex];
+  const S = 128, c = document.createElement('canvas');
+  c.width = c.height = S;
+  const ctx = c.getContext('2d'), cx = S/2, r = S/2 - 2;
+
+  // Glow halo
+  const g1 = ctx.createRadialGradient(cx, cx, r*.15, cx, cx, r);
+  g1.addColorStop(0,   hex + 'bb');
+  g1.addColorStop(0.6, hex + '55');
+  g1.addColorStop(1,   hex + '00');
+  ctx.beginPath(); ctx.arc(cx, cx, r, 0, Math.PI*2);
+  ctx.fillStyle = g1; ctx.fill();
+
+  // Planet sphere gradient
+  const g2 = ctx.createRadialGradient(cx-r*.2, cx-r*.2, 0, cx, cx, r*.5);
+  g2.addColorStop(0,   '#ffffff');
+  g2.addColorStop(0.2, hex);
+  g2.addColorStop(1,   darken(hex));
+  ctx.beginPath(); ctx.arc(cx, cx, r*.46, 0, Math.PI*2);
+  ctx.fillStyle = g2; ctx.fill();
+
+  texCache[hex] = new THREE.CanvasTexture(c);
+  return texCache[hex];
+}
+function darken(hex) {
+  hex = hex.replace('#','');
+  const d = v => Math.max(0, Math.round(parseInt(v,16)*0.45)).toString(16).padStart(2,'0');
+  return '#'+d(hex.slice(0,2))+d(hex.slice(2,4))+d(hex.slice(4,6));
+}
+
+// ── Init Three.js ──────────────────────────────────────────
+function init() {
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x020510);
+  scene.fog = new THREE.FogExp2(0x020510, 0.00010);
+
+  camera = new THREE.PerspectiveCamera(58, innerWidth/innerHeight, 0.5, 60000);
+  // Initial camera position per spec
+  camera.position.set(0, 2000, 3000);
+  camera.lookAt(0, 0, 0);
+
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+  scene.add(new THREE.AmbientLight(0x304060, 2));
+  const dl = new THREE.DirectionalLight(0x5599ff, 0.6);
+  dl.position.set(200, 400, 100); scene.add(dl);
+
+  planetGroup = new THREE.Group(); scene.add(planetGroup);
+  sunGroup    = new THREE.Group(); scene.add(sunGroup);
+  fleetGroup  = new THREE.Group(); scene.add(fleetGroup);
+
+  buildStars();
+  buildNebula();
+  bindEvents();
+  initMobilePanel();
+  measureFooterHeight();
+
+  // Apply correct initial camera for whichever view mode was set by the boot IIFE
+  if (!is3D) {
+    orb.r = 4000; orb.phi = 0.01; orb.theta = 0;
+    pan.x = 0; pan.z = 0;
+  }
+  syncCamera();
+
+  // Single rAF loop – start before fetch so canvas is live immediately
+  animate();
+
+  // Failsafe: always hide loader after 8 s regardless of fetch outcome
+  const loaderTimeout = setTimeout(() => {
+    if (loadEl.style.display !== 'none') {
+      ldTxt.textContent = 'TIMEOUT – DEMO MODE';
+      loadDemo();
+      hideLoader(400);
+    }
+  }, 8000);
+
+  // Galaxy fetch is authoritative – failure → demo mode
+  // Fleet fetch is independent – failure just means no fleet lines shown
+  fetchGalaxy()
+    .then(() => { clearTimeout(loaderTimeout); hideLoader(); })
+    .catch(() => { clearTimeout(loaderTimeout); ldTxt.textContent = 'DEMO MODE'; loadDemo(); hideLoader(800); });
+  fetchFleets().catch(e => console.warn('Initial fleet fetch failed:', e));
+
+  // ── Adaptive fleet polling engine ──────────────────────────────
+  // Interval adapts based on fleet proximity:
+  //   2 s  – any fleet arriving within 60 s
+  //   5 s  – fleets active but none imminent
+  //  15 s  – no fleets at all / tab hidden
+  let fleetPollTimer = null;
+  let fleetPollPaused = false;
+
+  function getAdaptiveInterval() {
+    const nowSec = (Date.now() / 1000) + serverTimeOffset;
+    const states = Object.values(fleetAnimState);
+    // 3 s when no fleets known – catches newly dispatched fleets quickly
+    if (!states.length) return 3000;
+    const minEta = Math.min(...states.map(st => Math.max(0, (st.data?.end_time || 0) - nowSec)));
+    if (minEta <= 60) return 2000;
+    return 4000;
+  }
+
+  function schedulePoll() {
+    clearTimeout(fleetPollTimer);
+    if (fleetPollPaused) return;
+    const interval = getAdaptiveInterval();
+    const secs = (interval / 1000).toFixed(0);
+    set('upd-time', `Auto-refresh: ${secs}s`);
+    fleetPollTimer = setTimeout(() => {
+      fetchFleets()
+        .catch(e => console.warn('Fleet poll:', e))
+        .finally(() => schedulePoll());
+    }, interval);
+  }
+
+  // Pause when tab hidden, resume immediately on focus
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      fleetPollPaused = true;
+      clearTimeout(fleetPollTimer);
+    } else {
+      fleetPollPaused = false;
+      // Immediate re-fetch on tab focus then re-schedule
+      fetchFleets().catch(e => console.warn('Fleet resume poll:', e)).finally(() => schedulePoll());
+    }
+  });
+
+  // Also re-fetch on window focus (user switches browser tab / app back to map)
+  window.addEventListener('focus', () => {
+    if (!fleetPollPaused) {
+      clearTimeout(fleetPollTimer);
+      fetchFleets().catch(e => console.warn('Fleet focus poll:', e)).finally(() => schedulePoll());
+    }
+  });
+
+  schedulePoll();
+}
+
+function hideLoader(delay=0) {
+  setTimeout(() => {
+    loadEl.style.opacity='0';
+    setTimeout(()=>loadEl.style.display='none', 450);
+  }, delay);
+}
+
+// ── Starfield ──────────────────────────────────────────────
+function buildStars() {
+  const N=8000, pos=new Float32Array(N*3), col=new Float32Array(N*3);
+  for (let i=0;i<N;i++) {
+    const rr=1000+Math.random()*4500, t=Math.random()*Math.PI*2, p=Math.acos(2*Math.random()-1);
+    pos[i*3]=rr*Math.sin(p)*Math.cos(t); pos[i*3+1]=rr*Math.sin(p)*Math.sin(t)*.22; pos[i*3+2]=rr*Math.cos(p);
+    const v=0.5+Math.random()*.5;
+    col[i*3]=v*(0.7+Math.random()*.3); col[i*3+1]=v*(0.8+Math.random()*.2); col[i*3+2]=v;
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  starField=new THREE.Points(geo,new THREE.PointsMaterial({
+    size:1.3,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:.88,depthWrite:false
+  }));
+  scene.add(starField);
+}
+
+function buildNebula() {
+  const N=2500, pos=new Float32Array(N*3);
+  for (let i=0;i<N;i++) {
+    const t=(i/N)*Math.PI*9+Math.random()*.9, rr=(i/N)*500;
+    const arm=Math.floor(Math.random()*3)*(Math.PI*2/3);
+    pos[i*3]=Math.cos(t+arm)*rr+(Math.random()-.5)*22;
+    pos[i*3+1]=(Math.random()-.5)*6;
+    pos[i*3+2]=Math.sin(t+arm)*rr+(Math.random()-.5)*22;
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(geo,new THREE.PointsMaterial({
+    color:0x1a2d99,size:2.8,sizeAttenuation:true,transparent:true,opacity:.18,depthWrite:false
+  })));
+}
+
+// ── Spiral-Galaxy coordinate system ───────────────────────
+// [1:1] = centre (0,0).  Each (galaxy, system) pair maps to
+// a unique position on a Fermat (golden-angle) spiral so that
+// systems never pile up, are evenly spaced, and [1:1] is at
+// the origin.  Positions are FULLY DETERMINISTIC.
+//
+// galaxyIndex = g-1  (0-based)
+// systemIndex  = s-1  (0-based within galaxy)
+// globalIndex  = galaxyIndex * SYSTEMS_PER_GALAXY + systemIndex
+//   → index 0 ([1:1]) maps to r=0  (the very centre)
+//
+// Fermat spiral:  r = RADIAL_STEP * sqrt(n),  θ = n * GOLDEN_ANGLE
+// RADIAL_STEP chosen so adjacent rings have ~320 units of space.
+const SYSTEMS_PER_GALAXY = 499;
+const RADIAL_STEP        = 320;   // units between spiral rings
+const GOLDEN_ANGLE       = Math.PI * (3 - Math.sqrt(5)); // ≈ 137.5°
+
+function systemCenter(g, s) {
+  const n = (g - 1) * SYSTEMS_PER_GALAXY + (s - 1); // 0-based
+  if (n === 0) return { x: 0, z: 0 };               // [1:1] = centre
+  const r     = RADIAL_STEP * Math.sqrt(n);
+  const theta = n * GOLDEN_ANGLE;
+  return { x: Math.cos(theta) * r, z: Math.sin(theta) * r };
+}
+
+// Fallback helper (used by fleet position lookup when posMap misses)
+function toWorld(g, s, p, _pi, _tot) {
+  const c = systemCenter(g, s);
+  const slot  = Math.max(1, p || 1);
+  const r     = 40 + slot * 18;
+  const angle = (slot / 10) * Math.PI * 2;
+  return new THREE.Vector3(c.x + Math.cos(angle) * r, 0, c.z + Math.sin(angle) * r);
+}
+
+// ── Sun glow texture (large soft halo + bright core) ──────
+const sunTexCache = {};
+function sunTex(hex) {
+  if (sunTexCache[hex]) return sunTexCache[hex];
+  const S = 256, c = document.createElement('canvas');
+  c.width = c.height = S;
+  const ctx = c.getContext('2d'), cx = S / 2, r = S / 2 - 1;
+  // outer glow
+  const g1 = ctx.createRadialGradient(cx, cx, 0, cx, cx, r);
+  g1.addColorStop(0,    '#ffffff');
+  g1.addColorStop(0.08, hex);
+  g1.addColorStop(0.30, hex + 'cc');
+  g1.addColorStop(0.60, hex + '44');
+  g1.addColorStop(1,    hex + '00');
+  ctx.beginPath(); ctx.arc(cx, cx, r, 0, Math.PI * 2);
+  ctx.fillStyle = g1; ctx.fill();
+  // bright inner disc
+  const g2 = ctx.createRadialGradient(cx - r * .1, cx - r * .1, 0, cx, cx, r * .18);
+  g2.addColorStop(0, '#ffffff');
+  g2.addColorStop(1, hex + '00');
+  ctx.beginPath(); ctx.arc(cx, cx, r * .22, 0, Math.PI * 2);
+  ctx.fillStyle = g2; ctx.fill();
+  sunTexCache[hex] = new THREE.CanvasTexture(c);
+  return sunTexCache[hex];
+}
+
+// Pick a sun colour deterministically from galaxy+system index
+const SUN_COLORS = ['#ffdd88','#ffaa44','#ff8866','#aaddff','#ffffff','#ffcc22','#ff6644'];
+function sunColor(g, s) {
+  const n = (g - 1) * SYSTEMS_PER_GALAXY + (s - 1);
+  return SUN_COLORS[n % SUN_COLORS.length];
+}
+
+// ── Solar system builder ───────────────────────────────────
+// Each system: spiral-positioned sun + 10 orbital slots (real or empty).
+// Only the nearest MAX_LIGHTS systems get a PointLight (performance).
+const MAX_LIGHTS = 12;      // max active PointLights in scene
+const MAX_PICK_DISTANCE = 4000; // raycaster distance gate
+
+function buildPlanets(planets) {
+  if (selRing) { planetGroup.remove(selRing); }
+  disposeGroup(planetGroup);
+  disposeGroup(sunGroup);
+  planetMeshes = [];
+  posMap = {};
+  orbitData = [];
+
+  // ── 1. Group real planets by system (max 10) ─────────────
+  const sysMap = {};
+  planets.forEach(pl => {
+    const sk = `${pl.galaxy}:${pl.system}`;
+    if (!sysMap[sk]) {
+      const c = systemCenter(pl.galaxy, pl.system);
+      sysMap[sk] = { g: pl.galaxy, s: pl.system, sunX: c.x, sunZ: c.z, planets: [] };
+    }
+    if (sysMap[sk].planets.length < 10) sysMap[sk].planets.push(pl);
+  });
+
+  // ── 2. Sort systems by distance to camera for light budget ─
+  const camPos = camera ? camera.position : new THREE.Vector3(0, 2000, 3000);
+  const sysList = Object.values(sysMap);
+  sysList.sort((a, b) => {
+    const da = Math.hypot(a.sunX - camPos.x, a.sunZ - camPos.z);
+    const db = Math.hypot(b.sunX - camPos.x, b.sunZ - camPos.z);
+    return da - db;
+  });
+
+  // ── 3. Build each system ─────────────────────────────────
+  sysList.forEach((sys, sysIdx) => {
+    const { sunX, sunZ, g, s } = sys;
+    const sunPos = new THREE.Vector3(sunX, 0, sunZ);
+    const col = sunColor(g, s);
+    const colNum = parseInt(col.replace('#',''), 16);
+
+    // Sun sprite (large glow)
+    const sunSprite = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: sunTex(col), transparent: true, depthWrite: false,
+      sizeAttenuation: true, blending: THREE.AdditiveBlending
+    }));
+    sunSprite.position.copy(sunPos);
+    sunSprite.scale.setScalar(28);
+    sunSprite.userData = { isSun: true, baseSunScale: 28, galaxy: g, system: s };
+    sunGroup.add(sunSprite);
+
+    // Sun core sphere (always visible, emissive)
+    const coreMesh = new THREE.Mesh(
+      new THREE.SphereGeometry(5, 10, 10),
+      new THREE.MeshStandardMaterial({
+        color: colNum, emissive: colNum, emissiveIntensity: 2.2,
+        transparent: true, opacity: 0.95
+      })
+    );
+    coreMesh.position.copy(sunPos);
+    coreMesh.userData = { isSunCore: true };
+    sunGroup.add(coreMesh);
+
+    // PointLight only for nearest MAX_LIGHTS systems (perf)
+    if (sysIdx < MAX_LIGHTS) {
+      const ptLight = new THREE.PointLight(colNum, 1.2, 260);
+      ptLight.position.copy(sunPos);
+      sunGroup.add(ptLight);
+    }
+
+    posMap[`${g}:${s}:0`] = sunPos.clone();
+
+    // ── Per-slot: orbit ring + planet (real or empty) ──────
+    // Build a lookup from slot → real planet data
+    const slotToPlanet = {};
+    sys.planets.forEach(pl => {
+      const slot = Math.max(1, Math.min(10, pl.planet || 1));
+      slotToPlanet[slot] = pl;
+    });
+
+    for (let slot = 1; slot <= 10; slot++) {
+      const orbitRadius = 40 + slot * 22;  // 62..260 – slightly more spread
+      const orbitSpeed  = 0.00025 + (1 / (slot + 1)) * 0.00045;
+      // Deterministic initial angle: differs per system so planets aren't lined up
+      const initAngle   = (slot / 10) * Math.PI * 2 + (g * 1.7 + s * 0.91);
+      const heightOff   = (slot % 2 === 0 ? 1 : -1) * (slot * 0.6);
+
+      // Orbit ring (static line, no picking)
+      // On mobile 2D we use a brighter colour so rings are clearly visible
+      const ringOpacity  = (window.innerWidth <= 768) ? 0.55 : 0.22;
+      const ringColorHex = (window.innerWidth <= 768) ? 0x1e5a8a : 0x1a3a55;
+      const ringPts = [];
+      for (let i = 0; i <= 64; i++) {
+        const a = (i / 64) * Math.PI * 2;
+        ringPts.push(new THREE.Vector3(
+          sunX + Math.cos(a) * orbitRadius, heightOff,
+          sunZ + Math.sin(a) * orbitRadius
+        ));
+      }
+      const ringLine = new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(ringPts),
+        new THREE.LineBasicMaterial({ color: ringColorHex, transparent: true, opacity: ringOpacity, depthWrite: false })
+      );
+      ringLine.userData = { isOrbitRing: true }; // excluded from raycaster
+      sunGroup.add(ringLine);
+
+      const initX = sunX + Math.cos(initAngle) * orbitRadius;
+      const initZ = sunZ + Math.sin(initAngle) * orbitRadius;
+      const key   = `${g}:${s}:${slot}`;
+
+      const pl = slotToPlanet[slot]; // real planet or undefined
+
+      if (pl) {
+        // ── Real planet ──
+        let hex = '#00d4ff';
+        if (pl.is_own)  hex = '#00ff88';
+        else if (pl.is_ally) hex = '#a855f7';
+        else if (pl.ally_color && pl.ally_color !== 'null') hex = pl.ally_color;
+
+        const rankScale = pl.total_rank > 0
+          ? Math.max(0.6, Math.min(2.0, 300 / Math.max(pl.total_rank, 1))) : 0.9;
+        const sz = 4.5 * rankScale;
+
+        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+          map: circleTex(hex), transparent: true, depthWrite: false, sizeAttenuation: true
+        }));
+        sprite.position.set(initX, heightOff, initZ);
+        sprite.scale.setScalar(sz);
+        sprite.userData = { type: 'planet', planet: pl, baseScale: sz, key };
+        planetGroup.add(sprite);
+        planetMeshes.push(sprite);
+        posMap[key] = sprite.position.clone();
+        orbitData.push({ mesh: sprite, sunX, sunZ, radius: orbitRadius, speed: orbitSpeed, angle: initAngle, heightOff, key });
+
+        // Moon (decorative, not pickable)
+        if (pl.has_moon) {
+          const ms = new THREE.Sprite(new THREE.SpriteMaterial({
+            map: circleTex('#aaaaaa'), transparent: true, depthWrite: false, sizeAttenuation: true
+          }));
+          ms.position.set(initX + sz * 0.72, heightOff + sz * 0.45, initZ);
+          ms.scale.setScalar(sz * 0.34);
+          ms.userData = { isMoon: true, parentKey: key };
+          planetGroup.add(ms);
+          orbitData.push({ mesh: ms, sunX, sunZ, radius: orbitRadius + sz * 0.72, speed: orbitSpeed * 0.85, angle: initAngle + 0.5, heightOff: heightOff + sz * 0.45, key: null });
+        }
+
+        // Debris ring (decorative, not pickable)
+        if (pl.has_debris) {
+          const db = new THREE.Mesh(
+            new THREE.TorusGeometry(sz * 0.7, 0.24, 6, 28),
+            new THREE.MeshBasicMaterial({ color: 0xff9900, transparent: true, opacity: 0.48 })
+          );
+          db.position.set(initX, heightOff, initZ);
+          db.rotation.x = Math.PI / 2;
+          db.userData = { isDebris: true };
+          planetGroup.add(db);
+          orbitData.push({ mesh: db, sunX, sunZ, radius: orbitRadius, speed: orbitSpeed, angle: initAngle, heightOff, key: null });
+        }
+
+      } else {
+        // ── Empty slot (colonisable) ──
+        const emptyPl = {
+          galaxy: g, system: s, planet: slot,
+          name: 'Freier Slot', username: null, user_id: null,
+          ally_id: 0, ally_tag: '', total_rank: 0, total_points: 0,
+          is_own: false, is_ally: false, has_moon: false, has_debris: false, is_empty: true
+        };
+        // Empty slot: large enough to see at default camera distance (orb.r=3000-4000)
+        // sizeAttenuation=true means scale must be much larger than user planets at close zoom
+        const emptyColor   = '#40c8ff'; // bright cyan-blue – distinct from dark bg
+        const emptyOpacity = 0.90;
+        const emptyScale   = (window.innerWidth <= 768) ? 6.0 : 8.0;
+        const emptySprite = new THREE.Sprite(new THREE.SpriteMaterial({
+          map: circleTex(emptyColor), transparent: true, opacity: emptyOpacity,
+          depthWrite: false, sizeAttenuation: true
+        }));
+        emptySprite.position.set(initX, heightOff, initZ);
+        emptySprite.scale.setScalar(emptyScale);
+        emptySprite.userData = { type: 'planet', planet: emptyPl, baseScale: emptyScale, key };
+        planetGroup.add(emptySprite);
+        // Outer glow ring so empty slots are visible even when camera is far out
+        const emptyGlow = new THREE.Sprite(new THREE.SpriteMaterial({
+          map: circleTex(emptyColor), transparent: true, opacity: 0.22,
+          depthWrite: false, sizeAttenuation: true
+        }));
+        emptyGlow.position.set(initX, heightOff, initZ);
+        emptyGlow.scale.setScalar(emptyScale * 2.2);
+        emptyGlow.userData = { isGlow: true };
+        planetGroup.add(emptyGlow);
+        orbitData.push({ mesh: emptyGlow, sunX, sunZ, radius: orbitRadius, speed: orbitSpeed * 0.6, angle: initAngle, heightOff, key: null });
+        planetMeshes.push(emptySprite);
+        posMap[key] = emptySprite.position.clone();
+        orbitData.push({ mesh: emptySprite, sunX, sunZ, radius: orbitRadius, speed: orbitSpeed * 0.6, angle: initAngle, heightOff, key });
+      }
+    }
+  });
+}
+
+// ── Flottenlinien (CatmullRomCurve3, animated dot via rAF) ─────
+function buildFleets(fleets) {
+  const nowSec = (Date.now() / 1000) + serverTimeOffset;
+
+  // Seed posMap sun entries for any system referenced by fleets but not yet rendered
+  fleets.forEach(f => {
+    const coords = [f.start, f.end];
+    coords.forEach(c => {
+      if (!c) return;
+      const sunKey = `${c.g}:${c.s}:0`;
+      if (!posMap[sunKey]) {
+        const sc = systemCenter(c.g, c.s);
+        posMap[sunKey] = new THREE.Vector3(sc.x, 0, sc.z);
+      }
+    });
+  });
+
+  const activeIds = new Set();
+  fleets.forEach(f => {
+    const start = f.start_time || 0;
+    const end   = f.end_time   || (start + 1);
+    const realPrg = Math.min(1, Math.max(0, (nowSec - start) / Math.max(1, end - start)));
+    f.progress = realPrg;
+    const id = f.id;
+    activeIds.add(id);
+    if (!fleetAnimState[id]) fleetAnimState[id] = { displayPrg: realPrg };
+    fleetAnimState[id].targetPrg = realPrg;
+    fleetAnimState[id].data      = f;
+
+    // Resolve world positions – posMap[g:s:p] → posMap[g:s:0] (sun) → toWorld() fallback
+    const spKey = `${f.start.g}:${f.start.s}:${f.start.p}`;
+    const epKey = `${f.end.g}:${f.end.s}:${f.end.p}`;
+    const spFallback = posMap[`${f.start.g}:${f.start.s}:0`] || toWorld(f.start.g, f.start.s, f.start.p, 0, 1);
+    const epFallback = posMap[`${f.end.g}:${f.end.s}:0`]   || toWorld(f.end.g,   f.end.s,   f.end.p,   0, 1);
+    fleetAnimState[id].sPos = (posMap[spKey] || spFallback).clone();
+    fleetAnimState[id].ePos = (posMap[epKey] || epFallback).clone();
+
+    // Build CatmullRomCurve3 with a mid-point arc for visual interest
+    const s3 = fleetAnimState[id].sPos;
+    const e3 = fleetAnimState[id].ePos;
+    const mid = s3.clone().lerp(e3, 0.5);
+    mid.y += s3.distanceTo(e3) * 0.12; // slight arc
+    fleetAnimState[id].curve = new THREE.CatmullRomCurve3([s3, mid, e3]);
+  });
+
+  // Remove gone fleets
+  for (const id in fleetAnimState) {
+    if (!activeIds.has(parseInt(id))) delete fleetAnimState[id];
+  }
+  rebuildFleetMeshes();
+}
+
+function rebuildFleetMeshes() {
+  disposeGroup(fleetGroup);
+  for (const id in fleetAnimState) {
+    const st  = fleetAnimState[id];
+    const f   = st.data;
+    if (!st.curve) continue;
+
+    const prg = Math.min(1, Math.max(0, st.displayPrg));
+
+    // Ownership flags
+    const isOwn         = !!f.is_own;
+    const isHostile     = !!f.is_hostile;
+    const isTargetingMe = !!f.is_targeting_me;
+    const isAlly        = !isOwn && !isHostile && !!f.is_ally;
+    const isNeutral     = !!f.is_neutral; // non-combat, non-own, non-ally
+
+    // Color scheme:
+    // own          = solid cyan (#00d4ff)
+    // ally         = dashed purple (#a855f7)
+    // targeting_me = bright red dashed (combat fleet heading for ME)
+    // hostile      = red dashed (any other combat fleet)
+    // neutral      = white dashed (transport, espionage, colony etc.)
+    // On mobile the camera is at r=4000, so dots need to be much larger
+    const dotMult = (window.innerWidth <= 768) ? 14 : 4;
+    let lineCol, lineOpacity, useDash, dotCol, dotSize;
+    if (isOwn) {
+      lineCol = 0x00d4ff; lineOpacity = 0.95; useDash = false;
+      dotCol = '#00d4ff'; dotSize = 22; // cyan – high contrast vs dark bg
+    } else if (isAlly) {
+      lineCol = 0xa855f7; lineOpacity = 0.80; useDash = true;
+      dotCol = '#a855f7'; dotSize = 18;
+    } else if (isTargetingMe) {
+      lineCol = 0xff0033; lineOpacity = 0.98; useDash = true;
+      dotCol = '#ff0033'; dotSize = 22; // largest – danger!
+    } else if (isHostile) {
+      lineCol = 0xff3355; lineOpacity = 0.85; useDash = true;
+      dotCol = '#ff3355'; dotSize = 18;
+    } else { // neutral – white dashed
+      lineCol = 0xddeeff; lineOpacity = 0.65; useDash = true;
+      dotCol = '#ddeeff'; dotSize = 14;
+    }
+
+    // Full path line (start → end, ghost/dim background)
+    const pathPoints = st.curve.getPoints(64);
+    const pathGeo = new THREE.BufferGeometry().setFromPoints(pathPoints);
+    let pathLine;
+    if (useDash) {
+      const pm = new THREE.LineDashedMaterial({
+        color: lineCol, transparent: true, opacity: lineOpacity * 0.55,
+        dashSize: 18, gapSize: 10, depthWrite: false, linewidth: 1
+      });
+      pathLine = new THREE.Line(pathGeo, pm);
+      pathLine.computeLineDistances();
+    } else {
+      pathLine = new THREE.Line(pathGeo, new THREE.LineBasicMaterial({
+        color: lineCol, transparent: true, opacity: lineOpacity * 0.45, depthWrite: false
+      }));
+    }
+    pathLine.userData = { fleet: f };
+    fleetGroup.add(pathLine);
+
+    // Trail line (start → current dot position — brighter/solid)
+    const trailCount = Math.max(2, Math.round(Math.max(0.01, prg) * 64));
+    const trailPoints = st.curve.getPoints(trailCount);
+    const trailGeo = new THREE.BufferGeometry().setFromPoints(trailPoints);
+    let trailLine;
+    if (useDash) {
+      const tm = new THREE.LineDashedMaterial({
+        color: lineCol, transparent: true, opacity: lineOpacity,
+        dashSize: 14, gapSize: 6, depthWrite: false, linewidth: 1
+      });
+      trailLine = new THREE.Line(trailGeo, tm);
+      trailLine.computeLineDistances();
+    } else {
+      trailLine = new THREE.Line(trailGeo, new THREE.LineBasicMaterial({
+        color: lineCol, transparent: true, opacity: lineOpacity, depthWrite: false
+      }));
+    }
+    trailLine.userData = { fleet: f, isTrail: true };
+    fleetGroup.add(trailLine);
+
+    // Fleet dot at current position — large enough to be visible at galaxy scale
+    const curPos = st.curve.getPoint(Math.max(0, Math.min(1, prg)));
+    const ds = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: circleTex(dotCol), transparent: true, depthWrite: false,
+      sizeAttenuation: true, blending: THREE.AdditiveBlending
+    }));
+    ds.position.set(curPos.x, curPos.y + 4, curPos.z); // slight Y lift so it's above orbit plane
+    ds.scale.setScalar(dotSize * dotMult); // scale up: orbit radii are 60-260 units, dot must be visible
+    ds.userData = { fleet: f, isFleetDot: true };
+    fleetGroup.add(ds);
+  }
+}
+
+// ── Data fetching ──────────────────────────────────────────
+async function fetchGalaxy() {
+  const r = await fetch(window.SM.apiBase + 'galaxy');
+  if (!r.ok) throw new Error('galaxy API ' + r.status);
+  const text = await r.text();
+  try {
+    galaxyData = JSON.parse(text);
+  } catch(e) {
+    console.error('Galaxy JSON parse error:', text.slice(0, 200));
+    throw new Error('Galaxy JSON invalid');
+  }
+  if (galaxyData.server_time) {
+    serverTimeOffset = galaxyData.server_time - (Date.now() / 1000);
+  }
+  if (galaxyData.planets) {
+    buildPlanets(galaxyData.planets);
+    // posMap is now populated – always re-fetch fleets immediately so
+    // newly dispatched fleets that arrived during galaxy load are shown
+    fetchFleets().catch(e => console.warn('Post-galaxy fleet fetch:', e));
+    updateStats();
+  }
+}
+
+async function fetchFleets() {
+  // NOTE: must NOT swallow error on initial call so Promise.all can reject
+  const r = await fetch(window.SM.apiBase + 'fleets');
+  if (!r.ok) throw new Error('fleets API ' + r.status);
+  const text = await r.text();
+  try {
+    fleetData = JSON.parse(text);
+  } catch(e) {
+    console.warn('Fleet JSON parse error:', text.slice(0, 200));
+    return; // non-fatal on poll failures
+  }
+  if (fleetData.server_time) {
+    serverTimeOffset = fleetData.server_time - (Date.now() / 1000);
+  }
+  if (fleetData.fleets) {
+    // Arrival detection: compare against previously known fleet IDs
+    const prevIds = new Set(Object.keys(fleetAnimState).map(Number));
+    const newIds  = new Set(fleetData.fleets.map(f => f.id));
+    prevIds.forEach(id => {
+      if (!newIds.has(id)) {
+        const st = fleetAnimState[id];
+        if (st && st.data) fleetArrivalToast(st.data);
+      }
+    });
+    buildFleets(fleetData.fleets);
+    updateStats();
+    updateFleetBadge();
+  }
+  set('upd-time', 'Updated ' + new Date().toLocaleTimeString());
+}
+
+function fleetArrivalToast(f) {
+  const isOwn         = !!f.is_own;
+  const isHostile     = !!f.is_hostile;
+  const isTargetingMe = !!f.is_targeting_me;
+  if (!isOwn && !isHostile) return; // only notify for own / combat fleets
+  let col, icon, label;
+  if (isTargetingMe) {
+    col = '#ff0033'; icon = '🚨';
+    label = `UNDER ATTACK! [${f.end?.g}:${f.end?.s}:${f.end?.p}]`;
+  } else if (isHostile) {
+    col = '#ff3355'; icon = '⚠';
+    label = `COMBAT FLEET ARRIVED [${f.end?.g}:${f.end?.s}:${f.end?.p}]`;
+  } else {
+    col = '#00e87a'; icon = '✓';
+    label = `${f.mission_name || 'FLEET'} ARRIVED [${f.end?.g}:${f.end?.s}:${f.end?.p}]`;
+  }
+  showFleetToast(icon + ' ' + label, col);
+}
+
+function showFleetToast(msg, color) {
+  let container = document.getElementById('gm-fleet-toasts');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'gm-fleet-toasts';
+    container.style.cssText = 'position:fixed;top:64px;right:16px;z-index:9800;display:flex;flex-direction:column;gap:6px;pointer-events:none;';
+    document.body.appendChild(container);
+  }
+  const t = document.createElement('div');
+  t.style.cssText = `
+    background:rgba(4,10,28,0.97);border:1px solid ${color};border-radius:8px;
+    padding:8px 14px;font-family:'Orbitron',monospace;font-size:10px;letter-spacing:1.5px;
+    color:${color};box-shadow:0 4px 20px rgba(0,0,0,0.7);
+    opacity:0;transform:translateX(24px);
+    transition:opacity .25s ease,transform .25s ease;
+    pointer-events:none;white-space:nowrap;
+  `;
+  t.textContent = msg;
+  container.appendChild(t);
+  requestAnimationFrame(() => {
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(0)';
+  });
+  setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(24px)';
+    setTimeout(() => t.remove(), 300);
+  }, 5000);
+}
+
+function updateFleetBadge() {
+  const states = Object.values(fleetAnimState);
+  const hostileCount = states.filter(st => st.data?.is_hostile).length;
+  const totalCount   = states.length;
+  let badge = document.getElementById('gm-fleet-badge');
+  if (!badge) {
+    const btn = document.getElementById('gm-reload-fleets');
+    if (!btn) return;
+    badge = document.createElement('span');
+    badge.id = 'gm-fleet-badge';
+    badge.style.cssText = 'position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;border-radius:8px;font-size:9px;font-family:\'Orbitron\',monospace;display:flex;align-items:center;justify-content:center;padding:0 3px;pointer-events:none;';
+    btn.style.position = 'relative';
+    btn.appendChild(badge);
+  }
+  if (hostileCount > 0) {
+    badge.textContent = hostileCount;
+    badge.style.background = '#ff3355';
+    badge.style.color = '#fff';
+    badge.style.display = 'flex';
+  } else if (totalCount > 0) {
+    badge.textContent = totalCount;
+    badge.style.background = 'rgba(0,212,255,0.7)';
+    badge.style.color = '#000';
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+// ── Demo fallback ──────────────────────────────────────────
+function loadDemo() {
+  const cols=['#00d4ff','#a855f7','#ff6b35','#ffd700','#00ffcc','#ff3399'];
+  const planets=[];
+  for (let g=1;g<=4;g++) for (let s=1;s<=120;s++) {
+    if (Math.random()>.55) continue; // keep more so array is never empty
+    const n=Math.floor(Math.random()*4)+1;
+    for (let k=0;k<n;k++) {
+      const p=Math.floor(Math.random()*15)+1, ai=Math.floor(Math.random()*7);
+      const uid=Math.floor(Math.random()*300)+1;
+      planets.push({
+        id:g*1e6+s*1e3+p+k, name:`Kepler-${g}${s}`, galaxy:g, system:s, planet:p,
+        user_id:uid, username:`Cmdr${uid}`,
+        ally_id:ai, ally_name:ai?`Empire${ai}`:'', ally_tag:ai?`E${ai}`:'',
+        ally_color:ai?cols[ai%cols.length]:null,
+        total_rank:Math.floor(Math.random()*500)+1, total_points:Math.floor(Math.random()*800000),
+        is_own:g===window.SM.galaxy&&s===window.SM.system&&p===window.SM.planet,
+        is_ally:ai>0&&ai===window.SM.allyId,
+        has_moon:Math.random()>.72, has_debris:Math.random()>.88, online:Math.random()>.55
+      });
+    }
+  }
+  galaxyData={planets, current_user_id:window.SM.userId};
+  buildPlanets(planets);
+
+  const MISSION_NAMES_JS = {1:'ATTACK',2:'ACS_ATTACK',3:'TRANSPORT',4:'DEPLOY',5:'HOLD',6:'ESPIONAGE',7:'COLONY',8:'RECYCLE',9:'DESTROY',11:'EXPEDITION'};
+  const nowDemo = Date.now()/1000;
+  const demoFleets=[];
+  for (let i=0;i<30;i++) {
+    const sp=planets[Math.floor(Math.random()*planets.length)];
+    const ep=planets[Math.floor(Math.random()*planets.length)];
+    if (!sp||!ep||sp.id===ep.id) continue;
+    const m=[1,3,6,8][Math.floor(Math.random()*4)];
+    const hostile=m===1&&sp.user_id!==window.SM.userId;
+    const travelDur = 120 + Math.random()*600; // 2-12 minutes
+    const elapsed   = Math.random() * travelDur;
+    const st = nowDemo - elapsed;
+    const et = st + travelDur;
+    demoFleets.push({
+      id:i+1, mission:m, mission_name:MISSION_NAMES_JS[m]||'TRANSPORT',
+      owner_name:sp.username||'Commander', ally_tag:sp.ally_tag,
+      is_own:sp.user_id===window.SM.userId, is_hostile:hostile,
+      is_ally:!hostile && sp.user_id!==window.SM.userId && sp.ally_id>0 && sp.ally_id===window.SM.allyId,
+      color:hostile?'#e8304a':m===6?'#ffee00':m===8?'#ff9900':'#00d4ff',
+      start:{g:sp.galaxy,s:sp.system,p:sp.planet},
+      end:{g:ep.galaxy,s:ep.system,p:ep.planet},
+      start_time:st, end_time:et,
+      progress: elapsed/travelDur
+    });
+  }
+  fleetData={fleets:demoFleets};
+  buildFleets(demoFleets);
+  updateStats();
+}
+
+// ── Stats update ───────────────────────────────────────────
+function updateStats() {
+  const pl = galaxyData?.planets || [];
+  const fl = Object.values(fleetAnimState).map(s => s.data).filter(Boolean);
+  const hs = fl.filter(f => f.is_hostile);
+  const al = new Set(pl.map(p => p.ally_id).filter(id => id > 0));
+  set('st-p', pl.length);      set('h-planets', pl.length + ' PLANETS');
+  set('st-f', fl.length);      set('h-fleets',  fl.length + ' FLEETS');
+  set('st-h', hs.length);      set('h-hostile', hs.length + ' HOSTILE');
+  set('st-a', al.size);        set('st-d', pl.filter(p => p.has_debris).length);
+}
+function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
+
+// ── Camera sync ────────────────────────────────────────────
+// Zoom clamped to [100, 10000] per spec
+const MIN_DIST = 100;
+const MAX_DIST = 10000;
+function syncCamera() {
+  if (!camera) return;
+  orb.r = Math.max(MIN_DIST, Math.min(MAX_DIST, orb.r));
+  if (is3D) {
+    camera.position.set(
+      orb.tx + orb.r*Math.sin(orb.phi)*Math.sin(orb.theta),
+      orb.ty + orb.r*Math.cos(orb.phi),
+      orb.tz + orb.r*Math.sin(orb.phi)*Math.cos(orb.theta)
+    );
+    camera.lookAt(orb.tx, orb.ty, orb.tz);
+  } else {
+    camera.position.set(pan.x, orb.r*.75, pan.z);
+    camera.lookAt(pan.x, 0, pan.z);
+  }
+}
+
+// ── Footer height measurement (fixes overlap) ───────────────
+function measureFooterHeight() {
+  const measure = () => {
+    const root = document.getElementById('gm-root');
+    if (!root) return;
+
+    // Priority 1: mobile-dock (bottom nav bar on mobile)
+    const dock = document.querySelector('nav.mobile-dock, .mobile-dock');
+    if (dock) {
+      const style = window.getComputedStyle(dock);
+      // Visible if display != none
+      if (style.display !== 'none') {
+        const h = dock.getBoundingClientRect().height || dock.offsetHeight || 62;
+        // Add safe-area-inset-bottom for iPhone notch
+        const safeArea = parseInt(getComputedStyle(document.documentElement)
+          .getPropertyValue('--sab') || '0') || 0;
+        root.style.setProperty('--ingameFooterH', (h + safeArea) + 'px');
+        return;
+      }
+    }
+
+    // Priority 2: game footer
+    const footer = document.querySelector('.game-footer, footer.game-footer');
+    if (footer) {
+      const style = window.getComputedStyle(footer);
+      const isFixed = style.position === 'fixed' || style.position === 'sticky';
+      if (isFixed) {
+        root.style.setProperty('--ingameFooterH', footer.getBoundingClientRect().height + 'px');
+        return;
+      }
+    }
+
+    // Fallback: on mobile assume 62px dock
+    if (window.innerWidth <= 768) {
+      root.style.setProperty('--ingameFooterH', '62px');
+    } else {
+      root.style.setProperty('--ingameFooterH', '0px');
+    }
+  };
+  measure();
+  window.addEventListener('resize', measure, { passive: true });
+  // Re-measure after fonts/layout settle
+  setTimeout(measure, 300);
+}
+
+// ── Mobile panel toggle (FAB) ───────────────────────────────
+function initMobilePanel() {
+  const innerFab = document.getElementById('gm-panel-toggle');
+  const outerFab = document.getElementById('gm-fab-outer');
+  const panel    = document.getElementById('gm-side');
+  if (!panel) return;
+
+  function togglePanel(e) {
+    if (e) e.stopPropagation();
+    const open = panel.classList.toggle('panel-open');
+    if (innerFab) innerFab.classList.toggle('active', open);
+    if (outerFab) outerFab.classList.toggle('active', open);
+    try { localStorage.setItem('galaxyPanel', open ? 'open' : 'collapsed'); } catch(e2) {}
+  }
+
+  function closePanel() {
+    panel.classList.remove('panel-open');
+    if (innerFab) innerFab.classList.remove('active');
+    if (outerFab) outerFab.classList.remove('active');
+    try { localStorage.setItem('galaxyPanel', 'collapsed'); } catch(e) {}
+  }
+
+  // Restore saved state
+  try {
+    if (localStorage.getItem('galaxyPanel') === 'open') {
+      panel.classList.add('panel-open');
+      if (innerFab) innerFab.classList.add('active');
+      if (outerFab) outerFab.classList.add('active');
+    }
+  } catch(e) {}
+
+  if (innerFab) innerFab.addEventListener('click', togglePanel);
+  if (outerFab) outerFab.addEventListener('click', togglePanel);
+
+  // Tap on canvas closes panel (mobile UX)
+  canvas.addEventListener('touchstart', () => {
+    if (window.innerWidth <= 768 && panel.classList.contains('panel-open')) closePanel();
+  }, { passive: true });
+}
+
+// ── Input events ───────────────────────────────────────────
+function bindEvents() {
+  canvas.addEventListener('mousedown', e=>{
+    drag.down=true; drag.moved=0;
+    drag.startX=e.clientX; drag.startY=e.clientY;
+    drag.snapTheta=orb.theta; drag.snapPhi=orb.phi;
+    drag.snapPanX=pan.x; drag.snapPanZ=pan.z;
+    canvas.style.cursor='grabbing';
+  });
+  window.addEventListener('mouseup',()=>{drag.down=false;canvas.style.cursor='grab';});
+  window.addEventListener('mousemove', e=>{
+    if (drag.down) {
+      const dx=e.clientX-drag.startX, dy=e.clientY-drag.startY;
+      drag.moved=Math.max(drag.moved,Math.abs(dx)+Math.abs(dy));
+      if (is3D) {
+        orb.theta=drag.snapTheta-dx*.0055;
+        orb.phi=Math.max(.12,Math.min(1.55,drag.snapPhi+dy*.0055));
+      } else {
+        pan.x=drag.snapPanX-dx*orb.r*.0016;
+        pan.z=drag.snapPanZ-dy*orb.r*.0016;
+      }
+      syncCamera();
+    } else { doHover(e.clientX,e.clientY); }
+  });
+
+  canvas.addEventListener('click', e=>{if(drag.moved<6)doClick(e.clientX,e.clientY);});
+
+  canvas.addEventListener('wheel', e=>{
+    e.preventDefault();
+    orb.r = Math.max(MIN_DIST, Math.min(MAX_DIST, orb.r + e.deltaY * 1.2));
+    syncCamera();
+  },{passive:false});
+
+  // Touch
+  let tStart=null,tDist=0;
+  canvas.addEventListener('touchstart',e=>{
+    if(e.touches.length===1){
+      tStart={x:e.touches[0].clientX,y:e.touches[0].clientY,
+              theta:orb.theta,phi:orb.phi,px:pan.x,pz:pan.z};
+    } else if(e.touches.length===2){
+      tDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,
+                       e.touches[0].clientY-e.touches[1].clientY);
+    }
+  },{passive:true});
+  canvas.addEventListener('touchmove',e=>{
+    e.preventDefault();
+    if(e.touches.length===1&&tStart){
+      const dx=e.touches[0].clientX-tStart.x, dy=e.touches[0].clientY-tStart.y;
+      if(is3D){orb.theta=tStart.theta-dx*.007;orb.phi=Math.max(.12,Math.min(1.55,tStart.phi+dy*.007));}
+      else{pan.x=tStart.px-dx*orb.r*.002;pan.z=tStart.pz-dy*orb.r*.002;}
+      syncCamera();
+    } else if(e.touches.length===2){
+      const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,
+                         e.touches[0].clientY-e.touches[1].clientY);
+      orb.r = Math.max(MIN_DIST, Math.min(MAX_DIST, orb.r * (tDist / d)));
+      tDist=d; syncCamera();
+    }
+  },{passive:false});
+
+  window.addEventListener('resize',()=>{
+    camera.aspect=innerWidth/innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);
+  });
+}
+
+// ── Raycasting ─────────────────────────────────────────────
+// Always use canvas-relative coords (NOT window) so NDC is correct
+// regardless of where the canvas sits in the page layout.
+const DEBUG_PICK = (new URLSearchParams(location.search)).get('debugPick') === '1';
+
+function setMV(cx, cy) {
+  const r = canvas.getBoundingClientRect();
+  MV.x =  ((cx - r.left) / r.width)  * 2 - 1;
+  MV.y = -((cy - r.top)  / r.height) * 2 + 1;
+}
+
+function hitPlanet(cx, cy) {
+  if (!planetMeshes.length) return null;
+  setMV(cx, cy);
+  RC.setFromCamera(MV, camera);
+  // Intersect ONLY the dedicated planetMeshes list
+  const hits = RC.intersectObjects(planetMeshes, false);
+  if (DEBUG_PICK) console.log('[pick] planet hits:', hits.length, hits.map(h => h.object.userData.key + ' d=' + h.distance.toFixed(0)));
+  // Require: userData.type === 'planet'  AND  within distance gate
+  for (const h of hits) {
+    if (h.object.userData.type !== 'planet') continue;
+    if (h.distance > MAX_PICK_DISTANCE) continue;
+    return h.object.userData.planet;
+  }
+  return null;
+}
+
+function hitFleet(cx, cy) {
+  const dots = fleetGroup.children.filter(c => c.userData.isFleetDot);
+  if (!dots.length) return null;
+  setMV(cx, cy);
+  RC.setFromCamera(MV, camera);
+  const hits = RC.intersectObjects(dots, false);
+  return hits.length ? hits[0].object.userData.fleet : null;
+}
+
+function doHover(cx,cy){
+  // Check fleet dots first (they're smaller targets)
+  const fl=hitFleet(cx,cy);
+  if(fl){
+    canvas.style.cursor='pointer';
+    tipEl.style.display='block';
+    tipEl.style.left=(cx+16)+'px'; tipEl.style.top=(cy+10)+'px';
+    const nowS = (Date.now()/1000) + serverTimeOffset;
+    const remaining = Math.max(0, Math.round(fl.end_time - nowS));
+    const mins=Math.floor(remaining/60), secs=remaining%60;
+    const fcol = fl.is_hostile?'var(--red)':fl.is_own?'var(--cyan)':'var(--dim)';
+    tipEl.innerHTML=`
+      <div class="tt-h" style="color:${fcol}">${fl.mission_name||'FLEET'}</div>
+      <div class="tt-l">Commander: <span>${fl.owner_name||'?'}</span></div>
+      <div class="tt-l">From: <span>[${fl.start.g}:${fl.start.s}:${fl.start.p}]</span></div>
+      <div class="tt-l">To: <span>[${fl.end.g}:${fl.end.s}:${fl.end.p}]</span></div>
+      <div class="tt-l">ETA: <span>${mins}m ${secs}s</span></div>
+    `;
+    return;
+  }
+  const pl=hitPlanet(cx,cy);
+  if(pl){
+    canvas.style.cursor='pointer';
+    tipEl.style.display='block';
+    tipEl.style.left=(cx+16)+'px'; tipEl.style.top=(cy+10)+'px';
+    if(pl.is_empty){
+      /* Freier Slot */
+      tipEl.innerHTML=`<div class="tt-h" style="color:#4a6a8a">FREIER SLOT</div><div class="tt-l">[${pl.galaxy}:${pl.system}:${pl.planet}]</div><div class="tt-l" style="color:var(--cyan)">Klicken zum Kolonisieren</div>`;
+    } else {
+      const c=pl.is_own?'var(--green)':pl.is_ally?'var(--purple)':'var(--cyan)';
+      const name=(pl.name||'Unknown Planet').toUpperCase();
+      tipEl.innerHTML=`
+        <div class="tt-h" style="color:${c}">${name}</div>
+        <div class="tt-l">[${pl.galaxy}:${pl.system}:${pl.planet}]</div>
+        <div class="tt-l">Player: <span>${pl.username||'?'}</span></div>
+        ${pl.ally_tag?`<div class="tt-l">Alliance: <span>[${pl.ally_tag}]</span></div>`:''}
+        <div class="tt-l">Rank: <span>#${pl.total_rank||'?'}</span></div>
+        ${pl.has_moon?'<div class="tt-l" style="color:#aaa"><i class="fas fa-moon fa-xs"></i> Moon</div>':''}
+        ${pl.has_debris?'<div class="tt-l" style="color:#ff9900"><i class="fas fa-ring fa-xs"></i> Debris</div>':''}
+      `;
+    }
+  } else {
+    canvas.style.cursor='grab';
+    tipEl.style.display='none';
+  }
+}
+
+function doClick(cx, cy) {
+  const pl = hitPlanet(cx, cy);
+  if (pl) {
+    selectPlanet(pl);
+    showAction(pl);
+    tipEl.style.display = 'none';
+  } else {
+    deselectPlanet();
+    closeAction();
+  }
+}
+
+// ── Planet selection + highlight ring ──────────────────────
+function selectPlanet(pl) {
+  selectedPlanet = pl;
+  // Remove old ring
+  if (selRing) { planetGroup.remove(selRing); selRing.geometry.dispose(); selRing.material.dispose(); selRing = null; }
+  // Use live mesh position (planet is orbiting – posMap is updated by animate loop)
+  const key = `${pl.galaxy}:${pl.system}:${pl.planet}`;
+  const sprite = planetMeshes.find(s => s.userData.key === key);
+  const pos = sprite ? sprite.position : posMap[key];
+  if (!pos) return;
+  const sz = sprite ? sprite.userData.baseScale * 0.62 : 9;
+  const rg = new THREE.RingGeometry(sz, sz + 1.4, 32);
+  const rm = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.55, side: THREE.DoubleSide, depthWrite: false });
+  selRing = new THREE.Mesh(rg, rm);
+  selRing.position.copy(pos);
+  selRing.rotation.x = -Math.PI / 2;
+  planetGroup.add(selRing);
+  set('st-sel', key);
+}
+
+function deselectPlanet() {
+  selectedPlanet = null;
+  if (selRing) { planetGroup.remove(selRing); selRing.geometry.dispose(); selRing.material.dispose(); selRing = null; }
+  set('st-sel', '–');
+}
+
+// ── Action panel ────────────────────────────────────────────
+function showAction(pl) {
+  const {galaxy:g, system:ss, planet:p} = pl;
+  const base = `game.php?page=fleetTable&galaxy=${g}&system=${ss}&planet=${p}&planettype=1`;
+  set('ap-coord', `[${g}:${ss}:${p}]`);
+  const btn = document.getElementById('ap-btns');
+
+  /* ── FREIER SLOT ── */
+  if (pl.is_empty) {
+    set('ap-name', 'FREIER SLOT');
+    document.getElementById('ap-name').style.color = '#4a6a8a';
+    document.getElementById('ap-meta').innerHTML = `
+      <div class="ap-box"><div class="ap-box-lbl">STATUS</div><div class="ap-box-val" style="color:#4a6a8a">UNBEWOHNT</div></div>
+      <div class="ap-box"><div class="ap-box-lbl">GALAXY</div><div class="ap-box-val" style="color:var(--cyan)">${g}</div></div>
+      <div class="ap-box"><div class="ap-box-lbl">SYSTEM</div><div class="ap-box-val" style="color:var(--cyan)">${ss}</div></div>
+    `;
+    btn.innerHTML = `
+      <a class="ap-btn ab-flt" href="${base}&target_mission=7"><i class="fas fa-flag"></i> KOLONISIEREN</a>
+      <a class="ap-btn ab-flt" href="${base}"><i class="fas fa-rocket"></i> FLEET SENDEN</a>
+      <a class="ap-btn ab-spy" href="${base}&target_mission=6"><i class="fas fa-satellite"></i> PHALANX SPY</a>
+    `;
+    actionEl.style.display = 'block';
+    const sunKey0 = `${g}:${ss}:0`;
+    flyTo(posMap[sunKey0] || toWorld(g, ss, 0, 0, 1), 400);
+    return;
+  }
+
+  /* ── BELEGTER PLANET ── */
+  const nameCol = pl.is_own ? 'var(--green)' : pl.is_ally ? 'var(--purple)' : 'var(--cyan)';
+  set('ap-name', (pl.name||'Unknown').toUpperCase());
+  document.getElementById('ap-name').style.color = nameCol;
+  document.getElementById('ap-meta').innerHTML = `
+    <div class="ap-box"><div class="ap-box-lbl">PLAYER</div><div class="ap-box-val" style="color:${nameCol}">${pl.username||'?'}</div></div>
+    <div class="ap-box"><div class="ap-box-lbl">RANK</div><div class="ap-box-val" style="color:var(--gold)">#${pl.total_rank||'?'}</div></div>
+    <div class="ap-box"><div class="ap-box-lbl">ALLIANCE</div><div class="ap-box-val">${pl.ally_tag?'['+pl.ally_tag+']':'–'}</div></div>
+  `;
+  if (pl.is_own) {
+    btn.innerHTML = `<div class="ap-own"><i class="fas fa-check" style="margin-right:6px"></i>YOUR PLANET</div>`;
+  } else {
+    const uid = pl.user_id;
+    btn.innerHTML = `
+      <a class="ap-btn ab-spy"  href="${base}&target_mission=6"><i class="fas fa-satellite"></i> SPY</a>
+      <a class="ap-btn ab-atk"  href="${base}&target_mission=1"><i class="fas fa-crosshairs"></i> ATTACK</a>
+      <a class="ap-btn ab-flt"  href="${base}"><i class="fas fa-rocket"></i> FLEET</a>
+      <a class="ap-btn ab-msg"  href="game.php?page=messages&mode=write&player_id=${uid}"><i class="fas fa-envelope"></i> MESSAGE</a>
+      <a class="ap-btn ab-card" href="javascript:GM.showCard(${uid})"><i class="fas fa-id-card"></i> PLAYERCARD</a>
+      ${pl.has_debris ? `<a class="ap-btn ab-rec" href="${base}&target_mission=8"><i class="fas fa-recycle"></i> RECYCLE</a>` : ''}
+    `;
+  }
+  actionEl.style.display = 'block';
+  const sysKey = `${g}:${ss}:0`;
+  flyTo(posMap[sysKey] || toWorld(g, ss, 0, 0, 1), 400);
+}
+function closeAction() { actionEl.style.display = 'none'; }
+
+// ── Player card ────────────────────────────────────────────
+async function showCard(userId){
+  cardEl.style.display='block';
+  document.getElementById('pc-body').innerHTML=
+    '<div style="text-align:center;padding:30px;color:var(--dim);font-family:\'Orbitron\',monospace;font-size:10px;letter-spacing:2px">LOADING…</div>';
+  try{
+    const r=await fetch(`${window.SM.apiBase}card&player_id=${userId}`);
+    const d=await r.json();
+    if(d.error) throw new Error(d.error);
+    renderCard(d);
+  }catch{
+    renderCard({
+      id:userId,username:'Commander'+userId,planet_name:'HomePlanet',
+      galaxy:1,system:1,planet:1,ally_id:0,ally_name:'',ally_tag:'',
+      total_rank:Math.floor(Math.random()*300)+1,total_points:'123.456',
+      fleet_rank:50,fleet_points:'50.000',tech_rank:80,tech_points:'30.000',
+      build_rank:60,build_points:'40.000',defs_rank:90,defs_points:'3.000',
+      wons:25,loos:10,draws:5,win_pct:71.4,online:true,
+      is_self:userId===window.SM.userId
+    });
+  }
+}
+
+function renderCard(d){
+  const isSelf=d.is_self||d.id===window.SM.userId;
+  const letter=(d.username||'?')[0].toUpperCase();
+  const avEl=document.getElementById('pc-av-letter');
+  if(avEl) avEl.textContent=letter;
+
+  const onDot=d.online
+    ?'<span class="dot dot-on"></span><span style="color:var(--green)">Online</span>'
+    :'<span class="dot dot-off"></span><span>Offline</span>';
+
+  const total=d.wons+d.loos+d.draws||1;
+  const wPct=((d.wons/total)*100).toFixed(0);
+  const lPct=((d.loos/total)*100).toFixed(0);
+  const dPct=((d.draws/total)*100).toFixed(0);
+
+  const coordStr=`${d.galaxy}:${d.system}:${d.planet}`;
+
+  document.getElementById('pc-body').innerHTML=`
+    <div class="pc-hdr">
+      <div style="width:56px;flex-shrink:0"></div>
+      <div class="pc-hdr-info">
+        <div class="pc-nm">${d.username}</div>
+        <div class="pc-al">${d.ally_tag?`<i class="fas fa-shield-alt" style="font-size:9px;margin-right:4px"></i>[${d.ally_tag}] ${d.ally_name}`:'<span style="color:var(--dim)">No Alliance</span>'}</div>
+        <div class="pc-on">${onDot} <span style="color:var(--dim);font-size:9px;margin-left:4px">${coordStr}</span></div>
+      </div>
+    </div>
+    <div class="pc-divider"></div>
+    <div class="pc-grid">
+      <div class="pc-st"><div class="pc-st-lbl">Total Points</div><div class="pc-st-val">${d.total_points}</div><div class="pc-st-rnk"># ${d.total_rank}</div></div>
+      <div class="pc-st"><div class="pc-st-lbl">Fleet Points</div><div class="pc-st-val">${d.fleet_points}</div><div class="pc-st-rnk"># ${d.fleet_rank}</div></div>
+      <div class="pc-st"><div class="pc-st-lbl">Tech Points</div><div class="pc-st-val">${d.tech_points}</div><div class="pc-st-rnk"># ${d.tech_rank}</div></div>
+      <div class="pc-st"><div class="pc-st-lbl">Build Points</div><div class="pc-st-val">${d.build_points}</div><div class="pc-st-rnk"># ${d.build_rank}</div></div>
+      <div class="pc-st"><div class="pc-st-lbl">Defense Points</div><div class="pc-st-val">${d.defs_points||'–'}</div><div class="pc-st-rnk"># ${d.defs_rank||'–'}</div></div>
+      <div class="pc-st" style="display:flex;flex-direction:column;justify-content:center;align-items:center">
+        <div class="pc-st-lbl" style="text-align:center">Win Rate</div>
+        <div class="pc-st-val" style="color:var(--gold);font-size:18px">${d.win_pct}%</div>
+      </div>
+    </div>
+    <div class="pc-winbar-wrap">
+      <div class="pc-winbar-lbl"><span><i class="fas fa-check" style="color:var(--green)"></i> ${d.wons} W</span><span style="color:var(--dim)">${d.draws} D</span><span><i class="fas fa-times" style="color:var(--red)"></i> ${d.loos} L</span></div>
+      <div class="pc-winbar-track">
+        <div class="pc-winbar-w" style="width:${wPct}%"></div>
+        <div class="pc-winbar-d" style="width:${dPct}%"></div>
+        <div class="pc-winbar-l" style="width:${lPct}%"></div>
+      </div>
+    </div>
+    ${!isSelf?`<div class="pc-acts">
+      <a class="ap-btn ab-spy" href="game.php?page=fleetTable&galaxy=${d.galaxy}&system=${d.system}&planet=${d.planet}&planettype=1&target_mission=6"><i class="fas fa-satellite"></i> SPY</a>
+      <a class="ap-btn ab-atk" href="game.php?page=fleetTable&galaxy=${d.galaxy}&system=${d.system}&planet=${d.planet}&planettype=1&target_mission=1"><i class="fas fa-crosshairs"></i> ATTACK</a>
+      <a class="ap-btn ab-msg" href="game.php?page=messages&mode=write&player_id=${d.id}"><i class="fas fa-envelope"></i> MESSAGE</a>
+    </div>`:'<div class="ap-own"><i class="fas fa-user" style="margin-right:6px"></i>YOUR PROFILE</div>'}
+  `;
+}
+function closeCard(){cardEl.style.display='none';}
+
+// ── Fly-to ─────────────────────────────────────────────────
+function flyTo(target, dist) {
+  const sp = camera.position.clone();
+  // Approach from slightly elevated angle behind target
+  const ep = new THREE.Vector3(target.x + dist * 0.35, dist * 0.55, target.z + dist);
+  let t = 0;
+  const go = () => {
+    t++;
+    const a = Math.min(1, t / 52);
+    const e = 1 - Math.pow(1 - a, 3); // ease-out cubic
+    camera.position.lerpVectors(sp, ep, e);
+    camera.lookAt(target.x, target.y, target.z);
+    if (a < 1) {
+      requestAnimationFrame(go);
+    } else {
+      // Update orb so subsequent drag/zoom stays orbiting target, not origin
+      orb.tx = target.x; orb.ty = target.y; orb.tz = target.z;
+      orb.r  = dist;
+      // Recalculate theta/phi from final camera position relative to target
+      const dx = ep.x - target.x, dy = ep.y - target.y, dz = ep.z - target.z;
+      orb.phi   = Math.acos(Math.max(-1, Math.min(1, dy / dist)));
+      orb.theta = Math.atan2(dx, dz);
+      syncCamera();
+    }
+  };
+  requestAnimationFrame(go);
+}
+
+// ── Public controls ────────────────────────────────────────
+function setView(mode){
+  is3D = mode === '3d';
+  try { localStorage.setItem('galaxy_view', mode); } catch(e) {}
+  document.getElementById('vb-3d').classList.toggle('on',  is3D);
+  document.getElementById('vb-2d').classList.toggle('on', !is3D);
+  if (!is3D) {
+    // 2D = straight top-down, phi near zero, higher r so full map is visible
+    orb.r=4000; orb.phi=0.01; orb.theta=0;
+    orb.tx=0; orb.ty=0; orb.tz=0;
+    pan.x=0; pan.z=0;
+  } else {
+    orb.r=3000; orb.phi=1.05; orb.theta=0.4;
+    orb.tx=0; orb.ty=0; orb.tz=0;
+  }
+  syncCamera();
+  // No rebuild needed – orbit meshes stay live; just re-select ring if needed
+  if (selectedPlanet) selectPlanet(selectedPlanet);
+}
+function navJump() {
+  const gEl = document.getElementById('nav-g');
+  const sEl = document.getElementById('nav-s');
+  let g = parseInt(gEl.value) || 1;
+  let s = parseInt(sEl.value) || 1;
+  // Clamp to valid universe bounds
+  g = Math.max(1, Math.min(9, g));   gEl.value = g;
+  s = Math.max(1, Math.min(499, s)); sEl.value = s;
+
+  // Check if any planet exists in this system
+  const planets = galaxyData?.planets || [];
+  const inSys = planets.filter(p => p.galaxy === g && p.system === s);
+
+  const hint = document.getElementById('jump-hint');
+  if (inSys.length === 0 && planets.length > 0) {
+    hint.textContent = 'No planets in this system';
+    hint.style.color = 'var(--dim)';
+    setTimeout(() => { hint.textContent = ''; }, 2500);
+  } else {
+    hint.textContent = 'JUMPING…';
+    hint.style.color = 'var(--cyan)';
+    setTimeout(() => { hint.textContent = ''; }, 1800);
+  }
+  // Fly to system sun center (stored as g:s:0 in posMap)
+  const sunCenter = posMap[`${g}:${s}:0`] || toWorld(g, s, 0, 0, 1);
+  flyTo(sunCenter, 400);
+}
+
+function navHome() {
+  const g = window.SM.galaxy, s = window.SM.system, p = window.SM.planet;
+  const hint = document.getElementById('jump-hint');
+  hint.textContent = 'HOME';
+  hint.style.color = 'var(--green)';
+  setTimeout(() => { hint.textContent = ''; }, 1800);
+  const homeCenter = posMap[`${g}:${s}:0`] || toWorld(g, s, 0, 0, 1);
+  flyTo(homeCenter, 400);
+  // Highlight home planet if loaded
+  if (galaxyData?.planets) {
+    const hp = galaxyData.planets.find(pl => pl.is_own &&
+      pl.galaxy === g && pl.system === s && pl.planet === p);
+    if (hp) selectPlanet(hp);
+  }
+}
+function reloadFleets(){
+  const btn = document.getElementById('gm-reload-fleets');
+  const icon = btn?.querySelector('i');
+  if (icon) icon.classList.add('fa-spin');
+  fetchFleets()
+    .catch(e => console.warn('Manual fleet reload:', e))
+    .finally(() => {
+      if (icon) icon.classList.remove('fa-spin');
+      updateFleetBadge();
+    });
+}
+
+// ── Player Search ──────────────────────────────────────────
+(function(){
+  const inp  = document.getElementById('gm-search-inp');
+  const res  = document.getElementById('gm-search-results');
+  const clr  = document.getElementById('gm-search-clear');
+  if(!inp||!res) return;
+
+  let debounceT=null;
+  let lastQuery='';
+
+  function clearSearch(){
+    inp.value='';
+    res.innerHTML='';
+    clr.style.display='none';
+    lastQuery='';
+  }
+  if(clr) clr.addEventListener('click',clearSearch);
+
+  function renderSearchResults(players){
+    if(!players||!players.length){
+      res.innerHTML='<div class="gm-sr-none">KEINE TREFFER</div>';
+      return;
+    }
+    res.innerHTML=players.slice(0,8).map(p=>{
+      const letter=(p.username||'?')[0].toUpperCase();
+      const coord=p.galaxy&&p.system?`${p.galaxy}:${p.system}:${p.planet||1}`:'';
+      return `<div class="gm-sr-item" data-uid="${p.id}" data-g="${p.galaxy||1}" data-s="${p.system||1}" data-p="${p.planet||1}">
+        <div class="gm-sr-av">${letter}</div>
+        <span class="gm-sr-name">${p.username}</span>
+        ${coord?`<span class="gm-sr-coord">${coord}</span>`:''}
+        ${p.total_points?`<span class="gm-sr-pts">${p.total_points}</span>`:''}
+      </div>`;
+    }).join('');
+    res.querySelectorAll('.gm-sr-item').forEach(el=>{
+      el.addEventListener('click',function(){
+        const uid=parseInt(el.dataset.uid);
+        const g=parseInt(el.dataset.g)||1;
+        const s=parseInt(el.dataset.s)||1;
+        const sunKey=`${g}:${s}:0`;
+        const sunPos=posMap[sunKey]||toWorld(g,s,0,0,1);
+        flyTo(sunPos,400);
+        document.getElementById('nav-g').value=g;
+        document.getElementById('nav-s').value=s;
+        setTimeout(()=>GM.showCard(uid),600);
+        clearSearch();
+      });
+    });
+  }
+
+  function searchLocally(q){
+    if(!galaxyData||!galaxyData.planets) return null;
+    const ql=q.toLowerCase();
+    const seen={};
+    const hits=[];
+    galaxyData.planets.forEach(p=>{
+      if(!p.owner_name||seen[p.owner_id]) return;
+      if(p.owner_name.toLowerCase().indexOf(ql)>=0){
+        seen[p.owner_id]=true;
+        hits.push({id:p.owner_id,username:p.owner_name,galaxy:p.galaxy,system:p.system,planet:p.planet,total_points:''});
+      }
+    });
+    return hits;
+  }
+
+  inp.addEventListener('input',function(){
+    const q=inp.value.trim();
+    clr.style.display=q?'flex':'none';
+    if(q===lastQuery) return;
+    lastQuery=q;
+    clearTimeout(debounceT);
+    if(q.length<2){ res.innerHTML=''; return; }
+    debounceT=setTimeout(function(){
+      const local=searchLocally(q);
+      if(local&&local.length){ renderSearchResults(local); return; }
+      res.innerHTML='<div class="gm-sr-none"><i class="fas fa-spinner fa-spin"></i> SEARCHING…</div>';
+      fetch(`game.php?page=galaxyMap&mode=search&q=${encodeURIComponent(q)}`)
+        .then(r=>r.json())
+        .then(d=>renderSearchResults(d.players||d))
+        .catch(()=>{ const l2=searchLocally(q); renderSearchResults(l2||[]); });
+    },320);
+  });
+
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){ clearSearch(); inp.blur(); }
+  });
+})();
+
+// ── Render loop ───────────────────────────────────────────────
+let needFleetRebuild = false;
+let fleetRebuildCooldown = -1; // start at -1 so first frame always rebuilds if fleets exist
+let lastTime = 0;
+function animate(now = 0){
+  requestAnimationFrame(animate); frame++;
+  const dt = Math.min((now - lastTime) / 1000, 0.05); // seconds, capped at 50ms
+  lastTime = now;
+
+  if(starField) starField.rotation.y += 0.000012;
+
+  // ── Orbit animation: update each planet's XZ position ──
+  // No new meshes created; only position is mutated
+  orbitData.forEach(od => {
+    od.angle += od.speed * (dt > 0 ? dt * 60 : 1); // dt*60 normalises to ~60fps
+    const nx = od.sunX + Math.cos(od.angle) * od.radius;
+    const nz = od.sunZ + Math.sin(od.angle) * od.radius;
+    od.mesh.position.set(nx, od.heightOff, nz);
+    // Keep posMap in sync so fleet fallback lookups stay accurate
+    if (od.key) posMap[od.key] = od.mesh.position.clone();
+  });
+
+  // Planet pulse – scale only, no new meshes
+  const pulse = Math.sin(frame * 0.022) * 0.05 + 1.0;
+  planetMeshes.forEach(sp => {
+    if (sp.userData.baseScale) sp.scale.setScalar(sp.userData.baseScale * pulse);
+  });
+
+  // Sun sprite subtle pulse
+  sunGroup.children.forEach(obj => {
+    if (obj.isSprite && obj.userData.isSun) {
+      const base = obj.userData.baseSunScale || 28;
+      const sp = Math.sin(frame * 0.018) * 0.08 + 1.0;
+      obj.scale.setScalar(base * sp);
+    }
+  });
+
+  // Move selection ring with selected planet
+  if (selRing && selectedPlanet) {
+    const key = `${selectedPlanet.galaxy}:${selectedPlanet.system}:${selectedPlanet.planet}`;
+    const livePos = posMap[key];
+    if (livePos) selRing.position.copy(livePos);
+  }
+
+  // Smooth-lerp fleet progress between polls
+  needFleetRebuild = false;
+  const nowSec = (Date.now() / 1000) + serverTimeOffset;
+  for (const id in fleetAnimState) {
+    const st = fleetAnimState[id];
+    if (st.targetPrg === undefined || !st.curve) continue;
+    const realPrg = Math.min(1, Math.max(0,
+      (nowSec - (st.data.start_time||0)) / Math.max(1, (st.data.end_time||1) - (st.data.start_time||0))
+    ));
+    st.targetPrg = realPrg;
+    if (Math.abs(st.displayPrg - realPrg) > 0.0005) {
+      st.displayPrg += (realPrg - st.displayPrg) * 0.04;
+      needFleetRebuild = true;
+    }
+  }
+  // Throttle fleet rebuilds to max once per 3 frames for performance
+  fleetRebuildCooldown--;
+  if (needFleetRebuild && fleetRebuildCooldown <= 0) {
+    rebuildFleetMeshes();
+    fleetRebuildCooldown = 3;
+  }
+
+  // Hostile blink + "arriving soon" pulse – only mutates material/scale, no geometry changes
+  const nowSecAnim = (Date.now() / 1000) + serverTimeOffset;
+  fleetGroup.children.forEach(obj => {
+    const f = obj.userData?.fleet;
+    if (!f) return;
+    if (obj.isLine && f.is_hostile && obj.material?.isLineDashedMaterial) {
+      obj.material.opacity = 0.18 + Math.abs(Math.sin(frame * 0.05)) * 0.42;
+    }
+    if (obj.isSprite && obj.userData.isFleetDot) {
+      const eta = Math.max(0, (f.end_time || 0) - nowSecAnim);
+      if (eta > 0 && eta <= 30) {
+        // Arriving soon: fast blink + scale pulse
+        const blink = 0.55 + Math.abs(Math.sin(frame * 0.18)) * 0.45;
+        const scalePulse = 1.0 + Math.abs(Math.sin(frame * 0.14)) * 0.5;
+        obj.material.opacity = blink;
+        const base = obj.userData._baseDotScale || obj.scale.x;
+        if (!obj.userData._baseDotScale) obj.userData._baseDotScale = obj.scale.x;
+        obj.scale.setScalar(base * scalePulse);
+      } else if (eta <= 0) {
+        // Past ETA: full opacity, no pulse
+        obj.material.opacity = 1.0;
+      }
+    }
+  });
+
+  // Selection ring pulse
+  if (selRing) {
+    selRing.material.opacity = 0.35 + Math.abs(Math.sin(frame * 0.04)) * 0.35;
+  }
+
+  renderer.render(scene, camera);
+}
+
+// Boot – restore saved view preference; force 2D on mobile
+(function() {
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    // Mobile: always 2D, ignore saved preference
+    is3D = false;
+    const b3 = document.getElementById('vb-3d');
+    const b2 = document.getElementById('vb-2d');
+    if (b3) { b3.classList.remove('on'); b3.style.display = 'none'; }
+    if (b2) b2.classList.add('on');
+    try { localStorage.setItem('galaxy_view', '2d'); } catch(e) {}
+  } else {
+    try {
+      const saved = localStorage.getItem('galaxy_view');
+      if (saved === '2d') {
+        is3D = false;
+        const b3 = document.getElementById('vb-3d');
+        const b2 = document.getElementById('vb-2d');
+        if (b3) b3.classList.remove('on');
+        if (b2) b2.classList.add('on');
+      }
+    } catch(e) {}
+  }
+})();
+init();
+return{setView,navJump,navHome,reloadFleets,closeAction,closeCard,showCard,selectPlanet,deselectPlanet};
+})();
+</script>
+{% endautoescape %}
+{% endblock %}

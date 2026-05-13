@@ -1,0 +1,2948 @@
+[2026-02-17 23:56:00] Generator START
+Amount: 5, Planets: 1
+Calling createBots()...
+createBots() SUCCESS!
+[2026-02-18 00:06:16] Generator START
+Amount: 5, Planets: 1
+Calling createBots()...
+Names loaded: 16529
+Bot types found: 1
+Creating bot 1/5...
+Name: Williwaw555, Type: 1
+Universe: 1
+CATCH ERROR Bot 1: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'lang' cannot be null<br>
+<br>
+Query-Code:INSERT INTO uni3_users SET
+		username		= Williwaw555,
+		email			= Williwaw555@bot.game,
+		email_2			= Williwaw555@bot.game2,
+		authlevel		= 0,
+		universe		= 1,
+		lang			= ,
+		ip_at_reg		= 127.0.0.1,
+		onlinetime		= 1771369576,
+		register_time	= 1771369576,
+		password		= dd4e4c714a49aef927349b9915c5cc02,
+		dpath			= gow,
+		timezone		= Europe/Berlin,
+		uctime			= 0,
+		darkmatter		= 0;
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/Database.class.php:169
+Creating bot 2/5...
+Name: Quantz353, Type: 1
+Universe: 1
+CATCH ERROR Bot 2: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'lang' cannot be null<br>
+<br>
+Query-Code:INSERT INTO uni3_users SET
+		username		= Quantz353,
+		email			= Quantz353@bot.game,
+		email_2			= Quantz353@bot.game2,
+		authlevel		= 0,
+		universe		= 1,
+		lang			= ,
+		ip_at_reg		= 127.0.0.1,
+		onlinetime		= 1771369576,
+		register_time	= 1771369576,
+		password		= 91cc3a226a0132ee29742e8f1ce42b3f,
+		dpath			= gow,
+		timezone		= Europe/Berlin,
+		uctime			= 0,
+		darkmatter		= 0;
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/Database.class.php:169
+Creating bot 3/5...
+Name: Miyama559, Type: 1
+Universe: 1
+CATCH ERROR Bot 3: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'lang' cannot be null<br>
+<br>
+Query-Code:INSERT INTO uni3_users SET
+		username		= Miyama559,
+		email			= Miyama559@bot.game,
+		email_2			= Miyama559@bot.game2,
+		authlevel		= 0,
+		universe		= 1,
+		lang			= ,
+		ip_at_reg		= 127.0.0.1,
+		onlinetime		= 1771369576,
+		register_time	= 1771369576,
+		password		= 4ac3cad47460a811dbd4b3944536f40a,
+		dpath			= gow,
+		timezone		= Europe/Berlin,
+		uctime			= 0,
+		darkmatter		= 0;
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/Database.class.php:169
+Creating bot 4/5...
+Name: Fragaria848, Type: 1
+Universe: 1
+CATCH ERROR Bot 4: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'lang' cannot be null<br>
+<br>
+Query-Code:INSERT INTO uni3_users SET
+		username		= Fragaria848,
+		email			= Fragaria848@bot.game,
+		email_2			= Fragaria848@bot.game2,
+		authlevel		= 0,
+		universe		= 1,
+		lang			= ,
+		ip_at_reg		= 127.0.0.1,
+		onlinetime		= 1771369576,
+		register_time	= 1771369576,
+		password		= c68d26434f889b7f680946b347ff2382,
+		dpath			= gow,
+		timezone		= Europe/Berlin,
+		uctime			= 0,
+		darkmatter		= 0;
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/Database.class.php:169
+Creating bot 5/5...
+Name: Wickramasekara809, Type: 1
+Universe: 1
+CATCH ERROR Bot 5: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'lang' cannot be null<br>
+<br>
+Query-Code:INSERT INTO uni3_users SET
+		username		= Wickramasekara809,
+		email			= Wickramasekara809@bot.game,
+		email_2			= Wickramasekara809@bot.game2,
+		authlevel		= 0,
+		universe		= 1,
+		lang			= ,
+		ip_at_reg		= 127.0.0.1,
+		onlinetime		= 1771369576,
+		register_time	= 1771369576,
+		password		= a3edcecc04be78727b4126803d4c01a1,
+		dpath			= gow,
+		timezone		= Europe/Berlin,
+		uctime			= 0,
+		darkmatter		= 0;
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/Database.class.php:169
+All bots processed. Running contingent calculation...
+createBots() SUCCESS!
+[2026-02-18 00:08:13] Generator START
+Amount: 110, Planets: 1
+Calling createBots()...
+Names loaded: 16529
+Bot types found: 1
+Creating bot 1/110...
+Name: Babuska964, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 228, PlanetID: 22
+Inserted into bots table
+is_bot flag set
+Bot 1 COMPLETE!
+Creating bot 2/110...
+Name: Pedroduque619, Type: 1
+Universe: 1
+CATCH ERROR Bot 2: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 3/110...
+Name: Schoenobaenus985, Type: 1
+Universe: 1
+CATCH ERROR Bot 3: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 4/110...
+Name: Hamura688, Type: 1
+Universe: 1
+CATCH ERROR Bot 4: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 5/110...
+Name: Arbesfeld337, Type: 1
+Universe: 1
+CATCH ERROR Bot 5: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 6/110...
+Name: Corduba347, Type: 1
+Universe: 1
+CATCH ERROR Bot 6: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 7/110...
+Name: Dunkerley431, Type: 1
+Universe: 1
+CATCH ERROR Bot 7: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 8/110...
+Name: Bogatikov766, Type: 1
+Universe: 1
+CATCH ERROR Bot 8: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 9/110...
+Name: Oicles625, Type: 1
+Universe: 1
+CATCH ERROR Bot 9: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 10/110...
+Name: Eger749, Type: 1
+Universe: 1
+CATCH ERROR Bot 10: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 11/110...
+Name: Sebastiana636, Type: 1
+Universe: 1
+CATCH ERROR Bot 11: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 12/110...
+Name: Limdarren657, Type: 1
+Universe: 1
+CATCH ERROR Bot 12: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 13/110...
+Name: Floirac909, Type: 1
+Universe: 1
+CATCH ERROR Bot 13: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 14/110...
+Name: Deikoon950, Type: 1
+Universe: 1
+CATCH ERROR Bot 14: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 15/110...
+Name: Sasandford524, Type: 1
+Universe: 1
+CATCH ERROR Bot 15: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 16/110...
+Name: Righini517, Type: 1
+Universe: 1
+CATCH ERROR Bot 16: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 17/110...
+Name: Cavadore511, Type: 1
+Universe: 1
+CATCH ERROR Bot 17: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 18/110...
+Name: Williamcooke489, Type: 1
+Universe: 1
+CATCH ERROR Bot 18: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 19/110...
+Name: Joeferguson102, Type: 1
+Universe: 1
+CATCH ERROR Bot 19: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 20/110...
+Name: Baltuck541, Type: 1
+Universe: 1
+CATCH ERROR Bot 20: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 21/110...
+Name: Bartolucci222, Type: 1
+Universe: 1
+CATCH ERROR Bot 21: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 22/110...
+Name: Seanokeefe529, Type: 1
+Universe: 1
+CATCH ERROR Bot 22: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 23/110...
+Name: Chleborad881, Type: 1
+Universe: 1
+CATCH ERROR Bot 23: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 24/110...
+Name: Turku625, Type: 1
+Universe: 1
+CATCH ERROR Bot 24: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 25/110...
+Name: Golovyno429, Type: 1
+Universe: 1
+CATCH ERROR Bot 25: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 26/110...
+Name: Saddlemyer606, Type: 1
+Universe: 1
+CATCH ERROR Bot 26: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 27/110...
+Name: Hammurabi968, Type: 1
+Universe: 1
+CATCH ERROR Bot 27: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 28/110...
+Name: Samadhi505, Type: 1
+Universe: 1
+CATCH ERROR Bot 28: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 29/110...
+Name: Vilen408, Type: 1
+Universe: 1
+CATCH ERROR Bot 29: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 30/110...
+Name: Loczy512, Type: 1
+Universe: 1
+CATCH ERROR Bot 30: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 31/110...
+Name: Margo144, Type: 1
+Universe: 1
+CATCH ERROR Bot 31: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 32/110...
+Name: Tripuraneni765, Type: 1
+Universe: 1
+CATCH ERROR Bot 32: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 33/110...
+Name: Kleczek894, Type: 1
+Universe: 1
+CATCH ERROR Bot 33: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 34/110...
+Name: Suleika737, Type: 1
+Universe: 1
+CATCH ERROR Bot 34: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 35/110...
+Name: Buzios305, Type: 1
+Universe: 1
+CATCH ERROR Bot 35: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 36/110...
+Name: Valeska340, Type: 1
+Universe: 1
+CATCH ERROR Bot 36: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 37/110...
+Name: Flammario827, Type: 1
+Universe: 1
+CATCH ERROR Bot 37: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 38/110...
+Name: Osaki512, Type: 1
+Universe: 1
+CATCH ERROR Bot 38: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 39/110...
+Name: Polyxenos520, Type: 1
+Universe: 1
+CATCH ERROR Bot 39: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 40/110...
+Name: Pansecchi543, Type: 1
+Universe: 1
+CATCH ERROR Bot 40: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 41/110...
+Name: Tedesco655, Type: 1
+Universe: 1
+CATCH ERROR Bot 41: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 42/110...
+Name: Ericpearce352, Type: 1
+Universe: 1
+CATCH ERROR Bot 42: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 43/110...
+Name: Funada501, Type: 1
+Universe: 1
+CATCH ERROR Bot 43: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 44/110...
+Name: Bretagnon242, Type: 1
+Universe: 1
+CATCH ERROR Bot 44: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 45/110...
+Name: Imperatrix775, Type: 1
+Universe: 1
+CATCH ERROR Bot 45: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 46/110...
+Name: Minsk270, Type: 1
+Universe: 1
+CATCH ERROR Bot 46: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 47/110...
+Name: Nguyen-McCarty715, Type: 1
+Universe: 1
+CATCH ERROR Bot 47: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 48/110...
+Name: Aurora866, Type: 1
+Universe: 1
+CATCH ERROR Bot 48: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 49/110...
+Name: Wenchang927, Type: 1
+Universe: 1
+CATCH ERROR Bot 49: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 50/110...
+Name: Werntz985, Type: 1
+Universe: 1
+CATCH ERROR Bot 50: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 51/110...
+Name: Brecht122, Type: 1
+Universe: 1
+CATCH ERROR Bot 51: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 52/110...
+Name: Fahrenheit294, Type: 1
+Universe: 1
+CATCH ERROR Bot 52: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 53/110...
+Name: Lidov617, Type: 1
+Universe: 1
+CATCH ERROR Bot 53: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 54/110...
+Name: Markporter635, Type: 1
+Universe: 1
+CATCH ERROR Bot 54: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 55/110...
+Name: Ostro679, Type: 1
+Universe: 1
+CATCH ERROR Bot 55: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 56/110...
+Name: Kolokolova230, Type: 1
+Universe: 1
+CATCH ERROR Bot 56: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 57/110...
+Name: Dudleymoore579, Type: 1
+Universe: 1
+CATCH ERROR Bot 57: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 58/110...
+Name: Graubunden303, Type: 1
+Universe: 1
+CATCH ERROR Bot 58: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 59/110...
+Name: Vecernicek202, Type: 1
+Universe: 1
+CATCH ERROR Bot 59: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 60/110...
+Name: Ookuninushi705, Type: 1
+Universe: 1
+CATCH ERROR Bot 60: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 61/110...
+Name: Steina560, Type: 1
+Universe: 1
+CATCH ERROR Bot 61: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 62/110...
+Name: Ubuntu749, Type: 1
+Universe: 1
+CATCH ERROR Bot 62: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 63/110...
+Name: Kiriko Matsuri662, Type: 1
+Universe: 1
+CATCH ERROR Bot 63: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 64/110...
+Name: Martha832, Type: 1
+Universe: 1
+CATCH ERROR Bot 64: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 65/110...
+Name: Peltan362, Type: 1
+Universe: 1
+CATCH ERROR Bot 65: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 66/110...
+Name: Jodiefoster924, Type: 1
+Universe: 1
+CATCH ERROR Bot 66: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 67/110...
+Name: Fennimore508, Type: 1
+Universe: 1
+CATCH ERROR Bot 67: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 68/110...
+Name: Allanrahill312, Type: 1
+Universe: 1
+CATCH ERROR Bot 68: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 69/110...
+Name: Talich674, Type: 1
+Universe: 1
+CATCH ERROR Bot 69: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 70/110...
+Name: Burroughs414, Type: 1
+Universe: 1
+CATCH ERROR Bot 70: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 71/110...
+Name: Patrice189, Type: 1
+Universe: 1
+CATCH ERROR Bot 71: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 72/110...
+Name: Dewar741, Type: 1
+Universe: 1
+CATCH ERROR Bot 72: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 73/110...
+Name: Izsak141, Type: 1
+Universe: 1
+CATCH ERROR Bot 73: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 74/110...
+Name: Comello551, Type: 1
+Universe: 1
+CATCH ERROR Bot 74: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 75/110...
+Name: Toyako860, Type: 1
+Universe: 1
+CATCH ERROR Bot 75: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 76/110...
+Name: Magoeba162, Type: 1
+Universe: 1
+CATCH ERROR Bot 76: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 77/110...
+Name: Qiujun987, Type: 1
+Universe: 1
+CATCH ERROR Bot 77: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 78/110...
+Name: Chaokuangpiu414, Type: 1
+Universe: 1
+CATCH ERROR Bot 78: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 79/110...
+Name: Ararat513, Type: 1
+Universe: 1
+CATCH ERROR Bot 79: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 80/110...
+Name: La Canada108, Type: 1
+Universe: 1
+CATCH ERROR Bot 80: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 81/110...
+Name: Drewpinsky865, Type: 1
+Universe: 1
+CATCH ERROR Bot 81: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 82/110...
+Name: Jindrasilhan948, Type: 1
+Universe: 1
+CATCH ERROR Bot 82: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 83/110...
+Name: Tetsuya264, Type: 1
+Universe: 1
+CATCH ERROR Bot 83: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 84/110...
+Name: Janesick219, Type: 1
+Universe: 1
+CATCH ERROR Bot 84: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 85/110...
+Name: Roser195, Type: 1
+Universe: 1
+CATCH ERROR Bot 85: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 86/110...
+Name: Fernandus790, Type: 1
+Universe: 1
+CATCH ERROR Bot 86: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 87/110...
+Name: Astropis897, Type: 1
+Universe: 1
+CATCH ERROR Bot 87: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 88/110...
+Name: Ebella248, Type: 1
+Universe: 1
+CATCH ERROR Bot 88: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 89/110...
+Name: Shanghai582, Type: 1
+Universe: 1
+CATCH ERROR Bot 89: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 90/110...
+Name: MacPherson571, Type: 1
+Universe: 1
+CATCH ERROR Bot 90: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 91/110...
+Name: Lucieconstant847, Type: 1
+Universe: 1
+CATCH ERROR Bot 91: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 92/110...
+Name: Hirayama747, Type: 1
+Universe: 1
+CATCH ERROR Bot 92: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 93/110...
+Name: Csere360, Type: 1
+Universe: 1
+CATCH ERROR Bot 93: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 94/110...
+Name: Helwerthia299, Type: 1
+Universe: 1
+CATCH ERROR Bot 94: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 95/110...
+Name: Hirayama919, Type: 1
+Universe: 1
+CATCH ERROR Bot 95: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 96/110...
+Name: Larissa826, Type: 1
+Universe: 1
+CATCH ERROR Bot 96: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 97/110...
+Name: Luneburg224, Type: 1
+Universe: 1
+CATCH ERROR Bot 97: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 98/110...
+Name: Josefhlavka682, Type: 1
+Universe: 1
+CATCH ERROR Bot 98: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 99/110...
+Name: Puranik196, Type: 1
+Universe: 1
+CATCH ERROR Bot 99: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 100/110...
+Name: Shor441, Type: 1
+Universe: 1
+CATCH ERROR Bot 100: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 101/110...
+Name: Rogeria324, Type: 1
+Universe: 1
+CATCH ERROR Bot 101: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 102/110...
+Name: Ramakrishna763, Type: 1
+Universe: 1
+CATCH ERROR Bot 102: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 103/110...
+Name: Abigreene213, Type: 1
+Universe: 1
+CATCH ERROR Bot 103: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 104/110...
+Name: Tubbiolo131, Type: 1
+Universe: 1
+CATCH ERROR Bot 104: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 105/110...
+Name: Bitias943, Type: 1
+Universe: 1
+CATCH ERROR Bot 105: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 106/110...
+Name: Kyrobinson347, Type: 1
+Universe: 1
+CATCH ERROR Bot 106: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 107/110...
+Name: Turnera303, Type: 1
+Universe: 1
+CATCH ERROR Bot 107: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 108/110...
+Name: De Martin178, Type: 1
+Universe: 1
+CATCH ERROR Bot 108: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 109/110...
+Name: Ayyubguliev277, Type: 1
+Universe: 1
+CATCH ERROR Bot 109: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+Creating bot 110/110...
+Name: Yocum164, Type: 1
+Universe: 1
+CATCH ERROR Bot 110: Division by zero
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:249
+All bots processed. Running contingent calculation...
+createBots() SUCCESS!
+[2026-02-18 00:18:59] Generator START
+Amount: 5, Planets: 1
+Calling createBots()...
+Names loaded: 16529
+Bot types found: 1
+Creating bot 1/5...
+Name: Susanruder114, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 338, PlanetID: 23
+Inserted into bots table
+is_bot flag set
+Bot 1 COMPLETE!
+Creating bot 2/5...
+Name: Puntel521, Type: 1
+Universe: 1
+CATCH ERROR Bot 2: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 3/5...
+Name: Khvorostovsky694, Type: 1
+Universe: 1
+CATCH ERROR Bot 3: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 4/5...
+Name: Grebenikov683, Type: 1
+Universe: 1
+CATCH ERROR Bot 4: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 5/5...
+Name: Kittisvaara979, Type: 1
+Universe: 1
+CATCH ERROR Bot 5: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+All bots processed. Running contingent calculation...
+createBots() SUCCESS!
+[2026-02-18 00:29:00] Generator START
+Amount: 10, Planets: 1
+Calling createBots()...
+Names loaded: 16529
+Bot types found: 1
+Creating bot 1/10...
+Name: Gleason355, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 343, PlanetID: 24
+Inserted into bots table
+is_bot flag set
+Bot 1 COMPLETE!
+Creating bot 2/10...
+Name: Gase266, Type: 1
+Universe: 1
+CATCH ERROR Bot 2: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 3/10...
+Name: Ndola375, Type: 1
+Universe: 1
+CATCH ERROR Bot 3: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 4/10...
+Name: Woomera213, Type: 1
+Universe: 1
+CATCH ERROR Bot 4: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 5/10...
+Name: Grantham616, Type: 1
+Universe: 1
+CATCH ERROR Bot 5: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 6/10...
+Name: Bartolomeo860, Type: 1
+Universe: 1
+CATCH ERROR Bot 6: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 7/10...
+Name: Nishiyamahiro446, Type: 1
+Universe: 1
+CATCH ERROR Bot 7: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 8/10...
+Name: Gide486, Type: 1
+Universe: 1
+CATCH ERROR Bot 8: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 9/10...
+Name: Tvashtri758, Type: 1
+Universe: 1
+CATCH ERROR Bot 9: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+Creating bot 10/10...
+Name: Hokutosei511, Type: 1
+Universe: 1
+CATCH ERROR Bot 10: PlanetData is empty! Cannot create planet.
+File: /home/u772175418/domains/sm.makeit.uno/public_html/includes/classes/PlayerUtil.class.php:255
+All bots processed. Running contingent calculation...
+createBots() SUCCESS!
+[2026-02-18 00:34:19] Generator START
+Amount: 10, Planets: 1
+Calling createBots()...
+Names loaded: 16529
+Bot types found: 1
+Creating bot 1/10...
+Name: Credo439, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 353, PlanetID: 25
+Inserted into bots table
+is_bot flag set
+Bot 1 COMPLETE!
+Creating bot 2/10...
+Name: Bertelli713, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 354, PlanetID: 26
+Inserted into bots table
+is_bot flag set
+Bot 2 COMPLETE!
+Creating bot 3/10...
+Name: Russ502, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 355, PlanetID: 27
+Inserted into bots table
+is_bot flag set
+Bot 3 COMPLETE!
+Creating bot 4/10...
+Name: Lick239, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 356, PlanetID: 28
+Inserted into bots table
+is_bot flag set
+Bot 4 COMPLETE!
+Creating bot 5/10...
+Name: Manning868, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 357, PlanetID: 29
+Inserted into bots table
+is_bot flag set
+Bot 5 COMPLETE!
+Creating bot 6/10...
+Name: Luginbuhl525, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 358, PlanetID: 30
+Inserted into bots table
+is_bot flag set
+Bot 6 COMPLETE!
+Creating bot 7/10...
+Name: Georgealexander560, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 359, PlanetID: 31
+Inserted into bots table
+is_bot flag set
+Bot 7 COMPLETE!
+Creating bot 8/10...
+Name: Castalia467, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 360, PlanetID: 32
+Inserted into bots table
+is_bot flag set
+Bot 8 COMPLETE!
+Creating bot 9/10...
+Name: Andranada171, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 361, PlanetID: 33
+Inserted into bots table
+is_bot flag set
+Bot 9 COMPLETE!
+Creating bot 10/10...
+Name: Luneburg752, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 362, PlanetID: 34
+Inserted into bots table
+is_bot flag set
+Bot 10 COMPLETE!
+All bots processed. Running contingent calculation...
+createBots() SUCCESS!
+Names loaded: 16529
+Bot types found: 1
+Creating bot 1/300...
+Name: Rudolf542, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 388, PlanetID: 64
+Inserted into bots table
+is_bot flag set
+Bot 1 COMPLETE!
+Creating bot 2/300...
+Name: Milton546, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 389, PlanetID: 65
+Inserted into bots table
+is_bot flag set
+Bot 2 COMPLETE!
+Creating bot 3/300...
+Name: Dylanyoung266, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 390, PlanetID: 66
+Inserted into bots table
+is_bot flag set
+Bot 3 COMPLETE!
+Creating bot 4/300...
+Name: Daibosatsu163, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 391, PlanetID: 67
+Inserted into bots table
+is_bot flag set
+Bot 4 COMPLETE!
+Creating bot 5/300...
+Name: Marylea804, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 392, PlanetID: 68
+Inserted into bots table
+is_bot flag set
+Bot 5 COMPLETE!
+Creating bot 6/300...
+Name: Rosenbush779, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 393, PlanetID: 69
+Inserted into bots table
+is_bot flag set
+Bot 6 COMPLETE!
+Creating bot 7/300...
+Name: Apache Point576, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 394, PlanetID: 70
+Inserted into bots table
+is_bot flag set
+Bot 7 COMPLETE!
+Creating bot 8/300...
+Name: Selinur992, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 395, PlanetID: 71
+Inserted into bots table
+is_bot flag set
+Bot 8 COMPLETE!
+Creating bot 9/300...
+Name: Aflorsch260, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 396, PlanetID: 72
+Inserted into bots table
+is_bot flag set
+Bot 9 COMPLETE!
+Creating bot 10/300...
+Name: Winchester730, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 397, PlanetID: 73
+Inserted into bots table
+is_bot flag set
+Bot 10 COMPLETE!
+Creating bot 11/300...
+Name: Proskurin436, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 398, PlanetID: 74
+Inserted into bots table
+is_bot flag set
+Bot 11 COMPLETE!
+Creating bot 12/300...
+Name: Lejsturojr755, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 399, PlanetID: 75
+Inserted into bots table
+is_bot flag set
+Bot 12 COMPLETE!
+Creating bot 13/300...
+Name: Haraldlesch191, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 400, PlanetID: 76
+Inserted into bots table
+is_bot flag set
+Bot 13 COMPLETE!
+Creating bot 14/300...
+Name: Dorristaylor309, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 401, PlanetID: 77
+Inserted into bots table
+is_bot flag set
+Bot 14 COMPLETE!
+Creating bot 15/300...
+Name: Thurmann447, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 402, PlanetID: 78
+Inserted into bots table
+is_bot flag set
+Bot 15 COMPLETE!
+Creating bot 16/300...
+Name: Etiennemarey286, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 403, PlanetID: 79
+Inserted into bots table
+is_bot flag set
+Bot 16 COMPLETE!
+Creating bot 17/300...
+Name: Einer769, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 404, PlanetID: 80
+Inserted into bots table
+is_bot flag set
+Bot 17 COMPLETE!
+Creating bot 18/300...
+Name: Nagatayuji764, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 405, PlanetID: 81
+Inserted into bots table
+is_bot flag set
+Bot 18 COMPLETE!
+Creating bot 19/300...
+Name: Shireendhir473, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 406, PlanetID: 82
+Inserted into bots table
+is_bot flag set
+Bot 19 COMPLETE!
+Creating bot 20/300...
+Name: Connormcarty118, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 407, PlanetID: 83
+Inserted into bots table
+is_bot flag set
+Bot 20 COMPLETE!
+Creating bot 21/300...
+Name: Kimnayeon366, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 408, PlanetID: 84
+Inserted into bots table
+is_bot flag set
+Bot 21 COMPLETE!
+Creating bot 22/300...
+Name: Stohl587, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 409, PlanetID: 85
+Inserted into bots table
+is_bot flag set
+Bot 22 COMPLETE!
+Creating bot 23/300...
+Name: Leibniz282, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 410, PlanetID: 86
+Inserted into bots table
+is_bot flag set
+Bot 23 COMPLETE!
+Creating bot 24/300...
+Name: Edna389, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 411, PlanetID: 87
+Inserted into bots table
+is_bot flag set
+Bot 24 COMPLETE!
+Creating bot 25/300...
+Name: Keikai724, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 412, PlanetID: 88
+Inserted into bots table
+is_bot flag set
+Bot 25 COMPLETE!
+Creating bot 26/300...
+Name: Teresa712, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 413, PlanetID: 89
+Inserted into bots table
+is_bot flag set
+Bot 26 COMPLETE!
+Creating bot 27/300...
+Name: Zdenkaplavcova795, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 414, PlanetID: 90
+Inserted into bots table
+is_bot flag set
+Bot 27 COMPLETE!
+Creating bot 28/300...
+Name: Kagayayutaka670, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 415, PlanetID: 91
+Inserted into bots table
+is_bot flag set
+Bot 28 COMPLETE!
+Creating bot 29/300...
+Name: Vivianlee705, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 416, PlanetID: 92
+Inserted into bots table
+is_bot flag set
+Bot 29 COMPLETE!
+Creating bot 30/300...
+Name: Despiau244, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 417, PlanetID: 93
+Inserted into bots table
+is_bot flag set
+Bot 30 COMPLETE!
+Creating bot 31/300...
+Name: Borasisi568, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 418, PlanetID: 94
+Inserted into bots table
+is_bot flag set
+Bot 31 COMPLETE!
+Creating bot 32/300...
+Name: Nebra156, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 419, PlanetID: 95
+Inserted into bots table
+is_bot flag set
+Bot 32 COMPLETE!
+Creating bot 33/300...
+Name: Gerdbuchholz137, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 420, PlanetID: 96
+Inserted into bots table
+is_bot flag set
+Bot 33 COMPLETE!
+Creating bot 34/300...
+Name: Ogilvie919, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 421, PlanetID: 97
+Inserted into bots table
+is_bot flag set
+Bot 34 COMPLETE!
+Creating bot 35/300...
+Name: Ristiina926, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 422, PlanetID: 98
+Inserted into bots table
+is_bot flag set
+Bot 35 COMPLETE!
+Creating bot 36/300...
+Name: Ashida294, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 423, PlanetID: 99
+Inserted into bots table
+is_bot flag set
+Bot 36 COMPLETE!
+Creating bot 37/300...
+Name: Thionville747, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 424, PlanetID: 100
+Inserted into bots table
+is_bot flag set
+Bot 37 COMPLETE!
+Creating bot 38/300...
+Name: Schwaar315, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 425, PlanetID: 101
+Inserted into bots table
+is_bot flag set
+Bot 38 COMPLETE!
+Creating bot 39/300...
+Name: Davemckay142, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 426, PlanetID: 102
+Inserted into bots table
+is_bot flag set
+Bot 39 COMPLETE!
+Creating bot 40/300...
+Name: Yamanashi695, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 427, PlanetID: 103
+Inserted into bots table
+is_bot flag set
+Bot 40 COMPLETE!
+Creating bot 41/300...
+Name: Lejsturojr893, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 428, PlanetID: 104
+Inserted into bots table
+is_bot flag set
+Bot 41 COMPLETE!
+Creating bot 42/300...
+Name: HASI688, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 429, PlanetID: 105
+Inserted into bots table
+is_bot flag set
+Bot 42 COMPLETE!
+Creating bot 43/300...
+Name: Fulvia826, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 430, PlanetID: 106
+Inserted into bots table
+is_bot flag set
+Bot 43 COMPLETE!
+Creating bot 44/300...
+Name: Lecointe315, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 431, PlanetID: 107
+Inserted into bots table
+is_bot flag set
+Bot 44 COMPLETE!
+Creating bot 45/300...
+Name: Fuji792, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 432, PlanetID: 108
+Inserted into bots table
+is_bot flag set
+Bot 45 COMPLETE!
+Creating bot 46/300...
+Name: Cruijff539, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 433, PlanetID: 109
+Inserted into bots table
+is_bot flag set
+Bot 46 COMPLETE!
+Creating bot 47/300...
+Name: Keikonakamura658, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 434, PlanetID: 110
+Inserted into bots table
+is_bot flag set
+Bot 47 COMPLETE!
+Creating bot 48/300...
+Name: Zanzanini160, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 435, PlanetID: 111
+Inserted into bots table
+is_bot flag set
+Bot 48 COMPLETE!
+Creating bot 49/300...
+Name: Francis509, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 436, PlanetID: 112
+Inserted into bots table
+is_bot flag set
+Bot 49 COMPLETE!
+Creating bot 50/300...
+Name: Peterwisse723, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 437, PlanetID: 113
+Inserted into bots table
+is_bot flag set
+Bot 50 COMPLETE!
+Creating bot 51/300...
+Name: Bubulina850, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 438, PlanetID: 114
+Inserted into bots table
+is_bot flag set
+Bot 51 COMPLETE!
+Creating bot 52/300...
+Name: Yamasakimakoto906, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 439, PlanetID: 115
+Inserted into bots table
+is_bot flag set
+Bot 52 COMPLETE!
+Creating bot 53/300...
+Name: Mony648, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 440, PlanetID: 116
+Inserted into bots table
+is_bot flag set
+Bot 53 COMPLETE!
+Creating bot 54/300...
+Name: Aksenov964, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 441, PlanetID: 117
+Inserted into bots table
+is_bot flag set
+Bot 54 COMPLETE!
+Creating bot 55/300...
+Name: Mockturtle201, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 442, PlanetID: 118
+Inserted into bots table
+is_bot flag set
+Bot 55 COMPLETE!
+Creating bot 56/300...
+Name: Auckland199, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 443, PlanetID: 119
+Inserted into bots table
+is_bot flag set
+Bot 56 COMPLETE!
+Creating bot 57/300...
+Name: Jurasek426, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 444, PlanetID: 120
+Inserted into bots table
+is_bot flag set
+Bot 57 COMPLETE!
+Creating bot 58/300...
+Name: Johnhagen478, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 445, PlanetID: 121
+Inserted into bots table
+is_bot flag set
+Bot 58 COMPLETE!
+Creating bot 59/300...
+Name: Toyako632, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 446, PlanetID: 122
+Inserted into bots table
+is_bot flag set
+Bot 59 COMPLETE!
+Creating bot 60/300...
+Name: Kaohsiung961, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 447, PlanetID: 123
+Inserted into bots table
+is_bot flag set
+Bot 60 COMPLETE!
+Creating bot 61/300...
+Name: Castalia205, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 448, PlanetID: 124
+Inserted into bots table
+is_bot flag set
+Bot 61 COMPLETE!
+Creating bot 62/300...
+Name: Remocorti812, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 449, PlanetID: 125
+Inserted into bots table
+is_bot flag set
+Bot 62 COMPLETE!
+Creating bot 63/300...
+Name: Paskvic346, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 450, PlanetID: 126
+Inserted into bots table
+is_bot flag set
+Bot 63 COMPLETE!
+Creating bot 64/300...
+Name: Tamriko744, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 451, PlanetID: 127
+Inserted into bots table
+is_bot flag set
+Bot 64 COMPLETE!
+Creating bot 65/300...
+Name: Gronchi666, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 452, PlanetID: 128
+Inserted into bots table
+is_bot flag set
+Bot 65 COMPLETE!
+Creating bot 66/300...
+Name: Squyres471, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 453, PlanetID: 129
+Inserted into bots table
+is_bot flag set
+Bot 66 COMPLETE!
+Creating bot 67/300...
+Name: Mette438, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 454, PlanetID: 130
+Inserted into bots table
+is_bot flag set
+Bot 67 COMPLETE!
+Creating bot 68/300...
+Name: Truong803, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 455, PlanetID: 131
+Inserted into bots table
+is_bot flag set
+Bot 68 COMPLETE!
+Creating bot 69/300...
+Name: Jimmiller959, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 456, PlanetID: 132
+Inserted into bots table
+is_bot flag set
+Bot 69 COMPLETE!
+Creating bot 70/300...
+Name: Panizon101, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 457, PlanetID: 133
+Inserted into bots table
+is_bot flag set
+Bot 70 COMPLETE!
+Creating bot 71/300...
+Name: Lenham369, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 458, PlanetID: 134
+Inserted into bots table
+is_bot flag set
+Bot 71 COMPLETE!
+Creating bot 72/300...
+Name: Picha963, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 459, PlanetID: 135
+Inserted into bots table
+is_bot flag set
+Bot 72 COMPLETE!
+Creating bot 73/300...
+Name: Suyihan272, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 460, PlanetID: 136
+Inserted into bots table
+is_bot flag set
+Bot 73 COMPLETE!
+Creating bot 74/300...
+Name: Nobel820, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 461, PlanetID: 137
+Inserted into bots table
+is_bot flag set
+Bot 74 COMPLETE!
+Creating bot 75/300...
+Name: Jindra114, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 462, PlanetID: 138
+Inserted into bots table
+is_bot flag set
+Bot 75 COMPLETE!
+Creating bot 76/300...
+Name: Anacostia946, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 463, PlanetID: 139
+Inserted into bots table
+is_bot flag set
+Bot 76 COMPLETE!
+Creating bot 77/300...
+Name: Kent371, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 464, PlanetID: 140
+Inserted into bots table
+is_bot flag set
+Bot 77 COMPLETE!
+Creating bot 78/300...
+Name: Juchnovski633, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 465, PlanetID: 141
+Inserted into bots table
+is_bot flag set
+Bot 78 COMPLETE!
+Creating bot 79/300...
+Name: Krejci109, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 466, PlanetID: 142
+Inserted into bots table
+is_bot flag set
+Bot 79 COMPLETE!
+Creating bot 80/300...
+Name: Nancyworden744, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 467, PlanetID: 143
+Inserted into bots table
+is_bot flag set
+Bot 80 COMPLETE!
+Creating bot 81/300...
+Name: Matti177, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 468, PlanetID: 144
+Inserted into bots table
+is_bot flag set
+Bot 81 COMPLETE!
+Creating bot 82/300...
+Name: Maehata314, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 469, PlanetID: 145
+Inserted into bots table
+is_bot flag set
+Bot 82 COMPLETE!
+Creating bot 83/300...
+Name: Jeffers635, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 470, PlanetID: 146
+Inserted into bots table
+is_bot flag set
+Bot 83 COMPLETE!
+Creating bot 84/300...
+Name: Linsley690, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 471, PlanetID: 147
+Inserted into bots table
+is_bot flag set
+Bot 84 COMPLETE!
+Creating bot 85/300...
+Name: Guillaumebude160, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 472, PlanetID: 148
+Inserted into bots table
+is_bot flag set
+Bot 85 COMPLETE!
+Creating bot 86/300...
+Name: Mukhopadhyay106, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 473, PlanetID: 149
+Inserted into bots table
+is_bot flag set
+Bot 86 COMPLETE!
+Creating bot 87/300...
+Name: Palaniappan790, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 474, PlanetID: 150
+Inserted into bots table
+is_bot flag set
+Bot 87 COMPLETE!
+Creating bot 88/300...
+Name: Paula201, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 475, PlanetID: 151
+Inserted into bots table
+is_bot flag set
+Bot 88 COMPLETE!
+Creating bot 89/300...
+Name: Sgarbini717, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 476, PlanetID: 152
+Inserted into bots table
+is_bot flag set
+Bot 89 COMPLETE!
+Creating bot 90/300...
+Name: Centenaria733, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 477, PlanetID: 153
+Inserted into bots table
+is_bot flag set
+Bot 90 COMPLETE!
+Creating bot 91/300...
+Name: Bruch353, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 478, PlanetID: 154
+Inserted into bots table
+is_bot flag set
+Bot 91 COMPLETE!
+Creating bot 92/300...
+Name: Evtushenko711, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 479, PlanetID: 155
+Inserted into bots table
+is_bot flag set
+Bot 92 COMPLETE!
+Creating bot 93/300...
+Name: Solov'yanenko782, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 480, PlanetID: 156
+Inserted into bots table
+is_bot flag set
+Bot 93 COMPLETE!
+Creating bot 94/300...
+Name: Coppelia128, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 481, PlanetID: 157
+Inserted into bots table
+is_bot flag set
+Bot 94 COMPLETE!
+Creating bot 95/300...
+Name: Askaci584, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 482, PlanetID: 158
+Inserted into bots table
+is_bot flag set
+Bot 95 COMPLETE!
+Creating bot 96/300...
+Name: Altschwendt738, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 483, PlanetID: 159
+Inserted into bots table
+is_bot flag set
+Bot 96 COMPLETE!
+Creating bot 97/300...
+Name: Otava542, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 484, PlanetID: 160
+Inserted into bots table
+is_bot flag set
+Bot 97 COMPLETE!
+Creating bot 98/300...
+Name: ESA610, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 485, PlanetID: 161
+Inserted into bots table
+is_bot flag set
+Bot 98 COMPLETE!
+Creating bot 99/300...
+Name: Dolecek249, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 486, PlanetID: 162
+Inserted into bots table
+is_bot flag set
+Bot 99 COMPLETE!
+Creating bot 100/300...
+Name: Bibee962, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 487, PlanetID: 163
+Inserted into bots table
+is_bot flag set
+Bot 100 COMPLETE!
+Creating bot 101/300...
+Name: Lai867, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 488, PlanetID: 164
+Inserted into bots table
+is_bot flag set
+Bot 101 COMPLETE!
+Creating bot 102/300...
+Name: Nakai557, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 489, PlanetID: 165
+Inserted into bots table
+is_bot flag set
+Bot 102 COMPLETE!
+Creating bot 103/300...
+Name: Kathywhaler899, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 490, PlanetID: 166
+Inserted into bots table
+is_bot flag set
+Bot 103 COMPLETE!
+Creating bot 104/300...
+Name: Chengdu609, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 491, PlanetID: 167
+Inserted into bots table
+is_bot flag set
+Bot 104 COMPLETE!
+Creating bot 105/300...
+Name: Vian874, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 492, PlanetID: 168
+Inserted into bots table
+is_bot flag set
+Bot 105 COMPLETE!
+Creating bot 106/300...
+Name: Lallaward410, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 493, PlanetID: 169
+Inserted into bots table
+is_bot flag set
+Bot 106 COMPLETE!
+Creating bot 107/300...
+Name: Ericadavid291, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 494, PlanetID: 170
+Inserted into bots table
+is_bot flag set
+Bot 107 COMPLETE!
+Creating bot 108/300...
+Name: Bleustein589, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 495, PlanetID: 171
+Inserted into bots table
+is_bot flag set
+Bot 108 COMPLETE!
+Creating bot 109/300...
+Name: Haworth587, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 496, PlanetID: 172
+Inserted into bots table
+is_bot flag set
+Bot 109 COMPLETE!
+Creating bot 110/300...
+Name: Tyson972, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 497, PlanetID: 173
+Inserted into bots table
+is_bot flag set
+Bot 110 COMPLETE!
+Creating bot 111/300...
+Name: Xerxes508, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 498, PlanetID: 174
+Inserted into bots table
+is_bot flag set
+Bot 111 COMPLETE!
+Creating bot 112/300...
+Name: Ryanwisnoski873, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 499, PlanetID: 175
+Inserted into bots table
+is_bot flag set
+Bot 112 COMPLETE!
+Creating bot 113/300...
+Name: Jonmunoz916, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 500, PlanetID: 176
+Inserted into bots table
+is_bot flag set
+Bot 113 COMPLETE!
+Creating bot 114/300...
+Name: Didkovskij841, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 501, PlanetID: 177
+Inserted into bots table
+is_bot flag set
+Bot 114 COMPLETE!
+Creating bot 115/300...
+Name: Fitzroy906, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 502, PlanetID: 178
+Inserted into bots table
+is_bot flag set
+Bot 115 COMPLETE!
+Creating bot 116/300...
+Name: Brusin490, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 503, PlanetID: 179
+Inserted into bots table
+is_bot flag set
+Bot 116 COMPLETE!
+Creating bot 117/300...
+Name: Mikemcdowell212, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 504, PlanetID: 180
+Inserted into bots table
+is_bot flag set
+Bot 117 COMPLETE!
+Creating bot 118/300...
+Name: Ohsugi293, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 505, PlanetID: 181
+Inserted into bots table
+is_bot flag set
+Bot 118 COMPLETE!
+Creating bot 119/300...
+Name: Svatopluk867, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 506, PlanetID: 182
+Inserted into bots table
+is_bot flag set
+Bot 119 COMPLETE!
+Creating bot 120/300...
+Name: Tymothycoons711, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 507, PlanetID: 183
+Inserted into bots table
+is_bot flag set
+Bot 120 COMPLETE!
+Creating bot 121/300...
+Name: Marioferrero484, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 508, PlanetID: 184
+Inserted into bots table
+is_bot flag set
+Bot 121 COMPLETE!
+Creating bot 122/300...
+Name: Tokitada517, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 509, PlanetID: 185
+Inserted into bots table
+is_bot flag set
+Bot 122 COMPLETE!
+Creating bot 123/300...
+Name: Bilal742, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 510, PlanetID: 186
+Inserted into bots table
+is_bot flag set
+Bot 123 COMPLETE!
+Creating bot 124/300...
+Name: Lina560, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 511, PlanetID: 187
+Inserted into bots table
+is_bot flag set
+Bot 124 COMPLETE!
+Creating bot 125/300...
+Name: Lemay837, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 512, PlanetID: 188
+Inserted into bots table
+is_bot flag set
+Bot 125 COMPLETE!
+Creating bot 126/300...
+Name: Modra675, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 513, PlanetID: 189
+Inserted into bots table
+is_bot flag set
+Bot 126 COMPLETE!
+Creating bot 127/300...
+Name: Lepage659, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 514, PlanetID: 190
+Inserted into bots table
+is_bot flag set
+Bot 127 COMPLETE!
+Creating bot 128/300...
+Name: Andreamanna830, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 515, PlanetID: 191
+Inserted into bots table
+is_bot flag set
+Bot 128 COMPLETE!
+Creating bot 129/300...
+Name: Kita-Kyushu100, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 516, PlanetID: 192
+Inserted into bots table
+is_bot flag set
+Bot 129 COMPLETE!
+Creating bot 130/300...
+Name: Kishon573, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 517, PlanetID: 193
+Inserted into bots table
+is_bot flag set
+Bot 130 COMPLETE!
+Creating bot 131/300...
+Name: Ishikawakiyoshi554, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 518, PlanetID: 194
+Inserted into bots table
+is_bot flag set
+Bot 131 COMPLETE!
+Creating bot 132/300...
+Name: Borzacchini768, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 519, PlanetID: 195
+Inserted into bots table
+is_bot flag set
+Bot 132 COMPLETE!
+Creating bot 133/300...
+Name: Secinaro262, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 520, PlanetID: 196
+Inserted into bots table
+is_bot flag set
+Bot 133 COMPLETE!
+Creating bot 134/300...
+Name: Dhotel670, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 521, PlanetID: 197
+Inserted into bots table
+is_bot flag set
+Bot 134 COMPLETE!
+Creating bot 135/300...
+Name: Eurybates464, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 522, PlanetID: 198
+Inserted into bots table
+is_bot flag set
+Bot 135 COMPLETE!
+Creating bot 136/300...
+Name: Guchaohao547, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 523, PlanetID: 199
+Inserted into bots table
+is_bot flag set
+Bot 136 COMPLETE!
+Creating bot 137/300...
+Name: Drymas884, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 524, PlanetID: 200
+Inserted into bots table
+is_bot flag set
+Bot 137 COMPLETE!
+Creating bot 138/300...
+Name: Quaide809, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 525, PlanetID: 201
+Inserted into bots table
+is_bot flag set
+Bot 138 COMPLETE!
+Creating bot 139/300...
+Name: Perovskaya703, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 526, PlanetID: 202
+Inserted into bots table
+is_bot flag set
+Bot 139 COMPLETE!
+Creating bot 140/300...
+Name: Hiroshima475, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 527, PlanetID: 203
+Inserted into bots table
+is_bot flag set
+Bot 140 COMPLETE!
+Creating bot 141/300...
+Name: Rudolfbottger618, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 528, PlanetID: 204
+Inserted into bots table
+is_bot flag set
+Bot 141 COMPLETE!
+Creating bot 142/300...
+Name: Ate539, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 529, PlanetID: 205
+Inserted into bots table
+is_bot flag set
+Bot 142 COMPLETE!
+Creating bot 143/300...
+Name: Andrushivka576, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 530, PlanetID: 206
+Inserted into bots table
+is_bot flag set
+Bot 143 COMPLETE!
+Creating bot 144/300...
+Name: Roberbauxa766, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 531, PlanetID: 207
+Inserted into bots table
+is_bot flag set
+Bot 144 COMPLETE!
+Creating bot 145/300...
+Name: Enricobernardi481, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 532, PlanetID: 208
+Inserted into bots table
+is_bot flag set
+Bot 145 COMPLETE!
+Creating bot 146/300...
+Name: Halaesus852, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 533, PlanetID: 209
+Inserted into bots table
+is_bot flag set
+Bot 146 COMPLETE!
+Creating bot 147/300...
+Name: Daudet770, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 534, PlanetID: 210
+Inserted into bots table
+is_bot flag set
+Bot 147 COMPLETE!
+Creating bot 148/300...
+Name: Saaremaa908, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 535, PlanetID: 211
+Inserted into bots table
+is_bot flag set
+Bot 148 COMPLETE!
+Creating bot 149/300...
+Name: Sheilawolfman275, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 536, PlanetID: 212
+Inserted into bots table
+is_bot flag set
+Bot 149 COMPLETE!
+Creating bot 150/300...
+Name: Harrison342, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 537, PlanetID: 213
+Inserted into bots table
+is_bot flag set
+Bot 150 COMPLETE!
+Creating bot 151/300...
+Name: Amiamini885, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 538, PlanetID: 214
+Inserted into bots table
+is_bot flag set
+Bot 151 COMPLETE!
+Creating bot 152/300...
+Name: Vaxjo172, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 539, PlanetID: 215
+Inserted into bots table
+is_bot flag set
+Bot 152 COMPLETE!
+Creating bot 153/300...
+Name: Vernon914, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 540, PlanetID: 216
+Inserted into bots table
+is_bot flag set
+Bot 153 COMPLETE!
+Creating bot 154/300...
+Name: Bridges162, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 541, PlanetID: 217
+Inserted into bots table
+is_bot flag set
+Bot 154 COMPLETE!
+Creating bot 155/300...
+Name: Yenisei358, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 542, PlanetID: 218
+Inserted into bots table
+is_bot flag set
+Bot 155 COMPLETE!
+Creating bot 156/300...
+Name: Marchare247, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 543, PlanetID: 219
+Inserted into bots table
+is_bot flag set
+Bot 156 COMPLETE!
+Creating bot 157/300...
+Name: Gravanschaik136, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 544, PlanetID: 220
+Inserted into bots table
+is_bot flag set
+Bot 157 COMPLETE!
+Creating bot 158/300...
+Name: Skadiang658, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 545, PlanetID: 221
+Inserted into bots table
+is_bot flag set
+Bot 158 COMPLETE!
+Creating bot 159/300...
+Name: Wilburwright770, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 546, PlanetID: 222
+Inserted into bots table
+is_bot flag set
+Bot 159 COMPLETE!
+Creating bot 160/300...
+Name: Krasnoyarsk101, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 547, PlanetID: 223
+Inserted into bots table
+is_bot flag set
+Bot 160 COMPLETE!
+Creating bot 161/300...
+Name: Holstein293, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 548, PlanetID: 224
+Inserted into bots table
+is_bot flag set
+Bot 161 COMPLETE!
+Creating bot 162/300...
+Name: Govert211, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 549, PlanetID: 225
+Inserted into bots table
+is_bot flag set
+Bot 162 COMPLETE!
+Creating bot 163/300...
+Name: Seinajoki347, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 550, PlanetID: 226
+Inserted into bots table
+is_bot flag set
+Bot 163 COMPLETE!
+Creating bot 164/300...
+Name: Nemsu964, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 551, PlanetID: 227
+Inserted into bots table
+is_bot flag set
+Bot 164 COMPLETE!
+Creating bot 165/300...
+Name: McCauley595, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 552, PlanetID: 228
+Inserted into bots table
+is_bot flag set
+Bot 165 COMPLETE!
+Creating bot 166/300...
+Name: Genobechetti235, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 553, PlanetID: 229
+Inserted into bots table
+is_bot flag set
+Bot 166 COMPLETE!
+Creating bot 167/300...
+Name: Schamp139, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 554, PlanetID: 230
+Inserted into bots table
+is_bot flag set
+Bot 167 COMPLETE!
+Creating bot 168/300...
+Name: Nikolova180, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 555, PlanetID: 231
+Inserted into bots table
+is_bot flag set
+Bot 168 COMPLETE!
+Creating bot 169/300...
+Name: Simonida540, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 556, PlanetID: 232
+Inserted into bots table
+is_bot flag set
+Bot 169 COMPLETE!
+Creating bot 170/300...
+Name: Hosty604, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 557, PlanetID: 233
+Inserted into bots table
+is_bot flag set
+Bot 170 COMPLETE!
+Creating bot 171/300...
+Name: Azumino208, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 558, PlanetID: 234
+Inserted into bots table
+is_bot flag set
+Bot 171 COMPLETE!
+Creating bot 172/300...
+Name: Vanessa-Mae458, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 559, PlanetID: 235
+Inserted into bots table
+is_bot flag set
+Bot 172 COMPLETE!
+Creating bot 173/300...
+Name: Shaneludwig482, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 560, PlanetID: 236
+Inserted into bots table
+is_bot flag set
+Bot 173 COMPLETE!
+Creating bot 174/300...
+Name: Pythagoras298, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 561, PlanetID: 237
+Inserted into bots table
+is_bot flag set
+Bot 174 COMPLETE!
+Creating bot 175/300...
+Name: Vicent194, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 562, PlanetID: 238
+Inserted into bots table
+is_bot flag set
+Bot 175 COMPLETE!
+Creating bot 176/300...
+Name: Topeka463, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 563, PlanetID: 239
+Inserted into bots table
+is_bot flag set
+Bot 176 COMPLETE!
+Creating bot 177/300...
+Name: Ericidle732, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 564, PlanetID: 240
+Inserted into bots table
+is_bot flag set
+Bot 177 COMPLETE!
+Creating bot 178/300...
+Name: Morellet410, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 565, PlanetID: 241
+Inserted into bots table
+is_bot flag set
+Bot 178 COMPLETE!
+Creating bot 179/300...
+Name: Laurawong640, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 566, PlanetID: 242
+Inserted into bots table
+is_bot flag set
+Bot 179 COMPLETE!
+Creating bot 180/300...
+Name: Appella705, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 567, PlanetID: 243
+Inserted into bots table
+is_bot flag set
+Bot 180 COMPLETE!
+Creating bot 181/300...
+Name: Montigiani476, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 568, PlanetID: 244
+Inserted into bots table
+is_bot flag set
+Bot 181 COMPLETE!
+Creating bot 182/300...
+Name: Surajmishra798, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 569, PlanetID: 245
+Inserted into bots table
+is_bot flag set
+Bot 182 COMPLETE!
+Creating bot 183/300...
+Name: Handel726, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 570, PlanetID: 246
+Inserted into bots table
+is_bot flag set
+Bot 183 COMPLETE!
+Creating bot 184/300...
+Name: Mercator680, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 571, PlanetID: 247
+Inserted into bots table
+is_bot flag set
+Bot 184 COMPLETE!
+Creating bot 185/300...
+Name: Ylppo849, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 572, PlanetID: 248
+Inserted into bots table
+is_bot flag set
+Bot 185 COMPLETE!
+Creating bot 186/300...
+Name: Bartels651, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 573, PlanetID: 249
+Inserted into bots table
+is_bot flag set
+Bot 186 COMPLETE!
+Creating bot 187/300...
+Name: Hadrianus287, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 574, PlanetID: 250
+Inserted into bots table
+is_bot flag set
+Bot 187 COMPLETE!
+Creating bot 188/300...
+Name: Dolero702, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 575, PlanetID: 251
+Inserted into bots table
+is_bot flag set
+Bot 188 COMPLETE!
+Creating bot 189/300...
+Name: Aleksejleonov952, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 576, PlanetID: 252
+Inserted into bots table
+is_bot flag set
+Bot 189 COMPLETE!
+Creating bot 190/300...
+Name: Timjull183, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 577, PlanetID: 253
+Inserted into bots table
+is_bot flag set
+Bot 190 COMPLETE!
+Creating bot 191/300...
+Name: Valadon634, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 578, PlanetID: 254
+Inserted into bots table
+is_bot flag set
+Bot 191 COMPLETE!
+Creating bot 192/300...
+Name: Toulouse-Lautrec599, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 579, PlanetID: 255
+Inserted into bots table
+is_bot flag set
+Bot 192 COMPLETE!
+Creating bot 193/300...
+Name: Malchiodi452, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 580, PlanetID: 256
+Inserted into bots table
+is_bot flag set
+Bot 193 COMPLETE!
+Creating bot 194/300...
+Name: Bonestell641, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 581, PlanetID: 257
+Inserted into bots table
+is_bot flag set
+Bot 194 COMPLETE!
+Creating bot 195/300...
+Name: Raffaellosanti843, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 582, PlanetID: 258
+Inserted into bots table
+is_bot flag set
+Bot 195 COMPLETE!
+Creating bot 196/300...
+Name: Bobpeterson867, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 583, PlanetID: 259
+Inserted into bots table
+is_bot flag set
+Bot 196 COMPLETE!
+Creating bot 197/300...
+Name: Jugaku835, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 584, PlanetID: 260
+Inserted into bots table
+is_bot flag set
+Bot 197 COMPLETE!
+Creating bot 198/300...
+Name: Bergholz663, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 585, PlanetID: 261
+Inserted into bots table
+is_bot flag set
+Bot 198 COMPLETE!
+Creating bot 199/300...
+Name: Skrabal923, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 586, PlanetID: 262
+Inserted into bots table
+is_bot flag set
+Bot 199 COMPLETE!
+Creating bot 200/300...
+Name: Chesley856, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 587, PlanetID: 263
+Inserted into bots table
+is_bot flag set
+Bot 200 COMPLETE!
+Creating bot 201/300...
+Name: Prutkov717, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 588, PlanetID: 264
+Inserted into bots table
+is_bot flag set
+Bot 201 COMPLETE!
+Creating bot 202/300...
+Name: Dulov500, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 589, PlanetID: 265
+Inserted into bots table
+is_bot flag set
+Bot 202 COMPLETE!
+Creating bot 203/300...
+Name: Babylon975, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 590, PlanetID: 266
+Inserted into bots table
+is_bot flag set
+Bot 203 COMPLETE!
+Creating bot 204/300...
+Name: Jamescox492, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 591, PlanetID: 267
+Inserted into bots table
+is_bot flag set
+Bot 204 COMPLETE!
+Creating bot 205/300...
+Name: Turnbull868, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 592, PlanetID: 268
+Inserted into bots table
+is_bot flag set
+Bot 205 COMPLETE!
+Creating bot 206/300...
+Name: Sahlia407, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 593, PlanetID: 269
+Inserted into bots table
+is_bot flag set
+Bot 206 COMPLETE!
+Creating bot 207/300...
+Name: Nabokov552, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 594, PlanetID: 270
+Inserted into bots table
+is_bot flag set
+Bot 207 COMPLETE!
+Creating bot 208/300...
+Name: Thisbe881, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 595, PlanetID: 271
+Inserted into bots table
+is_bot flag set
+Bot 208 COMPLETE!
+Creating bot 209/300...
+Name: Christineli341, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 596, PlanetID: 272
+Inserted into bots table
+is_bot flag set
+Bot 209 COMPLETE!
+Creating bot 210/300...
+Name: Abnoba329, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 597, PlanetID: 273
+Inserted into bots table
+is_bot flag set
+Bot 210 COMPLETE!
+Creating bot 211/300...
+Name: Takeno186, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 598, PlanetID: 274
+Inserted into bots table
+is_bot flag set
+Bot 211 COMPLETE!
+Creating bot 212/300...
+Name: Nagaomasami890, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 599, PlanetID: 275
+Inserted into bots table
+is_bot flag set
+Bot 212 COMPLETE!
+Creating bot 213/300...
+Name: Alsufi491, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 600, PlanetID: 276
+Inserted into bots table
+is_bot flag set
+Bot 213 COMPLETE!
+Creating bot 214/300...
+Name: Ivens577, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 601, PlanetID: 277
+Inserted into bots table
+is_bot flag set
+Bot 214 COMPLETE!
+Creating bot 215/300...
+Name: Nardi419, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 602, PlanetID: 278
+Inserted into bots table
+is_bot flag set
+Bot 215 COMPLETE!
+Creating bot 216/300...
+Name: Disa722, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 603, PlanetID: 279
+Inserted into bots table
+is_bot flag set
+Bot 216 COMPLETE!
+Creating bot 217/300...
+Name: Bonnie269, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 604, PlanetID: 280
+Inserted into bots table
+is_bot flag set
+Bot 217 COMPLETE!
+Creating bot 218/300...
+Name: Vasnetsov614, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 605, PlanetID: 281
+Inserted into bots table
+is_bot flag set
+Bot 218 COMPLETE!
+Creating bot 219/300...
+Name: Epoigny672, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 606, PlanetID: 282
+Inserted into bots table
+is_bot flag set
+Bot 219 COMPLETE!
+Creating bot 220/300...
+Name: Hieronymus401, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 607, PlanetID: 283
+Inserted into bots table
+is_bot flag set
+Bot 220 COMPLETE!
+Creating bot 221/300...
+Name: Presov852, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 608, PlanetID: 284
+Inserted into bots table
+is_bot flag set
+Bot 221 COMPLETE!
+Creating bot 222/300...
+Name: Siyuanliu482, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 609, PlanetID: 285
+Inserted into bots table
+is_bot flag set
+Bot 222 COMPLETE!
+Creating bot 223/300...
+Name: Alexchernyak872, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 610, PlanetID: 286
+Inserted into bots table
+is_bot flag set
+Bot 223 COMPLETE!
+Creating bot 224/300...
+Name: Guo316, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 611, PlanetID: 287
+Inserted into bots table
+is_bot flag set
+Bot 224 COMPLETE!
+Creating bot 225/300...
+Name: Tylerlyon394, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 612, PlanetID: 288
+Inserted into bots table
+is_bot flag set
+Bot 225 COMPLETE!
+Creating bot 226/300...
+Name: Sasha170, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 613, PlanetID: 289
+Inserted into bots table
+is_bot flag set
+Bot 226 COMPLETE!
+Creating bot 227/300...
+Name: Tawadros772, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 614, PlanetID: 290
+Inserted into bots table
+is_bot flag set
+Bot 227 COMPLETE!
+Creating bot 228/300...
+Name: Kisslaszlo577, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 615, PlanetID: 291
+Inserted into bots table
+is_bot flag set
+Bot 228 COMPLETE!
+Creating bot 229/300...
+Name: Banno327, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 616, PlanetID: 292
+Inserted into bots table
+is_bot flag set
+Bot 229 COMPLETE!
+Creating bot 230/300...
+Name: Ditte172, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 617, PlanetID: 293
+Inserted into bots table
+is_bot flag set
+Bot 230 COMPLETE!
+Creating bot 231/300...
+Name: Kurohone145, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 618, PlanetID: 294
+Inserted into bots table
+is_bot flag set
+Bot 231 COMPLETE!
+Creating bot 232/300...
+Name: Street682, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 619, PlanetID: 295
+Inserted into bots table
+is_bot flag set
+Bot 232 COMPLETE!
+Creating bot 233/300...
+Name: Pamela720, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 620, PlanetID: 296
+Inserted into bots table
+is_bot flag set
+Bot 233 COMPLETE!
+Creating bot 234/300...
+Name: Ida744, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 621, PlanetID: 297
+Inserted into bots table
+is_bot flag set
+Bot 234 COMPLETE!
+Creating bot 235/300...
+Name: Vasilev823, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 622, PlanetID: 298
+Inserted into bots table
+is_bot flag set
+Bot 235 COMPLETE!
+Creating bot 236/300...
+Name: Roversimonaco735, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 623, PlanetID: 299
+Inserted into bots table
+is_bot flag set
+Bot 236 COMPLETE!
+Creating bot 237/300...
+Name: Riverside499, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 624, PlanetID: 300
+Inserted into bots table
+is_bot flag set
+Bot 237 COMPLETE!
+Creating bot 238/300...
+Name: Pearson118, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 625, PlanetID: 301
+Inserted into bots table
+is_bot flag set
+Bot 238 COMPLETE!
+Creating bot 239/300...
+Name: Schrade290, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 626, PlanetID: 302
+Inserted into bots table
+is_bot flag set
+Bot 239 COMPLETE!
+Creating bot 240/300...
+Name: Chentao474, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 627, PlanetID: 303
+Inserted into bots table
+is_bot flag set
+Bot 240 COMPLETE!
+Creating bot 241/300...
+Name: Bosque Alegre336, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 628, PlanetID: 304
+Inserted into bots table
+is_bot flag set
+Bot 241 COMPLETE!
+Creating bot 242/300...
+Name: Kaifeng134, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 629, PlanetID: 305
+Inserted into bots table
+is_bot flag set
+Bot 242 COMPLETE!
+Creating bot 243/300...
+Name: Lena190, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 630, PlanetID: 306
+Inserted into bots table
+is_bot flag set
+Bot 243 COMPLETE!
+Creating bot 244/300...
+Name: Sannaimura740, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 631, PlanetID: 307
+Inserted into bots table
+is_bot flag set
+Bot 244 COMPLETE!
+Creating bot 245/300...
+Name: Matisse666, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 632, PlanetID: 308
+Inserted into bots table
+is_bot flag set
+Bot 245 COMPLETE!
+Creating bot 246/300...
+Name: Caralexander293, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 633, PlanetID: 309
+Inserted into bots table
+is_bot flag set
+Bot 246 COMPLETE!
+Creating bot 247/300...
+Name: Yucatan401, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 634, PlanetID: 310
+Inserted into bots table
+is_bot flag set
+Bot 247 COMPLETE!
+Creating bot 248/300...
+Name: Juvenalis152, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 635, PlanetID: 311
+Inserted into bots table
+is_bot flag set
+Bot 248 COMPLETE!
+Creating bot 249/300...
+Name: Triceratops372, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 636, PlanetID: 312
+Inserted into bots table
+is_bot flag set
+Bot 249 COMPLETE!
+Creating bot 250/300...
+Name: Zenocolo612, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 637, PlanetID: 313
+Inserted into bots table
+is_bot flag set
+Bot 250 COMPLETE!
+Creating bot 251/300...
+Name: Hodgson813, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 638, PlanetID: 314
+Inserted into bots table
+is_bot flag set
+Bot 251 COMPLETE!
+Creating bot 252/300...
+Name: Gadsden761, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 639, PlanetID: 315
+Inserted into bots table
+is_bot flag set
+Bot 252 COMPLETE!
+Creating bot 253/300...
+Name: Alcinoos932, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 640, PlanetID: 316
+Inserted into bots table
+is_bot flag set
+Bot 253 COMPLETE!
+Creating bot 254/300...
+Name: Apisaon812, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 641, PlanetID: 317
+Inserted into bots table
+is_bot flag set
+Bot 254 COMPLETE!
+Creating bot 255/300...
+Name: Paul615, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 642, PlanetID: 318
+Inserted into bots table
+is_bot flag set
+Bot 255 COMPLETE!
+Creating bot 256/300...
+Name: Ropakov644, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 643, PlanetID: 319
+Inserted into bots table
+is_bot flag set
+Bot 256 COMPLETE!
+Creating bot 257/300...
+Name: Stowers574, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 644, PlanetID: 320
+Inserted into bots table
+is_bot flag set
+Bot 257 COMPLETE!
+Creating bot 258/300...
+Name: MacPherson982, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 645, PlanetID: 321
+Inserted into bots table
+is_bot flag set
+Bot 258 COMPLETE!
+Creating bot 259/300...
+Name: Medea751, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 646, PlanetID: 322
+Inserted into bots table
+is_bot flag set
+Bot 259 COMPLETE!
+Creating bot 260/300...
+Name: Charton387, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 647, PlanetID: 323
+Inserted into bots table
+is_bot flag set
+Bot 260 COMPLETE!
+Creating bot 261/300...
+Name: Tatsuo526, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 648, PlanetID: 324
+Inserted into bots table
+is_bot flag set
+Bot 261 COMPLETE!
+Creating bot 262/300...
+Name: Orlandi345, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 649, PlanetID: 325
+Inserted into bots table
+is_bot flag set
+Bot 262 COMPLETE!
+Creating bot 263/300...
+Name: Kottler635, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 650, PlanetID: 326
+Inserted into bots table
+is_bot flag set
+Bot 263 COMPLETE!
+Creating bot 264/300...
+Name: Titania787, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 651, PlanetID: 327
+Inserted into bots table
+is_bot flag set
+Bot 264 COMPLETE!
+Creating bot 265/300...
+Name: Susansmith401, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 652, PlanetID: 328
+Inserted into bots table
+is_bot flag set
+Bot 265 COMPLETE!
+Creating bot 266/300...
+Name: Wesson434, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 653, PlanetID: 329
+Inserted into bots table
+is_bot flag set
+Bot 266 COMPLETE!
+Creating bot 267/300...
+Name: Helenzier743, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 654, PlanetID: 330
+Inserted into bots table
+is_bot flag set
+Bot 267 COMPLETE!
+Creating bot 268/300...
+Name: Omodaka196, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 655, PlanetID: 331
+Inserted into bots table
+is_bot flag set
+Bot 268 COMPLETE!
+Creating bot 269/300...
+Name: Bharat502, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 656, PlanetID: 332
+Inserted into bots table
+is_bot flag set
+Bot 269 COMPLETE!
+Creating bot 270/300...
+Name: Lalitpatel577, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 657, PlanetID: 333
+Inserted into bots table
+is_bot flag set
+Bot 270 COMPLETE!
+Creating bot 271/300...
+Name: Susansmith107, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 658, PlanetID: 334
+Inserted into bots table
+is_bot flag set
+Bot 271 COMPLETE!
+Creating bot 272/300...
+Name: Morris869, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 659, PlanetID: 335
+Inserted into bots table
+is_bot flag set
+Bot 272 COMPLETE!
+Creating bot 273/300...
+Name: Wolfgangpauli924, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 660, PlanetID: 336
+Inserted into bots table
+is_bot flag set
+Bot 273 COMPLETE!
+Creating bot 274/300...
+Name: Schwob137, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 661, PlanetID: 337
+Inserted into bots table
+is_bot flag set
+Bot 274 COMPLETE!
+Creating bot 275/300...
+Name: Genelucas402, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 662, PlanetID: 338
+Inserted into bots table
+is_bot flag set
+Bot 275 COMPLETE!
+Creating bot 276/300...
+Name: Kinugasa233, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 663, PlanetID: 339
+Inserted into bots table
+is_bot flag set
+Bot 276 COMPLETE!
+Creating bot 277/300...
+Name: Iwaizumi337, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 664, PlanetID: 340
+Inserted into bots table
+is_bot flag set
+Bot 277 COMPLETE!
+Creating bot 278/300...
+Name: Schlottmann858, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 665, PlanetID: 341
+Inserted into bots table
+is_bot flag set
+Bot 278 COMPLETE!
+Creating bot 279/300...
+Name: Servet957, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 666, PlanetID: 342
+Inserted into bots table
+is_bot flag set
+Bot 279 COMPLETE!
+Creating bot 280/300...
+Name: Takeyamamoto832, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 667, PlanetID: 343
+Inserted into bots table
+is_bot flag set
+Bot 280 COMPLETE!
+Creating bot 281/300...
+Name: Aralia621, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 668, PlanetID: 344
+Inserted into bots table
+is_bot flag set
+Bot 281 COMPLETE!
+Creating bot 282/300...
+Name: Konnen233, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 669, PlanetID: 345
+Inserted into bots table
+is_bot flag set
+Bot 282 COMPLETE!
+Creating bot 283/300...
+Name: Brucato884, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 670, PlanetID: 346
+Inserted into bots table
+is_bot flag set
+Bot 283 COMPLETE!
+Creating bot 284/300...
+Name: Pasacentennium994, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 671, PlanetID: 347
+Inserted into bots table
+is_bot flag set
+Bot 284 COMPLETE!
+Creating bot 285/300...
+Name: Staehle927, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 672, PlanetID: 348
+Inserted into bots table
+is_bot flag set
+Bot 285 COMPLETE!
+Creating bot 286/300...
+Name: Petergabriel593, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 673, PlanetID: 349
+Inserted into bots table
+is_bot flag set
+Bot 286 COMPLETE!
+Creating bot 287/300...
+Name: Cabrera872, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 674, PlanetID: 350
+Inserted into bots table
+is_bot flag set
+Bot 287 COMPLETE!
+Creating bot 288/300...
+Name: Sandvicensis148, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 675, PlanetID: 351
+Inserted into bots table
+is_bot flag set
+Bot 288 COMPLETE!
+Creating bot 289/300...
+Name: Urhixidur860, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 676, PlanetID: 352
+Inserted into bots table
+is_bot flag set
+Bot 289 COMPLETE!
+Creating bot 290/300...
+Name: Marchini871, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 677, PlanetID: 353
+Inserted into bots table
+is_bot flag set
+Bot 290 COMPLETE!
+Creating bot 291/300...
+Name: Mullo524, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 678, PlanetID: 354
+Inserted into bots table
+is_bot flag set
+Bot 291 COMPLETE!
+Creating bot 292/300...
+Name: Wheeler477, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 679, PlanetID: 355
+Inserted into bots table
+is_bot flag set
+Bot 292 COMPLETE!
+Creating bot 293/300...
+Name: Benbilby950, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 680, PlanetID: 356
+Inserted into bots table
+is_bot flag set
+Bot 293 COMPLETE!
+Creating bot 294/300...
+Name: Muriel203, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 681, PlanetID: 357
+Inserted into bots table
+is_bot flag set
+Bot 294 COMPLETE!
+Creating bot 295/300...
+Name: Frisia587, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 682, PlanetID: 358
+Inserted into bots table
+is_bot flag set
+Bot 295 COMPLETE!
+Creating bot 296/300...
+Name: Ceto672, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 683, PlanetID: 359
+Inserted into bots table
+is_bot flag set
+Bot 296 COMPLETE!
+Creating bot 297/300...
+Name: Tzecmaun395, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 684, PlanetID: 360
+Inserted into bots table
+is_bot flag set
+Bot 297 COMPLETE!
+Creating bot 298/300...
+Name: Shiota710, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 685, PlanetID: 361
+Inserted into bots table
+is_bot flag set
+Bot 298 COMPLETE!
+Creating bot 299/300...
+Name: Gonnessia978, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 686, PlanetID: 362
+Inserted into bots table
+is_bot flag set
+Bot 299 COMPLETE!
+Creating bot 300/300...
+Name: Huanghuang972, Type: 1
+Universe: 1
+PlayerUtil::createPlayer SUCCESS! UserID: 687, PlanetID: 363
+Inserted into bots table
+is_bot flag set
+Bot 300 COMPLETE!
+All bots processed. Running contingent calculation...
