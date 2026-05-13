@@ -152,6 +152,10 @@ Project: [github.com/0wum0/2MoonsCE](https://github.com/0wum0/2MoonsCE)
 
 - Initial project setup based on 2Moons / SmartMoons — by 0wum0
 - Big initial update: PHP 8.3 compatibility pass, PDO migration, strict types — by 0wum0
+# v3.1.5
+
+- Restore complete language packs and language templates required by login, install, and ingame bootstrap.
+
 # v3.1.4
 
 - Restore missing core runtime classes and base login/game assets required by `includes/common.php`.
