@@ -56,6 +56,9 @@ if(!defined('CACHE_PATH')) {
 
 define('COMBAT_ENGINE'				, 'xnova');
 
+// Required database schema version used by install/upgrade checks.
+define('DB_VERSION_REQUIRED'      , 12);
+
 // For Fatal Errors!
 define('DEFAULT_LANG'				, 'de');
 
