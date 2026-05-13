@@ -9,7 +9,7 @@
 	<meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
 	{% endif %}
 
-	<link rel="stylesheet" type="text/css" href="styles/theme/smartmoons.css?v=3.1.1">
+	<link rel="stylesheet" type="text/css" href="styles/theme/smartmoons.css?v=3.1.2">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,9 +55,9 @@
 	{% for scriptname in scripts %}
 	{% set scriptVersion = REV %}
 	{% if scriptname starts with 'fleet' or scriptname starts with 'galaxy' or scriptname == 'flotten' %}
-		{% set scriptVersion = '3.1.1' %}
+		{% set scriptVersion = '3.1.2' %}
 	{% elseif scriptname == 'message' %}
-		{% set scriptVersion = '3.1.1' %}
+		{% set scriptVersion = '3.1.2' %}
 	{% endif %}
 	<script src="scripts/game/{{ scriptname }}.js?v={{ scriptVersion }}"></script>
 	{% endfor %}
