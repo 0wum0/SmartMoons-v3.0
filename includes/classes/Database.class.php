@@ -224,7 +224,10 @@ class Database
     {
         $stmt = $this->_query($qry, $params, "select");
         $res  = $stmt->fetch(PDO::FETCH_ASSOC);
-        return ($field === false || is_null($res)) ? $res : $res[$field];
+        if ($res === false || $res === null) {
+            return ($field === false) ? $res : null;
+        }
+        return ($field === false) ? $res : $res[$field];
     }
 
     public function lists(string $table, string $column, ?string $key = null): array

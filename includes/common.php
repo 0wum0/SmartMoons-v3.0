@@ -88,9 +88,11 @@ try {
 
     $dbVersion	= Database::get()->selectSingle($sql, array(), 'dbVersion');
 
-    $dbNeedsUpgrade = $dbVersion < DB_VERSION_REQUIRED;
+    $dbNeedsUpgrade = ($dbVersion !== null && $dbVersion < DB_VERSION_REQUIRED);
 } catch (Exception $e) {
-    $dbNeedsUpgrade = true;
+    // A DB error must not trigger the updater – log it and show a clear message instead.
+    error_log('SmartMoons DB version check failed: ' . $e->getMessage());
+    $dbNeedsUpgrade = false;
 }
 
 if ($dbNeedsUpgrade) {
